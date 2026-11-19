@@ -1,0 +1,58 @@
+# Misc
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ / VS Code
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+
+# Flutter/Dart/Pub
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# FVM (SDK symlink lokal; versi dikunci di .fvmrc)
+.fvm/
+
+# Android
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Firebase / Node
+node_modules/
+functions/lib/
+firestore-tests/node_modules/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+database-debug.log*
+pubsub-debug.log*
+.firebase/
+emulator-data/
+
+# Secret & konfigurasi lokal (JANGAN di-commit)
+.env
+.env.*
+*.secret.*
+.secret.local
+functions/.secret.local
+functions/.env*

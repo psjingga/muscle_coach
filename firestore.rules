@@ -1,0 +1,74 @@
+rules_version = '2';
+
+// Muscle Coach — Firestore Security Rules.
+// Prinsip: default deny. Pengguna hanya mengakses dokumen di bawah
+// users/{uid} miliknya; dokumen hasil kalkulasi/AI ditulis Cloud Functions
+// (Admin SDK melewati rules). Subkoleksi baru ditambahkan per fase.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Hanya field yang disebut yang boleh berubah.
+    function onlyChanges(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+
+    function stampedNow() {
+      return request.resource.data.updatedAt == request.time;
+    }
+
+    function optionalString(value, maxLength) {
+      return value == null || (value is string && value.size() <= maxLength);
+    }
+
+    match /users/{uid} {
+      // Dibuat oleh `createUserProfile`, dihapus oleh `deleteUserData`.
+      allow read: if isOwner(uid);
+      allow write: if false;
+
+      match /profile/current {
+        allow read: if isOwner(uid);
+        allow update: if isOwner(uid)
+          && onlyChanges(['displayName', 'updatedAt'])
+          && optionalString(request.resource.data.displayName, 40)
+          && stampedNow();
+        allow create, delete: if false;
+      }
+
+      // Placeholder subscription; hanya server yang menulis.
+      match /entitlement/current {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
+    }
+
+    // Kuota & pemakaian AI: hanya server.
+    match /usage/{uid} {
+      allow read, write: if false;
+    }
+
+    // Katalog referensi global: baca saja, hanya yang sudah dipublikasikan.
+    match /exerciseCatalog/{id} {
+      allow read: if signedIn() && resource.data.status == 'published';
+      allow write: if false;
+    }
+
+    match /foodCatalog/{id} {
+      allow read: if signedIn() && resource.data.status == 'published';
+      allow write: if false;
+    }
+
+    // Konfigurasi non-secret.
+    match /appConfig/{id} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+  }
+}

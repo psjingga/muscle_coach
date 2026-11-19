@@ -1,0 +1,94 @@
+{
+  "@@locale": "id",
+  "tabHome": "Beranda",
+  "tabWorkout": "Latihan",
+  "tabNutrition": "Nutrisi",
+  "tabProgress": "Progres",
+  "tabProfile": "Profil",
+  "cancel": "Batal",
+  "emailLabel": "Email",
+  "passwordLabel": "Kata sandi",
+  "confirmPasswordLabel": "Ulangi kata sandi",
+  "showPassword": "Tampilkan kata sandi",
+  "hidePassword": "Sembunyikan kata sandi",
+  "loginTitle": "Masuk ke {appName}",
+  "@loginTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "loginSubtitle": "Lanjutkan program latihan dan catatan progres Anda.",
+  "loginButton": "Masuk",
+  "forgotPasswordLink": "Lupa kata sandi?",
+  "createAccountButton": "Buat akun baru",
+  "registerTitle": "Buat akun",
+  "registerSubtitle": "Satu akun untuk menyimpan assessment, program, dan progres Anda.",
+  "passwordRule": "Minimal {min} karakter, berisi huruf dan angka.",
+  "@passwordRule": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "registerButton": "Daftar",
+  "registerSuccess": "Akun dibuat. Kami mengirim tautan verifikasi ke email Anda.",
+  "forgotPasswordTitle": "Atur ulang kata sandi",
+  "forgotPasswordSubtitle": "Masukkan email akun Anda. Kami akan mengirim tautan untuk membuat kata sandi baru.",
+  "forgotPasswordSent": "Jika email tersebut terdaftar, tautan atur ulang sudah dikirim. Periksa juga folder spam.",
+  "forgotPasswordButton": "Kirim tautan",
+  "forgotPasswordResend": "Kirim ulang tautan",
+  "validationEmailRequired": "Email wajib diisi.",
+  "validationEmailInvalid": "Format email tidak valid.",
+  "validationPasswordRequired": "Kata sandi wajib diisi.",
+  "validationPasswordTooShort": "Kata sandi minimal {min} karakter.",
+  "@validationPasswordTooShort": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "validationPasswordTooWeak": "Kata sandi harus berisi huruf dan angka.",
+  "validationPasswordMismatch": "Kata sandi tidak sama.",
+  "errorNetwork": "Tidak ada koneksi internet. Periksa jaringan Anda lalu coba lagi.",
+  "errorUnauthenticated": "Sesi Anda berakhir. Silakan masuk kembali.",
+  "errorPermissionDenied": "Anda tidak memiliki akses untuk tindakan ini.",
+  "errorNotFound": "Data tidak ditemukan.",
+  "errorInvalidInput": "Data yang dikirim tidak valid.",
+  "errorQuotaExceeded": "Batas penggunaan tercapai. Coba lagi nanti.",
+  "errorUnavailable": "Layanan sedang tidak tersedia. Coba lagi beberapa saat lagi.",
+  "errorTimeout": "Permintaan terlalu lama. Coba lagi.",
+  "errorInvalidCredentials": "Email atau kata sandi salah.",
+  "errorEmailInUse": "Email ini sudah terdaftar. Silakan masuk atau atur ulang kata sandi.",
+  "errorWeakPassword": "Kata sandi terlalu lemah.",
+  "errorTooManyRequests": "Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.",
+  "errorRequiresRecentLogin": "Demi keamanan, masukkan kata sandi Anda lagi.",
+  "errorUserDisabled": "Akun ini dinonaktifkan.",
+  "errorUnknown": "Terjadi kesalahan. Coba lagi.",
+  "emptyHomeTitle": "Selamat datang!",
+  "emptyHomeMessage": "Ringkasan harian — latihan berikutnya, sisa kalori & makro, dan check-in — akan tampil di sini setelah assessment dan program Anda siap.",
+  "emptyWorkoutTitle": "Belum ada program latihan",
+  "emptyWorkoutMessage": "Program mingguan dan pencatatan set akan tersedia setelah assessment selesai.",
+  "emptyNutritionTitle": "Belum ada target nutrisi",
+  "emptyNutritionMessage": "Target kalori & makro, menu, dan catatan makanan akan tersedia setelah assessment selesai.",
+  "emptyProgressTitle": "Belum ada data progres",
+  "emptyProgressMessage": "Grafik berat badan, performa latihan, dan ringkasan mingguan akan muncul setelah Anda mulai mencatat.",
+  "accountSection": "Akun",
+  "emailVerified": "Email terverifikasi",
+  "emailNotVerified": "Email belum diverifikasi. Buka tautan yang kami kirim ke email Anda.",
+  "resendVerification": "Kirim ulang verifikasi",
+  "checkVerification": "Saya sudah verifikasi",
+  "verificationSent": "Email verifikasi dikirim.",
+  "signOut": "Keluar",
+  "signOutConfirmTitle": "Keluar dari akun?",
+  "signOutConfirmMessage": "Anda perlu masuk lagi untuk melihat program dan progres Anda.",
+  "dangerZone": "Zona berbahaya",
+  "deleteAccount": "Hapus akun dan semua data",
+  "deleteAccountTitle": "Hapus akun?",
+  "deleteAccountMessage": "Seluruh data Anda — assessment, program, catatan latihan & makanan, dan progres — akan dihapus permanen dan tidak dapat dipulihkan.",
+  "deleteAccountPasswordLabel": "Kata sandi untuk konfirmasi",
+  "deleteAccountConfirm": "Hapus permanen"
+}

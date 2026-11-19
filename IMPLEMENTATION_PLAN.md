@@ -1,0 +1,256 @@
+# IMPLEMENTATION_PLAN — Muscle Coach
+
+> Hasil **Fase 0 (Repository discovery)** sesuai `CLAUDE_Muscle_Coach_Flutter_Gemini-1.md` §17 & §21.
+> Disusun: 19 November 2026. Dokumen ini diperbarui setiap kali keputusan/fase berubah.
+
+---
+
+## 1. Temuan
+
+### 1.1 Repository
+| Hal | Kondisi |
+|---|---|
+| Isi folder `~/Mobile/Muscle_coach/` | Hanya brief `CLAUDE_Muscle_Coach_Flutter_Gemini-1.md` (kini `CLAUDE.md`) |
+| Project Flutter | **Belum ada** |
+| Backend / Firebase config (`firebase.json`, `functions/`, rules) | **Belum ada** |
+| Git | Belum diinisialisasi |
+| Lint, CI, README | Belum ada |
+
+Tidak ada kode atau konfigurasi yang perlu dipertahankan; project dibuat dari nol (greenfield).
+
+### 1.2 Lingkungan pengembangan (Mac ini)
+| Alat | Versi / status | Catatan |
+|---|---|---|
+| fvm | 3.2.1 | Flutter terpasang: 3.35.7 (global), 3.44.0–3.44.9 |
+| Flutter stable terbaru | 3.50.0 (Dart 3.14, rilis 11 Nov 2026) — belum terpasang | Masih sangat baru |
+| Flutter 3.47.9 | Dart 3.13.7, rilis 29 Okt 2026 — belum terpasang | **Usulan dipakai** (lihat §3.1) |
+| Xcode / CocoaPods | 26.0.1 / 1.16.2 | OK untuk iOS |
+| Android SDK | platform 28 – 37 | OK |
+| Java | OpenJDK 17 (default) + OpenJDK 21 (keg-only, Fase 1) | 17 untuk Gradle; 21 wajib untuk Firebase Emulator (dipakai via `tool/firebase.sh`) |
+| Node.js / npm | v25.2.0 / 11.7.0 | Cloud Functions memakai runtime **Node 22** (LTS); v25 lokal cukup untuk tooling, tetapi `engines.node` di `functions/` dikunci ke 22 |
+| Firebase CLI (`firebase-tools`) | **Tidak terpasang** | Perlu untuk emulator & deploy (terbaru 15.37.0) |
+| FlutterFire CLI | **Tidak terpasang** | Perlu untuk `flutterfire configure` |
+| gcloud | Tidak terpasang | Tidak wajib (Secret Manager bisa via `firebase functions:secrets:set`) |
+
+### 1.3 Versi package (dicek di pub.dev / npm, 19 Nov 2026)
+| Package | Versi terbaru | Batas SDK Dart |
+|---|---|---|
+| flutter_riverpod / riverpod_annotation / riverpod_generator | 3.5.0 / 4.0.8 / 4.0.10 | ^3.12 |
+| go_router | 18.1.4 | ^3.12 |
+| freezed / freezed_annotation | 4.0.3 / 3.1.0 | **freezed 4 butuh Dart ≥ 3.13** |
+| json_serializable / build_runner | 6.15.2 / 2.17.1 | ^3.12 / ^3.11 |
+| firebase_core / firebase_auth / cloud_firestore / cloud_functions / firebase_app_check | 5.2.0 / 7.1.0 / 7.2.0 / 7.1.0 / 0.5.2 | ^3.12 |
+| flutter_local_notifications / timezone / flutter_timezone | 23.0.3 / 0.11.2 / 5.1.1 | ^3.12 |
+| flutter_secure_storage / shared_preferences | 11.2.0 / 2.5.6 | — |
+| fl_chart / logger / intl | 1.3.1 / 2.8.0 / 0.20.3 | — |
+| dio | 5.11.1 | — |
+| npm: firebase-functions / firebase-admin / @google/genai / zod | 7.4.0 / 14.5.1 / 3.6.1 / 4.6.7 | firebase-admin & genai butuh Node ≥ 22 |
+
+Versi pasti dikunci saat Fase 1 (`pubspec.lock`, `package-lock.json`).
+
+### 1.4 Inkonsistensi di brief (diselesaikan dengan asumsi)
+| Bagian | Isi | Keputusan |
+|---|---|---|
+| §10 | "Flutter → **NestJS** API → Gemini" | Diabaikan. Alur: **Flutter → Cloud Functions → Gemini** (sesuai §3, §13). |
+| §12 | Daftar tabel gaya PostgreSQL (UUID, JSONB, `snake_case`) setelah struktur Firestore | Diabaikan. Hanya struktur Firestore (`camelCase`, ID dokumen Firestore). |
+| §13 | Kontrak REST lama | Diabaikan (brief sendiri menyatakan tidak dipakai). |
+| §3 | `dio` sebagai HTTP client | Panggilan backend memakai SDK `cloud_functions` (callable), yang otomatis mengirim token Auth & App Check. **`dio` tidak dipasang di MVP**; ditambahkan bila nanti ada API HTTP pihak ketiga. |
+| §20 | Pertanyaan yang sudah dijawab di kepala brief | Mengikuti jawaban di kepala brief. |
+
+---
+
+## 2. Asumsi kerja
+
+Mengikuti §19 brief, ditambah:
+
+1. **Bahasa UI** Bahasa Indonesia; teks lewat `intl`/ARB agar kelak bisa ditambah bahasa lain.
+2. **Satuan** kg, cm, gram, kcal; hari ISO (1 = Senin … 7 = Minggu); timezone default `Asia/Jakarta`, mengikuti perangkat.
+3. **Peralatan:** dumbbell & barbell selalu ada; bench, rack, pull-up bar, resistance band **ditanyakan di assessment** dan hanya dipakai bila dimiliki (§5D).
+4. **Lingkungan:** `emulator` (lokal), `dev`, `prod` — dua project Firebase terpisah. *Staging* ditunda karena MVP pribadi; struktur flavor tetap mendukung penambahannya.
+5. **Satu akun = satu profil**; tidak ada role admin di aplikasi. Seed katalog dijalankan dari skrip tepercaya (Admin SDK) di `tools/`.
+6. **Gemini model** dibaca dari konfigurasi Functions (bukan hardcode); default dipilih saat Fase 4.
+7. Belum ada foto progres → **Firebase Storage belum dipakai** di MVP.
+8. Analytics/Crashlytics **tidak** dipasang di MVP (§3, privasi).
+
+---
+
+## 3. Arsitektur
+
+### 3.1 Versi & tooling
+- **Flutter 3.47.9 (Dart 3.13.7)** dikunci lewat `.fvmrc`. Alasan: patch matang (rilis ke-10 seri 3.47) dan mendukung freezed 4 / Riverpod 3. Flutter 3.50.0 baru 8 hari; bisa naik setelah patch pertamanya.
+- Codegen: `build_runner` + `freezed` + `json_serializable` + `riverpod_generator`.
+- Lint: `flutter_lints` + aturan tambahan (`avoid_print`, `prefer_final_locals`, dll.) di `analysis_options.yaml`.
+- Functions: TypeScript strict, Node 22, `firebase-functions` v2 (`onCall`), validasi `zod`, test `vitest` + Emulator.
+
+### 3.2 Struktur repository
+```text
+Muscle_coach/
+  CLAUDE.md                     # brief produk + instruksi
+  IMPLEMENTATION_PLAN.md
+  README.md
+  .fvmrc
+  pubspec.yaml, analysis_options.yaml
+  lib/                          # app Flutter (struktur §3 brief)
+    main.dart                   # satu entrypoint; lingkungan via --dart-define=APP_ENV
+    app/{app.dart, router/, theme/, config/}
+    core/{network/, errors/, logging/, storage/, notifications/, utils/, widgets/}
+    features/{auth, onboarding, assessment, goals, dashboard, workout,
+              exercise_library, nutrition, food_log, progress, check_in,
+              ai_coach, profile}/{data, domain, application, presentation}
+  test/, integration_test/
+  android/, ios/
+  firebase.json, .firebaserc
+  firestore.rules, firestore.indexes.json
+  functions/                    # Cloud Functions (TypeScript)
+    src/
+      index.ts                  # ekspor function
+      common/                   # auth guard, error code, quota, logger
+      nutrition/                # BMR/TDEE/makro (deterministik)
+      goals/                    # validasi target
+      ai/                       # GeminiService, AiCoachService, prompt/, schema/, validator/
+      users/                    # createUserProfile, deleteUserData
+    test/
+  tools/seed/                   # seed exerciseCatalog & foodCatalog (Admin SDK)
+  firestore-tests/              # test Security Rules (@firebase/rules-unit-testing)
+```
+
+### 3.3 Lapisan Flutter
+- `presentation` (screen, widget, Riverpod Notifier) → `application` (use case) → `domain` (entity freezed, kontrak repository, aturan bisnis murni) ← `data` (DTO, datasource Firestore/Functions, repository impl, mapper).
+- Widget tidak memanggil Firestore/Functions/plugin langsung; kalkulasi tidak di widget.
+- `core/network/functions_client.dart`: pembungkus `FirebaseFunctions.httpsCallable` → memetakan `FirebaseFunctionsException` ke `AppFailure` (kode stabil).
+- `core/errors/`: `AppFailure` sealed class (network, unauthenticated, permissionDenied, validation, quotaExceeded, aiUnavailable, unknown).
+- `core/logging/`: `logger` dengan filter — **tanpa** isi data kesehatan/makanan di log.
+- Router `go_router` dengan redirect berbasis status: belum login → auth; belum assessment → wizard; belum ada goal terkonfirmasi → goal; selain itu → shell 5 tab (Home, Workout, Nutrition, Progress, Profile).
+
+### 3.4 Backend (Cloud Functions)
+| Function | Tipe | Fase |
+|---|---|---|
+| `createUserProfile` | callable idempoten, dipanggil app setelah daftar/login (tanpa race seperti trigger `onCreate`, tanpa syarat Identity Platform seperti blocking function) | 1 |
+| `calculateNutritionTargets` | callable | 2 |
+| `confirmGoal` (validasi target + simpan) | callable | 2 |
+| `generateWorkoutPlan`, `activateWorkoutPlan` | callable | 4 |
+| `generateDailyWorkout`, `suggestExerciseAlternative` | callable | 4 |
+| `generateMealPlan` | callable | 5 |
+| `generateWeeklyReview` | callable | 6 |
+| `deleteUserData` | callable | 1 (kerangka) / 7 (lengkap) |
+
+Setiap callable: cek `request.auth`, `enforceAppCheck` (prod), validasi `zod`, cek ownership ID, kuota per UID, error code stabil (`invalid-argument`, `failed-precondition`, `resource-exhausted`, `unavailable`, …), tanpa stack trace ke client.
+
+**Kalkulasi baseline (Fase 2, deterministik, dapat dikonfigurasi di `functions/src/nutrition/config.ts`):**
+- BMR Mifflin–St Jeor: pria `10W + 6.25H − 5A + 5`, wanita `… − 161`. Bila jenis kelamin tidak diisi → hitung keduanya dan tampilkan **rentang** (tidak memilih salah satu diam-diam).
+- TDEE = BMR × faktor aktivitas (default 1.2 / 1.375 / 1.55 / 1.725).
+- Muscle gain: surplus konservatif (default +5–10 % TDEE); recomposition: sekitar maintenance.
+- Protein (default 1.6–2.2 g/kg), lemak (default ≥ 0.6 g/kg dan 20–35 % energi), karbohidrat = sisa energi. Total kcal dihitung ulang dari makro (4/4/9).
+- Batas laju kenaikan berat (default ≤ 0.5 % BB/minggu, lebih rendah untuk yang berpengalaman) dipakai untuk menilai realistis-tidaknya target.
+- Semua angka default di atas **perlu ditinjau** terhadap rujukan kredibel sebelum rilis (lihat §5).
+
+**Integrasi Gemini (Fase 4):** `@google/genai`, secret `GEMINI_API_KEY` via `defineSecret`, structured output (JSON schema) + validasi `zod` + validator domain (exercise ID ada di katalog, alat sesuai assessment, set/reps/rest dalam batas, tidak melanggar batasan cedera). Maks. 1 retry terkontrol. Prompt berversi di `functions/src/ai/prompts/` (`workout_plan.v1.ts`, …). Log ke `aiGenerationLogs` (model ID, versi prompt, durasi, status, token — tanpa data pribadi mentah).
+
+### 3.5 Model data Firestore
+Mengikuti §12 brief, ditambah:
+```text
+users/{uid}
+  profile/current
+  settings/notifications
+  assessments/{id}            # draft & final, schemaVersion
+  goals/{id}                  # status draft/active/archived
+  equipment/current
+  workoutPlans/{id}
+    days/{dayId}              # subkoleksi agar dokumen plan tetap kecil
+  workoutSessions/{id}
+    sets/{setId}              # log set aktual (planned disalin terpisah)
+  nutritionTargets/{id}
+  mealPlans/{id}
+  foodLogs/{id}               # field `date` (YYYY-MM-DD lokal) untuk query harian
+  bodyMetrics/{id}
+  dailyCheckIns/{yyyy-mm-dd}  # ID = tanggal lokal → satu per hari
+  weeklyReviews/{isoWeek}
+  consents/{id}
+  aiGenerationLogs/{id}       # read-only client
+  entitlement/current         # placeholder subscription, read-only client
+usage/{uid}                   # kuota AI, hanya server
+exerciseCatalog/{id}          # read-only client
+foodCatalog/{id}              # read-only client
+appConfig/{id}                # konfigurasi non-secret, read-only client
+```
+**Hak tulis client vs server:**
+- Client boleh tulis (dengan validasi field di rules): `profile`, `settings`, `assessments` (draft), `equipment`, `workoutSessions` + `sets`, `foodLogs`, `bodyMetrics`, `dailyCheckIns`, `consents`.
+- Hanya server (client baca saja): `goals` aktif, `nutritionTargets`, `workoutPlans`, `mealPlans`, `weeklyReviews`, `aiGenerationLogs`, `entitlement`, `usage`.
+
+Field standar: `createdAt`, `updatedAt` (serverTimestamp), `schemaVersion`, `source` (`user_input` | `calculated` | `ai_generated` | `curated_database`), unit eksplisit pada nama/field.
+
+### 3.6 Notifikasi lokal
+`core/notifications/NotificationService` (abstraksi plugin) + use case `ReconcileReminders` yang membangun ulang jadwal dari `settings/notifications` + workout plan aktif. ID deterministik = hash stabil `kategori + entity + tanggal`. Rekonsiliasi saat login, app resume, perubahan preferensi/plan; cancel per sesi saat sesi selesai; cancel semua saat logout. Android: channel per kategori, `POST_NOTIFICATIONS`, inexact scheduling (tanpa exact-alarm). iOS: batas 64 pending → jadwalkan ±14 hari ke depan, prioritas terdekat.
+
+### 3.7 Entitlement
+`EntitlementRepository` (domain) dengan implementasi MVP yang membaca `users/{uid}/entitlement/current` (default `free_personal`, semua fitur aktif). Fitur memanggil `canUse(Feature)` — tanpa pembayaran.
+
+---
+
+## 4. Urutan kerja
+
+| Fase | Isi | Output yang dapat diuji |
+|---|---|---|
+| **0** | Discovery & rencana (dokumen ini) | `IMPLEMENTATION_PLAN.md` |
+| **1 — Foundation** | `git init`; pasang Flutter 3.47.9 (fvm), `firebase-tools`, FlutterFire CLI; `flutter create` (Android+iOS); struktur folder; Riverpod, go_router, theme light/dark, `AppFailure`, logger, flavor `dev`/`prod`; Firebase init (Auth, Firestore, Functions, Emulator); `firestore.rules` default-deny + test rules; `functions/` TS skeleton + `createUserProfile`; auth flow (register, login, logout, reset password, verifikasi email); shell 5 tab kosong; `README.md` | App jalan di emulator Android/iOS terhubung Firebase Emulator; register/login berfungsi; `flutter analyze`, `flutter test`, `npm test` (functions + rules) hijau |
+| **2 — Assessment & goal** | Wizard 7 langkah + draft; consent; kalkulasi BMR/TDEE/makro + validasi target di Functions (unit test); layar goal confirmation dengan asumsi | Assessment selesai → target & makro tampil dengan penjelasan |
+| **3 — Katalog & workout logging** | Seed katalog dumbbell/barbell (~40 gerakan); jadwal & detail sesi; log set/reps/beban/RIR; timer istirahat; planned vs actual | Program contoh manual dapat dicatat |
+| **4 — Gemini workout** | GeminiService, prompt v1, schema, validator, kuota; generate → draft → setuju → aktif; notifikasi sesi latihan | Program AI tervalidasi & aktif setelah disetujui |
+| **5 — Nutrition** | Target harian; `foodCatalog` (sumber terlisensi); food log; meal plan AI + hitung ulang total; notifikasi makan | Food log & sisa target harian |
+| **6 — Progress & review** | Grafik berat/beban/volume/kepatuhan; check-in harian & mingguan; weekly review AI; usulan penyesuaian dengan persetujuan; notifikasi timbang & check-in | Weekly review dari data nyata |
+| **7 — Hardening** | Lengkapi test; audit keamanan/privasi; offline/error states; uji perangkat Android & iOS; App Check prod; dokumentasi deploy; `deleteUserData` lengkap | Checklist acceptance §16 brief |
+
+Setiap fase diakhiri: `dart format`, `flutter analyze`, test, ringkasan perubahan, perintah menjalankan — lalu menunggu evaluasi.
+
+---
+
+## 5. Risiko
+
+| Risiko | Dampak | Mitigasi |
+|---|---|---|
+| **Cloud Functions & Secret Manager membutuhkan paket Blaze** (bayar sesuai pemakaian) | Tidak bisa deploy Functions di paket Spark | Pengembangan Fase 1–3 sepenuhnya di Emulator; aktifkan Blaze + **budget alert** sebelum deploy |
+| Biaya Gemini tak terduga | Tagihan | Kuota per UID per hari (`usage/{uid}`), batas ukuran input/output, model murah sebagai default |
+| Sumber data gizi Indonesia & lisensinya belum jelas (mis. TKPI Kemenkes) | Katalog makanan tidak bisa diisi secara sah | Abstraksi `FoodDataSource`; input manual + label "estimasi" sampai sumber diputuskan (Fase 5) |
+| Angka default kalori/makro/laju kenaikan | Rekomendasi kurang tepat | Semua dapat dikonfigurasi; ditandai "estimasi"; tinjau rujukan sebelum rilis |
+| Kualitas/keamanan output AI | Program tidak aman | Katalog tertutup, validator domain, persetujuan pengguna, fallback aman |
+| Notifikasi ditunda/dimatikan OS (Android OEM agresif, batas iOS 64) | Pengingat tidak muncul | Inexact scheduling, rekonsiliasi saat app dibuka, UX izin & panduan pengaturan baterai; tidak menjanjikan tepat waktu |
+| Data kesehatan = data pribadi spesifik (UU PDP No. 27/2022) | Kewajiban privasi | Minimalisasi data, consent eksplisit, rules ketat per UID, tanpa log data sensitif, fitur hapus data |
+| Biaya baca Firestore dari listener | Biaya | Query terbatas + pagination; listener hanya untuk layar aktif |
+| Flutter 3.50 / package sangat baru | Bug regresi | Kunci 3.47.9 dan versi package via lockfile |
+
+---
+
+## 6. Status Fase 1 — Foundation (selesai 19 Nov 2026)
+
+**Hasil**
+- Project Flutter `musclecoach` (Android `com.panjijingga.musclecoach`, iOS sama; minSdk 24, iOS 15), Flutter 3.47.9 via `.fvmrc`.
+- Struktur feature-first; Riverpod 3 (codegen), go_router 18 (redirect berbasis status login, shell 5 tab), tema light/dark + `Brand`, `AppFailure` + `FailureMapper`, `FunctionsClient`, logger, teks Bahasa Indonesia via ARB.
+- Lingkungan `emulator`/`dev`/`prod` via `APP_ENV`; Firebase Emulator Suite (Auth 9099, Firestore 8080, Functions 5001, UI 4000) dengan project `demo-musclecoach`.
+- Auth: daftar (kirim verifikasi email), masuk, lupa kata sandi, status verifikasi + kirim ulang, keluar, **hapus akun & semua data** (login ulang → `deleteUserData`).
+- Cloud Functions TS (Node 22, region `asia-southeast2`): `createUserProfile` (idempoten), `deleteUserData` (wajib login < 5 menit, payload `{confirm:true}`).
+- `firestore.rules` default-deny + validasi field profil; katalog global hanya baca dokumen `published`; `usage` & `entitlement` khusus server.
+- `tool/check.sh` (quality gate lokal), `tool/firebase.sh` (Firebase CLI + JDK 21), README.
+
+**Test**: Flutter 25 (validator, mapper, redirect, controller, widget login) · Functions unit 12 · Emulator 16 (rules + profil/hapus data). `flutter analyze` bersih. Build APK debug & iOS simulator berhasil.
+
+**Penyesuaian terhadap rencana awal**
+- Satu `main.dart` + `APP_ENV`, bukan `main_dev/main_prod`. *Native flavor* (sufiks `.dev`) ditunda sampai project Firebase dev/prod dibuat, karena konfigurasinya bergantung pada file `flutterfire configure`.
+- `flutter_secure_storage` belum dipasang: token sesi disimpan aman oleh Firebase Auth SDK sendiri; dipasang bila nanti ada secret lain di perangkat.
+- App Check belum aktif (tidak bisa diuji di Emulator) — diaktifkan saat project nyata dibuat (Fase 7 / sebelum deploy).
+- CI cloud belum ada (repo belum punya remote); `tool/check.sh` siap dipakai di CI.
+
+**Belum dikerjakan (sesuai rencana)**: onboarding/assessment & gerbang redirect-nya (Fase 2), notifikasi lokal (Fase 4–6), App Check, project Firebase nyata.
+
+## 7. Keputusan & blocker
+
+**Diputuskan (19 Nov 2026):**
+1. **Application ID / bundle ID:** `com.panjijingga.musclecoach` (Android `applicationId` & iOS bundle ID; flavor dev memakai sufiks `.dev`).
+2. **Firebase:** project belum ada → Fase 1 berjalan penuh di **Firebase Emulator**; project `dev`/`prod` dibuat & dihubungkan (`flutterfire configure`) kemudian.
+3. **Tool:** pasang Flutter 3.47.9 (fvm), `firebase-tools` (npm global), FlutterFire CLI.
+4. **Brief** di-rename menjadi `CLAUDE.md` (isi tidak diubah; bagian yang diabaikan dicatat di §1.4).
+
+**Ditunda (bukan blocker sekarang):**
+- Gemini API key & pilihan model — Fase 4.
+- Pembuatan project Firebase, paket Blaze & budget alert — sebelum deploy pertama.
+- Sumber & lisensi data gizi — Fase 5.
+- Peninjauan angka default nutrisi — sebelum rilis.

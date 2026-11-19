@@ -28,6 +28,20 @@ service cloud.firestore {
       return value == null || (value is string && value.size() <= maxLength);
     }
 
+    // Draft assessment: struktur amplop dibatasi; isi divalidasi penuh oleh
+    // Cloud Function `submitAssessment` saat dikirim.
+    function validAssessmentDraft() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['status', 'schemaVersion', 'step', 'data', 'updatedAt'])
+        && d.keys().hasAll(['status', 'schemaVersion', 'step', 'data', 'updatedAt'])
+        && d.status == 'draft'
+        && d.schemaVersion == 1
+        && d.step is int && d.step >= 0 && d.step <= 6
+        && d.data is map
+        && d.data.keys().hasOnly(['profile', 'goal', 'experience', 'availability', 'activity', 'nutrition', 'safety'])
+        && stampedNow();
+    }
+
     match /users/{uid} {
       // Dibuat oleh `createUserProfile`, dihapus oleh `deleteUserData`.
       allow read: if isOwner(uid);
@@ -40,6 +54,34 @@ service cloud.firestore {
           && optionalString(request.resource.data.displayName, 40)
           && stampedNow();
         allow create, delete: if false;
+      }
+
+      // Assessment final ditulis server; client hanya menulis dokumen `draft`.
+      match /assessments/{assessmentId} {
+        allow read: if isOwner(uid);
+        allow create, update: if isOwner(uid) && assessmentId == 'draft' && validAssessmentDraft();
+        allow delete: if isOwner(uid) && assessmentId == 'draft';
+      }
+
+      // Hasil kalkulasi server & catatan persetujuan: baca saja.
+      match /goals/{goalId} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
+
+      match /nutritionTargets/{targetId} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
+
+      match /consents/{consentId} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
+
+      match /equipment/current {
+        allow read: if isOwner(uid);
+        allow write: if false;
       }
 
       // Placeholder subscription; hanya server yang menulis.

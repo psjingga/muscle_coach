@@ -241,6 +241,33 @@ Setiap fase diakhiri: `dart format`, `flutter analyze`, test, ringkasan perubaha
 
 **Belum dikerjakan (sesuai rencana)**: onboarding/assessment & gerbang redirect-nya (Fase 2), notifikasi lokal (Fase 4–6), App Check, project Firebase nyata.
 
+## 6b. Status Fase 2 — Assessment & goal (selesai 19 Nov 2026)
+
+**Alur**: daftar/login → gerbang onboarding (router) → layar onboarding → wizard 7 langkah (A–G brief §5) → `submitAssessment` → ringkasan target → `confirmGoal` → Home menampilkan target nutrisi & goal aktif. Profil: lihat target aktif / ulangi assessment.
+
+**Backend (Cloud Functions)**
+- `submitAssessment` (callable): validasi penuh zod (`functions/src/assessment/schema.ts`, `.strict()`, batas angka, consent `2026-11-v1` wajib), usia 16–90. Menyimpan `assessments/{id}` (final), `consents/assessment_health_data`, `equipment/current`, usulan `goals/{id}` (`proposed`, usulan lama dihapus), `profile.latestAssessmentId`; draft dihapus. Isi assessment tidak di-log.
+- `confirmGoal` (callable, transaksi): hanya `proposed`, tidak `safety.stop`, verdict `realistic`, peringatan wajib di-*acknowledge*. Mengarsipkan goal & target nutrisi aktif lama, membuat `nutritionTargets/{id}` aktif, menandai `profile.onboardingCompleted`.
+- Kalkulasi murni & dapat dikonfigurasi (`functions/src/nutrition/config.ts`, versi `2026-11-v1`): Mifflin–St Jeor; TDEE = BMR × 1,2/1,375/1,55/1,725; surplus 10/7,5/5 % (muscle gain pemula/menengah/lanjut), 5 % strength, 0 % recomposition, maks. 5 % bila mode konservatif; protein 1,8 g/kg (2,0 recomposition; berat acuan BMI 25 bila BMI > 30); lemak 0,8 g/kg dibatasi 20–35 % energi & ≥ 0,6 g/kg; karbohidrat = sisa; makro dibulatkan 5 g, kcal dihitung ulang 4/4/9. Jenis kelamin tidak diisi → rentang BMR/TDEE/energi, makro di titik tengah.
+- Evaluasi target: batas laju 0,5/0,35/0,25 % BB per minggu (0,25 % bila konservatif); muscle gain/strength dengan target < berat sekarang dan recomposition dengan perubahan > 3 % BB → `needs_adjustment` + saran minggu/target. Target tidak realistis **tidak bisa dikonfirmasi**.
+- Keselamatan: gejala bahaya (nyeri dada, pingsan, sesak, cedera akut) → `stop` (arahkan ke tenaga medis, 119/112; tidak ada target aktif). Hamil, penyakit kronis, riwayat gangguan makan, pemulihan cedera, obat, usia < 18, BMI < 18,5 → peringatan + mode konservatif; BMI ≥ 35 → peringatan.
+
+**Firestore rules**: client hanya boleh menulis `assessments/draft` (amplop divalidasi: status, schemaVersion, step 0–6, `data` hanya 7 bagian, `updatedAt` = waktu server). `goals`, `nutritionTargets`, `consents`, `equipment` baca-saja milik sendiri.
+
+**Flutter**: `features/assessment` (model freezed draft-friendly, `AssessmentValidator` terpusat sinkron dengan server, repository Firestore+Functions, controller wizard: muat draft → atau isi ulang dari assessment terakhir, simpan draft tiap "Lanjut" tanpa menunggu server/offline-friendly), `features/goals` (entity, repository, layar ringkasan & konfirmasi dengan asumsi perhitungan dan peringatan), `features/onboarding`, `features/profile` (stream profil + status onboarding). Router: `authRedirect` kini memperhitungkan status onboarding.
+
+**Test**: Functions unit 40 (kalkulator, evaluasi target, keselamatan, skema) · Emulator 29 (rules + submit/confirm: arsip goal lama, tolak target tidak realistis/gejala bahaya/konfirmasi ganda/tanpa acknowledgement, goal milik orang lain) · Flutter 56 (validator, payload JSON, entity goal, redirect onboarding, controller wizard, widget wizard & ringkasan target) · E2E integration (daftar → assessment → konfirmasi → Home → keluar/masuk → hapus akun).
+
+**Asumsi/keputusan Fase 2** (dapat diubah):
+- Usia 16–90 tahun; < 18 diberi peringatan & mode konservatif.
+- Target waktu dalam minggu (4–104), tanggal target ditampilkan.
+- Kondisi medis hanya berupa centang (tanpa teks diagnosis) — minimisasi data.
+- Lokasi makanan tetap Indonesia (pilihan negara lain menyusul bila dibutuhkan).
+- Draft assessment satu per pengguna (`assessments/draft`).
+- `calculateNutritionTargets` dari brief §13 diwujudkan sebagai bagian `submitAssessment` (kalkulasi selalu di server bersama evaluasi target).
+
+**Belum**: pengubahan target dari check-in berkala (Fase 6), layar pengaturan consent/privasi tersendiri (Fase 7).
+
 ## 7. Keputusan & blocker
 
 **Diputuskan (19 Nov 2026):**

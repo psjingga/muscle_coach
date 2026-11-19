@@ -31,6 +31,7 @@ cd functions && npm run serve
 # 3. Terminal 2 — aplikasi (default APP_ENV=emulator)
 fvm flutter run                       # emulator Android / simulator iOS
 fvm flutter run --dart-define=EMULATOR_HOST=192.168.x.x   # HP fisik: IP Mac di LAN yang sama
+# Catatan: jangan pakai 127.0.0.1 + adb reverse di Android — FlutterFire memetakannya ke 10.0.2.2.
 ```
 
 - Tautan verifikasi email & reset kata sandi tidak dikirim sungguhan; buka **Emulator UI → Authentication**, atau lihat log terminal emulator.
@@ -77,7 +78,8 @@ lib/
   core/         errors (AppFailure + mapper), network (Functions client), firebase providers, logging, widgets
   features/     <fitur>/{data, domain, application, presentation} — auth, dashboard, workout, nutrition, progress, profile, …
   l10n/         teks Bahasa Indonesia (ARB) + kode hasil generate
-functions/      Cloud Functions TypeScript (callable `createUserProfile`, `deleteUserData`) + test unit/emulator
+functions/      Cloud Functions TypeScript (callable `createUserProfile`, `deleteUserData`, `submitAssessment`, `confirmGoal`) + test unit/emulator
+                nutrition/config.ts = angka default kalkulasi (BMR/TDEE/surplus/makro) — ubah di sini, bukan di UI
 firestore.rules, firestore.indexes.json, firebase.json
 tool/           check.sh (quality gate), firebase.sh (Firebase CLI dengan JDK 21)
 ```
@@ -86,4 +88,5 @@ tool/           check.sh (quality gate), firebase.sh (Firebase CLI dengan JDK 21
 
 - Tidak ada API key Gemini di aplikasi; semua panggilan AI lewat Cloud Functions + Secret Manager (Fase 4).
 - `firestore.rules` default-deny; pengguna hanya mengakses `users/{uid}` miliknya — diuji di `functions/test/emulator/firestore.rules.test.ts`.
+- Kalkulasi energi/makro & evaluasi target hanya di server; client cuma menulis draft assessment. Isi assessment (data kesehatan) tidak pernah di-log.
 - Jangan commit `.env`, secret, atau data pengguna (lihat `.gitignore`).

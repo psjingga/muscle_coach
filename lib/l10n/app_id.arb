@@ -90,5 +90,384 @@
   "deleteAccountTitle": "Hapus akun?",
   "deleteAccountMessage": "Seluruh data Anda — assessment, program, catatan latihan & makanan, dan progres — akan dihapus permanen dan tidak dapat dipulihkan.",
   "deleteAccountPasswordLabel": "Kata sandi untuk konfirmasi",
-  "deleteAccountConfirm": "Hapus permanen"
+  "deleteAccountConfirm": "Hapus permanen",
+  "retry": "Coba lagi",
+  "next": "Lanjut",
+  "back": "Kembali",
+  "optionalSuffix": "opsional",
+  "unitCm": "cm",
+  "unitKg": "kg",
+  "unitWeeks": "minggu",
+  "unitHours": "jam",
+  "unitPerWeek": "kali/minggu",
+  "unitIdr": "Rp",
+  "onboardingTitle": "Mari kenali Anda dulu",
+  "onboardingMessage": "Kami akan menanyakan 7 bagian singkat: profil, tujuan, pengalaman, jadwal & alat, aktivitas, pola makan, dan keselamatan. Sekitar 5–8 menit, dan jawaban tersimpan sebagai draft.",
+  "onboardingPoint1": "Kebutuhan kalori & makro dihitung dengan rumus terdokumentasi, bukan oleh AI.",
+  "onboardingPoint2": "Anda melihat asumsi perhitungan dan menyetujui target sebelum dipakai.",
+  "onboardingPoint3": "Data Anda privat dan dapat dihapus kapan saja dari Profil.",
+  "disclaimerShort": "Rekomendasi bersifat edukatif dan tidak menggantikan dokter, ahli gizi, atau personal trainer.",
+  "startAssessment": "Mulai assessment",
+  "continueAssessment": "Lanjutkan assessment",
+  "assessmentTitle": "Assessment awal",
+  "assessmentStepCounter": "Langkah {current} dari {total}",
+  "@assessmentStepCounter": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "stepProfile": "Profil dasar",
+  "stepGoal": "Tujuan",
+  "stepExperience": "Pengalaman latihan",
+  "stepAvailability": "Jadwal & peralatan",
+  "stepActivity": "Aktivitas & pemulihan",
+  "stepNutrition": "Pola makan",
+  "stepSafety": "Keselamatan & persetujuan",
+  "draftSavedHint": "Jawaban tersimpan sebagai draft setiap kali Anda lanjut.",
+  "submitAssessment": "Hitung target saya",
+  "fieldNickname": "Nama panggilan (opsional)",
+  "fieldBirthDate": "Tanggal lahir",
+  "birthDateHint": "Pilih tanggal",
+  "ageYears": "{age} tahun",
+  "@ageYears": {
+    "placeholders": {
+      "age": {}
+    }
+  },
+  "fieldSex": "Jenis kelamin biologis",
+  "sexHelp": "Hanya dipakai untuk rumus energi. Bila tidak ingin menjawab, kami tampilkan rentang perkiraan.",
+  "sexMale": "Laki-laki",
+  "sexFemale": "Perempuan",
+  "sexUndisclosed": "Tidak ingin menjawab",
+  "fieldHeight": "Tinggi badan",
+  "fieldWeight": "Berat badan saat ini",
+  "fieldPrimaryGoal": "Tujuan utama",
+  "goalMuscleGain": "Menambah massa otot",
+  "goalStrength": "Meningkatkan kekuatan",
+  "goalRecomposition": "Body recomposition",
+  "recompositionHelp": "Recomposition: menambah otot dengan berat badan relatif stabil.",
+  "fieldTargetWeight": "Berat badan target (opsional)",
+  "targetWeightHelp": "Kosongkan bila target utama Anda bukan angka berat badan.",
+  "fieldTargetWeeks": "Target waktu",
+  "targetWeeksHelp": "4–104 minggu. Perkiraan tanggal: {date}",
+  "@targetWeeksHelp": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "fieldPriorityMuscles": "Otot prioritas (opsional)",
+  "muscleChest": "Dada",
+  "muscleBack": "Punggung",
+  "muscleShoulders": "Bahu",
+  "muscleArms": "Lengan",
+  "muscleLegs": "Kaki",
+  "muscleGlutes": "Glutes",
+  "muscleCore": "Core",
+  "fieldMotivation": "Motivasi atau ekspektasi (opsional)",
+  "fieldLevel": "Level latihan beban",
+  "levelBeginner": "Pemula",
+  "levelIntermediate": "Menengah",
+  "levelAdvanced": "Berpengalaman",
+  "fieldTrainingAge": "Sudah berapa lama latihan beban?",
+  "trainingAgeNone": "Belum pernah",
+  "trainingAgeUnder6Months": "< 6 bulan",
+  "trainingAge6mTo2y": "6 bulan – 2 tahun",
+  "trainingAge2To5y": "2–5 tahun",
+  "trainingAgeOver5y": "> 5 tahun",
+  "fieldCurrentSessions": "Frekuensi latihan saat ini",
+  "fieldKnownExercises": "Gerakan yang sudah dikuasai (opsional)",
+  "knownExercisesHint": "mis. squat, bench press, dumbbell row",
+  "fieldWorkingWeights": "Beban kerja / PR yang diketahui (opsional)",
+  "workingWeightsHint": "mis. bench press 50 kg × 8. Tidak wajib untuk pemula.",
+  "fieldTrainingDays": "Hari yang bisa dipakai latihan",
+  "weekday1": "Sen",
+  "weekday2": "Sel",
+  "weekday3": "Rab",
+  "weekday4": "Kam",
+  "weekday5": "Jum",
+  "weekday6": "Sab",
+  "weekday7": "Min",
+  "fieldSessionMinutes": "Durasi per sesi",
+  "minutesValue": "{minutes} menit",
+  "@minutesValue": {
+    "placeholders": {
+      "minutes": {}
+    }
+  },
+  "fieldLocation": "Lokasi latihan",
+  "locationHome": "Rumah",
+  "locationGym": "Gym",
+  "fieldEquipment": "Peralatan yang tersedia",
+  "equipmentHelp": "Program hanya akan memakai alat yang Anda centang.",
+  "equipDumbbell": "Dumbbell",
+  "equipBarbell": "Barbell",
+  "equipBench": "Bench",
+  "equipRack": "Squat rack / power rack",
+  "equipPullUpBar": "Pull-up bar",
+  "fieldDumbbellMax": "Dumbbell terberat per tangan (opsional)",
+  "fieldBarbellMax": "Beban barbell maks. termasuk bar (opsional)",
+  "fieldTrainingPreferences": "Preferensi latihan (opsional)",
+  "fieldActivityLevel": "Aktivitas harian di luar latihan",
+  "activitySedentary": "Sangat sedikit bergerak",
+  "activityLight": "Ringan",
+  "activityModerate": "Sedang",
+  "activityHigh": "Tinggi",
+  "activityHelp": "Ringan: sesekali jalan kaki. Sedang: banyak berjalan/berdiri. Tinggi: kerja fisik berat.",
+  "fieldOccupation": "Pekerjaan dominan",
+  "occupationSitting": "Duduk",
+  "occupationStanding": "Berdiri",
+  "occupationActive": "Aktif/fisik",
+  "fieldSleep": "Rata-rata tidur per malam",
+  "fieldStress": "Tingkat stres (opsional)",
+  "stressLow": "Rendah",
+  "stressMedium": "Sedang",
+  "stressHigh": "Tinggi",
+  "fieldCardio": "Kardio/olahraga lain (opsional)",
+  "fieldDiet": "Pola makan",
+  "dietOmnivore": "Omnivora",
+  "dietVegetarian": "Vegetarian",
+  "dietVegan": "Vegan",
+  "dietOther": "Lainnya",
+  "fieldAllergies": "Alergi & pantangan (opsional)",
+  "fieldDislikes": "Makanan yang tidak disukai (opsional)",
+  "fieldFoodPreferences": "Makanan favorit/preferensi (opsional)",
+  "fieldBudget": "Anggaran makan per hari (opsional)",
+  "fieldMealsPerDay": "Jumlah waktu makan per hari",
+  "fieldCooking": "Akses memasak",
+  "cookingSelf": "Masak sendiri",
+  "cookingCatering": "Katering/beli",
+  "cookingMixed": "Campuran",
+  "foodLocationIndonesia": "Rekomendasi makanan disesuaikan untuk Indonesia.",
+  "fieldNutritionNotes": "Catatan pola makan (opsional)",
+  "safetyIntro": "Bagian ini membantu kami menghindari rekomendasi yang tidak aman. Data kesehatan disimpan privat di akun Anda dan dapat dihapus kapan saja.",
+  "fieldInjuries": "Cedera saat ini/riwayat yang masih berdampak (opsional)",
+  "fieldAvoidedMovements": "Gerakan yang dilarang/tidak nyaman (opsional)",
+  "fieldMedicalFlags": "Apakah ada kondisi berikut?",
+  "medicalFlagsHelp": "Cukup centang bila ada; tidak perlu menyebut diagnosis.",
+  "medicalPregnant": "Sedang hamil",
+  "medicalChronic": "Penyakit kronis (mis. jantung, diabetes, hipertensi)",
+  "medicalEatingDisorder": "Riwayat gangguan makan",
+  "medicalInjuryRecovery": "Sedang pemulihan cedera/operasi",
+  "medicalMedication": "Mengonsumsi obat yang relevan",
+  "fieldRedFlags": "Dalam beberapa minggu terakhir, apakah Anda mengalami:",
+  "redChestPain": "Nyeri dada saat beraktivitas",
+  "redFainting": "Pingsan atau hampir pingsan",
+  "redBreathless": "Sesak napas yang tidak wajar",
+  "redAcuteInjury": "Cedera akut yang belum ditangani",
+  "consentTitle": "Persetujuan",
+  "consentDisclaimer": "Saya memahami bahwa Muscle Coach memberi estimasi edukatif dan tidak menggantikan dokter, ahli gizi, atau pelatih.",
+  "consentHealthData": "Saya setuju data assessment, termasuk data kesehatan di atas, diproses untuk menghitung target dan menyusun program saya.",
+  "issueRequired": "Wajib diisi.",
+  "issueChoose": "Pilih salah satu.",
+  "issueAge": "Usia harus {min}–{max} tahun.",
+  "@issueAge": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "issueRange": "Masukkan angka {min}–{max}.",
+  "@issueRange": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "issueTrainingDays": "Pilih minimal satu hari.",
+  "issueEquipment": "Centang minimal dumbbell atau barbell.",
+  "issueConsent": "Centang kedua persetujuan untuk melanjutkan.",
+  "goalReviewTitle": "Ringkasan target",
+  "goalActiveTitle": "Target aktif",
+  "verdictRealistic": "Target realistis",
+  "verdictRealisticMessage": "Target dan waktunya berada dalam batas laju kenaikan yang aman untuk level Anda.",
+  "verdictNeedsAdjustment": "Target perlu disesuaikan",
+  "reasonTargetBelowCurrent": "Tujuan Anda menambah otot/kekuatan, tetapi berat target lebih rendah dari berat sekarang. Pilih body recomposition atau naikkan berat target.",
+  "reasonRateTooFast": "Target ini menuntut kenaikan {rate} kg/minggu, melebihi batas {max} kg/minggu ({maxPct}% berat badan) untuk level Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.",
+  "@reasonRateTooFast": {
+    "placeholders": {
+      "rate": {},
+      "max": {},
+      "maxPct": {}
+    }
+  },
+  "reasonRecomposition": "Body recomposition berarti berat relatif stabil, tetapi target Anda berubah {delta} kg. Pilih \"Menambah massa otot\" atau dekatkan target ke berat sekarang.",
+  "@reasonRecomposition": {
+    "placeholders": {
+      "delta": {}
+    }
+  },
+  "suggestionWeeks": "Saran waktu: minimal {weeks} minggu untuk target ini.",
+  "@suggestionWeeks": {
+    "placeholders": {
+      "weeks": {}
+    }
+  },
+  "suggestionTarget": "Saran target: {kg} kg dalam {weeks} minggu.",
+  "@suggestionTarget": {
+    "placeholders": {
+      "kg": {},
+      "weeks": {}
+    }
+  },
+  "adjustTarget": "Sesuaikan target",
+  "editAnswers": "Ubah jawaban",
+  "safetyStopTitle": "Tunda dulu rencana latihan",
+  "safetyStopMessage": "Anda melaporkan gejala yang perlu diperiksa (nyeri dada, pingsan, sesak tidak wajar, atau cedera akut). Segera konsultasikan dengan tenaga medis. Bila gejala berat atau mendadak, hubungi layanan darurat 119 atau 112. Target dan program tidak kami aktifkan sampai kondisi Anda aman.",
+  "sectionWeightGoal": "Berat badan",
+  "labelGoal": "Tujuan",
+  "labelStartWeight": "Berat awal",
+  "labelTargetWeight": "Berat target",
+  "labelDelta": "Selisih",
+  "labelPeriod": "Periode",
+  "labelTargetDate": "Target tanggal",
+  "labelWeeklyRate": "Laju per minggu",
+  "noTargetWeight": "Tidak ditetapkan",
+  "weeksValue": "{weeks} minggu",
+  "@weeksValue": {
+    "placeholders": {
+      "weeks": {}
+    }
+  },
+  "kgValue": "{kg} kg",
+  "@kgValue": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "kgPerWeekValue": "{kg} kg/minggu",
+  "@kgPerWeekValue": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "expectedGainNote": "Kenaikan berat yang wajar sekitar {min}–{max} kg/minggu. Ini bukan janji: berat badan tidak sama dengan massa otot, dan evaluasi memakai tren beberapa minggu.",
+  "@expectedGainNote": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "recompositionNote": "Recomposition: berat diharapkan relatif stabil; progres dinilai dari kekuatan, ukuran tubuh, dan tren beberapa minggu.",
+  "sectionNutrition": "Target nutrisi harian",
+  "kcalValue": "{kcal} kcal",
+  "@kcalValue": {
+    "placeholders": {
+      "kcal": {}
+    }
+  },
+  "kcalRangeValue": "{min}–{max} kcal",
+  "@kcalRangeValue": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "macroProtein": "Protein",
+  "macroCarbs": "Karbohidrat",
+  "macroFat": "Lemak",
+  "gramValue": "{grams} g",
+  "@gramValue": {
+    "placeholders": {
+      "grams": {}
+    }
+  },
+  "macroDetail": "{gPerKg} g/kg · {pct}% energi",
+  "@macroDetail": {
+    "placeholders": {
+      "gPerKg": {},
+      "pct": {}
+    }
+  },
+  "macroCarbsDetail": "{pct}% energi",
+  "@macroCarbsDetail": {
+    "placeholders": {
+      "pct": {}
+    }
+  },
+  "estimateLabel": "Estimasi",
+  "rangeNote": "Jenis kelamin tidak diisi, jadi kebutuhan energi berupa rentang. Angka makro memakai titik tengah rentang.",
+  "sectionAssumptions": "Asumsi & cara hitung",
+  "assumptionBmr": "BMR (energi saat istirahat) {value}, rumus Mifflin–St Jeor. Ini perkiraan populasi: kurang akurat untuk orang sangat berotot atau dengan obesitas, dan tidak berlaku saat hamil.",
+  "@assumptionBmr": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "assumptionTdee": "TDEE {value} = BMR × faktor aktivitas {factor}.",
+  "@assumptionTdee": {
+    "placeholders": {
+      "value": {},
+      "factor": {}
+    }
+  },
+  "assumptionSurplus": "Energi target = TDEE + surplus konservatif {pct}% ≈ {value}.",
+  "@assumptionSurplus": {
+    "placeholders": {
+      "pct": {},
+      "value": {}
+    }
+  },
+  "assumptionMaintenance": "Energi target ≈ TDEE (maintenance) karena tujuan recomposition: {value}.",
+  "@assumptionMaintenance": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "assumptionProtein": "Protein {gPerKg} g/kg × {basis} kg berat acuan.",
+  "@assumptionProtein": {
+    "placeholders": {
+      "gPerKg": {},
+      "basis": {}
+    }
+  },
+  "assumptionProteinBasis": "Karena BMI tinggi, protein memakai berat acuan pada BMI 25.",
+  "assumptionFat": "Lemak sekitar 0,8 g/kg, dijaga 20–35% energi dan minimal 0,6 g/kg.",
+  "assumptionCarbs": "Karbohidrat = sisa energi setelah protein dan lemak.",
+  "assumptionRounding": "Makro dibulatkan ke kelipatan 5 g; total kalori dihitung ulang dari makro (protein & karbohidrat 4 kcal/g, lemak 9 kcal/g).",
+  "assumptionConservative": "Karena ada faktor keselamatan, surplus energi dan batas laju kenaikan dibuat lebih konservatif.",
+  "assumptionReview": "Semua angka adalah estimasi awal dan akan dievaluasi dari tren berat badan 2–4 minggu, bukan dari satu kali timbang.",
+  "assumptionVersion": "Versi konfigurasi: {version}",
+  "@assumptionVersion": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "sectionWarnings": "Perlu diperhatikan",
+  "warningMinorAge": "Usia di bawah 18 tahun: diskusikan program dengan orang tua dan tenaga kesehatan.",
+  "warningLowBmi": "BMI Anda {bmi} tergolong rendah. Konsultasikan dengan tenaga kesehatan.",
+  "@warningLowBmi": {
+    "placeholders": {
+      "bmi": {}
+    }
+  },
+  "warningHighBmi": "BMI Anda {bmi} tergolong tinggi; perkiraan energi bisa kurang akurat. Pertimbangkan konsultasi dengan tenaga kesehatan.",
+  "@warningHighBmi": {
+    "placeholders": {
+      "bmi": {}
+    }
+  },
+  "warningPregnant": "Kehamilan: perhitungan ini tidak dirancang untuk kehamilan. Konsultasikan dengan dokter atau bidan sebelum memakai target ini.",
+  "warningChronic": "Penyakit kronis: konsultasikan dengan dokter sebelum menaikkan intensitas latihan atau asupan.",
+  "warningEatingDisorder": "Riwayat gangguan makan: angka kalori dapat memicu kekhawatiran. Diskusikan dengan tenaga kesehatan; Anda bisa berfokus pada kebiasaan, bukan angka.",
+  "warningInjuryRecovery": "Pemulihan cedera: ikuti arahan tenaga kesehatan atau fisioterapis; gerakan terkait akan dihindari.",
+  "warningMedication": "Obat-obatan: tanyakan kepada dokter bila obat memengaruhi nafsu makan, berat badan, atau kemampuan latihan.",
+  "warningRedFlag": "Gejala berbahaya dilaporkan: konsultasikan dengan tenaga medis sebelum berlatih.",
+  "acknowledgeWarnings": "Saya sudah membaca peringatan di atas dan akan berkonsultasi dengan tenaga kesehatan bila perlu.",
+  "confirmGoal": "Konfirmasi target",
+  "goalConfirmed": "Target aktif! Program latihan akan disusun pada tahap berikutnya.",
+  "goalNotFound": "Target tidak ditemukan.",
+  "homeGreeting": "Halo, {name}!",
+  "@homeGreeting": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "homeGreetingNoName": "Halo!",
+  "homeNextSteps": "Program latihan, menu harian, dan check-in akan muncul di sini setelah fitur berikutnya aktif.",
+  "seeDetails": "Lihat detail & asumsi",
+  "profileAssessmentSection": "Assessment & target",
+  "viewActiveGoal": "Lihat target aktif",
+  "redoAssessment": "Ulangi assessment",
+  "redoAssessmentHelp": "Target baru berlaku setelah Anda konfirmasi; target lama diarsipkan."
 }

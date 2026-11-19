@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../app/router/routes.dart';
 
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../auth/domain/entities/auth_user.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../providers/profile_providers.dart';
 import '../widgets/delete_account_dialog.dart';
 
-/// Tab Profil. Fase 1: akun (verifikasi email, keluar, hapus akun).
-/// Assessment, goal, peralatan, notifikasi & privasi menyusul.
+/// Tab Profil: assessment & target, akun (verifikasi email, keluar, hapus akun).
+/// Peralatan, notifikasi & privasi menyusul.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -18,6 +22,7 @@ class ProfileScreen extends ConsumerWidget {
     final user = ref.watch(authStateProvider).value;
     final action = ref.watch(authControllerProvider);
     final controller = ref.read(authControllerProvider.notifier);
+    final activeGoalId = ref.watch(userProfileProvider).value?.activeGoalId;
 
     Future<void> confirmSignOut() async {
       final ok = await showDialog<bool>(
@@ -39,6 +44,36 @@ class ProfileScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                  child: Text(
+                    l.profileAssessmentSection,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                if (activeGoalId != null)
+                  ListTile(
+                    leading: const Icon(Icons.flag_outlined),
+                    title: Text(l.viewActiveGoal),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push(Routes.goalPath(activeGoalId)),
+                  ),
+                ListTile(
+                  leading: const Icon(Icons.assignment_outlined),
+                  title: Text(l.redoAssessment),
+                  subtitle: Text(l.redoAssessmentHelp),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push(Routes.assessment),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           if (user != null) _AccountCard(user: user, busy: action.isLoading),
           const SizedBox(height: 24),
           OutlinedButton.icon(

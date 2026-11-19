@@ -121,3 +121,67 @@ describe("koleksi global & server-only", () => {
     await assertFails(setDoc(doc(alice(), "usage/alice"), { aiCallsToday: 0 }));
   });
 });
+
+describe("users/{uid}/assessments", () => {
+  const draftPath = "users/alice/assessments/draft";
+  const draft = (overrides: Record<string, unknown> = {}) => ({
+    status: "draft",
+    schemaVersion: 1,
+    step: 2,
+    data: { profile: { heightCm: 175 }, goal: {} },
+    updatedAt: serverTimestamp(),
+    ...overrides,
+  });
+
+  it("pemilik boleh menyimpan, membaca, dan menghapus draft", async () => {
+    await assertSucceeds(setDoc(doc(alice(), draftPath), draft()));
+    await assertSucceeds(getDoc(doc(alice(), draftPath)));
+    await assertSucceeds(setDoc(doc(alice(), draftPath), draft({ step: 6 })));
+    await assertSucceeds(deleteDoc(doc(alice(), draftPath)));
+  });
+
+  it("menolak draft dengan amplop tidak valid", async () => {
+    await assertFails(setDoc(doc(alice(), draftPath), draft({ status: "final" })));
+    await assertFails(setDoc(doc(alice(), draftPath), draft({ step: 7 })));
+    await assertFails(setDoc(doc(alice(), draftPath), draft({ extra: true })));
+    await assertFails(setDoc(doc(alice(), draftPath), draft({ updatedAt: new Date(0) })));
+    await assertFails(setDoc(doc(alice(), draftPath), draft({ data: { email: "x@y.z" } })));
+  });
+
+  it("client tidak boleh menulis assessment final atau draft orang lain", async () => {
+    await assertFails(setDoc(doc(alice(), "users/alice/assessments/a1"), draft()));
+    await assertFails(setDoc(doc(alice(), "users/bob/assessments/draft"), draft()));
+    await assertFails(getDoc(doc(alice(), "users/bob/assessments/draft")));
+  });
+});
+
+describe("dokumen hasil server (goal, target nutrisi, consent, peralatan)", () => {
+  const paths = [
+    "goals/g1",
+    "nutritionTargets/t1",
+    "consents/assessment_health_data",
+    "equipment/current",
+  ];
+
+  beforeEach(async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      for (const p of paths) {
+        await setDoc(doc(ctx.firestore(), `users/alice/${p}`), { status: "active" });
+        await setDoc(doc(ctx.firestore(), `users/bob/${p}`), { status: "active" });
+      }
+    });
+  });
+
+  it("pemilik hanya boleh membaca", async () => {
+    for (const p of paths) {
+      await assertSucceeds(getDoc(doc(alice(), `users/alice/${p}`)));
+      await assertFails(setDoc(doc(alice(), `users/alice/${p}`), { status: "active" }));
+      await assertFails(updateDoc(doc(alice(), `users/alice/${p}`), { status: "archived" }));
+      await assertFails(deleteDoc(doc(alice(), `users/alice/${p}`)));
+    }
+  });
+
+  it("tidak boleh membaca milik pengguna lain", async () => {
+    for (const p of paths) await assertFails(getDoc(doc(alice(), `users/bob/${p}`)));
+  });
+});

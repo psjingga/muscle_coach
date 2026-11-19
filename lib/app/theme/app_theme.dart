@@ -11,6 +11,10 @@ abstract final class AppTheme {
   static const radius = 14.0;
   static const minTouchHeight = 52.0;
 
+  /// Untuk tombol di dalam Row/ListTile: tema bawaan memakai lebar minimum
+  /// tak terbatas (tombol penuh di kolom) yang tidak valid di sumbu horizontal.
+  static const compactButtonSize = Size(64, minTouchHeight);
+
   static ThemeData _build(Brightness brightness) {
     final scheme = ColorScheme.fromSeed(seedColor: Brand.seedColor, brightness: brightness);
     final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius));

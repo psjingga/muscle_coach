@@ -268,6 +268,22 @@ Setiap fase diakhiri: `dart format`, `flutter analyze`, test, ringkasan perubaha
 
 **Belum**: pengubahan target dari check-in berkala (Fase 6), layar pengaturan consent/privasi tersendiri (Fase 7).
 
+## 6c. Status Fase 3 — Katalog & pencatatan latihan (selesai 19 Nov 2026)
+
+**Alur**: tab Latihan → *Buat program awal* (`createStarterPlan`) → pratinjau draft (peringatan, target per latihan, aturan progresi, penjelasan RIR) → *Aktifkan program* (`activateWorkoutPlan`, konfirmasi bila mengganti program aktif) → jadwal mingguan (penanda hari ini) → detail hari (pemanasan/pendinginan) → *Mulai sesi* → catat set (beban, repetisi/detik, RIR opsional, lewati, hapus) + timer istirahat (+15 dtk/selesai) → *Selesaikan sesi* (energi, nyeri, catatan) → Riwayat (target vs aktual). Home menampilkan latihan hari ini/berikutnya. Katalog latihan dapat dicari; detail berisi cara melakukan, kesalahan umum, keselamatan, alternatif, peringatan spotter.
+
+**Backend**
+- Katalog terkurasi 43 gerakan (`functions/src/catalog/exercises.ts`, versi `2026-11-v1`): dumbbell/barbell + push-up, pull-up/chin-up, plank, dead bug. Field: otot utama/pendukung, pola gerak, alat wajib, level minimum, satuan (repetisi/detik), tipe beban (per tangan/total/berat badan), instruksi, kesalahan, keselamatan, spotter, alternatif. Di-seed ke `exerciseCatalog` (`status: published`); latihan yang dihapus → `retired`. Emulator: seed otomatis saat Functions dimuat; project nyata: `node lib/catalog/seedCli.js`.
+- Planner berbasis aturan (`functions/src/workout/templatePlanner.ts`, deterministik): hari maks. 4/5/6 (pemula/menengah/lanjut), utamakan hari tidak berurutan; ≤ 3 hari tanpa hari berurutan → full body A/B/C, selain itu upper/lower. Slot gerak dengan daftar kandidat → dipilih yang alat & levelnya cocok (tidak menganggap ada bench/rack). Set 3/2 (compound/isolasi pemula), +1 untuk otot prioritas (maks. 5); repetisi 8–12 / 6–10 / 10–15; istirahat 150/120/75/60 dtk; RIR 2–3 / 1–3 / 1–2 (tidak sampai gagal). Jumlah latihan disesuaikan durasi sesi (min. 3).
+- Validator rencana (`functions/src/workout/plan.ts`) — dipakai ulang untuk output Gemini di Fase 4: latihan harus ada di katalog, alat tersedia, level sesuai, angka dalam batas, tanpa duplikat; peringatan untuk spotter dan otot sama di hari berurutan.
+- Peringatan program: cedera/gerakan dihindari, hari dikurangi, alat terbatas, spotter.
+
+**Data & rules**: `workoutPlans/{id}` + `days/{dayId}` ditulis server (baca-saja). `workoutSessions/{id}` ditulis aplikasi: `planned` = salinan target (tidak bisa diubah), `completedAt` = waktu server; hasil aktual di `sets/{setId}` (beban 0–1000 kg, repetisi 0–300, RIR 0–10, status done/skipped). Indeks komposit: riwayat (`status`, `date`) & sesi terakhir per hari program (`planId`, `dayId`, `status`, `date`). Penulisan set tidak menunggu server (sinyal gym lemah; tersinkron otomatis).
+
+**Test**: Functions unit 58 (+18: katalog, pemilihan hari/split, planner, validator) · Emulator 38 (+9: rules program/sesi/set, create/activate plan, seed) · Flutter 75 (+19: volume, progresi ganda, validasi set, hari berikutnya, timer istirahat, pencatat set, widget tab/pratinjau/sesi) · E2E diperluas sampai program aktif → catat set → riwayat.
+
+**Ditunda**: ganti latihan di tengah sesi (butuh validasi alat/keselamatan bersama Fase 4), pengingat sesi (notifikasi lokal), grafik per gerakan (Fase 6).
+
 ## 7. Keputusan & blocker
 
 **Diputuskan (19 Nov 2026):**

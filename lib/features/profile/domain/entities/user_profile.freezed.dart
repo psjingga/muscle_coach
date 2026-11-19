@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserProfile {
 
- String? get displayName; bool get onboardingCompleted; String? get activeGoalId; String? get activeNutritionTargetId; String? get latestAssessmentId;
+ String? get displayName; bool get onboardingCompleted; String? get activeGoalId; String? get activeNutritionTargetId; String? get latestAssessmentId; String? get activeWorkoutPlanId;
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $UserProfileCopyWith<UserProfile> get copyWith => _$UserProfileCopyWithImpl<User
 @override
 bool operator ==(Object other) {
   final _this = this as UserProfile;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfile&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.onboardingCompleted, _this.onboardingCompleted) || other.onboardingCompleted == _this.onboardingCompleted)&&(identical(other.activeGoalId, _this.activeGoalId) || other.activeGoalId == _this.activeGoalId)&&(identical(other.activeNutritionTargetId, _this.activeNutritionTargetId) || other.activeNutritionTargetId == _this.activeNutritionTargetId)&&(identical(other.latestAssessmentId, _this.latestAssessmentId) || other.latestAssessmentId == _this.latestAssessmentId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfile&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.onboardingCompleted, _this.onboardingCompleted) || other.onboardingCompleted == _this.onboardingCompleted)&&(identical(other.activeGoalId, _this.activeGoalId) || other.activeGoalId == _this.activeGoalId)&&(identical(other.activeNutritionTargetId, _this.activeNutritionTargetId) || other.activeNutritionTargetId == _this.activeNutritionTargetId)&&(identical(other.latestAssessmentId, _this.latestAssessmentId) || other.latestAssessmentId == _this.latestAssessmentId)&&(identical(other.activeWorkoutPlanId, _this.activeWorkoutPlanId) || other.activeWorkoutPlanId == _this.activeWorkoutPlanId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserProfile;
-  return Object.hash(runtimeType,_this.displayName,_this.onboardingCompleted,_this.activeGoalId,_this.activeNutritionTargetId,_this.latestAssessmentId);
+  return Object.hash(runtimeType,_this.displayName,_this.onboardingCompleted,_this.activeGoalId,_this.activeNutritionTargetId,_this.latestAssessmentId,_this.activeWorkoutPlanId);
 }
 
 @override
 String toString() {
   final _this = this as UserProfile;
-  return 'UserProfile(displayName: ${_this.displayName}, onboardingCompleted: ${_this.onboardingCompleted}, activeGoalId: ${_this.activeGoalId}, activeNutritionTargetId: ${_this.activeNutritionTargetId}, latestAssessmentId: ${_this.latestAssessmentId})';
+  return 'UserProfile(displayName: ${_this.displayName}, onboardingCompleted: ${_this.onboardingCompleted}, activeGoalId: ${_this.activeGoalId}, activeNutritionTargetId: ${_this.activeNutritionTargetId}, latestAssessmentId: ${_this.latestAssessmentId}, activeWorkoutPlanId: ${_this.activeWorkoutPlanId})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $UserProfileCopyWith<$Res>  {
   factory $UserProfileCopyWith(UserProfile value, $Res Function(UserProfile) _then) = _$UserProfileCopyWithImpl;
 @useResult
 $Res call({
- String? displayName, bool onboardingCompleted, String? activeGoalId, String? activeNutritionTargetId, String? latestAssessmentId
+ String? displayName, bool onboardingCompleted, String? activeGoalId, String? activeNutritionTargetId, String? latestAssessmentId, String? activeWorkoutPlanId
 });
 
 
@@ -71,13 +71,14 @@ class _$UserProfileCopyWithImpl<$Res>
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? displayName = freezed,Object? onboardingCompleted = null,Object? activeGoalId = freezed,Object? activeNutritionTargetId = freezed,Object? latestAssessmentId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? displayName = freezed,Object? onboardingCompleted = null,Object? activeGoalId = freezed,Object? activeNutritionTargetId = freezed,Object? latestAssessmentId = freezed,Object? activeWorkoutPlanId = freezed,}) {
   return _then(UserProfile(
 displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String?,onboardingCompleted: null == onboardingCompleted ? _self.onboardingCompleted : onboardingCompleted // ignore: cast_nullable_to_non_nullable
 as bool,activeGoalId: freezed == activeGoalId ? _self.activeGoalId : activeGoalId // ignore: cast_nullable_to_non_nullable
 as String?,activeNutritionTargetId: freezed == activeNutritionTargetId ? _self.activeNutritionTargetId : activeNutritionTargetId // ignore: cast_nullable_to_non_nullable
 as String?,latestAssessmentId: freezed == latestAssessmentId ? _self.latestAssessmentId : latestAssessmentId // ignore: cast_nullable_to_non_nullable
+as String?,activeWorkoutPlanId: freezed == activeWorkoutPlanId ? _self.activeWorkoutPlanId : activeWorkoutPlanId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -163,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? displayName,  bool onboardingCompleted,  String? activeGoalId,  String? activeNutritionTargetId,  String? latestAssessmentId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? displayName,  bool onboardingCompleted,  String? activeGoalId,  String? activeNutritionTargetId,  String? latestAssessmentId,  String? activeWorkoutPlanId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserProfile() when $default != null:
-return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_that.activeNutritionTargetId,_that.latestAssessmentId);case _:
+return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_that.activeNutritionTargetId,_that.latestAssessmentId,_that.activeWorkoutPlanId);case _:
   return orElse();
 
 }
@@ -184,10 +185,10 @@ return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? displayName,  bool onboardingCompleted,  String? activeGoalId,  String? activeNutritionTargetId,  String? latestAssessmentId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? displayName,  bool onboardingCompleted,  String? activeGoalId,  String? activeNutritionTargetId,  String? latestAssessmentId,  String? activeWorkoutPlanId)  $default,) {final _that = this;
 switch (_that) {
 case _UserProfile():
-return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_that.activeNutritionTargetId,_that.latestAssessmentId);case _:
+return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_that.activeNutritionTargetId,_that.latestAssessmentId,_that.activeWorkoutPlanId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +205,10 @@ return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? displayName,  bool onboardingCompleted,  String? activeGoalId,  String? activeNutritionTargetId,  String? latestAssessmentId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? displayName,  bool onboardingCompleted,  String? activeGoalId,  String? activeNutritionTargetId,  String? latestAssessmentId,  String? activeWorkoutPlanId)?  $default,) {final _that = this;
 switch (_that) {
 case _UserProfile() when $default != null:
-return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_that.activeNutritionTargetId,_that.latestAssessmentId);case _:
+return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_that.activeNutritionTargetId,_that.latestAssessmentId,_that.activeWorkoutPlanId);case _:
   return null;
 
 }
@@ -219,7 +220,7 @@ return $default(_that.displayName,_that.onboardingCompleted,_that.activeGoalId,_
 @JsonSerializable()
 
 class _UserProfile implements UserProfile {
-  const _UserProfile({this.displayName, this.onboardingCompleted = false, this.activeGoalId, this.activeNutritionTargetId, this.latestAssessmentId});
+  const _UserProfile({this.displayName, this.onboardingCompleted = false, this.activeGoalId, this.activeNutritionTargetId, this.latestAssessmentId, this.activeWorkoutPlanId});
   factory _UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
 
 @override final  String? displayName;
@@ -227,6 +228,7 @@ class _UserProfile implements UserProfile {
 @override final  String? activeGoalId;
 @override final  String? activeNutritionTargetId;
 @override final  String? latestAssessmentId;
+@override final  String? activeWorkoutPlanId;
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
@@ -241,18 +243,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfile&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.onboardingCompleted, onboardingCompleted) || other.onboardingCompleted == onboardingCompleted)&&(identical(other.activeGoalId, activeGoalId) || other.activeGoalId == activeGoalId)&&(identical(other.activeNutritionTargetId, activeNutritionTargetId) || other.activeNutritionTargetId == activeNutritionTargetId)&&(identical(other.latestAssessmentId, latestAssessmentId) || other.latestAssessmentId == latestAssessmentId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfile&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.onboardingCompleted, onboardingCompleted) || other.onboardingCompleted == onboardingCompleted)&&(identical(other.activeGoalId, activeGoalId) || other.activeGoalId == activeGoalId)&&(identical(other.activeNutritionTargetId, activeNutritionTargetId) || other.activeNutritionTargetId == activeNutritionTargetId)&&(identical(other.latestAssessmentId, latestAssessmentId) || other.latestAssessmentId == latestAssessmentId)&&(identical(other.activeWorkoutPlanId, activeWorkoutPlanId) || other.activeWorkoutPlanId == activeWorkoutPlanId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,displayName,onboardingCompleted,activeGoalId,activeNutritionTargetId,latestAssessmentId);
+    return Object.hash(runtimeType,displayName,onboardingCompleted,activeGoalId,activeNutritionTargetId,latestAssessmentId,activeWorkoutPlanId);
 }
 
 @override
 String toString() {
-    return 'UserProfile(displayName: $displayName, onboardingCompleted: $onboardingCompleted, activeGoalId: $activeGoalId, activeNutritionTargetId: $activeNutritionTargetId, latestAssessmentId: $latestAssessmentId)';
+    return 'UserProfile(displayName: $displayName, onboardingCompleted: $onboardingCompleted, activeGoalId: $activeGoalId, activeNutritionTargetId: $activeNutritionTargetId, latestAssessmentId: $latestAssessmentId, activeWorkoutPlanId: $activeWorkoutPlanId)';
 }
 
 
@@ -263,7 +265,7 @@ abstract mixin class _$UserProfileCopyWith<$Res> implements $UserProfileCopyWith
   factory _$UserProfileCopyWith(_UserProfile value, $Res Function(_UserProfile) _then) = __$UserProfileCopyWithImpl;
 @override @useResult
 $Res call({
- String? displayName, bool onboardingCompleted, String? activeGoalId, String? activeNutritionTargetId, String? latestAssessmentId
+ String? displayName, bool onboardingCompleted, String? activeGoalId, String? activeNutritionTargetId, String? latestAssessmentId, String? activeWorkoutPlanId
 });
 
 
@@ -280,13 +282,14 @@ class __$UserProfileCopyWithImpl<$Res>
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? displayName = freezed,Object? onboardingCompleted = null,Object? activeGoalId = freezed,Object? activeNutritionTargetId = freezed,Object? latestAssessmentId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? displayName = freezed,Object? onboardingCompleted = null,Object? activeGoalId = freezed,Object? activeNutritionTargetId = freezed,Object? latestAssessmentId = freezed,Object? activeWorkoutPlanId = freezed,}) {
   return _then(_UserProfile(
 displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String?,onboardingCompleted: null == onboardingCompleted ? _self.onboardingCompleted : onboardingCompleted // ignore: cast_nullable_to_non_nullable
 as bool,activeGoalId: freezed == activeGoalId ? _self.activeGoalId : activeGoalId // ignore: cast_nullable_to_non_nullable
 as String?,activeNutritionTargetId: freezed == activeNutritionTargetId ? _self.activeNutritionTargetId : activeNutritionTargetId // ignore: cast_nullable_to_non_nullable
 as String?,latestAssessmentId: freezed == latestAssessmentId ? _self.latestAssessmentId : latestAssessmentId // ignore: cast_nullable_to_non_nullable
+as String?,activeWorkoutPlanId: freezed == activeWorkoutPlanId ? _self.activeWorkoutPlanId : activeWorkoutPlanId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

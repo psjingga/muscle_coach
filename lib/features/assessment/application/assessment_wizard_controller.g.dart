@@ -130,7 +130,7 @@ final class AssessmentWizardProvider
   AssessmentWizard create() => AssessmentWizard();
 }
 
-String _$assessmentWizardHash() => r'3655d61f8c42ebc3458a6af82998a4f18d646d28';
+String _$assessmentWizardHash() => r'6b752ec8dae375223cf73e541667817481e1669d';
 
 /// Wizard assessment 7 langkah: memuat draft (atau assessment terakhir),
 /// memvalidasi per langkah, menyimpan draft saat pindah langkah, lalu

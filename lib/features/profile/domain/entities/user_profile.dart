@@ -12,6 +12,7 @@ abstract class UserProfile with _$UserProfile {
     String? activeGoalId,
     String? activeNutritionTargetId,
     String? latestAssessmentId,
+    String? activeWorkoutPlanId,
   }) = _UserProfile;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);

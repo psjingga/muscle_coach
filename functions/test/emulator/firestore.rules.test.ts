@@ -185,3 +185,110 @@ describe("dokumen hasil server (goal, target nutrisi, consent, peralatan)", () =
     for (const p of paths) await assertFails(getDoc(doc(alice(), `users/bob/${p}`)));
   });
 });
+
+describe("program & sesi latihan", () => {
+  const planned = [
+    {
+      exerciseId: "goblet_squat",
+      name: "Goblet Squat",
+      sets: 3,
+      repMin: 8,
+      repMax: 12,
+      repUnit: "reps",
+      loadType: "total",
+      restSec: 120,
+      rirMin: 2,
+      rirMax: 3,
+      priority: false,
+    },
+  ];
+  const session = (overrides: Record<string, unknown> = {}) => ({
+    planId: "p1",
+    dayId: "d1",
+    date: "2026-11-19",
+    weekday: 4,
+    focus: "full_body_a",
+    status: "in_progress",
+    planned,
+    startedAt: serverTimestamp(),
+    completedAt: null,
+    notes: null,
+    energy: null,
+    discomfort: null,
+    schemaVersion: 1,
+    updatedAt: serverTimestamp(),
+    ...overrides,
+  });
+  const set = (overrides: Record<string, unknown> = {}) => ({
+    exerciseId: "goblet_squat",
+    exerciseIndex: 0,
+    setNumber: 1,
+    weightKg: 16,
+    reps: 10,
+    rir: 2,
+    status: "done",
+    loggedAt: serverTimestamp(),
+    schemaVersion: 1,
+    updatedAt: serverTimestamp(),
+    ...overrides,
+  });
+  const sPath = "users/alice/workoutSessions/s1";
+
+  beforeEach(async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "users/alice/workoutPlans/p1"), { status: "active" });
+      await setDoc(doc(ctx.firestore(), "users/alice/workoutPlans/p1/days/d1"), { weekday: 1 });
+    });
+  });
+
+  it("program hanya bisa dibaca pemilik, tidak bisa ditulis client", async () => {
+    await assertSucceeds(getDoc(doc(alice(), "users/alice/workoutPlans/p1")));
+    await assertSucceeds(getDoc(doc(alice(), "users/alice/workoutPlans/p1/days/d1")));
+    await assertFails(updateDoc(doc(alice(), "users/alice/workoutPlans/p1"), { status: "archived" }));
+    await assertFails(setDoc(doc(alice(), "users/alice/workoutPlans/p2"), { status: "active" }));
+    await assertFails(getDoc(doc(env.authenticatedContext("bob").firestore(), "users/alice/workoutPlans/p1")));
+  });
+
+  it("membuat sesi, mencatat set, lalu menyelesaikan", async () => {
+    await assertSucceeds(setDoc(doc(alice(), sPath), session()));
+    await assertSucceeds(setDoc(doc(alice(), `${sPath}/sets/a`), set()));
+    await assertSucceeds(setDoc(doc(alice(), `${sPath}/sets/b`), set({ setNumber: 2, weightKg: 17.5, rir: null })));
+    await assertSucceeds(setDoc(doc(alice(), `${sPath}/sets/c`), set({ setNumber: 3, weightKg: null, status: "skipped", reps: 0 })));
+    await assertSucceeds(deleteDoc(doc(alice(), `${sPath}/sets/c`)));
+    await assertSucceeds(
+      updateDoc(doc(alice(), sPath), {
+        status: "completed",
+        completedAt: serverTimestamp(),
+        energy: 4,
+        notes: "Lancar",
+        updatedAt: serverTimestamp(),
+      }),
+    );
+  });
+
+  it("menolak sesi tidak valid", async () => {
+    await assertFails(setDoc(doc(alice(), sPath), session({ status: "completed" })));
+    await assertFails(setDoc(doc(alice(), sPath), session({ date: "19-11-2026" })));
+    await assertFails(setDoc(doc(alice(), sPath), session({ planned: [] })));
+    await assertFails(setDoc(doc(alice(), sPath), session({ energy: 9 })));
+    await assertFails(setDoc(doc(alice(), sPath), session({ extra: 1 })));
+    await assertFails(setDoc(doc(alice(), "users/bob/workoutSessions/s1"), session()));
+  });
+
+  it("target (planned) tidak boleh diubah dan completedAt harus waktu server", async () => {
+    await assertSucceeds(setDoc(doc(alice(), sPath), session()));
+    await assertFails(updateDoc(doc(alice(), sPath), { planned: [], updatedAt: serverTimestamp() }));
+    await assertFails(
+      updateDoc(doc(alice(), sPath), { status: "completed", completedAt: new Date(0), updatedAt: serverTimestamp() }),
+    );
+  });
+
+  it("menolak set dengan nilai di luar batas", async () => {
+    await assertSucceeds(setDoc(doc(alice(), sPath), session()));
+    await assertFails(setDoc(doc(alice(), `${sPath}/sets/a`), set({ weightKg: -5 })));
+    await assertFails(setDoc(doc(alice(), `${sPath}/sets/a`), set({ reps: 2.5 })));
+    await assertFails(setDoc(doc(alice(), `${sPath}/sets/a`), set({ status: "maybe" })));
+    await assertFails(setDoc(doc(alice(), `${sPath}/sets/a`), set({ setNumber: 0 })));
+    await assertFails(setDoc(doc(alice(), `${sPath}/sets/a`), set({ updatedAt: new Date(0) })));
+  });
+});

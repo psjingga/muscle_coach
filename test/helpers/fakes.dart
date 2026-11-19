@@ -6,6 +6,7 @@ import 'package:musclecoach/features/auth/domain/entities/auth_user.dart';
 import 'package:musclecoach/features/auth/domain/repositories/auth_repository.dart';
 import 'package:musclecoach/features/goals/domain/repositories/goal_repository.dart';
 import 'package:musclecoach/features/profile/domain/account_repository.dart';
+import 'package:musclecoach/features/workout/data/workout_repository.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
@@ -27,3 +28,5 @@ createAuthMocks() {
 class MockAssessmentRepository extends Mock implements AssessmentRepository {}
 
 class MockGoalRepository extends Mock implements GoalRepository {}
+
+class MockWorkoutRepository extends Mock implements WorkoutRepository {}

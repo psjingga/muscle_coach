@@ -35,7 +35,11 @@ class _DeleteAccountDialogState extends ConsumerState<DeleteAccountDialog> {
   Future<void> _delete() async {
     if (!_form.currentState!.validate()) return;
     final ok = await ref.read(authControllerProvider.notifier).deleteAccount(_password.text);
-    if (ok && mounted) Navigator.pop(context);
+    if (!ok || !mounted) return;
+    // Router bisa sudah mengganti tumpukan halaman (data profil terhapus →
+    // redirect). Lepaskan hanya route dialog ini, jangan pop halaman lain.
+    final route = ModalRoute.of(context);
+    if (route != null && route.isActive) Navigator.of(context).removeRoute(route);
   }
 
   @override

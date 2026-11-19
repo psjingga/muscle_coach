@@ -3,16 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../assessment/presentation/widgets/assessment_labels.dart';
 import '../../../goals/domain/entities/goal.dart';
 import '../../../goals/presentation/providers/goal_providers.dart';
 import '../../../goals/presentation/widgets/nutrition_target_card.dart';
+import '../../../assessment/application/assessment_wizard_controller.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
+import '../../../workout/domain/workout_math.dart';
+import '../../../workout/presentation/providers/workout_providers.dart';
+import '../../../workout/presentation/widgets/workout_labels.dart';
 
 /// Tab Home: sapaan, target nutrisi harian, dan ringkasan goal aktif.
-/// Latihan berikutnya & check-in menyusul pada fase selanjutnya.
+/// Check-in & sisa makro harian menyusul pada fase selanjutnya.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -33,6 +38,8 @@ class HomeScreen extends ConsumerWidget {
             style: theme.textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
+          const _WorkoutCard(),
+          const SizedBox(height: 12),
           if (nutrition != null) ...[
             NutritionTargetCard(plan: nutrition),
             const SizedBox(height: 12),
@@ -44,6 +51,48 @@ class HomeScreen extends ConsumerWidget {
             style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Latihan hari ini / berikutnya dari program aktif.
+class _WorkoutCard extends ConsumerWidget {
+  const _WorkoutCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final planId = ref.watch(activePlanIdProvider);
+    if (planId == null) {
+      return Card(
+        child: ListTile(
+          leading: const Icon(Icons.fitness_center),
+          title: Text(l.homeNoPlan),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => context.go(Routes.workout),
+        ),
+      );
+    }
+    final days = ref.watch(planDaysProvider(planId)).value;
+    final todayWeekday = ref.watch(clockProvider)().weekday;
+    final next = days == null ? null : WorkoutMath.nextDay(days, todayWeekday);
+    if (next == null) return const SizedBox.shrink();
+    final isToday = next.weekday == todayWeekday;
+    return Card(
+      color: isToday ? theme.colorScheme.primaryContainer : null,
+      child: ListTile(
+        leading: const Icon(Icons.fitness_center),
+        title: Text(isToday ? l.homeTodayWorkout : l.homeNextWorkout(l.weekdayLong(next.weekday))),
+        subtitle: Text(
+          '${l.focus(next.focus)} · ${l.dayMeta(next.exercises.length, next.estimatedMinutes)}',
+        ),
+        trailing: FilledButton.tonal(
+          style: FilledButton.styleFrom(minimumSize: AppTheme.compactButtonSize),
+          onPressed: () => context.push(Routes.dayPath(planId, next.id)),
+          child: Text(l.openWorkout),
+        ),
       ),
     );
   }

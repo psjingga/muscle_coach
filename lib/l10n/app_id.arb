@@ -469,5 +469,197 @@
   "profileAssessmentSection": "Assessment & target",
   "viewActiveGoal": "Lihat target aktif",
   "redoAssessment": "Ulangi assessment",
-  "redoAssessmentHelp": "Target baru berlaku setelah Anda konfirmasi; target lama diarsipkan."
+  "redoAssessmentHelp": "Target baru berlaku setelah Anda konfirmasi; target lama diarsipkan.",
+  "workoutNoPlanMessage": "Buat program awal dari jawaban assessment Anda. Program disusun dengan aturan terdokumentasi (bukan AI) dan baru aktif setelah Anda setujui.",
+  "createStarterPlan": "Buat program awal",
+  "planDraftTitle": "Draft program",
+  "planActiveTitle": "Program aktif",
+  "planSummary": "{days} hari/minggu · ± {minutes} menit/sesi",
+  "@planSummary": {
+    "placeholders": {
+      "days": {},
+      "minutes": {}
+    }
+  },
+  "splitFullBody": "Seluruh tubuh (full body)",
+  "splitUpperLower": "Tubuh atas/bawah (upper/lower)",
+  "planSourceTemplate": "Disusun dari aturan terdokumentasi, bukan AI",
+  "activatePlan": "Aktifkan program",
+  "replacePlanTitle": "Ganti program aktif?",
+  "replacePlanMessage": "Program yang sedang aktif akan diarsipkan. Riwayat latihan tetap tersimpan.",
+  "replace": "Ganti",
+  "planActivated": "Program aktif! Selamat berlatih.",
+  "newPlan": "Buat ulang program",
+  "planWarningReviewInjuries": "Anda mencatat cedera atau gerakan yang tidak nyaman. Periksa setiap gerakan; lewati bila terasa nyeri dan konsultasikan dengan tenaga kesehatan.",
+  "planWarningDaysReduced": "Demi pemulihan, jumlah hari latihan dibatasi sesuai level Anda; hari lain menjadi hari istirahat.",
+  "planWarningLimitedEquipment": "Beberapa gerakan dilewati karena alatnya tidak tersedia.",
+  "planWarningSpotter": "Program memuat gerakan barbell di bench/rack: gunakan spotter atau safety bar.",
+  "planWarningConsecutive": "Ada otot yang dilatih berat pada hari berurutan; perhatikan pemulihan.",
+  "progressionRule": "Progresi: bila semua set mencapai batas atas repetisi dengan RIR sesuai target, naikkan beban sedikit (±2,5 kg barbell / 1–2 kg dumbbell) di sesi berikutnya.",
+  "rirExplain": "RIR = sisa repetisi yang masih sanggup dilakukan. RIR 2 berarti berhenti saat masih kuat ±2 repetisi lagi — tidak perlu sampai gagal.",
+  "restDaysNote": "Hari lain: istirahat atau aktivitas ringan seperti jalan kaki dan peregangan.",
+  "focusFullBodyA": "Seluruh tubuh A",
+  "focusFullBodyB": "Seluruh tubuh B",
+  "focusFullBodyC": "Seluruh tubuh C",
+  "focusUpperA": "Tubuh atas A",
+  "focusUpperB": "Tubuh atas B",
+  "focusLowerA": "Tubuh bawah A",
+  "focusLowerB": "Tubuh bawah B",
+  "weekdayLong1": "Senin",
+  "weekdayLong2": "Selasa",
+  "weekdayLong3": "Rabu",
+  "weekdayLong4": "Kamis",
+  "weekdayLong5": "Jumat",
+  "weekdayLong6": "Sabtu",
+  "weekdayLong7": "Minggu",
+  "todayBadge": "Hari ini",
+  "dayMeta": "{count} latihan · ± {minutes} menit",
+  "@dayMeta": {
+    "placeholders": {
+      "count": {},
+      "minutes": {}
+    }
+  },
+  "warmupNote": "Pemanasan {minutes} menit: kardio ringan, lalu 1–2 set ringan untuk gerakan pertama.",
+  "@warmupNote": {
+    "placeholders": {
+      "minutes": {}
+    }
+  },
+  "cooldownNote": "Pendinginan: peregangan ringan 3–5 menit.",
+  "prescription": "{sets} set × {min}–{max} repetisi",
+  "@prescription": {
+    "placeholders": {
+      "sets": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "prescriptionTimed": "{sets} set × {min}–{max} detik",
+  "@prescriptionTimed": {
+    "placeholders": {
+      "sets": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "restAndRir": "Istirahat {rest} · RIR {min}–{max}",
+  "@restAndRir": {
+    "placeholders": {
+      "rest": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "secondsValue": "{seconds} dtk",
+  "@secondsValue": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "minutesShortValue": "{minutes} mnt",
+  "@minutesShortValue": {
+    "placeholders": {
+      "minutes": {}
+    }
+  },
+  "priorityBadge": "Prioritas",
+  "startSession": "Mulai sesi",
+  "history": "Riwayat",
+  "historyTitle": "Riwayat latihan",
+  "historyEmpty": "Belum ada sesi yang selesai.",
+  "exerciseLibrary": "Katalog latihan",
+  "sessionTitle": "Sesi latihan",
+  "lastTime": "Terakhir: {value}",
+  "@lastTime": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "increaseLoadHint": "Sesi lalu semua set mencapai target — coba naikkan beban sedikit.",
+  "setLabel": "Set {number}",
+  "@setLabel": {
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "weightLabelPerHand": "Beban (kg/tangan)",
+  "weightLabelTotal": "Beban (kg)",
+  "weightLabelBodyweight": "Beban tambahan (kg)",
+  "repsLabel": "Repetisi",
+  "secondsLabel": "Detik",
+  "rirLabel": "RIR",
+  "logSet": "Catat set",
+  "skipSet": "Lewati",
+  "setSkipped": "dilewati",
+  "setsProgress": "{done}/{planned} set",
+  "@setsProgress": {
+    "placeholders": {
+      "done": {},
+      "planned": {}
+    }
+  },
+  "restTimerLabel": "Istirahat",
+  "restAdd": "+15 dtk",
+  "restSkip": "Selesai",
+  "finishSession": "Selesaikan sesi",
+  "finishSessionTitle": "Selesaikan sesi?",
+  "energyLabel": "Energi hari ini (opsional)",
+  "discomfortLabel": "Nyeri/tidak nyaman (opsional)",
+  "sessionNotesLabel": "Catatan (opsional)",
+  "finishConfirm": "Simpan & selesai",
+  "painWarning": "Hentikan latihan bila muncul nyeri tajam, pusing, nyeri dada, atau sesak tidak wajar.",
+  "sessionCompleted": "Sesi tersimpan. Kerja bagus!",
+  "deleteSession": "Hapus sesi",
+  "deleteSessionTitle": "Hapus sesi ini?",
+  "deleteSessionMessage": "Semua set yang tercatat di sesi ini akan dihapus permanen.",
+  "delete": "Hapus",
+  "deleteSetTitle": "Hapus set ini?",
+  "setInputRepsRequired": "Isi repetisi.",
+  "setInputRepsRange": "Repetisi 1–300.",
+  "setInputWeightRange": "Beban 0–1000 kg.",
+  "sessionSummary": "{done}/{planned} set · volume {volume} kg",
+  "@sessionSummary": {
+    "placeholders": {
+      "done": {},
+      "planned": {},
+      "volume": {}
+    }
+  },
+  "completedBadge": "Selesai",
+  "targetLabel": "Target",
+  "actualLabel": "Aktual",
+  "exerciseInstructions": "Cara melakukan",
+  "exerciseMistakes": "Kesalahan umum",
+  "exerciseSafety": "Keselamatan",
+  "exerciseAlternatives": "Alternatif",
+  "exercisePrimaryMuscles": "Otot utama",
+  "exerciseSecondaryMuscles": "Otot pendukung",
+  "exerciseEquipment": "Alat",
+  "noEquipment": "Tanpa alat (berat badan)",
+  "spotterNeeded": "Gunakan spotter atau safety bar",
+  "exerciseNotFound": "Latihan tidak ditemukan di katalog.",
+  "searchExercise": "Cari latihan",
+  "muscleUpperBack": "Punggung atas",
+  "muscleLats": "Latissimus",
+  "muscleTraps": "Trapezius",
+  "muscleFrontDelts": "Bahu depan",
+  "muscleSideDelts": "Bahu samping",
+  "muscleRearDelts": "Bahu belakang",
+  "muscleBiceps": "Biseps",
+  "muscleTriceps": "Triseps",
+  "muscleForearms": "Lengan bawah",
+  "muscleQuads": "Paha depan",
+  "muscleHamstrings": "Paha belakang",
+  "muscleAdductors": "Paha dalam",
+  "muscleCalves": "Betis",
+  "homeTodayWorkout": "Latihan hari ini",
+  "homeNextWorkout": "Latihan berikutnya · {day}",
+  "@homeNextWorkout": {
+    "placeholders": {
+      "day": {}
+    }
+  },
+  "homeNoPlan": "Belum ada program latihan. Buat program awal di tab Latihan.",
+  "openWorkout": "Buka"
 }

@@ -12,6 +12,7 @@ _UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => _UserProfile(
   activeGoalId: json['activeGoalId'] as String?,
   activeNutritionTargetId: json['activeNutritionTargetId'] as String?,
   latestAssessmentId: json['latestAssessmentId'] as String?,
+  activeWorkoutPlanId: json['activeWorkoutPlanId'] as String?,
 );
 
 Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) => <String, dyna
   'activeGoalId': instance.activeGoalId,
   'activeNutritionTargetId': instance.activeNutritionTargetId,
   'latestAssessmentId': instance.latestAssessmentId,
+  'activeWorkoutPlanId': instance.activeWorkoutPlanId,
 };

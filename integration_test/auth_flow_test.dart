@@ -140,9 +140,47 @@ void main() {
     await waitFor(find.text('Target realistis'));
     expect(find.text('Menambah massa otot'), findsOneWidget);
     await tapOn(find.widgetWithText(FilledButton, 'Konfirmasi target'));
+    // Penanda khusus Beranda (kartu target nutrisi juga ada di layar ringkasan).
+    await waitFor(find.textContaining('Belum ada program latihan'));
     await waitFor(find.text('Target nutrisi harian'));
-    expect(find.text('Target aktif'), findsOneWidget);
     debugPrint('E2E: target aktif & beranda tampil');
+
+    // Program latihan awal (Cloud Function createStarterPlan → activateWorkoutPlan)
+    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Latihan')));
+    await waitFor(find.text('Buat program awal'));
+    await tapText('Buat program awal');
+    await waitFor(find.text('Aktifkan program'));
+    expect(find.text('Goblet Squat'), findsWidgets);
+    await tapText('Aktifkan program');
+    // Kartu jadwal di tab Latihan (judul yang sama juga ada di layar pratinjau).
+    final mondayCard = find.widgetWithText(ListTile, 'Senin · Seluruh tubuh A');
+    await waitFor(mondayCard);
+    debugPrint('E2E: program aktif');
+
+    // Sesi: catat satu set lalu selesaikan
+    await tapOn(mondayCard);
+    await waitFor(find.text('Mulai sesi'));
+    await tapText('Mulai sesi');
+    await waitFor(find.byKey(const ValueKey('log-0')));
+    await tester.enterText(find.byKey(const ValueKey('weight-0')), '16');
+    await tester.enterText(find.byKey(const ValueKey('reps-0')), '10');
+    await hideKeyboard();
+    await tapOn(find.byKey(const ValueKey('log-0')));
+    await waitFor(find.text('Set 1 · 16 kg × 10'));
+    expect(find.textContaining('Istirahat 2:'), findsOneWidget);
+    await tapText('Selesaikan sesi');
+    await waitFor(find.text('Simpan & selesai'));
+    await tapText('Simpan & selesai');
+    await waitFor(mondayCard);
+    await tapOn(find.byTooltip('Riwayat'));
+    await waitFor(find.text('Seluruh tubuh A'));
+    await tapText('Seluruh tubuh A');
+    await waitFor(find.text('Set 1 · 16 kg × 10'));
+    debugPrint('E2E: sesi tercatat di riwayat');
+    // Kembali ke shell utama.
+    for (var i = 0; i < 4 && find.byType(NavigationBar).evaluate().isEmpty; i++) {
+      await tapOn(find.byType(BackButton));
+    }
 
     // Profil → keluar
     await openProfileTab();
@@ -162,7 +200,8 @@ void main() {
     await type('Email', email);
     await type('Kata sandi', password);
     await tapOn(find.widgetWithText(FilledButton, 'Masuk'));
-    await waitFor(find.text('Target nutrisi harian'));
+    // Onboarding sudah selesai → langsung ke shell utama.
+    await waitFor(find.byType(NavigationBar));
     debugPrint('E2E: masuk lagi berhasil');
 
     // Hapus akun (Cloud Function deleteUserData)

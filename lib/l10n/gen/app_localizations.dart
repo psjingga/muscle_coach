@@ -1873,6 +1873,702 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Target baru berlaku setelah Anda konfirmasi; target lama diarsipkan.'**
   String get redoAssessmentHelp;
+
+  /// No description provided for @workoutNoPlanMessage.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat program awal dari jawaban assessment Anda. Program disusun dengan aturan terdokumentasi (bukan AI) dan baru aktif setelah Anda setujui.'**
+  String get workoutNoPlanMessage;
+
+  /// No description provided for @createStarterPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat program awal'**
+  String get createStarterPlan;
+
+  /// No description provided for @planDraftTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Draft program'**
+  String get planDraftTitle;
+
+  /// No description provided for @planActiveTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Program aktif'**
+  String get planActiveTitle;
+
+  /// No description provided for @planSummary.
+  ///
+  /// In id, this message translates to:
+  /// **'{days} hari/minggu · ± {minutes} menit/sesi'**
+  String planSummary(Object days, Object minutes);
+
+  /// No description provided for @splitFullBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Seluruh tubuh (full body)'**
+  String get splitFullBody;
+
+  /// No description provided for @splitUpperLower.
+  ///
+  /// In id, this message translates to:
+  /// **'Tubuh atas/bawah (upper/lower)'**
+  String get splitUpperLower;
+
+  /// No description provided for @planSourceTemplate.
+  ///
+  /// In id, this message translates to:
+  /// **'Disusun dari aturan terdokumentasi, bukan AI'**
+  String get planSourceTemplate;
+
+  /// No description provided for @activatePlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktifkan program'**
+  String get activatePlan;
+
+  /// No description provided for @replacePlanTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Ganti program aktif?'**
+  String get replacePlanTitle;
+
+  /// No description provided for @replacePlanMessage.
+  ///
+  /// In id, this message translates to:
+  /// **'Program yang sedang aktif akan diarsipkan. Riwayat latihan tetap tersimpan.'**
+  String get replacePlanMessage;
+
+  /// No description provided for @replace.
+  ///
+  /// In id, this message translates to:
+  /// **'Ganti'**
+  String get replace;
+
+  /// No description provided for @planActivated.
+  ///
+  /// In id, this message translates to:
+  /// **'Program aktif! Selamat berlatih.'**
+  String get planActivated;
+
+  /// No description provided for @newPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat ulang program'**
+  String get newPlan;
+
+  /// No description provided for @planWarningReviewInjuries.
+  ///
+  /// In id, this message translates to:
+  /// **'Anda mencatat cedera atau gerakan yang tidak nyaman. Periksa setiap gerakan; lewati bila terasa nyeri dan konsultasikan dengan tenaga kesehatan.'**
+  String get planWarningReviewInjuries;
+
+  /// No description provided for @planWarningDaysReduced.
+  ///
+  /// In id, this message translates to:
+  /// **'Demi pemulihan, jumlah hari latihan dibatasi sesuai level Anda; hari lain menjadi hari istirahat.'**
+  String get planWarningDaysReduced;
+
+  /// No description provided for @planWarningLimitedEquipment.
+  ///
+  /// In id, this message translates to:
+  /// **'Beberapa gerakan dilewati karena alatnya tidak tersedia.'**
+  String get planWarningLimitedEquipment;
+
+  /// No description provided for @planWarningSpotter.
+  ///
+  /// In id, this message translates to:
+  /// **'Program memuat gerakan barbell di bench/rack: gunakan spotter atau safety bar.'**
+  String get planWarningSpotter;
+
+  /// No description provided for @planWarningConsecutive.
+  ///
+  /// In id, this message translates to:
+  /// **'Ada otot yang dilatih berat pada hari berurutan; perhatikan pemulihan.'**
+  String get planWarningConsecutive;
+
+  /// No description provided for @progressionRule.
+  ///
+  /// In id, this message translates to:
+  /// **'Progresi: bila semua set mencapai batas atas repetisi dengan RIR sesuai target, naikkan beban sedikit (±2,5 kg barbell / 1–2 kg dumbbell) di sesi berikutnya.'**
+  String get progressionRule;
+
+  /// No description provided for @rirExplain.
+  ///
+  /// In id, this message translates to:
+  /// **'RIR = sisa repetisi yang masih sanggup dilakukan. RIR 2 berarti berhenti saat masih kuat ±2 repetisi lagi — tidak perlu sampai gagal.'**
+  String get rirExplain;
+
+  /// No description provided for @restDaysNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari lain: istirahat atau aktivitas ringan seperti jalan kaki dan peregangan.'**
+  String get restDaysNote;
+
+  /// No description provided for @focusFullBodyA.
+  ///
+  /// In id, this message translates to:
+  /// **'Seluruh tubuh A'**
+  String get focusFullBodyA;
+
+  /// No description provided for @focusFullBodyB.
+  ///
+  /// In id, this message translates to:
+  /// **'Seluruh tubuh B'**
+  String get focusFullBodyB;
+
+  /// No description provided for @focusFullBodyC.
+  ///
+  /// In id, this message translates to:
+  /// **'Seluruh tubuh C'**
+  String get focusFullBodyC;
+
+  /// No description provided for @focusUpperA.
+  ///
+  /// In id, this message translates to:
+  /// **'Tubuh atas A'**
+  String get focusUpperA;
+
+  /// No description provided for @focusUpperB.
+  ///
+  /// In id, this message translates to:
+  /// **'Tubuh atas B'**
+  String get focusUpperB;
+
+  /// No description provided for @focusLowerA.
+  ///
+  /// In id, this message translates to:
+  /// **'Tubuh bawah A'**
+  String get focusLowerA;
+
+  /// No description provided for @focusLowerB.
+  ///
+  /// In id, this message translates to:
+  /// **'Tubuh bawah B'**
+  String get focusLowerB;
+
+  /// No description provided for @weekdayLong1.
+  ///
+  /// In id, this message translates to:
+  /// **'Senin'**
+  String get weekdayLong1;
+
+  /// No description provided for @weekdayLong2.
+  ///
+  /// In id, this message translates to:
+  /// **'Selasa'**
+  String get weekdayLong2;
+
+  /// No description provided for @weekdayLong3.
+  ///
+  /// In id, this message translates to:
+  /// **'Rabu'**
+  String get weekdayLong3;
+
+  /// No description provided for @weekdayLong4.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamis'**
+  String get weekdayLong4;
+
+  /// No description provided for @weekdayLong5.
+  ///
+  /// In id, this message translates to:
+  /// **'Jumat'**
+  String get weekdayLong5;
+
+  /// No description provided for @weekdayLong6.
+  ///
+  /// In id, this message translates to:
+  /// **'Sabtu'**
+  String get weekdayLong6;
+
+  /// No description provided for @weekdayLong7.
+  ///
+  /// In id, this message translates to:
+  /// **'Minggu'**
+  String get weekdayLong7;
+
+  /// No description provided for @todayBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari ini'**
+  String get todayBadge;
+
+  /// No description provided for @dayMeta.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} latihan · ± {minutes} menit'**
+  String dayMeta(Object count, Object minutes);
+
+  /// No description provided for @warmupNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemanasan {minutes} menit: kardio ringan, lalu 1–2 set ringan untuk gerakan pertama.'**
+  String warmupNote(Object minutes);
+
+  /// No description provided for @cooldownNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Pendinginan: peregangan ringan 3–5 menit.'**
+  String get cooldownNote;
+
+  /// No description provided for @prescription.
+  ///
+  /// In id, this message translates to:
+  /// **'{sets} set × {min}–{max} repetisi'**
+  String prescription(Object sets, Object min, Object max);
+
+  /// No description provided for @prescriptionTimed.
+  ///
+  /// In id, this message translates to:
+  /// **'{sets} set × {min}–{max} detik'**
+  String prescriptionTimed(Object sets, Object min, Object max);
+
+  /// No description provided for @restAndRir.
+  ///
+  /// In id, this message translates to:
+  /// **'Istirahat {rest} · RIR {min}–{max}'**
+  String restAndRir(Object rest, Object min, Object max);
+
+  /// No description provided for @secondsValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{seconds} dtk'**
+  String secondsValue(Object seconds);
+
+  /// No description provided for @minutesShortValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{minutes} mnt'**
+  String minutesShortValue(Object minutes);
+
+  /// No description provided for @priorityBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Prioritas'**
+  String get priorityBadge;
+
+  /// No description provided for @startSession.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai sesi'**
+  String get startSession;
+
+  /// No description provided for @history.
+  ///
+  /// In id, this message translates to:
+  /// **'Riwayat'**
+  String get history;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Riwayat latihan'**
+  String get historyTitle;
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada sesi yang selesai.'**
+  String get historyEmpty;
+
+  /// No description provided for @exerciseLibrary.
+  ///
+  /// In id, this message translates to:
+  /// **'Katalog latihan'**
+  String get exerciseLibrary;
+
+  /// No description provided for @sessionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesi latihan'**
+  String get sessionTitle;
+
+  /// No description provided for @lastTime.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir: {value}'**
+  String lastTime(Object value);
+
+  /// No description provided for @increaseLoadHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesi lalu semua set mencapai target — coba naikkan beban sedikit.'**
+  String get increaseLoadHint;
+
+  /// No description provided for @setLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Set {number}'**
+  String setLabel(Object number);
+
+  /// No description provided for @weightLabelPerHand.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban (kg/tangan)'**
+  String get weightLabelPerHand;
+
+  /// No description provided for @weightLabelTotal.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban (kg)'**
+  String get weightLabelTotal;
+
+  /// No description provided for @weightLabelBodyweight.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban tambahan (kg)'**
+  String get weightLabelBodyweight;
+
+  /// No description provided for @repsLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Repetisi'**
+  String get repsLabel;
+
+  /// No description provided for @secondsLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Detik'**
+  String get secondsLabel;
+
+  /// No description provided for @rirLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'RIR'**
+  String get rirLabel;
+
+  /// No description provided for @logSet.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat set'**
+  String get logSet;
+
+  /// No description provided for @skipSet.
+  ///
+  /// In id, this message translates to:
+  /// **'Lewati'**
+  String get skipSet;
+
+  /// No description provided for @setSkipped.
+  ///
+  /// In id, this message translates to:
+  /// **'dilewati'**
+  String get setSkipped;
+
+  /// No description provided for @setsProgress.
+  ///
+  /// In id, this message translates to:
+  /// **'{done}/{planned} set'**
+  String setsProgress(Object done, Object planned);
+
+  /// No description provided for @restTimerLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Istirahat'**
+  String get restTimerLabel;
+
+  /// No description provided for @restAdd.
+  ///
+  /// In id, this message translates to:
+  /// **'+15 dtk'**
+  String get restAdd;
+
+  /// No description provided for @restSkip.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get restSkip;
+
+  /// No description provided for @finishSession.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesaikan sesi'**
+  String get finishSession;
+
+  /// No description provided for @finishSessionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesaikan sesi?'**
+  String get finishSessionTitle;
+
+  /// No description provided for @energyLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Energi hari ini (opsional)'**
+  String get energyLabel;
+
+  /// No description provided for @discomfortLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Nyeri/tidak nyaman (opsional)'**
+  String get discomfortLabel;
+
+  /// No description provided for @sessionNotesLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Catatan (opsional)'**
+  String get sessionNotesLabel;
+
+  /// No description provided for @finishConfirm.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan & selesai'**
+  String get finishConfirm;
+
+  /// No description provided for @painWarning.
+  ///
+  /// In id, this message translates to:
+  /// **'Hentikan latihan bila muncul nyeri tajam, pusing, nyeri dada, atau sesak tidak wajar.'**
+  String get painWarning;
+
+  /// No description provided for @sessionCompleted.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesi tersimpan. Kerja bagus!'**
+  String get sessionCompleted;
+
+  /// No description provided for @deleteSession.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus sesi'**
+  String get deleteSession;
+
+  /// No description provided for @deleteSessionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus sesi ini?'**
+  String get deleteSessionTitle;
+
+  /// No description provided for @deleteSessionMessage.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua set yang tercatat di sesi ini akan dihapus permanen.'**
+  String get deleteSessionMessage;
+
+  /// No description provided for @delete.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus'**
+  String get delete;
+
+  /// No description provided for @deleteSetTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus set ini?'**
+  String get deleteSetTitle;
+
+  /// No description provided for @setInputRepsRequired.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi repetisi.'**
+  String get setInputRepsRequired;
+
+  /// No description provided for @setInputRepsRange.
+  ///
+  /// In id, this message translates to:
+  /// **'Repetisi 1–300.'**
+  String get setInputRepsRange;
+
+  /// No description provided for @setInputWeightRange.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban 0–1000 kg.'**
+  String get setInputWeightRange;
+
+  /// No description provided for @sessionSummary.
+  ///
+  /// In id, this message translates to:
+  /// **'{done}/{planned} set · volume {volume} kg'**
+  String sessionSummary(Object done, Object planned, Object volume);
+
+  /// No description provided for @completedBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get completedBadge;
+
+  /// No description provided for @targetLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Target'**
+  String get targetLabel;
+
+  /// No description provided for @actualLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktual'**
+  String get actualLabel;
+
+  /// No description provided for @exerciseInstructions.
+  ///
+  /// In id, this message translates to:
+  /// **'Cara melakukan'**
+  String get exerciseInstructions;
+
+  /// No description provided for @exerciseMistakes.
+  ///
+  /// In id, this message translates to:
+  /// **'Kesalahan umum'**
+  String get exerciseMistakes;
+
+  /// No description provided for @exerciseSafety.
+  ///
+  /// In id, this message translates to:
+  /// **'Keselamatan'**
+  String get exerciseSafety;
+
+  /// No description provided for @exerciseAlternatives.
+  ///
+  /// In id, this message translates to:
+  /// **'Alternatif'**
+  String get exerciseAlternatives;
+
+  /// No description provided for @exercisePrimaryMuscles.
+  ///
+  /// In id, this message translates to:
+  /// **'Otot utama'**
+  String get exercisePrimaryMuscles;
+
+  /// No description provided for @exerciseSecondaryMuscles.
+  ///
+  /// In id, this message translates to:
+  /// **'Otot pendukung'**
+  String get exerciseSecondaryMuscles;
+
+  /// No description provided for @exerciseEquipment.
+  ///
+  /// In id, this message translates to:
+  /// **'Alat'**
+  String get exerciseEquipment;
+
+  /// No description provided for @noEquipment.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa alat (berat badan)'**
+  String get noEquipment;
+
+  /// No description provided for @spotterNeeded.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan spotter atau safety bar'**
+  String get spotterNeeded;
+
+  /// No description provided for @exerciseNotFound.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan tidak ditemukan di katalog.'**
+  String get exerciseNotFound;
+
+  /// No description provided for @searchExercise.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari latihan'**
+  String get searchExercise;
+
+  /// No description provided for @muscleUpperBack.
+  ///
+  /// In id, this message translates to:
+  /// **'Punggung atas'**
+  String get muscleUpperBack;
+
+  /// No description provided for @muscleLats.
+  ///
+  /// In id, this message translates to:
+  /// **'Latissimus'**
+  String get muscleLats;
+
+  /// No description provided for @muscleTraps.
+  ///
+  /// In id, this message translates to:
+  /// **'Trapezius'**
+  String get muscleTraps;
+
+  /// No description provided for @muscleFrontDelts.
+  ///
+  /// In id, this message translates to:
+  /// **'Bahu depan'**
+  String get muscleFrontDelts;
+
+  /// No description provided for @muscleSideDelts.
+  ///
+  /// In id, this message translates to:
+  /// **'Bahu samping'**
+  String get muscleSideDelts;
+
+  /// No description provided for @muscleRearDelts.
+  ///
+  /// In id, this message translates to:
+  /// **'Bahu belakang'**
+  String get muscleRearDelts;
+
+  /// No description provided for @muscleBiceps.
+  ///
+  /// In id, this message translates to:
+  /// **'Biseps'**
+  String get muscleBiceps;
+
+  /// No description provided for @muscleTriceps.
+  ///
+  /// In id, this message translates to:
+  /// **'Triseps'**
+  String get muscleTriceps;
+
+  /// No description provided for @muscleForearms.
+  ///
+  /// In id, this message translates to:
+  /// **'Lengan bawah'**
+  String get muscleForearms;
+
+  /// No description provided for @muscleQuads.
+  ///
+  /// In id, this message translates to:
+  /// **'Paha depan'**
+  String get muscleQuads;
+
+  /// No description provided for @muscleHamstrings.
+  ///
+  /// In id, this message translates to:
+  /// **'Paha belakang'**
+  String get muscleHamstrings;
+
+  /// No description provided for @muscleAdductors.
+  ///
+  /// In id, this message translates to:
+  /// **'Paha dalam'**
+  String get muscleAdductors;
+
+  /// No description provided for @muscleCalves.
+  ///
+  /// In id, this message translates to:
+  /// **'Betis'**
+  String get muscleCalves;
+
+  /// No description provided for @homeTodayWorkout.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan hari ini'**
+  String get homeTodayWorkout;
+
+  /// No description provided for @homeNextWorkout.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan berikutnya · {day}'**
+  String homeNextWorkout(Object day);
+
+  /// No description provided for @homeNoPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada program latihan. Buat program awal di tab Latihan.'**
+  String get homeNoPlan;
+
+  /// No description provided for @openWorkout.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka'**
+  String get openWorkout;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

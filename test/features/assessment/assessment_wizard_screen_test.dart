@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:musclecoach/app/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:musclecoach/features/assessment/application/assessment_wizard_controller.dart';
@@ -43,6 +44,7 @@ void main() {
           clockProvider.overrideWithValue(() => testNow),
         ],
         child: MaterialApp.router(
+          theme: AppTheme.light(),
           locale: const Locale('id'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,

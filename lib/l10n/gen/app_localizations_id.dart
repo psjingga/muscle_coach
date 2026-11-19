@@ -999,4 +999,390 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get redoAssessmentHelp =>
       'Target baru berlaku setelah Anda konfirmasi; target lama diarsipkan.';
+
+  @override
+  String get workoutNoPlanMessage =>
+      'Buat program awal dari jawaban assessment Anda. Program disusun dengan aturan terdokumentasi (bukan AI) dan baru aktif setelah Anda setujui.';
+
+  @override
+  String get createStarterPlan => 'Buat program awal';
+
+  @override
+  String get planDraftTitle => 'Draft program';
+
+  @override
+  String get planActiveTitle => 'Program aktif';
+
+  @override
+  String planSummary(Object days, Object minutes) {
+    return '$days hari/minggu · ± $minutes menit/sesi';
+  }
+
+  @override
+  String get splitFullBody => 'Seluruh tubuh (full body)';
+
+  @override
+  String get splitUpperLower => 'Tubuh atas/bawah (upper/lower)';
+
+  @override
+  String get planSourceTemplate => 'Disusun dari aturan terdokumentasi, bukan AI';
+
+  @override
+  String get activatePlan => 'Aktifkan program';
+
+  @override
+  String get replacePlanTitle => 'Ganti program aktif?';
+
+  @override
+  String get replacePlanMessage =>
+      'Program yang sedang aktif akan diarsipkan. Riwayat latihan tetap tersimpan.';
+
+  @override
+  String get replace => 'Ganti';
+
+  @override
+  String get planActivated => 'Program aktif! Selamat berlatih.';
+
+  @override
+  String get newPlan => 'Buat ulang program';
+
+  @override
+  String get planWarningReviewInjuries =>
+      'Anda mencatat cedera atau gerakan yang tidak nyaman. Periksa setiap gerakan; lewati bila terasa nyeri dan konsultasikan dengan tenaga kesehatan.';
+
+  @override
+  String get planWarningDaysReduced =>
+      'Demi pemulihan, jumlah hari latihan dibatasi sesuai level Anda; hari lain menjadi hari istirahat.';
+
+  @override
+  String get planWarningLimitedEquipment =>
+      'Beberapa gerakan dilewati karena alatnya tidak tersedia.';
+
+  @override
+  String get planWarningSpotter =>
+      'Program memuat gerakan barbell di bench/rack: gunakan spotter atau safety bar.';
+
+  @override
+  String get planWarningConsecutive =>
+      'Ada otot yang dilatih berat pada hari berurutan; perhatikan pemulihan.';
+
+  @override
+  String get progressionRule =>
+      'Progresi: bila semua set mencapai batas atas repetisi dengan RIR sesuai target, naikkan beban sedikit (±2,5 kg barbell / 1–2 kg dumbbell) di sesi berikutnya.';
+
+  @override
+  String get rirExplain =>
+      'RIR = sisa repetisi yang masih sanggup dilakukan. RIR 2 berarti berhenti saat masih kuat ±2 repetisi lagi — tidak perlu sampai gagal.';
+
+  @override
+  String get restDaysNote =>
+      'Hari lain: istirahat atau aktivitas ringan seperti jalan kaki dan peregangan.';
+
+  @override
+  String get focusFullBodyA => 'Seluruh tubuh A';
+
+  @override
+  String get focusFullBodyB => 'Seluruh tubuh B';
+
+  @override
+  String get focusFullBodyC => 'Seluruh tubuh C';
+
+  @override
+  String get focusUpperA => 'Tubuh atas A';
+
+  @override
+  String get focusUpperB => 'Tubuh atas B';
+
+  @override
+  String get focusLowerA => 'Tubuh bawah A';
+
+  @override
+  String get focusLowerB => 'Tubuh bawah B';
+
+  @override
+  String get weekdayLong1 => 'Senin';
+
+  @override
+  String get weekdayLong2 => 'Selasa';
+
+  @override
+  String get weekdayLong3 => 'Rabu';
+
+  @override
+  String get weekdayLong4 => 'Kamis';
+
+  @override
+  String get weekdayLong5 => 'Jumat';
+
+  @override
+  String get weekdayLong6 => 'Sabtu';
+
+  @override
+  String get weekdayLong7 => 'Minggu';
+
+  @override
+  String get todayBadge => 'Hari ini';
+
+  @override
+  String dayMeta(Object count, Object minutes) {
+    return '$count latihan · ± $minutes menit';
+  }
+
+  @override
+  String warmupNote(Object minutes) {
+    return 'Pemanasan $minutes menit: kardio ringan, lalu 1–2 set ringan untuk gerakan pertama.';
+  }
+
+  @override
+  String get cooldownNote => 'Pendinginan: peregangan ringan 3–5 menit.';
+
+  @override
+  String prescription(Object sets, Object min, Object max) {
+    return '$sets set × $min–$max repetisi';
+  }
+
+  @override
+  String prescriptionTimed(Object sets, Object min, Object max) {
+    return '$sets set × $min–$max detik';
+  }
+
+  @override
+  String restAndRir(Object rest, Object min, Object max) {
+    return 'Istirahat $rest · RIR $min–$max';
+  }
+
+  @override
+  String secondsValue(Object seconds) {
+    return '$seconds dtk';
+  }
+
+  @override
+  String minutesShortValue(Object minutes) {
+    return '$minutes mnt';
+  }
+
+  @override
+  String get priorityBadge => 'Prioritas';
+
+  @override
+  String get startSession => 'Mulai sesi';
+
+  @override
+  String get history => 'Riwayat';
+
+  @override
+  String get historyTitle => 'Riwayat latihan';
+
+  @override
+  String get historyEmpty => 'Belum ada sesi yang selesai.';
+
+  @override
+  String get exerciseLibrary => 'Katalog latihan';
+
+  @override
+  String get sessionTitle => 'Sesi latihan';
+
+  @override
+  String lastTime(Object value) {
+    return 'Terakhir: $value';
+  }
+
+  @override
+  String get increaseLoadHint =>
+      'Sesi lalu semua set mencapai target — coba naikkan beban sedikit.';
+
+  @override
+  String setLabel(Object number) {
+    return 'Set $number';
+  }
+
+  @override
+  String get weightLabelPerHand => 'Beban (kg/tangan)';
+
+  @override
+  String get weightLabelTotal => 'Beban (kg)';
+
+  @override
+  String get weightLabelBodyweight => 'Beban tambahan (kg)';
+
+  @override
+  String get repsLabel => 'Repetisi';
+
+  @override
+  String get secondsLabel => 'Detik';
+
+  @override
+  String get rirLabel => 'RIR';
+
+  @override
+  String get logSet => 'Catat set';
+
+  @override
+  String get skipSet => 'Lewati';
+
+  @override
+  String get setSkipped => 'dilewati';
+
+  @override
+  String setsProgress(Object done, Object planned) {
+    return '$done/$planned set';
+  }
+
+  @override
+  String get restTimerLabel => 'Istirahat';
+
+  @override
+  String get restAdd => '+15 dtk';
+
+  @override
+  String get restSkip => 'Selesai';
+
+  @override
+  String get finishSession => 'Selesaikan sesi';
+
+  @override
+  String get finishSessionTitle => 'Selesaikan sesi?';
+
+  @override
+  String get energyLabel => 'Energi hari ini (opsional)';
+
+  @override
+  String get discomfortLabel => 'Nyeri/tidak nyaman (opsional)';
+
+  @override
+  String get sessionNotesLabel => 'Catatan (opsional)';
+
+  @override
+  String get finishConfirm => 'Simpan & selesai';
+
+  @override
+  String get painWarning =>
+      'Hentikan latihan bila muncul nyeri tajam, pusing, nyeri dada, atau sesak tidak wajar.';
+
+  @override
+  String get sessionCompleted => 'Sesi tersimpan. Kerja bagus!';
+
+  @override
+  String get deleteSession => 'Hapus sesi';
+
+  @override
+  String get deleteSessionTitle => 'Hapus sesi ini?';
+
+  @override
+  String get deleteSessionMessage => 'Semua set yang tercatat di sesi ini akan dihapus permanen.';
+
+  @override
+  String get delete => 'Hapus';
+
+  @override
+  String get deleteSetTitle => 'Hapus set ini?';
+
+  @override
+  String get setInputRepsRequired => 'Isi repetisi.';
+
+  @override
+  String get setInputRepsRange => 'Repetisi 1–300.';
+
+  @override
+  String get setInputWeightRange => 'Beban 0–1000 kg.';
+
+  @override
+  String sessionSummary(Object done, Object planned, Object volume) {
+    return '$done/$planned set · volume $volume kg';
+  }
+
+  @override
+  String get completedBadge => 'Selesai';
+
+  @override
+  String get targetLabel => 'Target';
+
+  @override
+  String get actualLabel => 'Aktual';
+
+  @override
+  String get exerciseInstructions => 'Cara melakukan';
+
+  @override
+  String get exerciseMistakes => 'Kesalahan umum';
+
+  @override
+  String get exerciseSafety => 'Keselamatan';
+
+  @override
+  String get exerciseAlternatives => 'Alternatif';
+
+  @override
+  String get exercisePrimaryMuscles => 'Otot utama';
+
+  @override
+  String get exerciseSecondaryMuscles => 'Otot pendukung';
+
+  @override
+  String get exerciseEquipment => 'Alat';
+
+  @override
+  String get noEquipment => 'Tanpa alat (berat badan)';
+
+  @override
+  String get spotterNeeded => 'Gunakan spotter atau safety bar';
+
+  @override
+  String get exerciseNotFound => 'Latihan tidak ditemukan di katalog.';
+
+  @override
+  String get searchExercise => 'Cari latihan';
+
+  @override
+  String get muscleUpperBack => 'Punggung atas';
+
+  @override
+  String get muscleLats => 'Latissimus';
+
+  @override
+  String get muscleTraps => 'Trapezius';
+
+  @override
+  String get muscleFrontDelts => 'Bahu depan';
+
+  @override
+  String get muscleSideDelts => 'Bahu samping';
+
+  @override
+  String get muscleRearDelts => 'Bahu belakang';
+
+  @override
+  String get muscleBiceps => 'Biseps';
+
+  @override
+  String get muscleTriceps => 'Triseps';
+
+  @override
+  String get muscleForearms => 'Lengan bawah';
+
+  @override
+  String get muscleQuads => 'Paha depan';
+
+  @override
+  String get muscleHamstrings => 'Paha belakang';
+
+  @override
+  String get muscleAdductors => 'Paha dalam';
+
+  @override
+  String get muscleCalves => 'Betis';
+
+  @override
+  String get homeTodayWorkout => 'Latihan hari ini';
+
+  @override
+  String homeNextWorkout(Object day) {
+    return 'Latihan berikutnya · $day';
+  }
+
+  @override
+  String get homeNoPlan => 'Belum ada program latihan. Buat program awal di tab Latihan.';
+
+  @override
+  String get openWorkout => 'Buka';
 }

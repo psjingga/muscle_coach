@@ -13,7 +13,8 @@
     "test": "vitest run --project unit",
     "test:emulator": "../tool/firebase.sh emulators:exec --project demo-musclecoach --only auth,firestore \"vitest run --project emulator\"",
     "serve": "npm run build && ../tool/firebase.sh emulators:start --project demo-musclecoach",
-    "deploy": "../tool/firebase.sh deploy --only functions"
+    "deploy": "../tool/firebase.sh deploy --only functions",
+    "seed:emulator": "npm run build && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 GCLOUD_PROJECT=demo-musclecoach node lib/catalog/seedCli.js"
   },
   "dependencies": {
     "firebase-admin": "^14.5.1",

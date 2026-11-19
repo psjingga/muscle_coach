@@ -35,6 +35,7 @@ fvm flutter run --dart-define=EMULATOR_HOST=192.168.x.x   # HP fisik: IP Mac di 
 ```
 
 - Tautan verifikasi email & reset kata sandi tidak dikirim sungguhan; buka **Emulator UI → Authentication**, atau lihat log terminal emulator.
+- Katalog latihan (`exerciseCatalog`) di-seed otomatis saat Functions emulator dimuat. Project sungguhan: `cd functions && npm run build && GCLOUD_PROJECT=<id> node lib/catalog/seedCli.js --force` (butuh kredensial Admin).
 - Data emulator hilang saat emulator dimatikan. Untuk menyimpannya: `../tool/firebase.sh emulators:start --import=../emulator-data --export-on-exit` dari folder `functions/`.
 
 ## Lingkungan
@@ -78,8 +79,9 @@ lib/
   core/         errors (AppFailure + mapper), network (Functions client), firebase providers, logging, widgets
   features/     <fitur>/{data, domain, application, presentation} — auth, dashboard, workout, nutrition, progress, profile, …
   l10n/         teks Bahasa Indonesia (ARB) + kode hasil generate
-functions/      Cloud Functions TypeScript (callable `createUserProfile`, `deleteUserData`, `submitAssessment`, `confirmGoal`) + test unit/emulator
+functions/      Cloud Functions TypeScript (callable `createUserProfile`, `deleteUserData`, `submitAssessment`, `confirmGoal`, `createStarterPlan`, `activateWorkoutPlan`) + test unit/emulator
                 nutrition/config.ts = angka default kalkulasi (BMR/TDEE/surplus/makro) — ubah di sini, bukan di UI
+                catalog/exercises.ts = katalog latihan terkurasi; workout/ = planner program awal + validator
 firestore.rules, firestore.indexes.json, firebase.json
 tool/           check.sh (quality gate), firebase.sh (Firebase CLI dengan JDK 21)
 ```

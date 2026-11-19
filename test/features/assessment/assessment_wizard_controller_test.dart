@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:musclecoach/core/errors/app_failure.dart';
+import 'package:musclecoach/core/database/database_providers.dart';
 import 'package:musclecoach/features/assessment/application/assessment_wizard_controller.dart';
 import 'package:musclecoach/features/assessment/domain/entities/assessment_data.dart';
 import 'package:musclecoach/features/profile/domain/entities/user_profile.dart';

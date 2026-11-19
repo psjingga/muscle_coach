@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:musclecoach/app/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:musclecoach/core/database/database_providers.dart';
 import 'package:musclecoach/features/assessment/application/assessment_wizard_controller.dart';
 import 'package:musclecoach/features/assessment/domain/entities/assessment_data.dart';
 import 'package:musclecoach/features/assessment/domain/repositories/assessment_repository.dart';

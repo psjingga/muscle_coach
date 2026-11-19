@@ -1,31 +1,32 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
-import '../../../core/errors/failure_mapper.dart';
+import 'package:flutter/services.dart';
+
 import '../domain/exercise.dart';
 
 abstract interface class ExerciseRepository {
-  /// Semua latihan yang dipublikasikan, urut nama.
+  /// Semua latihan katalog, urut nama.
   Future<List<Exercise>> fetchAll();
 }
 
-/// Katalog relatif statis: dibaca sekali per sesi aplikasi (provider
-/// keepAlive) dan tersedia offline lewat cache Firestore.
-class FirestoreExerciseRepository implements ExerciseRepository {
-  FirestoreExerciseRepository(this._db);
+/// Katalog terkurasi dibundel sebagai aset (`assets/catalog/exercises.json`).
+class AssetExerciseRepository implements ExerciseRepository {
+  AssetExerciseRepository(this._bundle);
 
-  final FirebaseFirestore _db;
+  final AssetBundle _bundle;
+
+  static const path = 'assets/catalog/exercises.json';
+
+  /// Parse isi file katalog (dipakai juga oleh test).
+  static ({String version, List<Exercise> exercises}) parse(String raw) {
+    final json = jsonDecode(raw) as Map<String, dynamic>;
+    final list = [
+      for (final e in json['exercises'] as List<dynamic>)
+        Exercise.fromJson(e as Map<String, dynamic>),
+    ]..sort((a, b) => a.name.compareTo(b.name));
+    return (version: json['version'] as String, exercises: list);
+  }
 
   @override
-  Future<List<Exercise>> fetchAll() async {
-    try {
-      final snap = await _db
-          .collection('exerciseCatalog')
-          .where('status', isEqualTo: 'published')
-          .get();
-      return snap.docs.map((d) => Exercise.fromJson({...d.data(), 'id': d.id})).toList()
-        ..sort((a, b) => a.name.compareTo(b.name));
-    } catch (e) {
-      throw FailureMapper.from(e);
-    }
-  }
+  Future<List<Exercise>> fetchAll() async => parse(await _bundle.loadString(path)).exercises;
 }

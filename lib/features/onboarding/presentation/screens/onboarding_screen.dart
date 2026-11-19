@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
 import '../../../../app/theme/brand.dart';
 import '../../../../core/utils/context_x.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
 
 /// Pembuka sebelum assessment: apa yang ditanyakan, prinsip, dan disclaimer.
-class OnboardingScreen extends ConsumerWidget {
+class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
     final points = [
@@ -21,14 +19,7 @@ class OnboardingScreen extends ConsumerWidget {
       (Icons.lock_outline, l.onboardingPoint3),
     ];
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed: () => ref.read(authControllerProvider.notifier).signOut(),
-            child: Text(l.signOut),
-          ),
-        ],
-      ),
+      appBar: AppBar(),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(

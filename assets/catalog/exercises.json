@@ -1,0 +1,1545 @@
+{
+  "version": "2026-11-v1",
+  "exercises": [
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "adductors",
+        "core"
+      ],
+      "needsSpotter": true,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_back_squat",
+      "name": "Barbell Back Squat",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "squat",
+      "equipment": [
+        "barbell",
+        "rack"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Letakkan bar di punggung atas (bukan di leher), kaki selebar bahu, ujung kaki sedikit keluar.",
+        "Tarik napas, kencangkan perut, turunkan pinggul ke belakang-bawah sambil lutut mengikuti arah ujung kaki.",
+        "Turun sedalam yang bisa dengan punggung tetap netral, lalu dorong lantai untuk berdiri."
+      ],
+      "mistakes": [
+        "Lutut masuk ke dalam saat naik.",
+        "Tumit terangkat atau punggung bawah membulat."
+      ],
+      "safety": [
+        "Pasang safety bar/pin rack setinggi titik terendah squat, atau gunakan spotter."
+      ],
+      "alternatives": [
+        "goblet_squat",
+        "dumbbell_squat",
+        "dumbbell_bulgarian_split_squat"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "glutes",
+        "core",
+        "upper_back"
+      ],
+      "needsSpotter": true,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_front_squat",
+      "name": "Barbell Front Squat",
+      "primaryMuscles": [
+        "quads"
+      ],
+      "pattern": "squat",
+      "equipment": [
+        "barbell",
+        "rack"
+      ],
+      "level": "advanced",
+      "compound": true,
+      "instructions": [
+        "Letakkan bar di depan bahu dengan siku tinggi.",
+        "Jaga badan tegak, turun lurus ke bawah di antara kaki.",
+        "Dorong naik sambil mempertahankan siku tetap tinggi."
+      ],
+      "mistakes": [
+        "Siku turun sehingga bar menggelinding ke depan."
+      ],
+      "safety": [
+        "Gunakan safety bar rack; lepaskan bar ke depan bila gagal."
+      ],
+      "alternatives": [
+        "goblet_squat",
+        "barbell_back_squat"
+      ]
+    },
+    {
+      "aliases": [
+        "Squat dumbbell di dada"
+      ],
+      "secondaryMuscles": [
+        "core",
+        "adductors"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "goblet_squat",
+      "name": "Goblet Squat",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "squat",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Pegang satu dumbbell vertikal di depan dada.",
+        "Turunkan pinggul di antara kaki dengan dada tetap tegak.",
+        "Berdiri dengan mendorong lantai menggunakan seluruh telapak kaki."
+      ],
+      "mistakes": [
+        "Badan terlalu condong ke depan.",
+        "Turun terlalu cepat tanpa kontrol."
+      ],
+      "safety": [
+        "Gunakan beban yang bisa dikendalikan; berhenti bila lutut terasa nyeri tajam."
+      ],
+      "alternatives": [
+        "dumbbell_squat",
+        "dumbbell_reverse_lunge"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "core",
+        "forearms"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_squat",
+      "name": "Dumbbell Squat",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "squat",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Pegang dumbbell di sisi tubuh, kaki selebar bahu.",
+        "Turunkan pinggul ke belakang-bawah, lutut mengikuti ujung kaki.",
+        "Berdiri kembali dengan punggung netral."
+      ],
+      "mistakes": [
+        "Dumbbell membentur paha karena turun tidak lurus."
+      ],
+      "safety": [
+        "Jaga punggung netral; kurangi kedalaman bila punggung bawah membulat."
+      ],
+      "alternatives": [
+        "goblet_squat",
+        "dumbbell_step_up"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "hamstrings",
+        "adductors",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_reverse_lunge",
+      "name": "Dumbbell Reverse Lunge",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "lunge",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Pegang dumbbell di sisi tubuh, langkahkan satu kaki ke belakang.",
+        "Turunkan lutut belakang mendekati lantai dengan badan tegak.",
+        "Dorong dengan kaki depan untuk kembali; ulangi untuk kaki lainnya."
+      ],
+      "mistakes": [
+        "Langkah terlalu pendek sehingga lutut depan terdorong jauh."
+      ],
+      "safety": [
+        "Pegang tiang/dinding dengan satu tangan bila keseimbangan belum stabil."
+      ],
+      "alternatives": [
+        "dumbbell_step_up",
+        "dumbbell_bulgarian_split_squat"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "hamstrings",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_walking_lunge",
+      "name": "Dumbbell Walking Lunge",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "lunge",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Langkah ke depan, turunkan lutut belakang mendekati lantai.",
+        "Dorong naik lalu langsung melangkah dengan kaki lainnya."
+      ],
+      "mistakes": [
+        "Badan membungkuk berlebihan."
+      ],
+      "safety": [
+        "Pastikan jalur bebas hambatan."
+      ],
+      "alternatives": [
+        "dumbbell_reverse_lunge"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "adductors",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_bulgarian_split_squat",
+      "name": "Dumbbell Bulgarian Split Squat",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "lunge",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Letakkan punggung kaki belakang di bench, kaki depan cukup jauh di depan.",
+        "Turun lurus ke bawah sampai paha depan hampir sejajar lantai.",
+        "Dorong dengan kaki depan untuk naik."
+      ],
+      "mistakes": [
+        "Kaki depan terlalu dekat dengan bench."
+      ],
+      "safety": [
+        "Mulai tanpa beban untuk mencari posisi kaki yang stabil."
+      ],
+      "alternatives": [
+        "dumbbell_reverse_lunge",
+        "goblet_squat"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "hamstrings"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_step_up",
+      "name": "Dumbbell Step-Up",
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "pattern": "lunge",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Letakkan seluruh telapak satu kaki di bench yang stabil.",
+        "Naik dengan mendorong kaki di atas bench, bukan melompat dari kaki bawah.",
+        "Turun perlahan dengan kontrol."
+      ],
+      "mistakes": [
+        "Mendorong dengan kaki yang di lantai."
+      ],
+      "safety": [
+        "Gunakan bench yang kokoh dan tidak licin; mulai dari ketinggian rendah."
+      ],
+      "alternatives": [
+        "dumbbell_reverse_lunge"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "upper_back",
+        "traps",
+        "forearms",
+        "core",
+        "quads"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_deadlift",
+      "name": "Barbell Deadlift",
+      "primaryMuscles": [
+        "glutes",
+        "hamstrings"
+      ],
+      "pattern": "hinge",
+      "equipment": [
+        "barbell"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Bar di atas tengah telapak kaki, pegang bar tepat di luar lutut.",
+        "Kencangkan punggung (dada naik, bahu sedikit ke belakang), tarik 'kendur' bar.",
+        "Dorong lantai dan berdiri sambil menjaga bar dekat tubuh."
+      ],
+      "mistakes": [
+        "Punggung membulat saat bar meninggalkan lantai.",
+        "Menyentak bar dari lantai."
+      ],
+      "safety": [
+        "Gunakan beban konservatif dan hentikan set bila teknik mulai rusak."
+      ],
+      "alternatives": [
+        "barbell_romanian_deadlift",
+        "dumbbell_romanian_deadlift"
+      ]
+    },
+    {
+      "aliases": [
+        "RDL"
+      ],
+      "secondaryMuscles": [
+        "upper_back",
+        "forearms",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_romanian_deadlift",
+      "name": "Barbell Romanian Deadlift",
+      "primaryMuscles": [
+        "hamstrings",
+        "glutes"
+      ],
+      "pattern": "hinge",
+      "equipment": [
+        "barbell"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Berdiri memegang bar, lutut sedikit ditekuk.",
+        "Dorong pinggul ke belakang sambil bar meluncur dekat paha sampai hamstring terasa teregang.",
+        "Kembali berdiri dengan mengencangkan glutes."
+      ],
+      "mistakes": [
+        "Menekuk lutut terlalu banyak sehingga menjadi squat.",
+        "Punggung membulat."
+      ],
+      "safety": [
+        "Batasi kedalaman pada titik di mana punggung masih netral."
+      ],
+      "alternatives": [
+        "dumbbell_romanian_deadlift",
+        "dumbbell_glute_bridge"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "upper_back",
+        "forearms"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_romanian_deadlift",
+      "name": "Dumbbell Romanian Deadlift",
+      "primaryMuscles": [
+        "hamstrings",
+        "glutes"
+      ],
+      "pattern": "hinge",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Pegang dumbbell di depan paha, lutut sedikit ditekuk.",
+        "Dorong pinggul ke belakang, turunkan dumbbell dekat kaki sampai hamstring teregang.",
+        "Berdiri kembali dengan punggung netral."
+      ],
+      "mistakes": [
+        "Dumbbell menjauh dari kaki."
+      ],
+      "safety": [
+        "Jaga punggung netral; jangan memaksa kedalaman."
+      ],
+      "alternatives": [
+        "dumbbell_glute_bridge",
+        "dumbbell_single_leg_rdl"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_single_leg_rdl",
+      "name": "Dumbbell Single-Leg RDL",
+      "primaryMuscles": [
+        "hamstrings",
+        "glutes"
+      ],
+      "pattern": "hinge",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Berdiri satu kaki, dumbbell di tangan berlawanan.",
+        "Condongkan badan ke depan sambil kaki belakang terangkat lurus dengan badan.",
+        "Kembali berdiri dengan kontrol."
+      ],
+      "mistakes": [
+        "Pinggul berputar terbuka."
+      ],
+      "safety": [
+        "Pegang penyangga untuk keseimbangan bila perlu."
+      ],
+      "alternatives": [
+        "dumbbell_romanian_deadlift"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "hamstrings"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_hip_thrust",
+      "name": "Barbell Hip Thrust",
+      "primaryMuscles": [
+        "glutes"
+      ],
+      "pattern": "hip_extension",
+      "equipment": [
+        "barbell",
+        "bench"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Punggung atas bersandar di tepi bench, bar di lipatan pinggul (gunakan bantalan).",
+        "Dorong pinggul ke atas sampai badan lurus dari bahu ke lutut.",
+        "Tahan sebentar, turunkan dengan kontrol."
+      ],
+      "mistakes": [
+        "Melengkungkan punggung bawah di posisi atas."
+      ],
+      "safety": [
+        "Gunakan bantalan bar dan bench yang tidak bergeser."
+      ],
+      "alternatives": [
+        "dumbbell_glute_bridge"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "hamstrings",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "dumbbell_glute_bridge",
+      "name": "Dumbbell Glute Bridge",
+      "primaryMuscles": [
+        "glutes"
+      ],
+      "pattern": "hip_extension",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Berbaring telentang, lutut ditekuk, dumbbell di atas pinggul.",
+        "Angkat pinggul sampai badan lurus dari bahu ke lutut.",
+        "Turunkan perlahan."
+      ],
+      "mistakes": [
+        "Mendorong dengan punggung bawah, bukan pinggul."
+      ],
+      "safety": [
+        "Pegang dumbbell agar tidak menggelinding."
+      ],
+      "alternatives": [
+        "barbell_hip_thrust"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "front_delts",
+        "triceps"
+      ],
+      "needsSpotter": true,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_bench_press",
+      "name": "Barbell Bench Press",
+      "primaryMuscles": [
+        "chest"
+      ],
+      "pattern": "horizontal_push",
+      "equipment": [
+        "barbell",
+        "bench",
+        "rack"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Berbaring dengan mata di bawah bar, tulang belikat ditarik ke belakang-bawah, kaki menapak.",
+        "Turunkan bar terkontrol ke dada bagian bawah.",
+        "Dorong bar kembali ke atas bahu."
+      ],
+      "mistakes": [
+        "Bar dipantulkan dari dada.",
+        "Pantat terangkat dari bench."
+      ],
+      "safety": [
+        "Wajib spotter atau safety arm rack setinggi dada saat berbaring."
+      ],
+      "alternatives": [
+        "dumbbell_bench_press",
+        "dumbbell_floor_press",
+        "push_up"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "front_delts",
+        "triceps"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_bench_press",
+      "name": "Dumbbell Bench Press",
+      "primaryMuscles": [
+        "chest"
+      ],
+      "pattern": "horizontal_push",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Duduk di bench dengan dumbbell di paha, lalu berbaring sambil membawa dumbbell ke samping dada.",
+        "Dorong dumbbell ke atas sampai lengan hampir lurus.",
+        "Turunkan perlahan sampai siku sedikit di bawah bench."
+      ],
+      "mistakes": [
+        "Siku terbuka 90° terhadap badan."
+      ],
+      "safety": [
+        "Saat selesai, bawa dumbbell kembali ke paha sebelum duduk — jangan dijatuhkan ke samping."
+      ],
+      "alternatives": [
+        "dumbbell_floor_press",
+        "push_up"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_incline_press",
+      "name": "Dumbbell Incline Press",
+      "primaryMuscles": [
+        "chest",
+        "front_delts"
+      ],
+      "pattern": "horizontal_push",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Atur sandaran bench 30–45° (butuh bench yang bisa diatur).",
+        "Dorong dumbbell ke atas dada bagian atas.",
+        "Turunkan dengan kontrol."
+      ],
+      "mistakes": [
+        "Sudut terlalu tegak sehingga menjadi shoulder press."
+      ],
+      "safety": [
+        "Pastikan pengunci sandaran bench terpasang."
+      ],
+      "alternatives": [
+        "dumbbell_bench_press",
+        "push_up"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "front_delts"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_floor_press",
+      "name": "Dumbbell Floor Press",
+      "primaryMuscles": [
+        "chest",
+        "triceps"
+      ],
+      "pattern": "horizontal_push",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Berbaring di lantai, lutut ditekuk, dumbbell di atas dada.",
+        "Turunkan sampai lengan atas menyentuh lantai dengan lembut.",
+        "Dorong kembali ke atas."
+      ],
+      "mistakes": [
+        "Siku dibanting ke lantai."
+      ],
+      "safety": [
+        "Pilih beban yang bisa diangkat ke posisi awal dengan aman."
+      ],
+      "alternatives": [
+        "push_up",
+        "dumbbell_bench_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "front_delts",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "bodyweight",
+      "id": "push_up",
+      "name": "Push-Up",
+      "primaryMuscles": [
+        "chest",
+        "triceps"
+      ],
+      "pattern": "horizontal_push",
+      "equipment": [],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Tangan sedikit lebih lebar dari bahu, badan lurus dari kepala ke tumit.",
+        "Turunkan dada mendekati lantai, siku sekitar 45° dari badan.",
+        "Dorong kembali ke atas."
+      ],
+      "mistakes": [
+        "Pinggul turun atau terangkat."
+      ],
+      "safety": [
+        "Permudah dengan tangan di permukaan lebih tinggi (meja/bench) bila perlu."
+      ],
+      "alternatives": [
+        "dumbbell_floor_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "front_delts"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_fly",
+      "name": "Dumbbell Fly",
+      "primaryMuscles": [
+        "chest"
+      ],
+      "pattern": "chest_isolation",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "intermediate",
+      "compound": false,
+      "instructions": [
+        "Berbaring dengan dumbbell di atas dada, siku sedikit ditekuk.",
+        "Buka lengan melebar sampai dada teregang nyaman.",
+        "Satukan kembali dengan gerakan memeluk."
+      ],
+      "mistakes": [
+        "Turun terlalu dalam dengan beban berat."
+      ],
+      "safety": [
+        "Gunakan beban ringan; hentikan bila bahu terasa nyeri."
+      ],
+      "alternatives": [
+        "push_up",
+        "dumbbell_bench_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "triceps",
+        "side_delts",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_overhead_press",
+      "name": "Barbell Overhead Press",
+      "primaryMuscles": [
+        "front_delts"
+      ],
+      "pattern": "vertical_push",
+      "equipment": [
+        "barbell",
+        "rack"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Ambil bar dari rack setinggi bahu, genggaman sedikit lebih lebar dari bahu.",
+        "Kencangkan glutes & perut, dorong bar lurus ke atas kepala.",
+        "Turunkan kembali ke depan bahu."
+      ],
+      "mistakes": [
+        "Melengkungkan punggung bawah berlebihan."
+      ],
+      "safety": [
+        "Ambil dan kembalikan bar dari rack; jangan memaksa repetisi terakhir."
+      ],
+      "alternatives": [
+        "dumbbell_shoulder_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "triceps",
+        "side_delts"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_shoulder_press",
+      "name": "Dumbbell Shoulder Press",
+      "primaryMuscles": [
+        "front_delts"
+      ],
+      "pattern": "vertical_push",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Berdiri atau duduk tegak, dumbbell setinggi bahu.",
+        "Dorong ke atas sampai lengan hampir lurus.",
+        "Turunkan perlahan ke setinggi bahu."
+      ],
+      "mistakes": [
+        "Punggung melengkung untuk membantu mendorong."
+      ],
+      "safety": [
+        "Duduk bersandar bila punggung bawah mudah pegal."
+      ],
+      "alternatives": [
+        "push_up",
+        "dumbbell_arnold_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_arnold_press",
+      "name": "Dumbbell Arnold Press",
+      "primaryMuscles": [
+        "front_delts",
+        "side_delts"
+      ],
+      "pattern": "vertical_push",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Mulai dengan telapak menghadap badan di depan bahu.",
+        "Putar telapak ke depan sambil mendorong ke atas.",
+        "Balikkan gerakan saat turun."
+      ],
+      "mistakes": [
+        "Gerakan terburu-buru."
+      ],
+      "safety": [
+        "Gunakan beban lebih ringan dari shoulder press biasa."
+      ],
+      "alternatives": [
+        "dumbbell_shoulder_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "biceps",
+        "rear_delts",
+        "hamstrings"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_bent_over_row",
+      "name": "Barbell Bent-Over Row",
+      "primaryMuscles": [
+        "upper_back",
+        "lats"
+      ],
+      "pattern": "horizontal_pull",
+      "equipment": [
+        "barbell"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Condongkan badan ±45° dengan punggung netral, bar tergantung di bawah bahu.",
+        "Tarik bar ke perut bagian atas sambil merapatkan tulang belikat.",
+        "Turunkan dengan kontrol."
+      ],
+      "mistakes": [
+        "Badan naik-turun untuk mengayun beban."
+      ],
+      "safety": [
+        "Kurangi beban bila punggung bawah tidak bisa menahan posisi."
+      ],
+      "alternatives": [
+        "dumbbell_one_arm_row",
+        "dumbbell_chest_supported_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "biceps",
+        "rear_delts"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_one_arm_row",
+      "name": "Dumbbell One-Arm Row",
+      "primaryMuscles": [
+        "lats",
+        "upper_back"
+      ],
+      "pattern": "horizontal_pull",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Sandarkan satu tangan di bench/kursi kokoh, punggung datar.",
+        "Tarik dumbbell ke arah pinggul.",
+        "Turunkan sampai lengan lurus."
+      ],
+      "mistakes": [
+        "Memutar badan untuk mengangkat beban."
+      ],
+      "safety": [
+        "Gunakan penyangga yang stabil."
+      ],
+      "alternatives": [
+        "dumbbell_bent_over_row",
+        "dumbbell_chest_supported_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "biceps",
+        "rear_delts"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_bent_over_row",
+      "name": "Dumbbell Bent-Over Row",
+      "primaryMuscles": [
+        "upper_back",
+        "lats"
+      ],
+      "pattern": "horizontal_pull",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Condongkan badan dengan punggung netral, dumbbell di kedua tangan.",
+        "Tarik dumbbell ke samping perut.",
+        "Turunkan dengan kontrol."
+      ],
+      "mistakes": [
+        "Punggung membulat."
+      ],
+      "safety": [
+        "Pilih one-arm row bila punggung bawah mudah lelah."
+      ],
+      "alternatives": [
+        "dumbbell_one_arm_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "rear_delts",
+        "biceps"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_chest_supported_row",
+      "name": "Dumbbell Chest-Supported Row",
+      "primaryMuscles": [
+        "upper_back",
+        "lats"
+      ],
+      "pattern": "horizontal_pull",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Berbaring telungkup di bench miring, dumbbell tergantung.",
+        "Tarik dumbbell ke samping badan.",
+        "Turunkan perlahan."
+      ],
+      "mistakes": [
+        "Dada terangkat dari bench."
+      ],
+      "safety": [
+        "Pastikan bench stabil."
+      ],
+      "alternatives": [
+        "dumbbell_one_arm_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "biceps",
+        "upper_back",
+        "core"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "bodyweight",
+      "id": "pull_up",
+      "name": "Pull-Up",
+      "primaryMuscles": [
+        "lats"
+      ],
+      "pattern": "vertical_pull",
+      "equipment": [
+        "pull_up_bar"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Gantung dengan genggaman menghadap depan, sedikit lebih lebar dari bahu.",
+        "Tarik dada ke arah bar dengan menarik siku ke bawah.",
+        "Turun sampai lengan hampir lurus."
+      ],
+      "mistakes": [
+        "Mengayun badan (kipping) untuk menambah repetisi."
+      ],
+      "safety": [
+        "Pastikan bar terpasang kuat; turun dengan kontrol."
+      ],
+      "alternatives": [
+        "chin_up",
+        "dumbbell_one_arm_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "upper_back"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "bodyweight",
+      "id": "chin_up",
+      "name": "Chin-Up",
+      "primaryMuscles": [
+        "lats",
+        "biceps"
+      ],
+      "pattern": "vertical_pull",
+      "equipment": [
+        "pull_up_bar"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Gantung dengan telapak menghadap badan, selebar bahu.",
+        "Tarik dagu melewati bar.",
+        "Turun dengan kontrol."
+      ],
+      "mistakes": [
+        "Hanya setengah gerakan."
+      ],
+      "safety": [
+        "Pastikan bar terpasang kuat."
+      ],
+      "alternatives": [
+        "pull_up",
+        "dumbbell_one_arm_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "triceps"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "dumbbell_pullover",
+      "name": "Dumbbell Pullover",
+      "primaryMuscles": [
+        "lats",
+        "chest"
+      ],
+      "pattern": "vertical_pull",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "intermediate",
+      "compound": false,
+      "instructions": [
+        "Berbaring di bench, pegang satu dumbbell dengan dua tangan di atas dada.",
+        "Turunkan dumbbell ke belakang kepala dengan siku sedikit ditekuk.",
+        "Tarik kembali ke atas dada."
+      ],
+      "mistakes": [
+        "Menekuk siku terlalu banyak sehingga menjadi triceps extension."
+      ],
+      "safety": [
+        "Gunakan beban ringan; hentikan bila bahu tidak nyaman."
+      ],
+      "alternatives": [
+        "dumbbell_one_arm_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "traps"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_lateral_raise",
+      "name": "Dumbbell Lateral Raise",
+      "primaryMuscles": [
+        "side_delts"
+      ],
+      "pattern": "shoulder_isolation",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Berdiri, dumbbell di sisi tubuh, siku sedikit ditekuk.",
+        "Angkat ke samping sampai setinggi bahu.",
+        "Turunkan perlahan."
+      ],
+      "mistakes": [
+        "Mengayun badan.",
+        "Mengangkat lebih tinggi dari bahu dengan bahu mengangkat."
+      ],
+      "safety": [
+        "Gunakan beban ringan."
+      ],
+      "alternatives": [
+        "dumbbell_shoulder_press"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "upper_back"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_rear_delt_fly",
+      "name": "Dumbbell Rear Delt Fly",
+      "primaryMuscles": [
+        "rear_delts"
+      ],
+      "pattern": "shoulder_isolation",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Condongkan badan ke depan dengan punggung netral.",
+        "Buka lengan ke samping dengan siku sedikit ditekuk.",
+        "Turunkan perlahan."
+      ],
+      "mistakes": [
+        "Menggunakan beban terlalu berat sehingga punggung ikut mengangkat."
+      ],
+      "safety": [
+        "Duduk di ujung bench bila punggung bawah lelah."
+      ],
+      "alternatives": [
+        "dumbbell_bent_over_row"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "forearms"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_shrug",
+      "name": "Dumbbell Shrug",
+      "primaryMuscles": [
+        "traps"
+      ],
+      "pattern": "shoulder_isolation",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Pegang dumbbell di sisi tubuh.",
+        "Angkat bahu lurus ke arah telinga, tahan sebentar, turunkan."
+      ],
+      "mistakes": [
+        "Memutar bahu."
+      ],
+      "safety": [
+        "Jaga leher tetap netral."
+      ],
+      "alternatives": [
+        "dumbbell_farmer_carry"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "forearms"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_biceps_curl",
+      "name": "Dumbbell Biceps Curl",
+      "primaryMuscles": [
+        "biceps"
+      ],
+      "pattern": "elbow_flexion",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Berdiri, telapak menghadap depan, siku dekat badan.",
+        "Tekuk siku untuk mengangkat dumbbell.",
+        "Turunkan perlahan sampai lengan lurus."
+      ],
+      "mistakes": [
+        "Mengayun badan."
+      ],
+      "safety": [
+        "Kontrol fase turun."
+      ],
+      "alternatives": [
+        "dumbbell_hammer_curl",
+        "barbell_curl"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_hammer_curl",
+      "name": "Dumbbell Hammer Curl",
+      "primaryMuscles": [
+        "biceps",
+        "forearms"
+      ],
+      "pattern": "elbow_flexion",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Pegang dumbbell dengan telapak saling berhadapan.",
+        "Tekuk siku, angkat, lalu turunkan perlahan."
+      ],
+      "mistakes": [
+        "Siku bergerak maju."
+      ],
+      "safety": [
+        "Kontrol fase turun."
+      ],
+      "alternatives": [
+        "dumbbell_biceps_curl"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "forearms"
+      ],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_curl",
+      "name": "Barbell Curl",
+      "primaryMuscles": [
+        "biceps"
+      ],
+      "pattern": "elbow_flexion",
+      "equipment": [
+        "barbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Pegang bar selebar bahu, telapak menghadap depan.",
+        "Tekuk siku, angkat bar, turunkan perlahan."
+      ],
+      "mistakes": [
+        "Punggung melengkung untuk mengayun bar."
+      ],
+      "safety": [
+        "Kurangi beban bila pergelangan tangan tidak nyaman."
+      ],
+      "alternatives": [
+        "dumbbell_biceps_curl"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "dumbbell_overhead_triceps_extension",
+      "name": "Dumbbell Overhead Triceps Extension",
+      "primaryMuscles": [
+        "triceps"
+      ],
+      "pattern": "elbow_extension",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Pegang satu dumbbell dengan dua tangan di atas kepala.",
+        "Turunkan ke belakang kepala dengan menekuk siku.",
+        "Luruskan kembali."
+      ],
+      "mistakes": [
+        "Siku membuka lebar."
+      ],
+      "safety": [
+        "Gunakan beban ringan; jaga punggung tidak melengkung."
+      ],
+      "alternatives": [
+        "dumbbell_skull_crusher",
+        "push_up"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_skull_crusher",
+      "name": "Dumbbell Skull Crusher",
+      "primaryMuscles": [
+        "triceps"
+      ],
+      "pattern": "elbow_extension",
+      "equipment": [
+        "dumbbell",
+        "bench"
+      ],
+      "level": "intermediate",
+      "compound": false,
+      "instructions": [
+        "Berbaring, dumbbell di atas dada dengan telapak saling berhadapan.",
+        "Tekuk siku, turunkan dumbbell ke samping kepala.",
+        "Luruskan kembali."
+      ],
+      "mistakes": [
+        "Lengan atas ikut bergerak."
+      ],
+      "safety": [
+        "Turun perlahan; dumbbell dekat kepala."
+      ],
+      "alternatives": [
+        "dumbbell_overhead_triceps_extension"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [
+        "front_delts"
+      ],
+      "needsSpotter": true,
+      "repUnit": "reps",
+      "loadType": "total",
+      "id": "barbell_close_grip_bench_press",
+      "name": "Barbell Close-Grip Bench Press",
+      "primaryMuscles": [
+        "triceps",
+        "chest"
+      ],
+      "pattern": "elbow_extension",
+      "equipment": [
+        "barbell",
+        "bench",
+        "rack"
+      ],
+      "level": "intermediate",
+      "compound": true,
+      "instructions": [
+        "Genggam bar selebar bahu.",
+        "Turunkan ke dada bawah dengan siku dekat badan.",
+        "Dorong kembali ke atas."
+      ],
+      "mistakes": [
+        "Genggaman terlalu sempit sehingga pergelangan tertekuk."
+      ],
+      "safety": [
+        "Wajib spotter atau safety arm."
+      ],
+      "alternatives": [
+        "dumbbell_floor_press",
+        "dumbbell_overhead_triceps_extension"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "per_hand",
+      "id": "dumbbell_standing_calf_raise",
+      "name": "Dumbbell Standing Calf Raise",
+      "primaryMuscles": [
+        "calves"
+      ],
+      "pattern": "calf",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Berdiri dengan ujung kaki di pijakan rendah, dumbbell di sisi tubuh.",
+        "Naikkan tumit setinggi mungkin, tahan sebentar.",
+        "Turunkan tumit sampai betis teregang."
+      ],
+      "mistakes": [
+        "Memantul cepat tanpa jeda."
+      ],
+      "safety": [
+        "Pegang dinding dengan satu tangan untuk keseimbangan."
+      ],
+      "alternatives": []
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "seconds",
+      "loadType": "bodyweight",
+      "id": "plank",
+      "name": "Plank",
+      "primaryMuscles": [
+        "core"
+      ],
+      "pattern": "core",
+      "equipment": [],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Tumpu pada lengan bawah dan ujung kaki, badan lurus.",
+        "Kencangkan perut dan glutes; bernapas normal."
+      ],
+      "mistakes": [
+        "Pinggul turun atau terlalu tinggi."
+      ],
+      "safety": [
+        "Hentikan bila punggung bawah terasa nyeri."
+      ],
+      "alternatives": [
+        "dead_bug"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "reps",
+      "loadType": "bodyweight",
+      "id": "dead_bug",
+      "name": "Dead Bug",
+      "primaryMuscles": [
+        "core"
+      ],
+      "pattern": "core",
+      "equipment": [],
+      "level": "beginner",
+      "compound": false,
+      "instructions": [
+        "Berbaring telentang, lengan lurus ke atas, lutut 90°.",
+        "Turunkan lengan & kaki berlawanan perlahan sambil punggung bawah menempel lantai.",
+        "Kembali dan ganti sisi."
+      ],
+      "mistakes": [
+        "Punggung bawah terangkat dari lantai."
+      ],
+      "safety": [
+        "Perkecil gerakan bila punggung terangkat."
+      ],
+      "alternatives": [
+        "plank"
+      ]
+    },
+    {
+      "aliases": [],
+      "secondaryMuscles": [],
+      "needsSpotter": false,
+      "repUnit": "seconds",
+      "loadType": "per_hand",
+      "id": "dumbbell_farmer_carry",
+      "name": "Dumbbell Farmer Carry",
+      "primaryMuscles": [
+        "forearms",
+        "traps",
+        "core"
+      ],
+      "pattern": "carry",
+      "equipment": [
+        "dumbbell"
+      ],
+      "level": "beginner",
+      "compound": true,
+      "instructions": [
+        "Pegang dumbbell berat di sisi tubuh.",
+        "Berjalan tegak dengan langkah pendek dan stabil."
+      ],
+      "mistakes": [
+        "Badan miring ke satu sisi."
+      ],
+      "safety": [
+        "Pastikan jalur bebas; letakkan dumbbell dengan menekuk lutut."
+      ],
+      "alternatives": [
+        "dumbbell_shrug",
+        "plank"
+      ]
+    }
+  ]
+}

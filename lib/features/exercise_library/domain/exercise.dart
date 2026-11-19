@@ -3,9 +3,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'exercise.freezed.dart';
 part 'exercise.g.dart';
 
-/// Latihan dari katalog `exerciseCatalog` (dikurasi server, read-only).
-/// Otot/pola/alat disimpan sebagai kode string agar kode baru dari server
-/// tidak merusak parsing; labelnya diterjemahkan di presentation.
+/// Versi katalog di `assets/catalog/exercises.json` (dicatat pada program).
+const catalogVersion = '2026-11-v1';
+
+/// Latihan dari katalog terkurasi (aset, read-only). Otot/pola/alat disimpan
+/// sebagai kode string agar kode baru di katalog tidak merusak parsing;
+/// labelnya diterjemahkan di presentation.
 @freezed
 abstract class Exercise with _$Exercise {
   const factory Exercise({

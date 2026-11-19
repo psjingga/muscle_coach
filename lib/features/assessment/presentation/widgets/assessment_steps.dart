@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../application/assessment_wizard_controller.dart';
+import '../../../../core/database/database_providers.dart';
 import '../../domain/entities/assessment_data.dart';
 import '../../domain/validators/assessment_validator.dart';
 import 'assessment_labels.dart';

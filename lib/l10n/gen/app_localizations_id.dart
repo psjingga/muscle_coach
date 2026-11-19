@@ -28,92 +28,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get cancel => 'Batal';
 
   @override
-  String get emailLabel => 'Email';
-
-  @override
-  String get passwordLabel => 'Kata sandi';
-
-  @override
-  String get confirmPasswordLabel => 'Ulangi kata sandi';
-
-  @override
-  String get showPassword => 'Tampilkan kata sandi';
-
-  @override
-  String get hidePassword => 'Sembunyikan kata sandi';
-
-  @override
-  String loginTitle(String appName) {
-    return 'Masuk ke $appName';
-  }
-
-  @override
-  String get loginSubtitle => 'Lanjutkan program latihan dan catatan progres Anda.';
-
-  @override
-  String get loginButton => 'Masuk';
-
-  @override
-  String get forgotPasswordLink => 'Lupa kata sandi?';
-
-  @override
-  String get createAccountButton => 'Buat akun baru';
-
-  @override
-  String get registerTitle => 'Buat akun';
-
-  @override
-  String get registerSubtitle => 'Satu akun untuk menyimpan assessment, program, dan progres Anda.';
-
-  @override
-  String passwordRule(int min) {
-    return 'Minimal $min karakter, berisi huruf dan angka.';
-  }
-
-  @override
-  String get registerButton => 'Daftar';
-
-  @override
-  String get registerSuccess => 'Akun dibuat. Kami mengirim tautan verifikasi ke email Anda.';
-
-  @override
-  String get forgotPasswordTitle => 'Atur ulang kata sandi';
-
-  @override
-  String get forgotPasswordSubtitle =>
-      'Masukkan email akun Anda. Kami akan mengirim tautan untuk membuat kata sandi baru.';
-
-  @override
-  String get forgotPasswordSent =>
-      'Jika email tersebut terdaftar, tautan atur ulang sudah dikirim. Periksa juga folder spam.';
-
-  @override
-  String get forgotPasswordButton => 'Kirim tautan';
-
-  @override
-  String get forgotPasswordResend => 'Kirim ulang tautan';
-
-  @override
-  String get validationEmailRequired => 'Email wajib diisi.';
-
-  @override
-  String get validationEmailInvalid => 'Format email tidak valid.';
-
-  @override
-  String get validationPasswordRequired => 'Kata sandi wajib diisi.';
-
-  @override
-  String validationPasswordTooShort(int min) {
-    return 'Kata sandi minimal $min karakter.';
-  }
-
-  @override
-  String get validationPasswordTooWeak => 'Kata sandi harus berisi huruf dan angka.';
-
-  @override
-  String get validationPasswordMismatch => 'Kata sandi tidak sama.';
-
-  @override
   String get errorNetwork => 'Tidak ada koneksi internet. Periksa jaringan Anda lalu coba lagi.';
 
   @override
@@ -138,40 +52,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get errorTimeout => 'Permintaan terlalu lama. Coba lagi.';
 
   @override
-  String get errorInvalidCredentials => 'Email atau kata sandi salah.';
-
-  @override
-  String get errorEmailInUse =>
-      'Email ini sudah terdaftar. Silakan masuk atau atur ulang kata sandi.';
-
-  @override
-  String get errorWeakPassword => 'Kata sandi terlalu lemah.';
-
-  @override
-  String get errorTooManyRequests => 'Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.';
-
-  @override
-  String get errorRequiresRecentLogin => 'Demi keamanan, masukkan kata sandi Anda lagi.';
-
-  @override
-  String get errorUserDisabled => 'Akun ini dinonaktifkan.';
-
-  @override
   String get errorUnknown => 'Terjadi kesalahan. Coba lagi.';
 
   @override
-  String get emptyHomeTitle => 'Selamat datang!';
-
-  @override
-  String get emptyHomeMessage =>
-      'Ringkasan harian — latihan berikutnya, sisa kalori & makro, dan check-in — akan tampil di sini setelah assessment dan program Anda siap.';
-
-  @override
   String get emptyWorkoutTitle => 'Belum ada program latihan';
-
-  @override
-  String get emptyWorkoutMessage =>
-      'Program mingguan dan pencatatan set akan tersedia setelah assessment selesai.';
 
   @override
   String get emptyNutritionTitle => 'Belum ada target nutrisi';
@@ -188,52 +72,7 @@ class AppLocalizationsId extends AppLocalizations {
       'Grafik berat badan, performa latihan, dan ringkasan mingguan akan muncul setelah Anda mulai mencatat.';
 
   @override
-  String get accountSection => 'Akun';
-
-  @override
-  String get emailVerified => 'Email terverifikasi';
-
-  @override
-  String get emailNotVerified =>
-      'Email belum diverifikasi. Buka tautan yang kami kirim ke email Anda.';
-
-  @override
-  String get resendVerification => 'Kirim ulang verifikasi';
-
-  @override
-  String get checkVerification => 'Saya sudah verifikasi';
-
-  @override
-  String get verificationSent => 'Email verifikasi dikirim.';
-
-  @override
-  String get signOut => 'Keluar';
-
-  @override
-  String get signOutConfirmTitle => 'Keluar dari akun?';
-
-  @override
-  String get signOutConfirmMessage =>
-      'Anda perlu masuk lagi untuk melihat program dan progres Anda.';
-
-  @override
   String get dangerZone => 'Zona berbahaya';
-
-  @override
-  String get deleteAccount => 'Hapus akun dan semua data';
-
-  @override
-  String get deleteAccountTitle => 'Hapus akun?';
-
-  @override
-  String get deleteAccountMessage =>
-      'Seluruh data Anda — assessment, program, catatan latihan & makanan, dan progres — akan dihapus permanen dan tidak dapat dipulihkan.';
-
-  @override
-  String get deleteAccountPasswordLabel => 'Kata sandi untuk konfirmasi';
-
-  @override
-  String get deleteAccountConfirm => 'Hapus permanen';
 
   @override
   String get retry => 'Coba lagi';
@@ -243,9 +82,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get back => 'Kembali';
-
-  @override
-  String get optionalSuffix => 'opsional';
 
   @override
   String get unitCm => 'cm';
@@ -281,7 +117,8 @@ class AppLocalizationsId extends AppLocalizations {
       'Anda melihat asumsi perhitungan dan menyetujui target sebelum dipakai.';
 
   @override
-  String get onboardingPoint3 => 'Data Anda privat dan dapat dihapus kapan saja dari Profil.';
+  String get onboardingPoint3 =>
+      'Data Anda tersimpan hanya di perangkat ini dan dapat dihapus kapan saja dari Profil.';
 
   @override
   String get disclaimerShort =>
@@ -289,9 +126,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get startAssessment => 'Mulai assessment';
-
-  @override
-  String get continueAssessment => 'Lanjutkan assessment';
 
   @override
   String get assessmentTitle => 'Assessment awal';
@@ -1298,9 +1132,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get targetLabel => 'Target';
 
   @override
-  String get actualLabel => 'Aktual';
-
-  @override
   String get exerciseInstructions => 'Cara melakukan';
 
   @override
@@ -1317,9 +1148,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get exerciseSecondaryMuscles => 'Otot pendukung';
-
-  @override
-  String get exerciseEquipment => 'Alat';
 
   @override
   String get noEquipment => 'Tanpa alat (berat badan)';
@@ -1385,4 +1213,24 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get openWorkout => 'Buka';
+
+  @override
+  String get dataPrivacySection => 'Data & privasi';
+
+  @override
+  String get dataLocalOnly =>
+      'Semua data tersimpan hanya di perangkat ini, tanpa akun dan tanpa server. Bila aplikasi dihapus atau HP hilang, data ikut hilang — fitur backup menyusul.';
+
+  @override
+  String get wipeData => 'Hapus semua data';
+
+  @override
+  String get wipeDataTitle => 'Hapus semua data?';
+
+  @override
+  String get wipeDataMessage =>
+      'Assessment, target, program, dan seluruh catatan latihan di perangkat ini akan dihapus permanen dan tidak dapat dipulihkan.';
+
+  @override
+  String get wipeDataConfirm => 'Hapus permanen';
 }

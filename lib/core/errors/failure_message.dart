@@ -14,12 +14,6 @@ String failureMessage(AppLocalizations l, Object error) {
     FailureKind.quotaExceeded => l.errorQuotaExceeded,
     FailureKind.unavailable => l.errorUnavailable,
     FailureKind.timeout => l.errorTimeout,
-    FailureKind.invalidCredentials => l.errorInvalidCredentials,
-    FailureKind.emailAlreadyInUse => l.errorEmailInUse,
-    FailureKind.weakPassword => l.errorWeakPassword,
-    FailureKind.tooManyRequests => l.errorTooManyRequests,
-    FailureKind.requiresRecentLogin => l.errorRequiresRecentLogin,
-    FailureKind.userDisabled => l.errorUserDisabled,
     FailureKind.unknown => l.errorUnknown,
   };
 }

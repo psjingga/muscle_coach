@@ -48,7 +48,7 @@ final class ExerciseRepositoryProvider
   }
 }
 
-String _$exerciseRepositoryHash() => r'd2a5cf98c6e338515a404eabe8e74d78ec954e0e';
+String _$exerciseRepositoryHash() => r'5f8cc9ab5f0020ac7df33dbc1148374734957dfd';
 
 /// Katalog latihan, dimuat sekali lalu di-cache selama aplikasi berjalan.
 

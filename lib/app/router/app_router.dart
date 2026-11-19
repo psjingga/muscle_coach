@@ -4,11 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/assessment/presentation/screens/assessment_wizard_screen.dart';
-import '../../features/auth/domain/entities/auth_user.dart';
-import '../../features/auth/presentation/providers/auth_providers.dart';
-import '../../features/auth/presentation/screens/forgot_password_screen.dart';
-import '../../features/auth/presentation/screens/login_screen.dart';
-import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/dashboard/presentation/screens/home_screen.dart';
 import '../../features/exercise_library/presentation/screens/exercise_screens.dart';
 import '../../features/goals/presentation/screens/goal_review_screen.dart';
@@ -23,7 +18,7 @@ import '../../features/workout/presentation/screens/plan_screen.dart';
 import '../../features/workout/presentation/screens/session_screen.dart';
 import '../../features/workout/presentation/screens/workout_screen.dart';
 import 'app_shell.dart';
-import 'auth_redirect.dart';
+import 'onboarding_redirect.dart';
 import 'routes.dart';
 import 'splash_screen.dart';
 
@@ -31,26 +26,18 @@ part 'app_router.g.dart';
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
-  // Router dibuat sekali; perubahan login/onboarding memicu evaluasi ulang redirect.
-  final auth = ValueNotifier<AsyncValue<AuthUser?>>(ref.read(authStateProvider));
+  // Router dibuat sekali; perubahan status onboarding memicu evaluasi ulang redirect.
   final onboarding = ValueNotifier(onboardingStatusOf(ref.read(userProfileProvider)));
-  ref.listen(authStateProvider, (_, next) => auth.value = next);
   ref.listen(userProfileProvider, (_, next) => onboarding.value = onboardingStatusOf(next));
 
   final router = GoRouter(
     initialLocation: Routes.splash,
-    refreshListenable: Listenable.merge([auth, onboarding]),
+    refreshListenable: onboarding,
     debugLogDiagnostics: kDebugMode,
-    redirect: (context, state) => authRedirect(
-      auth: auth.value,
-      onboarding: onboarding.value,
-      location: state.uri.toString(),
-    ),
+    redirect: (context, state) =>
+        onboardingRedirect(onboarding: onboarding.value, location: state.uri.toString()),
     routes: [
       GoRoute(path: Routes.splash, builder: (_, _) => const SplashScreen()),
-      GoRoute(path: Routes.login, builder: (_, _) => const LoginScreen()),
-      GoRoute(path: Routes.register, builder: (_, _) => const RegisterScreen()),
-      GoRoute(path: Routes.forgotPassword, builder: (_, _) => const ForgotPasswordScreen()),
       GoRoute(path: Routes.onboarding, builder: (_, _) => const OnboardingScreen()),
       GoRoute(
         path: Routes.assessment,
@@ -94,7 +81,6 @@ GoRouter appRouter(Ref ref) {
     ],
   );
   ref.onDispose(() {
-    auth.dispose();
     onboarding.dispose();
     router.dispose();
   });

@@ -128,162 +128,6 @@ abstract class AppLocalizations {
   /// **'Batal'**
   String get cancel;
 
-  /// No description provided for @emailLabel.
-  ///
-  /// In id, this message translates to:
-  /// **'Email'**
-  String get emailLabel;
-
-  /// No description provided for @passwordLabel.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi'**
-  String get passwordLabel;
-
-  /// No description provided for @confirmPasswordLabel.
-  ///
-  /// In id, this message translates to:
-  /// **'Ulangi kata sandi'**
-  String get confirmPasswordLabel;
-
-  /// No description provided for @showPassword.
-  ///
-  /// In id, this message translates to:
-  /// **'Tampilkan kata sandi'**
-  String get showPassword;
-
-  /// No description provided for @hidePassword.
-  ///
-  /// In id, this message translates to:
-  /// **'Sembunyikan kata sandi'**
-  String get hidePassword;
-
-  /// No description provided for @loginTitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Masuk ke {appName}'**
-  String loginTitle(String appName);
-
-  /// No description provided for @loginSubtitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Lanjutkan program latihan dan catatan progres Anda.'**
-  String get loginSubtitle;
-
-  /// No description provided for @loginButton.
-  ///
-  /// In id, this message translates to:
-  /// **'Masuk'**
-  String get loginButton;
-
-  /// No description provided for @forgotPasswordLink.
-  ///
-  /// In id, this message translates to:
-  /// **'Lupa kata sandi?'**
-  String get forgotPasswordLink;
-
-  /// No description provided for @createAccountButton.
-  ///
-  /// In id, this message translates to:
-  /// **'Buat akun baru'**
-  String get createAccountButton;
-
-  /// No description provided for @registerTitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Buat akun'**
-  String get registerTitle;
-
-  /// No description provided for @registerSubtitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Satu akun untuk menyimpan assessment, program, dan progres Anda.'**
-  String get registerSubtitle;
-
-  /// No description provided for @passwordRule.
-  ///
-  /// In id, this message translates to:
-  /// **'Minimal {min} karakter, berisi huruf dan angka.'**
-  String passwordRule(int min);
-
-  /// No description provided for @registerButton.
-  ///
-  /// In id, this message translates to:
-  /// **'Daftar'**
-  String get registerButton;
-
-  /// No description provided for @registerSuccess.
-  ///
-  /// In id, this message translates to:
-  /// **'Akun dibuat. Kami mengirim tautan verifikasi ke email Anda.'**
-  String get registerSuccess;
-
-  /// No description provided for @forgotPasswordTitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Atur ulang kata sandi'**
-  String get forgotPasswordTitle;
-
-  /// No description provided for @forgotPasswordSubtitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Masukkan email akun Anda. Kami akan mengirim tautan untuk membuat kata sandi baru.'**
-  String get forgotPasswordSubtitle;
-
-  /// No description provided for @forgotPasswordSent.
-  ///
-  /// In id, this message translates to:
-  /// **'Jika email tersebut terdaftar, tautan atur ulang sudah dikirim. Periksa juga folder spam.'**
-  String get forgotPasswordSent;
-
-  /// No description provided for @forgotPasswordButton.
-  ///
-  /// In id, this message translates to:
-  /// **'Kirim tautan'**
-  String get forgotPasswordButton;
-
-  /// No description provided for @forgotPasswordResend.
-  ///
-  /// In id, this message translates to:
-  /// **'Kirim ulang tautan'**
-  String get forgotPasswordResend;
-
-  /// No description provided for @validationEmailRequired.
-  ///
-  /// In id, this message translates to:
-  /// **'Email wajib diisi.'**
-  String get validationEmailRequired;
-
-  /// No description provided for @validationEmailInvalid.
-  ///
-  /// In id, this message translates to:
-  /// **'Format email tidak valid.'**
-  String get validationEmailInvalid;
-
-  /// No description provided for @validationPasswordRequired.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi wajib diisi.'**
-  String get validationPasswordRequired;
-
-  /// No description provided for @validationPasswordTooShort.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi minimal {min} karakter.'**
-  String validationPasswordTooShort(int min);
-
-  /// No description provided for @validationPasswordTooWeak.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi harus berisi huruf dan angka.'**
-  String get validationPasswordTooWeak;
-
-  /// No description provided for @validationPasswordMismatch.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi tidak sama.'**
-  String get validationPasswordMismatch;
-
   /// No description provided for @errorNetwork.
   ///
   /// In id, this message translates to:
@@ -332,71 +176,17 @@ abstract class AppLocalizations {
   /// **'Permintaan terlalu lama. Coba lagi.'**
   String get errorTimeout;
 
-  /// No description provided for @errorInvalidCredentials.
-  ///
-  /// In id, this message translates to:
-  /// **'Email atau kata sandi salah.'**
-  String get errorInvalidCredentials;
-
-  /// No description provided for @errorEmailInUse.
-  ///
-  /// In id, this message translates to:
-  /// **'Email ini sudah terdaftar. Silakan masuk atau atur ulang kata sandi.'**
-  String get errorEmailInUse;
-
-  /// No description provided for @errorWeakPassword.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi terlalu lemah.'**
-  String get errorWeakPassword;
-
-  /// No description provided for @errorTooManyRequests.
-  ///
-  /// In id, this message translates to:
-  /// **'Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.'**
-  String get errorTooManyRequests;
-
-  /// No description provided for @errorRequiresRecentLogin.
-  ///
-  /// In id, this message translates to:
-  /// **'Demi keamanan, masukkan kata sandi Anda lagi.'**
-  String get errorRequiresRecentLogin;
-
-  /// No description provided for @errorUserDisabled.
-  ///
-  /// In id, this message translates to:
-  /// **'Akun ini dinonaktifkan.'**
-  String get errorUserDisabled;
-
   /// No description provided for @errorUnknown.
   ///
   /// In id, this message translates to:
   /// **'Terjadi kesalahan. Coba lagi.'**
   String get errorUnknown;
 
-  /// No description provided for @emptyHomeTitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Selamat datang!'**
-  String get emptyHomeTitle;
-
-  /// No description provided for @emptyHomeMessage.
-  ///
-  /// In id, this message translates to:
-  /// **'Ringkasan harian — latihan berikutnya, sisa kalori & makro, dan check-in — akan tampil di sini setelah assessment dan program Anda siap.'**
-  String get emptyHomeMessage;
-
   /// No description provided for @emptyWorkoutTitle.
   ///
   /// In id, this message translates to:
   /// **'Belum ada program latihan'**
   String get emptyWorkoutTitle;
-
-  /// No description provided for @emptyWorkoutMessage.
-  ///
-  /// In id, this message translates to:
-  /// **'Program mingguan dan pencatatan set akan tersedia setelah assessment selesai.'**
-  String get emptyWorkoutMessage;
 
   /// No description provided for @emptyNutritionTitle.
   ///
@@ -422,95 +212,11 @@ abstract class AppLocalizations {
   /// **'Grafik berat badan, performa latihan, dan ringkasan mingguan akan muncul setelah Anda mulai mencatat.'**
   String get emptyProgressMessage;
 
-  /// No description provided for @accountSection.
-  ///
-  /// In id, this message translates to:
-  /// **'Akun'**
-  String get accountSection;
-
-  /// No description provided for @emailVerified.
-  ///
-  /// In id, this message translates to:
-  /// **'Email terverifikasi'**
-  String get emailVerified;
-
-  /// No description provided for @emailNotVerified.
-  ///
-  /// In id, this message translates to:
-  /// **'Email belum diverifikasi. Buka tautan yang kami kirim ke email Anda.'**
-  String get emailNotVerified;
-
-  /// No description provided for @resendVerification.
-  ///
-  /// In id, this message translates to:
-  /// **'Kirim ulang verifikasi'**
-  String get resendVerification;
-
-  /// No description provided for @checkVerification.
-  ///
-  /// In id, this message translates to:
-  /// **'Saya sudah verifikasi'**
-  String get checkVerification;
-
-  /// No description provided for @verificationSent.
-  ///
-  /// In id, this message translates to:
-  /// **'Email verifikasi dikirim.'**
-  String get verificationSent;
-
-  /// No description provided for @signOut.
-  ///
-  /// In id, this message translates to:
-  /// **'Keluar'**
-  String get signOut;
-
-  /// No description provided for @signOutConfirmTitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Keluar dari akun?'**
-  String get signOutConfirmTitle;
-
-  /// No description provided for @signOutConfirmMessage.
-  ///
-  /// In id, this message translates to:
-  /// **'Anda perlu masuk lagi untuk melihat program dan progres Anda.'**
-  String get signOutConfirmMessage;
-
   /// No description provided for @dangerZone.
   ///
   /// In id, this message translates to:
   /// **'Zona berbahaya'**
   String get dangerZone;
-
-  /// No description provided for @deleteAccount.
-  ///
-  /// In id, this message translates to:
-  /// **'Hapus akun dan semua data'**
-  String get deleteAccount;
-
-  /// No description provided for @deleteAccountTitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Hapus akun?'**
-  String get deleteAccountTitle;
-
-  /// No description provided for @deleteAccountMessage.
-  ///
-  /// In id, this message translates to:
-  /// **'Seluruh data Anda — assessment, program, catatan latihan & makanan, dan progres — akan dihapus permanen dan tidak dapat dipulihkan.'**
-  String get deleteAccountMessage;
-
-  /// No description provided for @deleteAccountPasswordLabel.
-  ///
-  /// In id, this message translates to:
-  /// **'Kata sandi untuk konfirmasi'**
-  String get deleteAccountPasswordLabel;
-
-  /// No description provided for @deleteAccountConfirm.
-  ///
-  /// In id, this message translates to:
-  /// **'Hapus permanen'**
-  String get deleteAccountConfirm;
 
   /// No description provided for @retry.
   ///
@@ -529,12 +235,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Kembali'**
   String get back;
-
-  /// No description provided for @optionalSuffix.
-  ///
-  /// In id, this message translates to:
-  /// **'opsional'**
-  String get optionalSuffix;
 
   /// No description provided for @unitCm.
   ///
@@ -599,7 +299,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPoint3.
   ///
   /// In id, this message translates to:
-  /// **'Data Anda privat dan dapat dihapus kapan saja dari Profil.'**
+  /// **'Data Anda tersimpan hanya di perangkat ini dan dapat dihapus kapan saja dari Profil.'**
   String get onboardingPoint3;
 
   /// No description provided for @disclaimerShort.
@@ -613,12 +313,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Mulai assessment'**
   String get startAssessment;
-
-  /// No description provided for @continueAssessment.
-  ///
-  /// In id, this message translates to:
-  /// **'Lanjutkan assessment'**
-  String get continueAssessment;
 
   /// No description provided for @assessmentTitle.
   ///
@@ -2396,12 +2090,6 @@ abstract class AppLocalizations {
   /// **'Target'**
   String get targetLabel;
 
-  /// No description provided for @actualLabel.
-  ///
-  /// In id, this message translates to:
-  /// **'Aktual'**
-  String get actualLabel;
-
   /// No description provided for @exerciseInstructions.
   ///
   /// In id, this message translates to:
@@ -2437,12 +2125,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Otot pendukung'**
   String get exerciseSecondaryMuscles;
-
-  /// No description provided for @exerciseEquipment.
-  ///
-  /// In id, this message translates to:
-  /// **'Alat'**
-  String get exerciseEquipment;
 
   /// No description provided for @noEquipment.
   ///
@@ -2569,6 +2251,42 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Buka'**
   String get openWorkout;
+
+  /// No description provided for @dataPrivacySection.
+  ///
+  /// In id, this message translates to:
+  /// **'Data & privasi'**
+  String get dataPrivacySection;
+
+  /// No description provided for @dataLocalOnly.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua data tersimpan hanya di perangkat ini, tanpa akun dan tanpa server. Bila aplikasi dihapus atau HP hilang, data ikut hilang — fitur backup menyusul.'**
+  String get dataLocalOnly;
+
+  /// No description provided for @wipeData.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus semua data'**
+  String get wipeData;
+
+  /// No description provided for @wipeDataTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus semua data?'**
+  String get wipeDataTitle;
+
+  /// No description provided for @wipeDataMessage.
+  ///
+  /// In id, this message translates to:
+  /// **'Assessment, target, program, dan seluruh catatan latihan di perangkat ini akan dihapus permanen dan tidak dapat dipulihkan.'**
+  String get wipeDataMessage;
+
+  /// No description provided for @wipeDataConfirm.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus permanen'**
+  String get wipeDataConfirm;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

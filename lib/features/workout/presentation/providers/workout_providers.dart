@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/errors/app_failure.dart';
 import '../../../../core/errors/failure_mapper.dart';
-import '../../../../core/firebase/firebase_providers.dart';
+import '../../../../core/logging/app_logger.dart';
+import '../../../../core/database/database_providers.dart';
 import '../../../../core/utils/formatters.dart';
-import '../../../assessment/application/assessment_wizard_controller.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../exercise_library/presentation/providers/exercise_providers.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../../data/workout_repository.dart';
 import '../../domain/entities/workout.dart';
@@ -16,16 +15,14 @@ import '../../domain/workout_math.dart';
 
 part 'workout_providers.g.dart';
 
-@riverpod
-WorkoutRepository workoutRepository(Ref ref) {
-  final uid = ref.watch(authStateProvider.select((a) => a.value?.uid));
-  if (uid == null) throw const AppFailure(FailureKind.unauthenticated);
-  return FirestoreWorkoutRepository(
-    ref.watch(firestoreProvider),
-    ref.watch(functionsClientProvider),
-    uid,
-  );
-}
+/// keepAlive: repository memegang closure pembaca katalog yang dipakai
+/// setelah operasi async — `ref` milik provider autoDispose bisa sudah mati.
+@Riverpod(keepAlive: true)
+WorkoutRepository workoutRepository(Ref ref) => LocalWorkoutRepository(
+  ref.watch(appDatabaseProvider),
+  ref.watch(clockProvider),
+  () => ref.read(exerciseCatalogProvider.future),
+);
 
 @riverpod
 Stream<WorkoutPlan?> workoutPlan(Ref ref, String planId) =>
@@ -79,7 +76,9 @@ class WorkoutActions extends _$WorkoutActions {
       if (ref.mounted) state = const AsyncData(null);
       return value;
     } catch (e, st) {
-      if (ref.mounted) state = AsyncError(FailureMapper.from(e), st);
+      final failure = FailureMapper.from(e);
+      appLogger.w('Aksi latihan gagal: $failure', error: e, stackTrace: st);
+      if (ref.mounted) state = AsyncError(failure, st);
       return null;
     }
   }

@@ -3,6 +3,28 @@
 > Hasil **Fase 0 (Repository discovery)** sesuai `CLAUDE_Muscle_Coach_Flutter_Gemini-1.md` §17 & §21.
 > Disusun: 19 November 2026. Dokumen ini diperbarui setiap kali keputusan/fase berubah.
 
+
+> ⚠️ **Perubahan arsitektur (19 Nov 2026) — lihat §0.** Aplikasi kini **lokal penuh** (SQLite/drift + Gemini dari aplikasi). Bagian tentang Firebase/Cloud Functions di bawah adalah catatan historis; kodenya diarsipkan di branch `firebase-backend`.
+
+## 0. Arsitektur saat ini: lokal penuh (keputusan 19 Nov 2026)
+
+**Alasan**: pengguna memilih tetap gratis (tanpa paket Blaze). Paket Spark tidak dapat menjalankan Cloud Functions, sedangkan Emulator hanya berjalan selama Mac menyala di jaringan yang sama — tidak dapat dipakai di gym. Untuk MVP pribadi, data disimpan di perangkat.
+
+| Aspek | Sekarang | Sebelumnya (branch `firebase-backend`) |
+|---|---|---|
+| Data | SQLite via **drift** (`lib/core/database/app_database.dart`), FK cascade, indeks sesi | Firestore + Security Rules |
+| Logika inti (kalkulasi target, evaluasi, keselamatan, planner, validator) | **Dart** murni di `features/*/domain/` — porting 1:1 dari TypeScript, test ikut diporting | Cloud Functions TypeScript |
+| Katalog latihan | Aset `assets/catalog/exercises.json` (versi `2026-11-v1`, 43 gerakan) | Seed ke `exerciseCatalog` |
+| Akun | **Tanpa akun/login**; satu profil per perangkat | Firebase Auth email/password |
+| Hapus data | Profil → *Hapus semua data* (seluruh tabel) | `deleteUserData` |
+| Gemini (Fase 4) | Dipanggil langsung dari aplikasi; **API key dimasukkan pengguna di Pengaturan & disimpan terenkripsi** (`flutter_secure_storage`), tidak pernah di APK/repo | Cloud Functions + Secret Manager |
+
+**Konsekuensi yang diterima**: tidak ada sinkronisasi/backup otomatis (fitur ekspor/impor backup direncanakan), satu perangkat, validasi bisnis dijalankan di lapisan data aplikasi (repository memvalidasi ulang, bukan hanya UI). Brief §3/§10/§13/§14 tentang backend & Secret Manager **tidak berlaku** untuk arsitektur ini; prinsip keselamatan, validasi output AI, dan minimisasi data tetap berlaku.
+
+**Struktur lapisan tetap**: presentation → application/controller → domain (entity, validator, planner) → data (repository drift/aset). Repository diakses lewat interface sehingga backend server dapat ditambahkan kembali kelak.
+
+**Test** (setelah migrasi): Flutter 99 — domain hasil porting (kalkulator, evaluasi target, keselamatan, katalog, planner, validator), repository drift in-memory (submit/konfirmasi/arsip, program, sesi, cascade, hapus data), wiring provider, widget, controller · E2E di perangkat: onboarding → assessment → target → program → catat set → riwayat → hapus data.
+
 ---
 
 ## 1. Temuan

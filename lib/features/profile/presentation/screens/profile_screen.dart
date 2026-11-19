@@ -3,41 +3,50 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
-
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
-import '../../../auth/domain/entities/auth_user.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
 import '../providers/profile_providers.dart';
-import '../widgets/delete_account_dialog.dart';
 
-/// Tab Profil: assessment & target, akun (verifikasi email, keluar, hapus akun).
-/// Peralatan, notifikasi & privasi menyusul.
+/// Tab Profil: assessment & target, serta data & privasi.
+/// Peralatan, notifikasi, dan backup menyusul.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
+
+  Future<void> _wipe(BuildContext context, WidgetRef ref) async {
+    final l = context.l10n;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        final error = Theme.of(ctx).colorScheme.error;
+        return AlertDialog(
+          icon: Icon(Icons.warning_amber_rounded, color: error),
+          title: Text(l.wipeDataTitle),
+          content: Text(l.wipeDataMessage),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.cancel)),
+            FilledButton(
+              style: FilledButton.styleFrom(backgroundColor: error, minimumSize: const Size(0, 48)),
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(l.wipeDataConfirm),
+            ),
+          ],
+        );
+      },
+    );
+    if (!(ok ?? false)) return;
+    try {
+      await ref.read(profileRepositoryProvider).wipeAllData();
+      // Router otomatis kembali ke onboarding (profil kosong).
+    } catch (e) {
+      if (context.mounted) context.showSnack(failureMessage(l, e));
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    final user = ref.watch(authStateProvider).value;
-    final action = ref.watch(authControllerProvider);
-    final controller = ref.read(authControllerProvider.notifier);
+    final theme = Theme.of(context);
     final activeGoalId = ref.watch(userProfileProvider).value?.activeGoalId;
-
-    Future<void> confirmSignOut() async {
-      final ok = await showDialog<bool>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(l.signOutConfirmTitle),
-          content: Text(l.signOutConfirmMessage),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.cancel)),
-            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(l.signOut)),
-          ],
-        ),
-      );
-      if ((ok ?? false) && context.mounted) await _runWithSnack(context, ref, controller.signOut);
-    }
 
     return Scaffold(
       appBar: AppBar(title: Text(l.tabProfile)),
@@ -51,10 +60,7 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-                  child: Text(
-                    l.profileAssessmentSection,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                  child: Text(l.profileAssessmentSection, style: theme.textTheme.titleMedium),
                 ),
                 if (activeGoalId != null)
                   ListTile(
@@ -74,109 +80,40 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          if (user != null) _AccountCard(user: user, busy: action.isLoading),
-          const SizedBox(height: 24),
-          OutlinedButton.icon(
-            onPressed: action.isLoading ? null : confirmSignOut,
-            icon: const Icon(Icons.logout),
-            label: Text(l.signOut),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l.dataPrivacySection, style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.phone_android, color: theme.colorScheme.primary),
+                      const SizedBox(width: 12),
+                      Expanded(child: Text(l.dataLocalOnly)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: 32),
-          Text(l.dangerZone, style: Theme.of(context).textTheme.titleSmall),
+          Text(l.dangerZone, style: theme.textTheme.titleSmall),
           const SizedBox(height: 8),
           TextButton.icon(
             style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: theme.colorScheme.error,
               alignment: Alignment.centerLeft,
             ),
-            onPressed: action.isLoading ? null : () => DeleteAccountDialog.show(context),
+            onPressed: () => _wipe(context, ref),
             icon: const Icon(Icons.delete_forever_outlined),
-            label: Text(l.deleteAccount),
+            label: Text(l.wipeData),
           ),
         ],
       ),
     );
-  }
-}
-
-class _AccountCard extends ConsumerWidget {
-  const _AccountCard({required this.user, required this.busy});
-
-  final AuthUser user;
-  final bool busy;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l = context.l10n;
-    final theme = Theme.of(context);
-    final controller = ref.read(authControllerProvider.notifier);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l.accountSection, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const Icon(Icons.mail_outline),
-                const SizedBox(width: 12),
-                Expanded(child: Text(user.email, style: theme.textTheme.bodyLarge)),
-              ],
-            ),
-            const SizedBox(height: 12),
-            if (user.emailVerified)
-              Chip(
-                avatar: Icon(Icons.verified, color: theme.colorScheme.primary),
-                label: Text(l.emailVerified),
-              )
-            else ...[
-              Text(l.emailNotVerified, style: theme.textTheme.bodyMedium),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  OutlinedButton(
-                    onPressed: busy
-                        ? null
-                        : () => _runWithSnack(
-                            context,
-                            ref,
-                            controller.sendEmailVerification,
-                            success: l.verificationSent,
-                          ),
-                    child: Text(l.resendVerification),
-                  ),
-                  TextButton(
-                    onPressed: busy
-                        ? null
-                        : () => _runWithSnack(context, ref, controller.reloadUser),
-                    child: Text(l.checkVerification),
-                  ),
-                ],
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Jalankan aksi controller; tampilkan error (atau pesan sukses) di snackbar.
-Future<void> _runWithSnack(
-  BuildContext context,
-  WidgetRef ref,
-  Future<bool> Function() action, {
-  String? success,
-}) async {
-  final ok = await action();
-  if (!context.mounted) return;
-  if (ok) {
-    if (success != null) context.showSnack(success);
-  } else if (ref.read(authControllerProvider).error case final e?) {
-    context.showSnack(failureMessage(context.l10n, e));
   }
 }

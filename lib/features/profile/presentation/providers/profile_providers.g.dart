@@ -48,19 +48,19 @@ final class ProfileRepositoryProvider
   }
 }
 
-String _$profileRepositoryHash() => r'e6bab2f89159ec875610f2397ab1fbab192fc110';
+String _$profileRepositoryHash() => r'a9372629d06e11a69bfe16f8fd6f7e10a9915ae5';
 
-/// Profil pengguna yang sedang login (`null` bila belum login / belum dibuat).
+/// Profil pengguna (`null` bila belum pernah dibuat).
 
 @ProviderFor(userProfile)
 final userProfileProvider = UserProfileProvider._();
 
-/// Profil pengguna yang sedang login (`null` bila belum login / belum dibuat).
+/// Profil pengguna (`null` bila belum pernah dibuat).
 
 final class UserProfileProvider
     extends $FunctionalProvider<AsyncValue<UserProfile?>, UserProfile?, Stream<UserProfile?>>
     with $FutureModifier<UserProfile?>, $StreamProvider<UserProfile?> {
-  /// Profil pengguna yang sedang login (`null` bila belum login / belum dibuat).
+  /// Profil pengguna (`null` bila belum pernah dibuat).
   UserProfileProvider._()
     : super(
         from: null,
@@ -86,4 +86,4 @@ final class UserProfileProvider
   }
 }
 
-String _$userProfileHash() => r'60b3aee2f768312e128a485822ac533cae9b4c90';
+String _$userProfileHash() => r'48688172c15379efc51a146f2d4871918f521297';

@@ -10,7 +10,7 @@ import '../../../assessment/presentation/widgets/assessment_labels.dart';
 import '../../../goals/domain/entities/goal.dart';
 import '../../../goals/presentation/providers/goal_providers.dart';
 import '../../../goals/presentation/widgets/nutrition_target_card.dart';
-import '../../../assessment/application/assessment_wizard_controller.dart';
+import '../../../../core/database/database_providers.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../../../workout/domain/workout_math.dart';
 import '../../../workout/presentation/providers/workout_providers.dart';

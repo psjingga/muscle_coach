@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:musclecoach/app/theme/app_theme.dart';
-import 'package:musclecoach/features/assessment/application/assessment_wizard_controller.dart';
+import 'package:musclecoach/core/database/database_providers.dart';
 import 'package:musclecoach/features/profile/domain/entities/user_profile.dart';
 import 'package:musclecoach/features/profile/presentation/providers/profile_providers.dart';
 import 'package:musclecoach/features/workout/domain/entities/workout.dart';

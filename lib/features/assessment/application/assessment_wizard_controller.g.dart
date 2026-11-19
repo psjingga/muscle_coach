@@ -48,53 +48,7 @@ final class AssessmentRepositoryProvider
   }
 }
 
-String _$assessmentRepositoryHash() => r'b2fac25a9c4de58889eb2ae551611f22f4d690aa';
-
-/// Jam yang dipakai validasi usia (dapat dioverride di test).
-
-@ProviderFor(clock)
-final clockProvider = ClockProvider._();
-
-/// Jam yang dipakai validasi usia (dapat dioverride di test).
-
-final class ClockProvider
-    extends $FunctionalProvider<DateTime Function(), DateTime Function(), DateTime Function()>
-    with $Provider<DateTime Function()> {
-  /// Jam yang dipakai validasi usia (dapat dioverride di test).
-  ClockProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'clockProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$clockHash();
-
-  @$internal
-  @override
-  $ProviderElement<DateTime Function()> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  DateTime Function() create(Ref ref) {
-    return clock(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(DateTime Function() value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<DateTime Function()>(value),
-    );
-  }
-}
-
-String _$clockHash() => r'3b571c5a0c08b7391c0eed04391003191bab6ccf';
+String _$assessmentRepositoryHash() => r'19141649420d348bd8f3c4752d530ee88a7cf69a';
 
 /// Wizard assessment 7 langkah: memuat draft (atau assessment terakhir),
 /// memvalidasi per langkah, menyimpan draft saat pindah langkah, lalu

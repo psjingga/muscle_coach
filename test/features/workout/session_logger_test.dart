@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:musclecoach/features/assessment/application/assessment_wizard_controller.dart';
+import 'package:musclecoach/core/database/database_providers.dart';
 import 'package:musclecoach/features/workout/domain/entities/workout.dart';
 import 'package:musclecoach/features/workout/domain/workout_math.dart';
 import 'package:musclecoach/features/workout/presentation/providers/workout_providers.dart';

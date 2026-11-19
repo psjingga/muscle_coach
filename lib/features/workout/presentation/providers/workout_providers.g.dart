@@ -8,20 +8,27 @@ part of 'workout_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// keepAlive: repository memegang closure pembaca katalog yang dipakai
+/// setelah operasi async — `ref` milik provider autoDispose bisa sudah mati.
 
 @ProviderFor(workoutRepository)
 final workoutRepositoryProvider = WorkoutRepositoryProvider._();
 
+/// keepAlive: repository memegang closure pembaca katalog yang dipakai
+/// setelah operasi async — `ref` milik provider autoDispose bisa sudah mati.
+
 final class WorkoutRepositoryProvider
     extends $FunctionalProvider<WorkoutRepository, WorkoutRepository, WorkoutRepository>
     with $Provider<WorkoutRepository> {
+  /// keepAlive: repository memegang closure pembaca katalog yang dipakai
+  /// setelah operasi async — `ref` milik provider autoDispose bisa sudah mati.
   WorkoutRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'workoutRepositoryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -48,7 +55,7 @@ final class WorkoutRepositoryProvider
   }
 }
 
-String _$workoutRepositoryHash() => r'6f73eebeec25569f817f59cef31a66f6f0bd01aa';
+String _$workoutRepositoryHash() => r'47dd9606ccd1309be8236268e9b4a1b83f0e4a03';
 
 @ProviderFor(workoutPlan)
 final workoutPlanProvider = WorkoutPlanFamily._();
@@ -515,7 +522,7 @@ final class WorkoutActionsProvider extends $AsyncNotifierProvider<WorkoutActions
   WorkoutActions create() => WorkoutActions();
 }
 
-String _$workoutActionsHash() => r'1a03a5fb43a5364b46036dcd0edff6c8b12eb592';
+String _$workoutActionsHash() => r'246f7828b790603f197870a0a1c5c81923dc0ea6';
 
 /// Aksi program & sesi. `state` = status aksi terakhir (untuk tombol/snackbar).
 

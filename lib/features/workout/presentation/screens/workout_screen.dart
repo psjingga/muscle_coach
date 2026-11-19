@@ -6,7 +6,7 @@ import '../../../../app/router/routes.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/widgets/empty_state.dart';
-import '../../../assessment/application/assessment_wizard_controller.dart';
+import '../../../../core/database/database_providers.dart';
 import '../../domain/entities/workout.dart';
 import '../providers/workout_providers.dart';
 import '../widgets/workout_labels.dart';

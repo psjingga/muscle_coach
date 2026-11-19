@@ -1,27 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/errors/app_failure.dart';
 import '../../../../core/errors/failure_mapper.dart';
-import '../../../../core/firebase/firebase_providers.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../../core/database/database_providers.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
-import '../../data/firestore_goal_repository.dart';
+import '../../data/local_goal_repository.dart';
 import '../../domain/entities/goal.dart';
 import '../../domain/repositories/goal_repository.dart';
 
 part 'goal_providers.g.dart';
 
 @riverpod
-GoalRepository goalRepository(Ref ref) {
-  final uid = ref.watch(authStateProvider.select((a) => a.value?.uid));
-  if (uid == null) throw const AppFailure(FailureKind.unauthenticated);
-  return FirestoreGoalRepository(
-    ref.watch(firestoreProvider),
-    ref.watch(functionsClientProvider),
-    uid,
-  );
-}
+GoalRepository goalRepository(Ref ref) =>
+    LocalGoalRepository(ref.watch(appDatabaseProvider), ref.watch(clockProvider));
 
 @riverpod
 Stream<Goal?> goal(Ref ref, String goalId) => ref.watch(goalRepositoryProvider).watchGoal(goalId);

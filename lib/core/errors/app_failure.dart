@@ -1,4 +1,4 @@
-/// Jenis kegagalan yang stabil, terlepas dari SDK sumbernya.
+/// Jenis kegagalan yang stabil, terlepas dari sumbernya.
 /// Teks untuk pengguna dipetakan di `failure_message.dart`.
 enum FailureKind {
   network,
@@ -9,16 +9,10 @@ enum FailureKind {
   quotaExceeded,
   unavailable,
   timeout,
-  invalidCredentials,
-  emailAlreadyInUse,
-  weakPassword,
-  tooManyRequests,
-  requiresRecentLogin,
-  userDisabled,
   unknown,
 }
 
-/// Kegagalan aplikasi. Lapisan data mengubah exception SDK menjadi ini;
+/// Kegagalan aplikasi. Lapisan data mengubah exception menjadi ini;
 /// presentation hanya berurusan dengan [FailureKind].
 class AppFailure implements Exception {
   const AppFailure(this.kind, {this.debugMessage});

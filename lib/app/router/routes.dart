@@ -1,9 +1,6 @@
 /// Path rute aplikasi.
 abstract final class Routes {
   static const splash = '/splash';
-  static const login = '/login';
-  static const register = '/register';
-  static const forgotPassword = '/forgot-password';
 
   static const onboarding = '/onboarding';
   static const assessment = '/assessment';
@@ -21,9 +18,6 @@ abstract final class Routes {
   static const nutrition = '/nutrition';
   static const progress = '/progress';
   static const profile = '/profile';
-
-  /// Rute yang boleh dibuka tanpa login.
-  static const public = {login, register, forgotPassword};
 
   /// `/assessment?step=1`
   static String assessmentPath({int? step}) => step == null ? assessment : '$assessment?step=$step';

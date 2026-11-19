@@ -1,14 +1,13 @@
+import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/firebase/firebase_providers.dart';
 import '../../data/exercise_repository.dart';
 import '../../domain/exercise.dart';
 
 part 'exercise_providers.g.dart';
 
 @Riverpod(keepAlive: true)
-ExerciseRepository exerciseRepository(Ref ref) =>
-    FirestoreExerciseRepository(ref.watch(firestoreProvider));
+ExerciseRepository exerciseRepository(Ref ref) => AssetExerciseRepository(rootBundle);
 
 /// Katalog latihan, dimuat sekali lalu di-cache selama aplikasi berjalan.
 @Riverpod(keepAlive: true)

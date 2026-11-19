@@ -1,16 +1,13 @@
 import 'dart:async';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_mapper.dart';
-import '../../../core/firebase/firebase_providers.dart';
+import '../../../core/database/database_providers.dart';
 import '../../../core/logging/app_logger.dart';
-import '../../auth/presentation/providers/auth_providers.dart';
 import '../../profile/presentation/providers/profile_providers.dart';
-import '../data/firestore_assessment_repository.dart';
+import '../data/local_assessment_repository.dart';
 import '../domain/entities/assessment_data.dart';
 import '../domain/repositories/assessment_repository.dart';
 import '../domain/validators/assessment_validator.dart';
@@ -19,19 +16,8 @@ part 'assessment_wizard_controller.freezed.dart';
 part 'assessment_wizard_controller.g.dart';
 
 @riverpod
-AssessmentRepository assessmentRepository(Ref ref) {
-  final uid = ref.watch(authStateProvider.select((a) => a.value?.uid));
-  if (uid == null) throw const AppFailure(FailureKind.unauthenticated);
-  return FirestoreAssessmentRepository(
-    ref.watch(firestoreProvider),
-    ref.watch(functionsClientProvider),
-    uid,
-  );
-}
-
-/// Jam yang dipakai validasi usia (dapat dioverride di test).
-@riverpod
-DateTime Function() clock(Ref ref) => DateTime.now;
+AssessmentRepository assessmentRepository(Ref ref) =>
+    LocalAssessmentRepository(ref.watch(appDatabaseProvider), ref.watch(clockProvider));
 
 @freezed
 abstract class AssessmentWizardState with _$AssessmentWizardState {

@@ -388,6 +388,8 @@ class AppDatabase extends _$AppDatabase {
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
+      // Data yang dihapus ditimpa nol, bukan sekadar ditandai bebas.
+      await customStatement('PRAGMA secure_delete = ON');
     },
   );
 
@@ -398,12 +400,16 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  /// Hapus seluruh data pengguna (tabel tetap ada).
-  Future<void> wipeAll() => transaction(() async {
-    for (final table in allTables.toList().reversed) {
-      await delete(table).go();
-    }
-  });
+  /// Hapus seluruh data pengguna (tabel tetap ada), lalu VACUUM agar sisa
+  /// halaman lama di berkas basis data ikut dibuang.
+  Future<void> wipeAll() async {
+    await transaction(() async {
+      for (final table in allTables.toList().reversed) {
+        await delete(table).go();
+      }
+    });
+    await customStatement('VACUUM');
+  }
 }
 
 final _random = Random.secure();

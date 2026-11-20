@@ -131,4 +131,7 @@ abstract final class MealPlanWarning {
 
   /// Ada bahan yang angka sumbernya tidak konsisten.
   static const inconsistentData = 'inconsistent_source_data';
+
+  /// Gram dari AI disesuaikan aplikasi agar total mendekati target.
+  static const portionsAdjusted = 'portions_adjusted_by_app';
 }

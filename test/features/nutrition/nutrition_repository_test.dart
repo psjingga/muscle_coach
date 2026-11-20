@@ -238,7 +238,7 @@ void main() {
         ],
         target: smallTarget,
         rationale: 'r',
-        promptVersion: 'meal_plan.v1',
+        promptVersion: 'meal_plan.v2',
         catalogVersion: 'tkpi',
       );
     }
@@ -259,7 +259,7 @@ void main() {
       );
       final p = (await repo.watchMealPlan(c).first)!;
       expect(p.model, 'm');
-      expect(p.promptVersion, 'meal_plan.v1');
+      expect(p.promptVersion, 'meal_plan.v2');
       expect(p.meals.first.items, hasLength(2));
     });
 
@@ -338,9 +338,12 @@ void main() {
       expect(plan.status, MealPlanStatus.draft);
       expect(plan.meals, hasLength(3));
       expect(plan.model, 'gemini-test');
-      expect(plan.promptVersion, 'meal_plan.v1');
+      expect(plan.promptVersion, 'meal_plan.v2');
       expect(plan.catalogVersion, startsWith('tkpi-'));
-      expect(plan.warnings, isEmpty);
+      expect(plan.warnings, isNot(contains(MealPlanWarning.allergyCheck)));
+      expect(plan.warnings, isNot(contains(MealPlanWarning.eatingDisorder)));
+      final t = plan.totals.kcal;
+      expect((t - smallTarget.kcal).abs() / smallTarget.kcal, lessThanOrEqualTo(0.10));
       // Prompt hanya berisi target & preferensi + katalog — tanpa nama/umur/berat.
       final sent = jsonDecode(client.requests.single) as Map<String, dynamic>;
       expect(sent.keys, isNot(containsAll(['nama', 'umur', 'beratKg'])));
@@ -349,7 +352,7 @@ void main() {
       final log = (await logs()).single;
       expect(log.kind, 'meal_plan');
       expect(log.status, 'success');
-      expect(log.promptVersion, 'meal_plan.v1');
+      expect(log.promptVersion, 'meal_plan.v2');
     });
 
     test('output tidak valid → retry dengan umpan balik → berhasil', () async {

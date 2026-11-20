@@ -3,7 +3,7 @@ import '../../ai_coach/application/ai_plan_service.dart';
 import '../../ai_coach/data/ai_repository.dart';
 import '../../ai_coach/domain/ai_client.dart';
 import '../../ai_coach/domain/ai_config.dart';
-import '../../ai_coach/domain/prompts/meal_plan_v1.dart';
+import '../../ai_coach/domain/prompts/meal_plan_v2.dart';
 import '../data/nutrition_repository.dart';
 import '../domain/meal_plan.dart';
 import '../domain/meal_plan_candidates.dart';
@@ -48,8 +48,9 @@ class MealPlanService {
       target: ctx.target,
       mealsPerDay: ctx.prefs.mealsPerDay ?? 3,
       avoidPhrases: MealPlanCandidates.avoidPhrases(ctx.prefs),
+      fitPortions: true,
     );
-    final baseContent = MealPlanPromptV1.userContent(
+    final baseContent = MealPlanPromptV2.userContent(
       ctx.prefs,
       target: ctx.target,
       catalog: candidates,
@@ -66,7 +67,7 @@ class MealPlanService {
       kind: 'meal_plan',
       model: modelName,
       modelVersion: modelVersion,
-      promptVersion: MealPlanPromptV1.version,
+      promptVersion: MealPlanPromptV2.version,
       status: status,
       attempts: attempts,
       durationMs: stopwatch.elapsedMilliseconds,
@@ -82,9 +83,9 @@ class MealPlanService {
         final res = await client.generateJson(
           apiKey: key,
           model: modelName,
-          systemInstruction: MealPlanPromptV1.systemInstruction,
+          systemInstruction: MealPlanPromptV2.systemInstruction,
           userContent: content,
-          responseSchema: MealPlanPromptV1.responseSchema,
+          responseSchema: MealPlanPromptV2.responseSchema,
         );
         modelVersion = res.modelVersion ?? modelVersion;
         inTokens = (inTokens ?? 0) + (res.inputTokens ?? 0);
@@ -102,14 +103,14 @@ class MealPlanService {
               if (ctx.eatingDisorderHistory) MealPlanWarning.eatingDisorder,
               if ((ctx.prefs.allergies ?? '').trim().isNotEmpty) MealPlanWarning.allergyCheck,
             ],
-            promptVersion: MealPlanPromptV1.version,
+            promptVersion: MealPlanPromptV2.version,
             catalogVersion: info.version,
           );
           final id = await nutrition.saveDraftMealPlan(draft, model: modelVersion ?? modelName);
           await log('success');
           return id;
         }
-        content = MealPlanPromptV1.repairContent(baseContent, parsed.problems.take(12).toList());
+        content = MealPlanPromptV2.repairContent(baseContent, parsed.problems.take(12).toList());
       }
       await log('invalid', error: 'invalid_output');
       throw const AiPlanException(AiPlanError.invalidOutput);

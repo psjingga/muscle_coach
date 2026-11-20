@@ -6,7 +6,13 @@ import '../domain/ai_client.dart';
 /// APK, atau repo).
 class SecureAiKeyStore implements AiKeyStore {
   SecureAiKeyStore([FlutterSecureStorage? storage])
-    : _storage = storage ?? const FlutterSecureStorage();
+    : _storage =
+          storage ??
+          const FlutterSecureStorage(
+            // iOS: hanya perangkat ini (tidak ikut cadangan iCloud/pindah
+            // perangkat), dapat dibaca setelah perangkat dibuka sekali.
+            iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
+          );
 
   final FlutterSecureStorage _storage;
   static const _key = 'gemini_api_key';

@@ -1279,7 +1279,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get aiConsentBody =>
-      'Saat menyusun program, aplikasi mengirim ke Google Gemini: tujuan, level & pengalaman latihan, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, dan daftar gerakan katalog. Tidak dikirim: nama, umur, tanggal lahir, tinggi/berat badan, jenis kondisi medis, atau data makan.';
+      'Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.';
 
   @override
   String get aiFreeTierNote =>
@@ -1287,7 +1287,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get aiConsentCheckbox =>
-      'Saya setuju data di atas dikirim ke Google Gemini untuk menyusun program.';
+      'Saya setuju data di atas dikirim ke Google Gemini untuk fitur AI.';
 
   @override
   String aiQuotaNote(Object limit) {
@@ -2204,4 +2204,8 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get weeklyHistory => 'Ringkasan tersimpan';
+
+  @override
+  String get mealPlanWarnPortions =>
+      'Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI.';
 }

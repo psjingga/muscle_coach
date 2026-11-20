@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:musclecoach/app/router/routes.dart';
@@ -20,6 +21,14 @@ import 'package:musclecoach/features/nutrition/presentation/screens/meal_plan_sc
 import 'package:musclecoach/features/nutrition/presentation/screens/nutrition_screen.dart';
 import 'package:musclecoach/l10n/gen/app_localizations.dart';
 
+import 'package:musclecoach/core/errors/app_failure.dart';
+import 'package:musclecoach/features/ai_coach/data/ai_repository.dart';
+import 'package:musclecoach/features/ai_coach/presentation/providers/ai_providers.dart';
+import 'package:musclecoach/features/assessment/data/local_assessment_repository.dart';
+import 'package:musclecoach/features/goals/data/local_goal_repository.dart';
+
+import '../../fixtures/sample_assessment.dart' show sample;
+import '../ai_coach/ai_coach_test.dart' show FakeAiClient, MemoryKeyStore;
 import 'nutrition_repository_test.dart' show foodSource;
 
 const target = Nutrients(kcal: 2500, protein: 130, carbs: 330, fat: 70);
@@ -51,7 +60,12 @@ void main() {
 
   tearDown(() => db.close());
 
-  Future<void> pump(WidgetTester tester, {Nutrients? goal = target, String initial = '/n'}) async {
+  Future<void> pump(
+    WidgetTester tester, {
+    Nutrients? goal = target,
+    String initial = '/n',
+    List<Override> extra = const [],
+  }) async {
     tester.view.physicalSize = const Size(900, 3400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -81,6 +95,7 @@ void main() {
           foodDataSourceProvider.overrideWithValue(foodSource),
           nutritionRepositoryProvider.overrideWithValue(repo),
           nutritionTargetNutrientsProvider.overrideWithValue(goal),
+          ...extra,
         ],
         child: MaterialApp.router(
           theme: AppTheme.light(),
@@ -261,7 +276,7 @@ void main() {
       target: target,
       rationale: 'Menu contoh yang mudah dibuat.',
       warnings: const [MealPlanWarning.allergyCheck],
-      promptVersion: 'meal_plan.v1',
+      promptVersion: 'meal_plan.v2',
       catalogVersion: 'tkpi',
     );
     final id = (await tester.runAsync(() => repo.saveDraftMealPlan(plan, model: 'gemini-x')))!;
@@ -292,5 +307,41 @@ void main() {
     await settle(tester);
     expect(find.byKey(const Key('plan-log-0')), findsOneWidget);
     expect((await tester.runAsync(() => repo.watchDay(today).first))!, isEmpty);
+  });
+
+  widgetTest('offline: menu AI gagal dengan pesan koneksi & coba lagi; tidak ada draft', (
+    tester,
+  ) async {
+    await tester.runAsync(() async {
+      DateTime clock() => now;
+      final goalId = await LocalAssessmentRepository(db, clock).submit(sample);
+      await LocalGoalRepository(db, clock).confirm(goalId, acknowledgedWarnings: true);
+      await AiRepository(db).setConsent(accepted: true, now: now);
+    });
+    final client = FakeAiClient([
+      const AppFailure(FailureKind.network, debugMessage: 'gemini-network'),
+    ]);
+    await pump(
+      tester,
+      extra: [
+        aiClientProvider.overrideWithValue(client),
+        aiKeyStoreProvider.overrideWithValue(MemoryKeyStore('kunci-uji')),
+      ],
+    );
+    await tester.tap(find.byKey(const Key('meal-plan-generate')));
+    await settle(tester);
+    expect(find.text('Menu AI belum bisa disusun'), findsOneWidget);
+    expect(
+      find.text('Tidak ada koneksi internet. Periksa jaringan Anda lalu coba lagi.'),
+      findsOneWidget,
+    );
+    expect(find.text('Coba lagi'), findsOneWidget);
+    expect((await tester.runAsync(() => db.select(db.mealPlans).get()))!, isEmpty);
+    final log = (await tester.runAsync(() => db.select(db.aiGenerationLogs).getSingle()))!;
+    expect((log.status, log.errorCode), ('error', 'gemini-network'));
+    await tester.tap(find.text('Tutup'));
+    await settle(tester);
+    // Pencatatan makanan tetap jalan tanpa internet (semua lokal).
+    expect(find.byKey(const Key('add-lunch')), findsOneWidget);
   });
 }

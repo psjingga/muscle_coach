@@ -59,7 +59,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('Belum siap'), findsOneWidget);
     // Isi data yang dikirim ke AI dijelaskan.
-    expect(find.textContaining('Tidak dikirim: nama, umur'), findsOneWidget);
+    expect(find.textContaining('Tidak pernah dikirim: nama, umur'), findsOneWidget);
+    expect(find.textContaining('Menu harian: target kalori'), findsOneWidget);
 
     await tester.enterText(find.byKey(const ValueKey('ai-key')), 'kunci-salah');
     await tester.tap(find.text('Simpan & uji'));

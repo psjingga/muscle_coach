@@ -2369,7 +2369,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiConsentBody.
   ///
   /// In id, this message translates to:
-  /// **'Saat menyusun program, aplikasi mengirim ke Google Gemini: tujuan, level & pengalaman latihan, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, dan daftar gerakan katalog. Tidak dikirim: nama, umur, tanggal lahir, tinggi/berat badan, jenis kondisi medis, atau data makan.'**
+  /// **'Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.'**
   String get aiConsentBody;
 
   /// No description provided for @aiFreeTierNote.
@@ -2381,7 +2381,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiConsentCheckbox.
   ///
   /// In id, this message translates to:
-  /// **'Saya setuju data di atas dikirim ke Google Gemini untuk menyusun program.'**
+  /// **'Saya setuju data di atas dikirim ke Google Gemini untuk fitur AI.'**
   String get aiConsentCheckbox;
 
   /// No description provided for @aiQuotaNote.
@@ -3943,6 +3943,12 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Ringkasan tersimpan'**
   String get weeklyHistory;
+
+  /// No description provided for @mealPlanWarnPortions.
+  ///
+  /// In id, this message translates to:
+  /// **'Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI.'**
+  String get mealPlanWarnPortions;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

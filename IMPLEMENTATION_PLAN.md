@@ -380,7 +380,7 @@ Juga dari uji E2E iOS (20 Nov): peringatan "izin ditolak" tidak lagi tampil sebe
 - Ringkasan harian vs target dan sisa tampil di tab Nutrisi dan Home. Label estimasi muncul bila ada catatan non-sumber.
 - Ada pengingat minum air sebagai kebiasaan umum, tanpa angka anjuran.
 
-**Menu AI** (`meal_plan.v1`):
+**Menu AI** (`meal_plan.v2`):
 - Kandidat bahan disaring deterministik sebelum dikirim: pola makan (vegetarian/vegan per kategori + kata kunci nama), alergi & tidak disukai (frasa nama), produk bayi, dan data tidak konsisten. AI hanya mengembalikan `code` + `grams`.
 - Validator menolak:
   - kode di luar daftar;
@@ -438,6 +438,61 @@ Juga dari uji E2E iOS (20 Nov): peringatan "izin ditolak" tidak lagi tampil sebe
 **Test**: Flutter 221 (+35): matematika progres (status, usulan, ringkasan, volume), validator prompt, repository (upsert, agregat, terapkan/tolak penyesuaian), layanan AI, widget (berat, grafik, check-in, usulan diterapkan, usulan diblokir).
 
 **Belum/ditunda**: uji live ringkasan AI dengan key; grafik lingkar badan/foto progres; penyesuaian program latihan otomatis dari performa (sekarang hanya ringkasan); notifikasi "Mark as done" check-in.
+
+## 6j. Status — Fase 7 Penguatan (20 Nov 2026)
+
+**Audit keamanan & privasi**:
+- Riwayat git dipindai untuk rahasia. Satu-satunya pola `AIza…` adalah key palsu Firebase Emulator di commit lama (berisi "demo/emulator", sudah tidak dipakai). Tidak ada `.env`, keystore, atau file konfigurasi Firebase di repo.
+- Release APK dipindai: 0 key.
+- Gemini: key hanya di header `x-goog-api-key`, tanpa interceptor log, timeout 120 dtk, error dipetakan ke `AppFailure` tanpa isi request.
+- Logger: rilis hanya warning/error; pesan error berisi kode, bukan data kesehatan.
+- **Temuan & perbaikan**:
+  1. Teks persetujuan AI belum mencakup menu & ringkasan mingguan (masih menyebut data makan "tidak dikirim") → teks diperbarui dan `consentVersion` dinaikkan ke `2026-11-v2`, sehingga pengguna diminta setuju ulang.
+  2. Android auto-backup aktif secara bawaan, sehingga data kesehatan ikut ke Google Drive → `data_extraction_rules.xml` (Android 12+) dan `backup_rules.xml` (≤ 11) mengecualikan database, sharedpref, dan file dari cadangan cloud. Pindah perangkat langsung tetap membawa DB, tapi tidak membawa key.
+  3. Cleartext HTTP dimatikan eksplisit.
+  4. iOS Keychain diubah ke `first_unlock_this_device` (key tidak ikut cadangan/pindah perangkat). Akibatnya, key yang tersimpan dengan pengaturan lama perlu dimasukkan ulang.
+  5. Hapus data kini juga menjalankan `PRAGMA secure_delete` dan `VACUUM`.
+  6. Signing rilis dibaca dari `android/key.properties` (gitignored), dengan cadangan ke kunci debug untuk uji.
+- Dokumen privasi lengkap: [`PRIVACY.md`](PRIVACY.md) (inventaris data, data yang dikirim ke Gemini per fitur, perlindungan, penghapusan, keterbatasan).
+
+**Migrasi basis data**:
+- Snapshot skema `drift_schemas/` v1/v3/v4/v5 (dari commit rilis) + helper `test/generated_migrations/`.
+- `test/data/migration_test.dart` memvalidasi v1/v3/v4 → v5 sama dengan instalasi baru, data v3 (profil, pengaturan) dan v4 (catatan makanan) tetap utuh, dan wipe + VACUUM berjalan.
+- Prosedur menambah versi ada di README.
+
+**Offline/error**:
+- Semua fitur inti lokal; hanya AI yang butuh jaringan.
+- Widget test: menyusun menu tanpa koneksi → dialog "Tidak ada koneksi…" + Coba lagi, tidak ada draft, log `gemini-network`, dan pencatatan makanan tetap bisa dipakai.
+- Pemetaan timeout/429/401/403/5xx sudah diuji di `ai_coach_test`.
+
+**Perangkat**:
+- E2E lolos penuh di **simulator iOS** (iPhone 17 Pro) dan **emulator Android** (Medium Phone API 36.1; dialog izin notifikasi diketuk via `adb`).
+- `flutter build apk --release --split-per-abi` OK.
+
+**Uji live Gemini** (20 Nov 2026, `gemini-3.5-flash-lite`, key pengguna lewat environment, tidak ditulis ke file):
+- `meal_plan.v1` **gagal** 2/2 skenario: kode bahan karangan (1×), dan porsi meleset jauh (±4.000 kcal untuk target 2.495; lemak 157 g untuk batas 39–72 g). Model bahasa tidak andal menghitung gram × gizi.
+- Perbaikan **`meal_plan.v2`**:
+  - AI cukup memilih bahan & perkiraan gram;
+  - `PortionFitter` (aplikasi) menskalakan gram per kelompok makro dominan (0,4–2,5×, kuadrat terkecil berbobot kcal > protein > karbo/lemak, dibulatkan 5 g), lalu validator memeriksa total;
+  - menu diberi peringatan "porsi disesuaikan aplikasi";
+  - katalog di prompt dipersingkat (tanpa kategori/terjemahan Inggris, tanpa bumbu): ±41 rb → ±22–31 rb token input.
+- Hasil v2:
+  - omnivora 2.495 kcal / P124 / K365 / L55 (target 2.495/125/375/55), percobaan 1, 4,9 dtk;
+  - vegetarian 4× makan + alergi udang + katering: 2.513 kcal / P114, tanpa daging/udang, percobaan 1, 2,5 dtk.
+- `weekly_review.v1` valid pada percobaan 1 (3–6 dtk): relevan, ada saran keselamatan untuk keluhan nyeri, tanpa angka kalori.
+- `workout_plan.v1` tetap valid (pemula & menengah dengan cedera bahu).
+- Test live: `test/live/gemini_live_phase5_6_test.dart` (mencatat masalah validator per percobaan untuk diagnosis).
+
+**Test**: Flutter 232 (+11: migrasi ×6, offline ×1, PortionFitter ×4). Analyze bersih.
+
+**Dokumentasi**: README (variabel lingkungan, rilis Android/iOS, privasi, prosedur skema, struktur), PRIVACY.md.
+
+**Belum/ditunda (butuh keputusan)**:
+- Ekspor/impor cadangan manual (sekarang data hanya di perangkat).
+- Enkripsi DB tersendiri (SQLCipher).
+- Uji live AI dengan key pengguna (menu & ringkasan mingguan).
+- Uji di HP fisik (Realme) setelah diminta.
+- Kebijakan privasi resmi & lisensi TKPI sebelum rilis publik.
 
 ## 7. Keputusan & blocker
 

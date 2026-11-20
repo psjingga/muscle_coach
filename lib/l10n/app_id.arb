@@ -612,9 +612,9 @@
   "aiKeyDeleted": "API key dihapus dari perangkat.",
   "aiModelLabel": "Model",
   "aiConsentTitle": "Persetujuan pemrosesan data oleh AI",
-  "aiConsentBody": "Saat menyusun program, aplikasi mengirim ke Google Gemini: tujuan, level & pengalaman latihan, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, dan daftar gerakan katalog. Tidak dikirim: nama, umur, tanggal lahir, tinggi/berat badan, jenis kondisi medis, atau data makan.",
+  "aiConsentBody": "Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.",
   "aiFreeTierNote": "Di tier gratis Google AI Studio, Google dapat memakai isi permintaan untuk meningkatkan produknya. Gunakan tier berbayar bila Anda tidak menginginkannya.",
-  "aiConsentCheckbox": "Saya setuju data di atas dikirim ke Google Gemini untuk menyusun program.",
+  "aiConsentCheckbox": "Saya setuju data di atas dikirim ke Google Gemini untuk fitur AI.",
   "aiQuotaNote": "Batas {limit} kali penyusunan AI per hari (menahan biaya).",
   "@aiQuotaNote": {
     "placeholders": {
@@ -1187,5 +1187,6 @@
   "weeklyAiSuggestions": "Saran minggu depan",
   "weeklyAiNote": "Ditulis AI dari statistik di atas (tanpa nama, umur, atau catatan pribadi). Tidak mengubah target.",
   "weeklyAiError": "Ringkasan AI belum bisa dibuat.",
-  "weeklyHistory": "Ringkasan tersimpan"
+  "weeklyHistory": "Ringkasan tersimpan",
+  "mealPlanWarnPortions": "Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI."
 }

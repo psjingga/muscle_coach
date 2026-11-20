@@ -41,6 +41,7 @@ class _Body extends ConsumerWidget {
       MealPlanWarning.eatingDisorder => l.mealPlanWarnEatingDisorder,
       MealPlanWarning.allergyCheck => l.mealPlanWarnAllergy,
       MealPlanWarning.inconsistentData => l.mealPlanWarnInconsistent,
+      MealPlanWarning.portionsAdjusted => l.mealPlanWarnPortions,
       _ => code,
     };
   }

@@ -27,14 +27,48 @@ fvm flutter build apk --release --split-per-abi
 adb install -r build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
 ```
 
-APK release saat ini ditandatangani dengan kunci debug (cukup untuk pemakaian pribadi/sideload). Untuk Play Store perlu keystore release sendiri — jangan di-commit.
+### Variabel lingkungan (`--dart-define`)
+
+Aplikasi tidak butuh variabel lingkungan untuk berjalan. Yang ada hanya untuk test:
+
+| Nama | Dipakai di | Keterangan |
+|---|---|---|
+| `GEMINI_API_KEY` | `integration_test`, `test/live` | Opsional; menguji alur AI sungguhan. **Jangan** dipakai untuk build yang dibagikan — key masuk ke binary. |
+
+Di aplikasi, key Gemini dimasukkan lewat **Profil → AI Coach (Gemini)**.
+
+### Rilis (Android)
+
+1. Buat keystore sekali: `keytool -genkey -v -keystore ~/musclecoach-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias musclecoach`. Simpan file & sandinya di luar repo.
+2. Buat `android/key.properties` (sudah di-*gitignore*):
+   ```properties
+   storeFile=/Users/<nama>/musclecoach-release.jks
+   storePassword=...
+   keyAlias=musclecoach
+   keyPassword=...
+   ```
+3. `fvm flutter build appbundle --release` (Play Store) atau `build apk --release --split-per-abi`.
+
+Tanpa `key.properties`, build rilis memakai kunci debug — cukup untuk sideload pribadi, tidak untuk Play Store. Ganti `version:` di `pubspec.yaml` setiap rilis.
+
+**iOS**: buka `ios/Runner.xcworkspace`, set *Team* & *Signing* di Xcode, lalu `fvm flutter build ipa`. Bundle ID `com.panjijingga.musclecoach`.
 
 ## Data & privasi
 
-- Basis data: `musclecoach.sqlite` di folder data aplikasi (drift). Skema di `lib/core/database/app_database.dart`; ubah `schemaVersion` + migrasi bila struktur berubah.
-- Tidak ada backup otomatis: menghapus aplikasi atau kehilangan HP = data hilang (fitur ekspor/impor menyusul).
-- Profil → **Hapus semua data** menghapus seluruh isi basis data.
-- API key Gemini tidak pernah ditanam di APK atau repo; dimasukkan di aplikasi dan disimpan terenkripsi di perangkat. *Hapus semua data* ikut menghapus key.
+Ringkasan lengkap (data apa disimpan, apa yang dikirim ke Gemini, retensi, penghapusan): [`PRIVACY.md`](PRIVACY.md).
+
+- Basis data: `musclecoach.sqlite` di folder data aplikasi (drift). Skema di `lib/core/database/app_database.dart`.
+- **Tidak ikut cadangan cloud** (Android: aturan `data_extraction_rules`/`backup_rules`; iOS: key di Keychain hanya untuk perangkat ini). Pindah HP Android langsung (kabel/Wi-Fi) tetap membawa basis data; API key harus dimasukkan ulang. Menghapus aplikasi = data hilang (fitur ekspor/impor belum ada).
+- Profil → **Hapus semua data**: semua tabel dikosongkan, berkas dipadatkan (`VACUUM`, `secure_delete`), API key dihapus, semua pengingat dibatalkan.
+- API key Gemini tidak pernah ditanam di APK atau repo; disimpan terenkripsi (Android Keystore / iOS Keychain) dan dikirim hanya lewat header HTTPS.
+
+### Mengubah skema basis data
+
+1. Naikkan `schemaVersion` dan tambah langkah di `onUpgrade` (`app_database.dart`).
+2. `fvm dart run build_runner build`
+3. `fvm dart run drift_dev schema dump lib/core/database/app_database.dart drift_schemas/drift_schema_v<N>.json`
+4. `fvm dart run drift_dev schema generate --data-classes --companions drift_schemas/ test/generated_migrations/`
+5. `test/data/migration_test.dart` otomatis menguji migrasi dari setiap versi lama ke versi terbaru.
 
 ## AI Coach (Gemini)
 
@@ -47,7 +81,7 @@ APK release saat ini ditandatangani dengan kunci debug (cukup untuk pemakaian pr
 
 - **Tab Nutrisi**: asupan per hari (sarapan, makan siang, makan malam, snack) dibandingkan target kalori & makro, beserta sisa target. Hari sebelumnya bisa dilihat. Catatan bisa diketuk untuk mengubah porsi, memindahkan waktu makan, atau menghapus.
 - **Tambah makanan**: cari di katalog TKPI, atau masukkan makanan dari **label kemasan** (nilai per sajian otomatis diubah ke per 100 g), atau **catat kalori/makro saja**. Nilai gizi disalin ke catatan saat dicatat, jadi riwayat tidak berubah bila katalog diperbarui.
-- **Contoh menu (AI)**: Gemini memilih bahan **hanya** dari katalog TKPI dan menentukan gramnya. Aplikasi menghitung ulang total dari katalog × gram, menolak menu yang meleset dari target (kcal ±10 %, protein 90–130 %, lemak & karbohidrat ±30 %), dan menyaring pola makan, alergi, serta makanan yang tidak disukai **sebelum** daftar bahan dikirim. Retry maksimal 1 kali. Menu disimpan sebagai draft dan baru dipakai setelah disetujui. Tiap waktu makan di menu bisa ditandai "dimakan" dan langsung tercatat. Yang dikirim ke AI hanya target & preferensi makan, tanpa nama, umur, berat, atau kondisi medis.
+- **Contoh menu (AI)**: Gemini memilih bahan **hanya** dari katalog TKPI dan memperkirakan gramnya. Aplikasi lalu **menyesuaikan porsi** (skala per kelompok makro, 0,4–2,5×) dan menghitung ulang total dari katalog × gram, menolak menu yang meleset dari target (kcal ±10 %, protein 90–130 %, lemak & karbohidrat ±30 %), dan menyaring pola makan, alergi, serta makanan yang tidak disukai **sebelum** daftar bahan dikirim. Retry maksimal 1 kali. Menu disimpan sebagai draft dan baru dipakai setelah disetujui. Tiap waktu makan di menu bisa ditandai "dimakan" dan langsung tercatat. Yang dikirim ke AI hanya target & preferensi makan, tanpa nama, umur, berat, atau kondisi medis.
 - **Sumber data**: [Tabel Komposisi Pangan Indonesia (TKPI)](https://www.panganku.org), Kementerian Kesehatan RI. Dipakai snapshot 1.146 baris dari [nichsedge/indoscraping](https://github.com/nichsedge/indoscraping/releases/tag/dataset-panganku-latest) (rilis 28 Okt 2026), disalin ke `tool/food_catalog/source/panganku.csv`. Hash sha256 tercatat di katalog. Semua nilai per 100 g bagian yang dapat dimakan (BDD).
   - Angka tidak diubah. Yang dilakukan hanya pembulatan float hasil scraping dan perapian spasi nama.
   - 2 baris tanpa makro lengkap (Melase, Salak segar) **tidak dimasukkan**.
@@ -111,14 +145,18 @@ Teks UI ada di `lib/l10n/app_id.arb` (dibuat ulang otomatis oleh `flutter pub ge
 
 ```text
 assets/catalog/exercises.json   katalog latihan terkurasi (43 gerakan, versi di file)
+assets/catalog/foods_tkpi.json  katalog makanan TKPI (1.144 makanan per 100 g)
+drift_schemas/                  snapshot skema basis data per versi (test migrasi)
 lib/
   app/          bootstrap, router (go_router + gerbang onboarding), theme & branding
   core/         database (drift), errors, logging, utils, widgets
   features/     <fitur>/{data, domain, application, presentation}
                 assessment · goals (kalkulasi target) · workout (planner, validator, sesi)
-                exercise_library · onboarding · dashboard · profile · nutrition/progress (menyusul)
+                exercise_library · onboarding · dashboard · profile · nutrition · progress · reminders · ai_coach
   l10n/         teks Bahasa Indonesia (ARB) + kode hasil generate
 tool/check.sh   quality gate lokal
+tool/app_icon/  generator ikon dari logo vektor
+tool/food_catalog/  pembangun katalog TKPI + CSV sumber
 ```
 
 Angka default kalkulasi (BMR/TDEE/surplus/makro/batas laju) ada di `lib/features/goals/domain/nutrition_config.dart` dan **perlu ditinjau** terhadap rujukan kredibel sebelum dipakai luas.

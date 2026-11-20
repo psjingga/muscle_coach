@@ -4,6 +4,7 @@ import 'food.dart';
 import 'food_log.dart';
 import 'food_search.dart';
 import 'meal_plan.dart';
+import 'portion_fitter.dart';
 
 /// Batas validasi menu (dapat diubah tanpa menyentuh UI).
 abstract final class MealPlanRules {
@@ -32,6 +33,7 @@ class MealPlanContext {
     required this.target,
     required this.mealsPerDay,
     this.avoidPhrases = const [],
+    this.fitPortions = false,
   });
 
   /// Makanan yang boleh dipakai, kunci = kode TKPI.
@@ -41,6 +43,9 @@ class MealPlanContext {
 
   /// Frasa alergi/pantangan yang tidak boleh muncul di nama bahan.
   final List<String> avoidPhrases;
+
+  /// Sesuaikan gram dengan [PortionFitter] sebelum total dibandingkan.
+  final bool fitPortions;
 }
 
 class MealPlanParseResult {
@@ -84,7 +89,8 @@ abstract final class MealPlanValidator {
       problems.add('meals: harus tepat ${ctx.mealsPerDay} waktu makan, bukan ${rawMeals.length}');
     }
 
-    final meals = <PlannedMeal>[];
+    var meals = <PlannedMeal>[];
+    final mealFoods = <List<Food>>[];
     final usedMain = <MealSlot>{};
     for (final (i, m) in rawMeals.indexed) {
       if (m is! Map<String, dynamic>) {
@@ -112,6 +118,7 @@ abstract final class MealPlanValidator {
         problems.add('meals[$i].items: maksimal ${MealPlanRules.maxItemsPerMeal} bahan');
       }
       final items = <PlannedFood>[];
+      final foods = <Food>[];
       for (final (j, it) in rawItems.indexed) {
         final where = 'meals[$i].items[$j]';
         if (it is! Map<String, dynamic>) {
@@ -139,6 +146,7 @@ abstract final class MealPlanValidator {
           continue;
         }
         final g = grams.roundToDouble();
+        foods.add(food);
         items.add(
           PlannedFood(
             foodId: food.id,
@@ -150,13 +158,60 @@ abstract final class MealPlanValidator {
         );
       }
       meals.add(PlannedMeal(slot: slot, title: title, items: items));
+      mealFoods.add(foods);
     }
     if (ctx.mealsPerDay >= 3 && !usedMain.containsAll(_mainSlots)) {
       problems.add('meals: wajib ada breakfast, lunch, dan dinner');
     }
 
+    var adjusted = false;
+    if (problems.isEmpty && ctx.fitPortions) {
+      final flat = [
+        for (final (i, m) in meals.indexed)
+          for (final (j, item) in m.items.indexed)
+            (per100g: mealFoods[i][j].per100g, grams: item.grams),
+      ];
+      final fitted = PortionFitter.fit(flat, ctx.target);
+      adjusted = PortionFitter.changed([for (final f in flat) f.grams], fitted);
+      var k = 0;
+      meals = [
+        for (final (i, m) in meals.indexed)
+          PlannedMeal(
+            slot: m.slot,
+            title: m.title,
+            items: [
+              for (final (j, item) in m.items.indexed)
+                () {
+                  final g = fitted[k++];
+                  return PlannedFood(
+                    foodId: item.foodId,
+                    name: item.name,
+                    grams: g,
+                    nutrients: mealFoods[i][j].per100g.forGrams(g).rounded(),
+                    quality: item.quality,
+                  );
+                }(),
+            ],
+          ),
+      ];
+    }
     if (problems.isEmpty) {
-      problems.addAll(_checkTotals(meals.fold(Nutrients.zero, (s, m) => s + m.totals), ctx.target));
+      final totalProblems = _checkTotals(
+        meals.fold(Nutrients.zero, (s, m) => s + m.totals),
+        ctx.target,
+      );
+      if (totalProblems.isNotEmpty && ctx.fitPortions) {
+        problems
+          ..addAll(totalProblems)
+          ..add(
+            'komposisi: total masih di luar batas meski porsi sudah disesuaikan aplikasi '
+            '(skala ${PortionFitter.minScale}–${PortionFitter.maxScale}×). Ubah PILIHAN bahan: '
+            'kurangi bahan tinggi lemak bila lemak berlebih, tambah sumber protein/karbohidrat '
+            'yang kurang.',
+          );
+      } else {
+        problems.addAll(totalProblems);
+      }
     }
     if (problems.isNotEmpty) return MealPlanParseResult.invalid(problems);
 
@@ -168,7 +223,10 @@ abstract final class MealPlanValidator {
         meals: meals,
         target: ctx.target,
         rationale: _clip(json['rationale'] as String?, MealPlanRules.maxRationale),
-        warnings: [if (hasInconsistent) MealPlanWarning.inconsistentData],
+        warnings: [
+          if (hasInconsistent) MealPlanWarning.inconsistentData,
+          if (adjusted) MealPlanWarning.portionsAdjusted,
+        ],
       ),
     );
   }

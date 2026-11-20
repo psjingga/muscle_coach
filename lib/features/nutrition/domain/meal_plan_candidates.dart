@@ -4,7 +4,7 @@ import 'food_search.dart';
 
 /// Pilih bahan katalog yang boleh dipakai AI untuk menyusun menu, secara
 /// deterministik (bukan diserahkan ke AI): pola makan, alergi, makanan yang
-/// tidak disukai, produk bayi, dan data sumber yang tidak konsisten.
+/// tidak disukai, produk bayi, bumbu, dan data sumber yang tidak konsisten.
 abstract final class MealPlanCandidates {
   static const _meatCategories = {'Daging', 'Ikan/Kerang/Udang dll'};
   static const _animalProductCategories = {'Telur', 'Susu'};
@@ -47,7 +47,7 @@ abstract final class MealPlanCandidates {
     return [
       for (final f in catalog)
         if (f.origin == FoodOrigin.tkpi && f.code != null)
-          if (f.quality == NutritionQuality.source)
+          if (f.quality == NutritionQuality.source && f.category != 'Bumbu')
             if (!_excluded.hasMatch(FoodSearch.normalize(f.name)))
               if (!vegetarian ||
                   (!_meatCategories.contains(f.category) &&

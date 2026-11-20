@@ -10,11 +10,14 @@ import 'package:musclecoach/features/nutrition/domain/food_search.dart';
 import 'package:musclecoach/features/nutrition/domain/meal_plan.dart';
 import 'package:musclecoach/features/nutrition/domain/meal_plan_candidates.dart';
 import 'package:musclecoach/features/nutrition/domain/meal_plan_validator.dart';
+import 'package:musclecoach/features/nutrition/domain/portion_fitter.dart';
 
 final tkpi = TkpiAssetFoodDataSource.parse(File(TkpiAssetFoodDataSource.path).readAsStringSync());
 Food byCode(String code) => tkpi.foods[Food.tkpiId(code)]!;
 
 void main() {
+  portionFitterTests();
+
   group('Katalog TKPI (aset)', () {
     test('1.144 makanan, kode unik, sumber & atribusi tercatat', () {
       expect(tkpi.foods, hasLength(1144));
@@ -306,6 +309,74 @@ void main() {
       expect(back.meals.length, 3);
       expect(back.totals.kcal, closeTo(p.totals.kcal, 1e-9));
       expect(back.meals[1].items[1].quality, NutritionQuality.source);
+    });
+  });
+}
+
+void portionFitterTests() {
+  group('PortionFitter', () {
+    const target = Nutrients(kcal: 2500, protein: 125, carbs: 340, fat: 70);
+
+    test('kelompok makro dominan', () {
+      expect(PortionFitter.groupOf(byCode('CP077').per100g), 0); // tempe: protein
+      expect(PortionFitter.groupOf(byCode('AP001').per100g), 1); // nasi: karbo
+      expect(PortionFitter.groupOf(byCode('CP012').per100g), 2); // kacang goreng: lemak
+    });
+
+    test('porsi kebesaran (seperti output AI live) dibawa mendekati target', () {
+      // Kasus nyata: AI memilih bahan wajar tapi total ±4.000 kcal & lemak berlebih.
+      final items = [
+        (per100g: byCode('AP001').per100g, grams: 400.0),
+        (per100g: byCode('CP076').per100g, grams: 250.0), // tempe goreng
+        (per100g: byCode('HP001').per100g, grams: 200.0), // telur dadar
+        (per100g: byCode('CP012').per100g, grams: 120.0), // kacang tanah goreng
+        (per100g: byCode('DP002').per100g, grams: 200.0),
+      ];
+      final before = items.fold(Nutrients.zero, (s, i) => s + i.per100g.forGrams(i.grams));
+      expect(before.kcal, greaterThan(target.kcal * 1.1));
+      final grams = PortionFitter.fit(items, target);
+      final after = [for (final (k, i) in items.indexed) i.per100g.forGrams(grams[k])]
+          .fold(Nutrients.zero, (s, n) => s + n);
+      expect((after.kcal - target.kcal).abs() / target.kcal, lessThan(0.10));
+      expect(after.fat, lessThan(before.fat));
+      expect(grams.every((g) => g % 5 == 0 && g >= 5 && g <= 600), isTrue);
+      expect(PortionFitter.changed([for (final i in items) i.grams], grams), isTrue);
+    });
+
+    test('skala dibatasi 0,4–2,5× — tidak membuat porsi ekstrem', () {
+      final items = [(per100g: byCode('DP002').per100g, grams: 100.0)]; // bayam saja
+      final grams = PortionFitter.fit(items, target);
+      expect(grams.single, 250);
+    });
+
+    test('validator dengan fitPortions: menu kebesaran jadi valid + peringatan', () {
+      final allowed = {
+        for (final c in ['AP001', 'CP076', 'HP001', 'DP002', 'ER081', 'GP004']) c: byCode(c),
+      };
+      Map<String, Object?> meal(String slot, List<(String, int)> items) => {
+        'slot': slot,
+        'title': 'Menu $slot',
+        'items': [
+          for (final (c, g) in items) {'code': c, 'grams': g},
+        ],
+      };
+      final raw = jsonEncode({
+        'schemaVersion': 1,
+        'rationale': 'r',
+        'meals': [
+          meal('breakfast', [('AP001', 300), ('HP001', 150)]),
+          meal('lunch', [('AP001', 300), ('CP076', 200), ('DP002', 150)]),
+          meal('dinner', [('AP001', 300), ('GP004', 100), ('ER081', 150)]),
+        ],
+      });
+      final ctx = MealPlanContext(allowed: allowed, target: target, mealsPerDay: 3);
+      expect(MealPlanValidator.parse(raw, ctx).isValid, isFalse);
+      final fitted = MealPlanValidator.parse(
+        raw,
+        MealPlanContext(allowed: allowed, target: target, mealsPerDay: 3, fitPortions: true),
+      );
+      expect(fitted.problems, isEmpty);
+      expect(fitted.plan!.warnings, contains(MealPlanWarning.portionsAdjusted));
     });
   });
 }

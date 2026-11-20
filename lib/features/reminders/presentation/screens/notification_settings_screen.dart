@@ -23,6 +23,11 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
     with WidgetsBindingObserver {
   NotificationPermission? _permission;
 
+  /// OS (iOS, Android 13+) tidak membedakan "belum ditanya" dari "ditolak".
+  /// Peringatan "ditolak" hanya ditampilkan setelah izin benar-benar diminta
+  /// di layar ini, atau bila pengingat aktif tetapi izinnya dicabut.
+  bool _requested = false;
+
   @override
   void initState() {
     super.initState();
@@ -78,6 +83,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
       );
       if (!(ok ?? false)) return;
       await service.requestPermission();
+      _requested = true;
       await _checkPermission();
       // Jangan anggap berhasil bila OS menolak izin.
       if (_permission != NotificationPermission.granted) return;
@@ -138,7 +144,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
       ),
     );
 
-    final denied = _permission == NotificationPermission.denied;
+    final denied = _permission == NotificationPermission.denied && (s.enabled || _requested);
     return Scaffold(
       appBar: AppBar(title: Text(l.notificationSettingsTitle)),
       body: ListView(
@@ -294,11 +300,14 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             icon: const Icon(Icons.notifications_outlined),
             label: Text(l.sendTestNotification),
           ),
-          const SizedBox(height: 12),
-          Text(
-            l.notificationBatteryHint,
-            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-          ),
+          // Optimasi baterai OEM hanya relevan di Android.
+          if (theme.platform == TargetPlatform.android) ...[
+            const SizedBox(height: 12),
+            Text(
+              l.notificationBatteryHint,
+              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+          ],
         ],
       ),
     );

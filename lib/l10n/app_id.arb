@@ -719,10 +719,8 @@
   "remindersOn": "Aktif",
   "remindersOff": "Nonaktif",
   "exerciseMovementTitle": "Gerakan",
-  "exerciseFrameStart": "Posisi awal",
-  "exerciseFrameEnd": "Posisi akhir",
   "exercisePhotoCredit": "Foto: Free Exercise DB (domain publik). Variasi alat di foto bisa sedikit berbeda.",
-  "exercisePhotoSemantics": "Foto gerakan {name}, {frame}",
+  "exercisePhotoSemantics": "Foto gerakan {name}, fase {frame}",
   "@exercisePhotoSemantics": {
     "placeholders": {
       "name": {"type": "String"},

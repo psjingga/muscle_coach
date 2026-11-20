@@ -78,7 +78,7 @@ Future<void> notificationBackgroundHandler(NotificationResponse response) async 
   final plugin = FlutterLocalNotificationsPlugin();
   await plugin.initialize(
     settings: const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      android: AndroidInitializationSettings('@drawable/ic_notification'),
       iOS: DarwinInitializationSettings(),
     ),
   );
@@ -104,7 +104,7 @@ class LocalNotificationService implements NotificationService {
     tzdata.initializeTimeZones();
     await _plugin.initialize(
       settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('@drawable/ic_notification'),
         // Izin TIDAK diminta saat start — hanya dari layar pengaturan, dengan penjelasan.
         iOS: DarwinInitializationSettings(
           requestAlertPermission: false,

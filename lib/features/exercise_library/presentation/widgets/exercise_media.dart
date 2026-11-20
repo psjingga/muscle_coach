@@ -8,7 +8,7 @@ import '../../../../core/utils/context_x.dart';
 import '../../domain/exercise.dart';
 import 'muscle_map.dart';
 
-/// Foto posisi awal ↔ akhir yang bergantian otomatis seperti animasi.
+/// Dua foto fase gerakan yang bergantian otomatis seperti animasi.
 /// Diam bila pengguna mematikan animasi sistem atau menekan jeda.
 class ExerciseImages extends StatefulWidget {
   const ExerciseImages({super.key, required this.exercise, this.height = 220});
@@ -66,7 +66,8 @@ class _ExerciseImagesState extends State<ExerciseImages> {
     final theme = Theme.of(context);
     if (_images.isEmpty) return const SizedBox.shrink();
     final frame = _frame.clamp(0, _images.length - 1);
-    final frameLabel = frame == 0 ? l.exerciseFrameStart : l.exerciseFrameEnd;
+    // Urutan foto sumber tidak selalu awal → akhir, jadi labelnya netral.
+    final frameLabel = '${frame + 1}/${_images.length}';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,11 +91,7 @@ class _ExerciseImagesState extends State<ExerciseImages> {
                         const Center(child: Icon(Icons.image_not_supported_outlined)),
                   ),
                 ),
-                Positioned(
-                  left: 8,
-                  bottom: 8,
-                  child: _Pill(text: '${frame + 1}/${_images.length} · $frameLabel'),
-                ),
+                Positioned(left: 8, bottom: 8, child: _Pill(text: frameLabel)),
                 if (_images.length > 1)
                   Positioned(
                     right: 4,

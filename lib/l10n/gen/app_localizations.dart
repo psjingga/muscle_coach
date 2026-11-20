@@ -2744,18 +2744,6 @@ abstract class AppLocalizations {
   /// **'Gerakan'**
   String get exerciseMovementTitle;
 
-  /// No description provided for @exerciseFrameStart.
-  ///
-  /// In id, this message translates to:
-  /// **'Posisi awal'**
-  String get exerciseFrameStart;
-
-  /// No description provided for @exerciseFrameEnd.
-  ///
-  /// In id, this message translates to:
-  /// **'Posisi akhir'**
-  String get exerciseFrameEnd;
-
   /// No description provided for @exercisePhotoCredit.
   ///
   /// In id, this message translates to:
@@ -2765,7 +2753,7 @@ abstract class AppLocalizations {
   /// No description provided for @exercisePhotoSemantics.
   ///
   /// In id, this message translates to:
-  /// **'Foto gerakan {name}, {frame}'**
+  /// **'Foto gerakan {name}, fase {frame}'**
   String exercisePhotoSemantics(String name, String frame);
 
   /// No description provided for @playMotion.

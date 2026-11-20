@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
-import '../../../../app/theme/brand.dart';
+import '../../../../app/theme/app_logo.dart';
 import '../../../../core/utils/context_x.dart';
 
 /// Pembuka sebelum assessment: apa yang ditanyakan, prinsip, dan disclaimer.
@@ -27,7 +27,7 @@ class OnboardingScreen extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
               children: [
-                Icon(Brand.icon, size: 56, color: theme.colorScheme.primary),
+                const Align(alignment: Alignment.centerLeft, child: AppLogo(size: 64)),
                 const SizedBox(height: 16),
                 Text(l.onboardingTitle, style: theme.textTheme.headlineSmall),
                 const SizedBox(height: 12),

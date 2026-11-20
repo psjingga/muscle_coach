@@ -1,11 +1,15 @@
 // Alur end-to-end di perangkat (data lokal SQLite, tanpa server):
 // onboarding → assessment 7 langkah → konfirmasi target → beranda → program
-// latihan → catat set → riwayat → hapus semua data.
+// latihan → ilustrasi gerakan & peta otot → catat set → riwayat → pengingat →
+// hapus semua data. Baris `E2E-SHOT: <nama>` diikuti jeda singkat agar
+// screenshot bisa diambil dari luar (adb / simctl).
 //
 //   fvm flutter test integration_test -d <device>
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:musclecoach/features/exercise_library/presentation/widgets/exercise_media.dart';
+import 'package:musclecoach/features/exercise_library/presentation/widgets/muscle_map.dart';
 import 'package:musclecoach/main.dart' as app;
 
 void main() {
@@ -25,6 +29,19 @@ void main() {
         if (finder.evaluate().isNotEmpty) return;
       }
       fail('Tidak muncul: $finder');
+    }
+
+    final thumb = find.byWidgetPredicate(
+      (w) =>
+          w.key is ValueKey<String> &&
+          (w.key! as ValueKey<String>).value.startsWith('exercise-thumb-'),
+    );
+
+    Future<void> shot(String name) async {
+      debugPrint('E2E-SHOT: $name');
+      for (var i = 0; i < 12; i++) {
+        await tester.pump(const Duration(milliseconds: 250));
+      }
     }
 
     Future<void> hideKeyboard() async {
@@ -164,10 +181,39 @@ void main() {
     await waitFor(mondayCard);
     debugPrint('E2E: program aktif');
 
-    // Sesi: catat satu set lalu selesaikan
+    // Katalog: foto gerakan bergantian + peta otot di detail latihan.
+    await tapOn(find.byTooltip('Katalog latihan'));
+    await waitFor(thumb);
+    await shot('katalog');
+    await tester.scrollUntilVisible(
+      find.text('Goblet Squat'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tapText('Goblet Squat');
+    await waitFor(find.byType(ExerciseImages));
+    expect(find.byType(MuscleMap), findsOneWidget);
+    await shot('detail-goblet-squat');
+    await tapOn(find.byType(BackButton));
+    await tapOn(find.byType(BackButton));
+    await waitFor(mondayCard);
+
+    // Sesi: tampilan cepat dari thumbnail, catat satu set lalu selesaikan
     await tapOn(mondayCard);
     await waitFor(find.text('Mulai sesi'));
     await tapText('Mulai sesi');
+    await waitFor(find.byKey(const ValueKey('log-0')));
+    await shot('sesi');
+    expect(thumb, findsWidgets);
+    await tapOn(thumb);
+    await waitFor(find.descendant(of: find.byType(BottomSheet), matching: find.byType(MuscleMap)));
+    expect(
+      find.descendant(of: find.byType(BottomSheet), matching: find.byType(ExerciseImages)),
+      findsOneWidget,
+    );
+    await shot('tampilan-cepat');
+    await tester.tapAt(const Offset(20, 60)); // tutup sheet (ketuk area gelap)
+    await settle();
     await waitFor(find.byKey(const ValueKey('log-0')));
     await tester.enterText(find.byKey(const ValueKey('weight-0')), '16');
     await tester.enterText(find.byKey(const ValueKey('reps-0')), '10');
@@ -222,13 +268,21 @@ void main() {
     await tapOn(find.byKey(const ValueKey('reminders-master')));
     if (find.text('Izinkan notifikasi?').evaluate().isNotEmpty) {
       await tapText('Izinkan');
+      // iOS/Android menampilkan dialog izin sistem di luar Flutter.
+      debugPrint('E2E-SHOT: izin-sistem');
     }
     final scheduledFinder = find.byWidgetPredicate(
       (w) => w is Text && RegExp(r'^[1-9]\d* pengingat terjadwal').hasMatch(w.data ?? ''),
     );
-    await waitFor(scheduledFinder);
+    await waitFor(scheduledFinder, seconds: 120);
     final scheduledText = tester.widget<Text>(scheduledFinder).data;
     debugPrint('E2E: $scheduledText');
+    await shot('pengingat');
+    await tester.scrollUntilVisible(
+      find.text('Kirim notifikasi uji'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
     await tapText('Kirim notifikasi uji');
     debugPrint('E2E: pengingat aktif — jeda untuk verifikasi adb');
     for (var i = 0; i < 80; i++) {

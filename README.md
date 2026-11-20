@@ -49,9 +49,19 @@ APK release saat ini ditandatangani dengan kunci debug (cukup untuk pemakaian pr
 - Dijadwalkan di perangkat (14 hari ke depan, maks. 60) dan disinkronkan ulang saat aplikasi dibuka, pengaturan/program berubah, atau sesi selesai. Tetap jalan tanpa internet & tanpa AI.
 - Jadwal tidak presisi (tanpa izin *exact alarm*); bila tidak muncul, matikan optimasi baterai untuk aplikasi di pengaturan HP.
 
+## Logo & ikon aplikasi
+
+Logo (dumbbell di atas grafik naik) digambar sebagai vektor di `lib/app/theme/app_logo.dart` dan dipakai juga di splash & onboarding. Semua ikon dibuat dari sumber itu:
+
+```bash
+bash tool/app_icon/generate.sh   # ikon iOS, Android (adaptif + monokrom), notifikasi, layar pembuka iOS
+```
+
+Salinan 1024 px ada di `assets/branding/`.
+
 ## Ilustrasi latihan
 
-Foto gerakan di `assets/exercises/` berasal dari [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (Unlicense, domain publik), diperkecil untuk aplikasi. Peta otot digambar di aplikasi (`exercise_library/presentation/widgets/muscle_map.dart`). Untuk menambah foto: simpan `<exerciseId>_0.jpg` (awal) dan `_1.jpg` (akhir) lalu isi `images` di `assets/catalog/exercises.json`; test `exercise_media_test.dart` memeriksa kelengkapannya.
+Foto gerakan di `assets/exercises/` berasal dari [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (Unlicense, domain publik), diperkecil untuk aplikasi. Peta otot digambar di aplikasi (`exercise_library/presentation/widgets/muscle_map.dart`). Untuk menambah foto: simpan `<exerciseId>_0.jpg` dan `_1.jpg` (dua fase gerakan) lalu isi `images` di `assets/catalog/exercises.json`; test `exercise_media_test.dart` memeriksa kelengkapannya.
 
 ## Pemeriksaan & test
 

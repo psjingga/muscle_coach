@@ -168,13 +168,23 @@ class MuscleMap extends StatelessWidget {
       excludeSemantics: true,
       child: Column(
         children: [
-          SizedBox(height: height, child: map),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              Expanded(child: Center(child: Text(l.muscleMapFront))),
-              Expanded(child: Center(child: Text(l.muscleMapBack))),
-            ],
+          // Lebar dibatasi sesuai rasio figur agar label tepat di bawahnya.
+          Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: height * 200 / 170),
+              child: Column(
+                children: [
+                  SizedBox(height: height, child: map),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Expanded(child: Center(child: Text(l.muscleMapFront))),
+                      Expanded(child: Center(child: Text(l.muscleMapBack))),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: 8),
           Wrap(

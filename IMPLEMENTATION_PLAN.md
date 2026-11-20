@@ -344,15 +344,21 @@ Setiap fase diakhiri: `dart format`, `flutter analyze`, test, ringkasan perubaha
 
 ## 6f. Status — Ilustrasi gerakan & peta otot (selesai 20 Nov 2026)
 
-**Foto gerakan**: 42 dari 43 latihan punya 2 foto (posisi awal → akhir) dari [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (Unlicense / domain publik; turunan dari wrkout/exercises.json yang juga Unlicense). Pemetaan ID dicek manual per gerakan (lihat contact sheet saat implementasi); beberapa memakai variasi terdekat (mis. *Dumbbell Glute Bridge* → bridge tanpa beban, *Rear Delt Fly* → versi duduk, *Farmer Carry* → farmer handle). `dumbbell_single_leg_rdl` sengaja tanpa foto (hanya ada versi kettlebell). Foto diperkecil ke 480 px JPEG q65 → ±1,5 MB total, dibundel di `assets/exercises/` (offline). Atribusi ditampilkan di bawah foto.
+**Foto gerakan**: 42 dari 43 latihan punya 2 foto fase gerakan (urutan sumber tidak selalu awal → akhir, jadi label di UI netral "1/2") dari [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (Unlicense / domain publik; turunan dari wrkout/exercises.json yang juga Unlicense). Pemetaan ID dicek manual per gerakan (lihat contact sheet saat implementasi); beberapa memakai variasi terdekat (mis. *Dumbbell Glute Bridge* → bridge tanpa beban, *Rear Delt Fly* → versi duduk, *Farmer Carry* → farmer handle). `dumbbell_single_leg_rdl` sengaja tanpa foto (hanya ada versi kettlebell). Foto diperkecil ke 480 px JPEG q65 → ±1,5 MB total, dibundel di `assets/exercises/` (offline). Atribusi ditampilkan di bawah foto.
 
 **Peta otot**: `MuscleMap` (CustomPainter, tanpa aset) — figur depan & belakang, otot utama = warna primer, pendukung = primer transparan; mendukung dark mode; label aksesibilitas berisi daftar otot.
 
-**UI**: detail latihan (foto bergantian otomatis tiap 1,4 dtk seperti animasi + tombol jeda; diam bila animasi sistem dimatikan) + peta otot; daftar katalog & kartu sesi menampilkan thumbnail → ketuk = *tampilan cepat* (bottom sheet: gerakan, peta otot, langkah) tanpa meninggalkan sesi. Latihan tanpa foto memakai peta otot sebagai thumbnail.
+**UI**: detail latihan (2 foto bergantian otomatis tiap 1,4 dtk seperti animasi + tombol jeda; diam bila animasi sistem dimatikan) + peta otot; daftar katalog & kartu sesi menampilkan thumbnail → ketuk = *tampilan cepat* (bottom sheet: gerakan, peta otot, langkah) tanpa meninggalkan sesi. Latihan tanpa foto memakai peta otot sebagai thumbnail.
 
 **Data**: field `images` (opsional) di `Exercise`/katalog; versi katalog tidak diubah (isi untuk AI tidak berubah).
 
 **Test**: Flutter 143 (+8: semua foto yang dirujuk ada & berpasangan, tidak ada file yatim, semua kode otot katalog tergambar, pewarnaan, animasi/jeda, animasi dimatikan, tanpa foto, tampilan cepat).
+
+## 6g. Status — Logo & ikon aplikasi (selesai 20 Nov 2026)
+
+Konsep "dumbbell di atas grafik naik" (dipilih pengguna dari 3 konsep). Sumber tunggal vektor `AppLogoPainter` (lapisan full/latar/depan/monokrom); `tool/app_icon/generate.sh` merender: ikon iOS (semua ukuran Contents.json, tanpa alpha), Android lama + adaptif (latar gradien, gambar depan di zona aman 66%) + monokrom (ikon bertema Android 13+), ikon kecil notifikasi `@drawable/ic_notification` (siluet putih), dan LaunchImage iOS. Logo yang sama dipakai di splash & onboarding. Tanpa package tambahan.
+
+Juga dari uji E2E iOS (20 Nov): peringatan "izin ditolak" tidak lagi tampil sebelum izin diminta (iOS & Android 13+ tidak membedakan belum-ditanya vs ditolak); saran optimasi baterai hanya di Android; label foto netral "1/2"; label peta otot sejajar figur. E2E iOS lolos penuh (ketuk "Allow" dialog izin dilakukan manual).
 
 ## 7. Keputusan & blocker
 

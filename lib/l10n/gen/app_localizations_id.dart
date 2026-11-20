@@ -1496,18 +1496,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get exerciseMovementTitle => 'Gerakan';
 
   @override
-  String get exerciseFrameStart => 'Posisi awal';
-
-  @override
-  String get exerciseFrameEnd => 'Posisi akhir';
-
-  @override
   String get exercisePhotoCredit =>
       'Foto: Free Exercise DB (domain publik). Variasi alat di foto bisa sedikit berbeda.';
 
   @override
   String exercisePhotoSemantics(String name, String frame) {
-    return 'Foto gerakan $name, $frame';
+    return 'Foto gerakan $name, fase $frame';
   }
 
   @override

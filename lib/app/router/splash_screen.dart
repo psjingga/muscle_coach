@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_logo.dart';
 import '../theme/brand.dart';
 
 /// Ditampilkan selama status login belum diketahui.
@@ -14,7 +15,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Brand.icon, size: 64, color: theme.colorScheme.primary),
+            const Align(child: AppLogo(size: 80)),
             const SizedBox(height: 16),
             Text(Brand.appName, style: theme.textTheme.headlineSmall),
             const SizedBox(height: 24),

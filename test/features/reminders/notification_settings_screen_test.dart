@@ -82,6 +82,8 @@ void main() {
   ) async {
     await pump(tester);
     expect(masterOn(tester), isFalse);
+    // Belum pernah diminta → jangan langsung bilang "ditolak".
+    expect(find.textContaining('Izin notifikasi ditolak'), findsNothing);
     // Pengaturan kategori terkunci selama saklar utama mati.
     expect(
       tester.widget<SwitchListTile>(find.byKey(const ValueKey('reminder-workout'))).onChanged,
@@ -120,5 +122,13 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('reminder-workout')));
     await tester.pumpAndSettle();
     expect(repo.current.workout.enabled, isFalse);
+  });
+
+  testWidgets('pengingat aktif tetapi izin dicabut di sistem → peringatan tampil', (tester) async {
+    await pump(tester);
+    await repo.save(repo.current.copyWith(enabled: true));
+    await tester.pumpAndSettle();
+    expect(masterOn(tester), isFalse);
+    expect(find.textContaining('Izin notifikasi ditolak'), findsOneWidget);
   });
 }

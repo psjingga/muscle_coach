@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PlannedExercise {
 
- String get exerciseId; String get name; int get sets; int get repMin; int get repMax; String get repUnit; String get loadType; int get restSec; int get rirMin; int get rirMax; bool get priority;
+ String get exerciseId; String get name; int get sets; int get repMin; int get repMax; String get repUnit; String get loadType; int get restSec; int get rirMin; int get rirMax; bool get priority;/// Alasan singkat dari AI (null untuk program template).
+ String? get rationale;
 /// Create a copy of PlannedExercise
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +31,20 @@ $PlannedExerciseCopyWith<PlannedExercise> get copyWith => _$PlannedExerciseCopyW
 @override
 bool operator ==(Object other) {
   final _this = this as PlannedExercise;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlannedExercise&&(identical(other.exerciseId, _this.exerciseId) || other.exerciseId == _this.exerciseId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.sets, _this.sets) || other.sets == _this.sets)&&(identical(other.repMin, _this.repMin) || other.repMin == _this.repMin)&&(identical(other.repMax, _this.repMax) || other.repMax == _this.repMax)&&(identical(other.repUnit, _this.repUnit) || other.repUnit == _this.repUnit)&&(identical(other.loadType, _this.loadType) || other.loadType == _this.loadType)&&(identical(other.restSec, _this.restSec) || other.restSec == _this.restSec)&&(identical(other.rirMin, _this.rirMin) || other.rirMin == _this.rirMin)&&(identical(other.rirMax, _this.rirMax) || other.rirMax == _this.rirMax)&&(identical(other.priority, _this.priority) || other.priority == _this.priority));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlannedExercise&&(identical(other.exerciseId, _this.exerciseId) || other.exerciseId == _this.exerciseId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.sets, _this.sets) || other.sets == _this.sets)&&(identical(other.repMin, _this.repMin) || other.repMin == _this.repMin)&&(identical(other.repMax, _this.repMax) || other.repMax == _this.repMax)&&(identical(other.repUnit, _this.repUnit) || other.repUnit == _this.repUnit)&&(identical(other.loadType, _this.loadType) || other.loadType == _this.loadType)&&(identical(other.restSec, _this.restSec) || other.restSec == _this.restSec)&&(identical(other.rirMin, _this.rirMin) || other.rirMin == _this.rirMin)&&(identical(other.rirMax, _this.rirMax) || other.rirMax == _this.rirMax)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.rationale, _this.rationale) || other.rationale == _this.rationale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as PlannedExercise;
-  return Object.hash(runtimeType,_this.exerciseId,_this.name,_this.sets,_this.repMin,_this.repMax,_this.repUnit,_this.loadType,_this.restSec,_this.rirMin,_this.rirMax,_this.priority);
+  return Object.hash(runtimeType,_this.exerciseId,_this.name,_this.sets,_this.repMin,_this.repMax,_this.repUnit,_this.loadType,_this.restSec,_this.rirMin,_this.rirMax,_this.priority,_this.rationale);
 }
 
 @override
 String toString() {
   final _this = this as PlannedExercise;
-  return 'PlannedExercise(exerciseId: ${_this.exerciseId}, name: ${_this.name}, sets: ${_this.sets}, repMin: ${_this.repMin}, repMax: ${_this.repMax}, repUnit: ${_this.repUnit}, loadType: ${_this.loadType}, restSec: ${_this.restSec}, rirMin: ${_this.rirMin}, rirMax: ${_this.rirMax}, priority: ${_this.priority})';
+  return 'PlannedExercise(exerciseId: ${_this.exerciseId}, name: ${_this.name}, sets: ${_this.sets}, repMin: ${_this.repMin}, repMax: ${_this.repMax}, repUnit: ${_this.repUnit}, loadType: ${_this.loadType}, restSec: ${_this.restSec}, rirMin: ${_this.rirMin}, rirMax: ${_this.rirMax}, priority: ${_this.priority}, rationale: ${_this.rationale})';
 }
 
 
@@ -54,7 +55,7 @@ abstract mixin class $PlannedExerciseCopyWith<$Res>  {
   factory $PlannedExerciseCopyWith(PlannedExercise value, $Res Function(PlannedExercise) _then) = _$PlannedExerciseCopyWithImpl;
 @useResult
 $Res call({
- String exerciseId, String name, int sets, int repMin, int repMax, String repUnit, String loadType, int restSec, int rirMin, int rirMax, bool priority
+ String exerciseId, String name, int sets, int repMin, int repMax, String repUnit, String loadType, int restSec, int rirMin, int rirMax, bool priority, String? rationale
 });
 
 
@@ -71,7 +72,7 @@ class _$PlannedExerciseCopyWithImpl<$Res>
 
 /// Create a copy of PlannedExercise
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? exerciseId = null,Object? name = null,Object? sets = null,Object? repMin = null,Object? repMax = null,Object? repUnit = null,Object? loadType = null,Object? restSec = null,Object? rirMin = null,Object? rirMax = null,Object? priority = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? exerciseId = null,Object? name = null,Object? sets = null,Object? repMin = null,Object? repMax = null,Object? repUnit = null,Object? loadType = null,Object? restSec = null,Object? rirMin = null,Object? rirMax = null,Object? priority = null,Object? rationale = freezed,}) {
   return _then(PlannedExercise(
 exerciseId: null == exerciseId ? _self.exerciseId : exerciseId // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -84,7 +85,8 @@ as String,restSec: null == restSec ? _self.restSec : restSec // ignore: cast_nul
 as int,rirMin: null == rirMin ? _self.rirMin : rirMin // ignore: cast_nullable_to_non_nullable
 as int,rirMax: null == rirMax ? _self.rirMax : rirMax // ignore: cast_nullable_to_non_nullable
 as int,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,rationale: freezed == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -169,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String exerciseId,  String name,  int sets,  int repMin,  int repMax,  String repUnit,  String loadType,  int restSec,  int rirMin,  int rirMax,  bool priority)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String exerciseId,  String name,  int sets,  int repMin,  int repMax,  String repUnit,  String loadType,  int restSec,  int rirMin,  int rirMax,  bool priority,  String? rationale)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PlannedExercise() when $default != null:
-return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax,_that.repUnit,_that.loadType,_that.restSec,_that.rirMin,_that.rirMax,_that.priority);case _:
+return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax,_that.repUnit,_that.loadType,_that.restSec,_that.rirMin,_that.rirMax,_that.priority,_that.rationale);case _:
   return orElse();
 
 }
@@ -190,10 +192,10 @@ return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String exerciseId,  String name,  int sets,  int repMin,  int repMax,  String repUnit,  String loadType,  int restSec,  int rirMin,  int rirMax,  bool priority)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String exerciseId,  String name,  int sets,  int repMin,  int repMax,  String repUnit,  String loadType,  int restSec,  int rirMin,  int rirMax,  bool priority,  String? rationale)  $default,) {final _that = this;
 switch (_that) {
 case _PlannedExercise():
-return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax,_that.repUnit,_that.loadType,_that.restSec,_that.rirMin,_that.rirMax,_that.priority);case _:
+return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax,_that.repUnit,_that.loadType,_that.restSec,_that.rirMin,_that.rirMax,_that.priority,_that.rationale);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +212,10 @@ return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String exerciseId,  String name,  int sets,  int repMin,  int repMax,  String repUnit,  String loadType,  int restSec,  int rirMin,  int rirMax,  bool priority)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String exerciseId,  String name,  int sets,  int repMin,  int repMax,  String repUnit,  String loadType,  int restSec,  int rirMin,  int rirMax,  bool priority,  String? rationale)?  $default,) {final _that = this;
 switch (_that) {
 case _PlannedExercise() when $default != null:
-return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax,_that.repUnit,_that.loadType,_that.restSec,_that.rirMin,_that.rirMax,_that.priority);case _:
+return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax,_that.repUnit,_that.loadType,_that.restSec,_that.rirMin,_that.rirMax,_that.priority,_that.rationale);case _:
   return null;
 
 }
@@ -225,7 +227,7 @@ return $default(_that.exerciseId,_that.name,_that.sets,_that.repMin,_that.repMax
 @JsonSerializable()
 
 class _PlannedExercise extends PlannedExercise {
-  const _PlannedExercise({required this.exerciseId, required this.name, required this.sets, required this.repMin, required this.repMax, this.repUnit = 'reps', this.loadType = 'total', required this.restSec, required this.rirMin, required this.rirMax, this.priority = false}): super._();
+  const _PlannedExercise({required this.exerciseId, required this.name, required this.sets, required this.repMin, required this.repMax, this.repUnit = 'reps', this.loadType = 'total', required this.restSec, required this.rirMin, required this.rirMax, this.priority = false, this.rationale}): super._();
   factory _PlannedExercise.fromJson(Map<String, dynamic> json) => _$PlannedExerciseFromJson(json);
 
 @override final  String exerciseId;
@@ -239,6 +241,8 @@ class _PlannedExercise extends PlannedExercise {
 @override final  int rirMin;
 @override final  int rirMax;
 @override@JsonKey() final  bool priority;
+/// Alasan singkat dari AI (null untuk program template).
+@override final  String? rationale;
 
 /// Create a copy of PlannedExercise
 /// with the given fields replaced by the non-null parameter values.
@@ -253,18 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlannedExercise&&(identical(other.exerciseId, exerciseId) || other.exerciseId == exerciseId)&&(identical(other.name, name) || other.name == name)&&(identical(other.sets, sets) || other.sets == sets)&&(identical(other.repMin, repMin) || other.repMin == repMin)&&(identical(other.repMax, repMax) || other.repMax == repMax)&&(identical(other.repUnit, repUnit) || other.repUnit == repUnit)&&(identical(other.loadType, loadType) || other.loadType == loadType)&&(identical(other.restSec, restSec) || other.restSec == restSec)&&(identical(other.rirMin, rirMin) || other.rirMin == rirMin)&&(identical(other.rirMax, rirMax) || other.rirMax == rirMax)&&(identical(other.priority, priority) || other.priority == priority));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlannedExercise&&(identical(other.exerciseId, exerciseId) || other.exerciseId == exerciseId)&&(identical(other.name, name) || other.name == name)&&(identical(other.sets, sets) || other.sets == sets)&&(identical(other.repMin, repMin) || other.repMin == repMin)&&(identical(other.repMax, repMax) || other.repMax == repMax)&&(identical(other.repUnit, repUnit) || other.repUnit == repUnit)&&(identical(other.loadType, loadType) || other.loadType == loadType)&&(identical(other.restSec, restSec) || other.restSec == restSec)&&(identical(other.rirMin, rirMin) || other.rirMin == rirMin)&&(identical(other.rirMax, rirMax) || other.rirMax == rirMax)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.rationale, rationale) || other.rationale == rationale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,exerciseId,name,sets,repMin,repMax,repUnit,loadType,restSec,rirMin,rirMax,priority);
+    return Object.hash(runtimeType,exerciseId,name,sets,repMin,repMax,repUnit,loadType,restSec,rirMin,rirMax,priority,rationale);
 }
 
 @override
 String toString() {
-    return 'PlannedExercise(exerciseId: $exerciseId, name: $name, sets: $sets, repMin: $repMin, repMax: $repMax, repUnit: $repUnit, loadType: $loadType, restSec: $restSec, rirMin: $rirMin, rirMax: $rirMax, priority: $priority)';
+    return 'PlannedExercise(exerciseId: $exerciseId, name: $name, sets: $sets, repMin: $repMin, repMax: $repMax, repUnit: $repUnit, loadType: $loadType, restSec: $restSec, rirMin: $rirMin, rirMax: $rirMax, priority: $priority, rationale: $rationale)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$PlannedExerciseCopyWith<$Res> implements $PlannedExercise
   factory _$PlannedExerciseCopyWith(_PlannedExercise value, $Res Function(_PlannedExercise) _then) = __$PlannedExerciseCopyWithImpl;
 @override @useResult
 $Res call({
- String exerciseId, String name, int sets, int repMin, int repMax, String repUnit, String loadType, int restSec, int rirMin, int rirMax, bool priority
+ String exerciseId, String name, int sets, int repMin, int repMax, String repUnit, String loadType, int restSec, int rirMin, int rirMax, bool priority, String? rationale
 });
 
 
@@ -292,7 +296,7 @@ class __$PlannedExerciseCopyWithImpl<$Res>
 
 /// Create a copy of PlannedExercise
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? exerciseId = null,Object? name = null,Object? sets = null,Object? repMin = null,Object? repMax = null,Object? repUnit = null,Object? loadType = null,Object? restSec = null,Object? rirMin = null,Object? rirMax = null,Object? priority = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? exerciseId = null,Object? name = null,Object? sets = null,Object? repMin = null,Object? repMax = null,Object? repUnit = null,Object? loadType = null,Object? restSec = null,Object? rirMin = null,Object? rirMax = null,Object? priority = null,Object? rationale = freezed,}) {
   return _then(_PlannedExercise(
 exerciseId: null == exerciseId ? _self.exerciseId : exerciseId // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -305,7 +309,8 @@ as String,restSec: null == restSec ? _self.restSec : restSec // ignore: cast_nul
 as int,rirMin: null == rirMin ? _self.rirMin : rirMin // ignore: cast_nullable_to_non_nullable
 as int,rirMax: null == rirMax ? _self.rirMax : rirMax // ignore: cast_nullable_to_non_nullable
 as int,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,rationale: freezed == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -612,7 +617,8 @@ as List<PlannedExercise>,
 /// @nodoc
 mixin _$WorkoutPlan {
 
-@JsonKey(includeFromJson: false, includeToJson: false) String get id; PlanStatus get status; String get source; String get split; String get level; int get daysPerWeek; int get sessionMinutes; List<String> get warnings;
+@JsonKey(includeFromJson: false, includeToJson: false) String get id; PlanStatus get status; String get source; String get split; String get level; int get daysPerWeek; int get sessionMinutes; List<String> get warnings;/// Ringkasan alasan dari AI & model penyusun (null untuk template).
+ String? get rationale; String? get model;
 /// Create a copy of WorkoutPlan
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -626,20 +632,20 @@ $WorkoutPlanCopyWith<WorkoutPlan> get copyWith => _$WorkoutPlanCopyWithImpl<Work
 @override
 bool operator ==(Object other) {
   final _this = this as WorkoutPlan;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkoutPlan&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.source, _this.source) || other.source == _this.source)&&(identical(other.split, _this.split) || other.split == _this.split)&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.daysPerWeek, _this.daysPerWeek) || other.daysPerWeek == _this.daysPerWeek)&&(identical(other.sessionMinutes, _this.sessionMinutes) || other.sessionMinutes == _this.sessionMinutes)&&const DeepCollectionEquality().equals(other.warnings, _this.warnings));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkoutPlan&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.source, _this.source) || other.source == _this.source)&&(identical(other.split, _this.split) || other.split == _this.split)&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.daysPerWeek, _this.daysPerWeek) || other.daysPerWeek == _this.daysPerWeek)&&(identical(other.sessionMinutes, _this.sessionMinutes) || other.sessionMinutes == _this.sessionMinutes)&&const DeepCollectionEquality().equals(other.warnings, _this.warnings)&&(identical(other.rationale, _this.rationale) || other.rationale == _this.rationale)&&(identical(other.model, _this.model) || other.model == _this.model));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as WorkoutPlan;
-  return Object.hash(runtimeType,_this.id,_this.status,_this.source,_this.split,_this.level,_this.daysPerWeek,_this.sessionMinutes,const DeepCollectionEquality().hash(_this.warnings));
+  return Object.hash(runtimeType,_this.id,_this.status,_this.source,_this.split,_this.level,_this.daysPerWeek,_this.sessionMinutes,const DeepCollectionEquality().hash(_this.warnings),_this.rationale,_this.model);
 }
 
 @override
 String toString() {
   final _this = this as WorkoutPlan;
-  return 'WorkoutPlan(id: ${_this.id}, status: ${_this.status}, source: ${_this.source}, split: ${_this.split}, level: ${_this.level}, daysPerWeek: ${_this.daysPerWeek}, sessionMinutes: ${_this.sessionMinutes}, warnings: ${_this.warnings})';
+  return 'WorkoutPlan(id: ${_this.id}, status: ${_this.status}, source: ${_this.source}, split: ${_this.split}, level: ${_this.level}, daysPerWeek: ${_this.daysPerWeek}, sessionMinutes: ${_this.sessionMinutes}, warnings: ${_this.warnings}, rationale: ${_this.rationale}, model: ${_this.model})';
 }
 
 
@@ -650,7 +656,7 @@ abstract mixin class $WorkoutPlanCopyWith<$Res>  {
   factory $WorkoutPlanCopyWith(WorkoutPlan value, $Res Function(WorkoutPlan) _then) = _$WorkoutPlanCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeFromJson: false, includeToJson: false) String id, PlanStatus status, String source, String split, String level, int daysPerWeek, int sessionMinutes, List<String> warnings
+@JsonKey(includeFromJson: false, includeToJson: false) String id, PlanStatus status, String source, String split, String level, int daysPerWeek, int sessionMinutes, List<String> warnings, String? rationale, String? model
 });
 
 
@@ -667,7 +673,7 @@ class _$WorkoutPlanCopyWithImpl<$Res>
 
 /// Create a copy of WorkoutPlan
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? status = null,Object? source = null,Object? split = null,Object? level = null,Object? daysPerWeek = null,Object? sessionMinutes = null,Object? warnings = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? status = null,Object? source = null,Object? split = null,Object? level = null,Object? daysPerWeek = null,Object? sessionMinutes = null,Object? warnings = null,Object? rationale = freezed,Object? model = freezed,}) {
   return _then(WorkoutPlan(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -677,7 +683,9 @@ as String,level: null == level ? _self.level : level // ignore: cast_nullable_to
 as String,daysPerWeek: null == daysPerWeek ? _self.daysPerWeek : daysPerWeek // ignore: cast_nullable_to_non_nullable
 as int,sessionMinutes: null == sessionMinutes ? _self.sessionMinutes : sessionMinutes // ignore: cast_nullable_to_non_nullable
 as int,warnings: null == warnings ? _self.warnings : warnings // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,rationale: freezed == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
+as String?,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -762,10 +770,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  PlanStatus status,  String source,  String split,  String level,  int daysPerWeek,  int sessionMinutes,  List<String> warnings)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  PlanStatus status,  String source,  String split,  String level,  int daysPerWeek,  int sessionMinutes,  List<String> warnings,  String? rationale,  String? model)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WorkoutPlan() when $default != null:
-return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that.daysPerWeek,_that.sessionMinutes,_that.warnings);case _:
+return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that.daysPerWeek,_that.sessionMinutes,_that.warnings,_that.rationale,_that.model);case _:
   return orElse();
 
 }
@@ -783,10 +791,10 @@ return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  PlanStatus status,  String source,  String split,  String level,  int daysPerWeek,  int sessionMinutes,  List<String> warnings)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  PlanStatus status,  String source,  String split,  String level,  int daysPerWeek,  int sessionMinutes,  List<String> warnings,  String? rationale,  String? model)  $default,) {final _that = this;
 switch (_that) {
 case _WorkoutPlan():
-return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that.daysPerWeek,_that.sessionMinutes,_that.warnings);case _:
+return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that.daysPerWeek,_that.sessionMinutes,_that.warnings,_that.rationale,_that.model);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -803,10 +811,10 @@ return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  PlanStatus status,  String source,  String split,  String level,  int daysPerWeek,  int sessionMinutes,  List<String> warnings)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  PlanStatus status,  String source,  String split,  String level,  int daysPerWeek,  int sessionMinutes,  List<String> warnings,  String? rationale,  String? model)?  $default,) {final _that = this;
 switch (_that) {
 case _WorkoutPlan() when $default != null:
-return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that.daysPerWeek,_that.sessionMinutes,_that.warnings);case _:
+return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that.daysPerWeek,_that.sessionMinutes,_that.warnings,_that.rationale,_that.model);case _:
   return null;
 
 }
@@ -817,8 +825,8 @@ return $default(_that.id,_that.status,_that.source,_that.split,_that.level,_that
 /// @nodoc
 @JsonSerializable()
 
-class _WorkoutPlan implements WorkoutPlan {
-  const _WorkoutPlan({@JsonKey(includeFromJson: false, includeToJson: false) this.id = '', required this.status, this.source = 'template', required this.split, required this.level, required this.daysPerWeek, required this.sessionMinutes,  List<String> warnings = const <String>[]}): _warnings = warnings;
+class _WorkoutPlan extends WorkoutPlan {
+  const _WorkoutPlan({@JsonKey(includeFromJson: false, includeToJson: false) this.id = '', required this.status, this.source = 'template', required this.split, required this.level, required this.daysPerWeek, required this.sessionMinutes,  List<String> warnings = const <String>[], this.rationale, this.model}): _warnings = warnings,super._();
   factory _WorkoutPlan.fromJson(Map<String, dynamic> json) => _$WorkoutPlanFromJson(json);
 
 @override@JsonKey(includeFromJson: false, includeToJson: false) final  String id;
@@ -835,6 +843,9 @@ class _WorkoutPlan implements WorkoutPlan {
   return EqualUnmodifiableListView(_warnings);
 }
 
+/// Ringkasan alasan dari AI & model penyusun (null untuk template).
+@override final  String? rationale;
+@override final  String? model;
 
 /// Create a copy of WorkoutPlan
 /// with the given fields replaced by the non-null parameter values.
@@ -849,18 +860,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkoutPlan&&(identical(other.id, id) || other.id == id)&&(identical(other.status, status) || other.status == status)&&(identical(other.source, source) || other.source == source)&&(identical(other.split, split) || other.split == split)&&(identical(other.level, level) || other.level == level)&&(identical(other.daysPerWeek, daysPerWeek) || other.daysPerWeek == daysPerWeek)&&(identical(other.sessionMinutes, sessionMinutes) || other.sessionMinutes == sessionMinutes)&&const DeepCollectionEquality().equals(other.warnings, _warnings));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkoutPlan&&(identical(other.id, id) || other.id == id)&&(identical(other.status, status) || other.status == status)&&(identical(other.source, source) || other.source == source)&&(identical(other.split, split) || other.split == split)&&(identical(other.level, level) || other.level == level)&&(identical(other.daysPerWeek, daysPerWeek) || other.daysPerWeek == daysPerWeek)&&(identical(other.sessionMinutes, sessionMinutes) || other.sessionMinutes == sessionMinutes)&&const DeepCollectionEquality().equals(other.warnings, _warnings)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.model, model) || other.model == model));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,status,source,split,level,daysPerWeek,sessionMinutes,const DeepCollectionEquality().hash(_warnings));
+    return Object.hash(runtimeType,id,status,source,split,level,daysPerWeek,sessionMinutes,const DeepCollectionEquality().hash(_warnings),rationale,model);
 }
 
 @override
 String toString() {
-    return 'WorkoutPlan(id: $id, status: $status, source: $source, split: $split, level: $level, daysPerWeek: $daysPerWeek, sessionMinutes: $sessionMinutes, warnings: $warnings)';
+    return 'WorkoutPlan(id: $id, status: $status, source: $source, split: $split, level: $level, daysPerWeek: $daysPerWeek, sessionMinutes: $sessionMinutes, warnings: $warnings, rationale: $rationale, model: $model)';
 }
 
 
@@ -871,7 +882,7 @@ abstract mixin class _$WorkoutPlanCopyWith<$Res> implements $WorkoutPlanCopyWith
   factory _$WorkoutPlanCopyWith(_WorkoutPlan value, $Res Function(_WorkoutPlan) _then) = __$WorkoutPlanCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeFromJson: false, includeToJson: false) String id, PlanStatus status, String source, String split, String level, int daysPerWeek, int sessionMinutes, List<String> warnings
+@JsonKey(includeFromJson: false, includeToJson: false) String id, PlanStatus status, String source, String split, String level, int daysPerWeek, int sessionMinutes, List<String> warnings, String? rationale, String? model
 });
 
 
@@ -888,7 +899,7 @@ class __$WorkoutPlanCopyWithImpl<$Res>
 
 /// Create a copy of WorkoutPlan
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? status = null,Object? source = null,Object? split = null,Object? level = null,Object? daysPerWeek = null,Object? sessionMinutes = null,Object? warnings = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? status = null,Object? source = null,Object? split = null,Object? level = null,Object? daysPerWeek = null,Object? sessionMinutes = null,Object? warnings = null,Object? rationale = freezed,Object? model = freezed,}) {
   return _then(_WorkoutPlan(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -898,7 +909,9 @@ as String,level: null == level ? _self.level : level // ignore: cast_nullable_to
 as String,daysPerWeek: null == daysPerWeek ? _self.daysPerWeek : daysPerWeek // ignore: cast_nullable_to_non_nullable
 as int,sessionMinutes: null == sessionMinutes ? _self.sessionMinutes : sessionMinutes // ignore: cast_nullable_to_non_nullable
 as int,warnings: null == warnings ? _self._warnings : warnings // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,rationale: freezed == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
+as String?,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

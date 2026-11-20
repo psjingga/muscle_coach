@@ -29,6 +29,10 @@ abstract class Exercise with _$Exercise {
     @Default(false) bool needsSpotter,
     @Default(<String>[]) List<String> alternatives,
     String? videoUrl,
+
+    /// Foto gerakan (path aset), urut posisi awal → akhir. Kosong bila belum
+    /// ada; UI lalu hanya menampilkan peta otot.
+    @Default(<String>[]) List<String> images,
   }) = _Exercise;
 
   factory Exercise.fromJson(Map<String, dynamic> json) => _$ExerciseFromJson(json);

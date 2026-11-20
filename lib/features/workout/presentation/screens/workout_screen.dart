@@ -6,6 +6,7 @@ import '../../../../app/router/routes.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/widgets/empty_state.dart';
+import '../../../ai_coach/presentation/ai_plan_flow.dart';
 import '../../../../core/database/database_providers.dart';
 import '../../domain/entities/workout.dart';
 import '../providers/workout_providers.dart';
@@ -63,12 +64,25 @@ class _NoPlan extends ConsumerWidget {
       icon: Icons.fitness_center_outlined,
       title: l.emptyWorkoutTitle,
       message: l.workoutNoPlanMessage,
-      action: FilledButton.icon(
-        onPressed: busy ? null : () => createAndOpenStarterPlan(context, ref),
-        icon: busy
-            ? const SizedBox.square(dimension: 18, child: CircularProgressIndicator(strokeWidth: 2))
-            : const Icon(Icons.auto_fix_high),
-        label: Text(l.createStarterPlan),
+      action: Column(
+        children: [
+          FilledButton.icon(
+            onPressed: busy ? null : () => generateAiPlan(context, ref),
+            icon: const Icon(Icons.auto_awesome),
+            label: Text(l.generateWithAi),
+          ),
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            onPressed: busy ? null : () => createAndOpenStarterPlan(context, ref),
+            icon: busy
+                ? const SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.rule),
+            label: Text(l.createStarterPlan),
+          ),
+        ],
       ),
     );
   }

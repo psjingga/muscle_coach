@@ -16,7 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Exercise {
 
- String get id; String get name; List<String> get aliases; List<String> get primaryMuscles; List<String> get secondaryMuscles; String get pattern; List<String> get equipment; String get level; bool get compound; String get repUnit; String get loadType; List<String> get instructions; List<String> get mistakes; List<String> get safety; bool get needsSpotter; List<String> get alternatives; String? get videoUrl;
+ String get id; String get name; List<String> get aliases; List<String> get primaryMuscles; List<String> get secondaryMuscles; String get pattern; List<String> get equipment; String get level; bool get compound; String get repUnit; String get loadType; List<String> get instructions; List<String> get mistakes; List<String> get safety; bool get needsSpotter; List<String> get alternatives; String? get videoUrl;/// Foto gerakan (path aset), urut posisi awal → akhir. Kosong bila belum
+/// ada; UI lalu hanya menampilkan peta otot.
+ List<String> get images;
 /// Create a copy of Exercise
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +32,20 @@ $ExerciseCopyWith<Exercise> get copyWith => _$ExerciseCopyWithImpl<Exercise>(thi
 @override
 bool operator ==(Object other) {
   final _this = this as Exercise;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Exercise&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.aliases, _this.aliases)&&const DeepCollectionEquality().equals(other.primaryMuscles, _this.primaryMuscles)&&const DeepCollectionEquality().equals(other.secondaryMuscles, _this.secondaryMuscles)&&(identical(other.pattern, _this.pattern) || other.pattern == _this.pattern)&&const DeepCollectionEquality().equals(other.equipment, _this.equipment)&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.compound, _this.compound) || other.compound == _this.compound)&&(identical(other.repUnit, _this.repUnit) || other.repUnit == _this.repUnit)&&(identical(other.loadType, _this.loadType) || other.loadType == _this.loadType)&&const DeepCollectionEquality().equals(other.instructions, _this.instructions)&&const DeepCollectionEquality().equals(other.mistakes, _this.mistakes)&&const DeepCollectionEquality().equals(other.safety, _this.safety)&&(identical(other.needsSpotter, _this.needsSpotter) || other.needsSpotter == _this.needsSpotter)&&const DeepCollectionEquality().equals(other.alternatives, _this.alternatives)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Exercise&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.aliases, _this.aliases)&&const DeepCollectionEquality().equals(other.primaryMuscles, _this.primaryMuscles)&&const DeepCollectionEquality().equals(other.secondaryMuscles, _this.secondaryMuscles)&&(identical(other.pattern, _this.pattern) || other.pattern == _this.pattern)&&const DeepCollectionEquality().equals(other.equipment, _this.equipment)&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.compound, _this.compound) || other.compound == _this.compound)&&(identical(other.repUnit, _this.repUnit) || other.repUnit == _this.repUnit)&&(identical(other.loadType, _this.loadType) || other.loadType == _this.loadType)&&const DeepCollectionEquality().equals(other.instructions, _this.instructions)&&const DeepCollectionEquality().equals(other.mistakes, _this.mistakes)&&const DeepCollectionEquality().equals(other.safety, _this.safety)&&(identical(other.needsSpotter, _this.needsSpotter) || other.needsSpotter == _this.needsSpotter)&&const DeepCollectionEquality().equals(other.alternatives, _this.alternatives)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl)&&const DeepCollectionEquality().equals(other.images, _this.images));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Exercise;
-  return Object.hash(runtimeType,_this.id,_this.name,const DeepCollectionEquality().hash(_this.aliases),const DeepCollectionEquality().hash(_this.primaryMuscles),const DeepCollectionEquality().hash(_this.secondaryMuscles),_this.pattern,const DeepCollectionEquality().hash(_this.equipment),_this.level,_this.compound,_this.repUnit,_this.loadType,const DeepCollectionEquality().hash(_this.instructions),const DeepCollectionEquality().hash(_this.mistakes),const DeepCollectionEquality().hash(_this.safety),_this.needsSpotter,const DeepCollectionEquality().hash(_this.alternatives),_this.videoUrl);
+  return Object.hash(runtimeType,_this.id,_this.name,const DeepCollectionEquality().hash(_this.aliases),const DeepCollectionEquality().hash(_this.primaryMuscles),const DeepCollectionEquality().hash(_this.secondaryMuscles),_this.pattern,const DeepCollectionEquality().hash(_this.equipment),_this.level,_this.compound,_this.repUnit,_this.loadType,const DeepCollectionEquality().hash(_this.instructions),const DeepCollectionEquality().hash(_this.mistakes),const DeepCollectionEquality().hash(_this.safety),_this.needsSpotter,const DeepCollectionEquality().hash(_this.alternatives),_this.videoUrl,const DeepCollectionEquality().hash(_this.images));
 }
 
 @override
 String toString() {
   final _this = this as Exercise;
-  return 'Exercise(id: ${_this.id}, name: ${_this.name}, aliases: ${_this.aliases}, primaryMuscles: ${_this.primaryMuscles}, secondaryMuscles: ${_this.secondaryMuscles}, pattern: ${_this.pattern}, equipment: ${_this.equipment}, level: ${_this.level}, compound: ${_this.compound}, repUnit: ${_this.repUnit}, loadType: ${_this.loadType}, instructions: ${_this.instructions}, mistakes: ${_this.mistakes}, safety: ${_this.safety}, needsSpotter: ${_this.needsSpotter}, alternatives: ${_this.alternatives}, videoUrl: ${_this.videoUrl})';
+  return 'Exercise(id: ${_this.id}, name: ${_this.name}, aliases: ${_this.aliases}, primaryMuscles: ${_this.primaryMuscles}, secondaryMuscles: ${_this.secondaryMuscles}, pattern: ${_this.pattern}, equipment: ${_this.equipment}, level: ${_this.level}, compound: ${_this.compound}, repUnit: ${_this.repUnit}, loadType: ${_this.loadType}, instructions: ${_this.instructions}, mistakes: ${_this.mistakes}, safety: ${_this.safety}, needsSpotter: ${_this.needsSpotter}, alternatives: ${_this.alternatives}, videoUrl: ${_this.videoUrl}, images: ${_this.images})';
 }
 
 
@@ -54,7 +56,7 @@ abstract mixin class $ExerciseCopyWith<$Res>  {
   factory $ExerciseCopyWith(Exercise value, $Res Function(Exercise) _then) = _$ExerciseCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, List<String> aliases, List<String> primaryMuscles, List<String> secondaryMuscles, String pattern, List<String> equipment, String level, bool compound, String repUnit, String loadType, List<String> instructions, List<String> mistakes, List<String> safety, bool needsSpotter, List<String> alternatives, String? videoUrl
+ String id, String name, List<String> aliases, List<String> primaryMuscles, List<String> secondaryMuscles, String pattern, List<String> equipment, String level, bool compound, String repUnit, String loadType, List<String> instructions, List<String> mistakes, List<String> safety, bool needsSpotter, List<String> alternatives, String? videoUrl, List<String> images
 });
 
 
@@ -71,7 +73,7 @@ class _$ExerciseCopyWithImpl<$Res>
 
 /// Create a copy of Exercise
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? aliases = null,Object? primaryMuscles = null,Object? secondaryMuscles = null,Object? pattern = null,Object? equipment = null,Object? level = null,Object? compound = null,Object? repUnit = null,Object? loadType = null,Object? instructions = null,Object? mistakes = null,Object? safety = null,Object? needsSpotter = null,Object? alternatives = null,Object? videoUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? aliases = null,Object? primaryMuscles = null,Object? secondaryMuscles = null,Object? pattern = null,Object? equipment = null,Object? level = null,Object? compound = null,Object? repUnit = null,Object? loadType = null,Object? instructions = null,Object? mistakes = null,Object? safety = null,Object? needsSpotter = null,Object? alternatives = null,Object? videoUrl = freezed,Object? images = null,}) {
   return _then(Exercise(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -90,7 +92,8 @@ as List<String>,safety: null == safety ? _self.safety : safety // ignore: cast_n
 as List<String>,needsSpotter: null == needsSpotter ? _self.needsSpotter : needsSpotter // ignore: cast_nullable_to_non_nullable
 as bool,alternatives: null == alternatives ? _self.alternatives : alternatives // ignore: cast_nullable_to_non_nullable
 as List<String>,videoUrl: freezed == videoUrl ? _self.videoUrl : videoUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,images: null == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -175,10 +178,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  List<String> aliases,  List<String> primaryMuscles,  List<String> secondaryMuscles,  String pattern,  List<String> equipment,  String level,  bool compound,  String repUnit,  String loadType,  List<String> instructions,  List<String> mistakes,  List<String> safety,  bool needsSpotter,  List<String> alternatives,  String? videoUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  List<String> aliases,  List<String> primaryMuscles,  List<String> secondaryMuscles,  String pattern,  List<String> equipment,  String level,  bool compound,  String repUnit,  String loadType,  List<String> instructions,  List<String> mistakes,  List<String> safety,  bool needsSpotter,  List<String> alternatives,  String? videoUrl,  List<String> images)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Exercise() when $default != null:
-return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.secondaryMuscles,_that.pattern,_that.equipment,_that.level,_that.compound,_that.repUnit,_that.loadType,_that.instructions,_that.mistakes,_that.safety,_that.needsSpotter,_that.alternatives,_that.videoUrl);case _:
+return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.secondaryMuscles,_that.pattern,_that.equipment,_that.level,_that.compound,_that.repUnit,_that.loadType,_that.instructions,_that.mistakes,_that.safety,_that.needsSpotter,_that.alternatives,_that.videoUrl,_that.images);case _:
   return orElse();
 
 }
@@ -196,10 +199,10 @@ return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.sec
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  List<String> aliases,  List<String> primaryMuscles,  List<String> secondaryMuscles,  String pattern,  List<String> equipment,  String level,  bool compound,  String repUnit,  String loadType,  List<String> instructions,  List<String> mistakes,  List<String> safety,  bool needsSpotter,  List<String> alternatives,  String? videoUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  List<String> aliases,  List<String> primaryMuscles,  List<String> secondaryMuscles,  String pattern,  List<String> equipment,  String level,  bool compound,  String repUnit,  String loadType,  List<String> instructions,  List<String> mistakes,  List<String> safety,  bool needsSpotter,  List<String> alternatives,  String? videoUrl,  List<String> images)  $default,) {final _that = this;
 switch (_that) {
 case _Exercise():
-return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.secondaryMuscles,_that.pattern,_that.equipment,_that.level,_that.compound,_that.repUnit,_that.loadType,_that.instructions,_that.mistakes,_that.safety,_that.needsSpotter,_that.alternatives,_that.videoUrl);case _:
+return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.secondaryMuscles,_that.pattern,_that.equipment,_that.level,_that.compound,_that.repUnit,_that.loadType,_that.instructions,_that.mistakes,_that.safety,_that.needsSpotter,_that.alternatives,_that.videoUrl,_that.images);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -216,10 +219,10 @@ return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.sec
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  List<String> aliases,  List<String> primaryMuscles,  List<String> secondaryMuscles,  String pattern,  List<String> equipment,  String level,  bool compound,  String repUnit,  String loadType,  List<String> instructions,  List<String> mistakes,  List<String> safety,  bool needsSpotter,  List<String> alternatives,  String? videoUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  List<String> aliases,  List<String> primaryMuscles,  List<String> secondaryMuscles,  String pattern,  List<String> equipment,  String level,  bool compound,  String repUnit,  String loadType,  List<String> instructions,  List<String> mistakes,  List<String> safety,  bool needsSpotter,  List<String> alternatives,  String? videoUrl,  List<String> images)?  $default,) {final _that = this;
 switch (_that) {
 case _Exercise() when $default != null:
-return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.secondaryMuscles,_that.pattern,_that.equipment,_that.level,_that.compound,_that.repUnit,_that.loadType,_that.instructions,_that.mistakes,_that.safety,_that.needsSpotter,_that.alternatives,_that.videoUrl);case _:
+return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.secondaryMuscles,_that.pattern,_that.equipment,_that.level,_that.compound,_that.repUnit,_that.loadType,_that.instructions,_that.mistakes,_that.safety,_that.needsSpotter,_that.alternatives,_that.videoUrl,_that.images);case _:
   return null;
 
 }
@@ -231,7 +234,7 @@ return $default(_that.id,_that.name,_that.aliases,_that.primaryMuscles,_that.sec
 @JsonSerializable()
 
 class _Exercise implements Exercise {
-  const _Exercise({required this.id, required this.name,  List<String> aliases = const <String>[],  List<String> primaryMuscles = const <String>[],  List<String> secondaryMuscles = const <String>[], required this.pattern,  List<String> equipment = const <String>[], required this.level, this.compound = false, this.repUnit = 'reps', this.loadType = 'total',  List<String> instructions = const <String>[],  List<String> mistakes = const <String>[],  List<String> safety = const <String>[], this.needsSpotter = false,  List<String> alternatives = const <String>[], this.videoUrl}): _aliases = aliases,_primaryMuscles = primaryMuscles,_secondaryMuscles = secondaryMuscles,_equipment = equipment,_instructions = instructions,_mistakes = mistakes,_safety = safety,_alternatives = alternatives;
+  const _Exercise({required this.id, required this.name,  List<String> aliases = const <String>[],  List<String> primaryMuscles = const <String>[],  List<String> secondaryMuscles = const <String>[], required this.pattern,  List<String> equipment = const <String>[], required this.level, this.compound = false, this.repUnit = 'reps', this.loadType = 'total',  List<String> instructions = const <String>[],  List<String> mistakes = const <String>[],  List<String> safety = const <String>[], this.needsSpotter = false,  List<String> alternatives = const <String>[], this.videoUrl,  List<String> images = const <String>[]}): _aliases = aliases,_primaryMuscles = primaryMuscles,_secondaryMuscles = secondaryMuscles,_equipment = equipment,_instructions = instructions,_mistakes = mistakes,_safety = safety,_alternatives = alternatives,_images = images;
   factory _Exercise.fromJson(Map<String, dynamic> json) => _$ExerciseFromJson(json);
 
 @override final  String id;
@@ -299,6 +302,17 @@ class _Exercise implements Exercise {
 }
 
 @override final  String? videoUrl;
+/// Foto gerakan (path aset), urut posisi awal → akhir. Kosong bila belum
+/// ada; UI lalu hanya menampilkan peta otot.
+ final  List<String> _images;
+/// Foto gerakan (path aset), urut posisi awal → akhir. Kosong bila belum
+/// ada; UI lalu hanya menampilkan peta otot.
+@override@JsonKey() List<String> get images {
+  if (_images is EqualUnmodifiableListView) return _images;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_images);
+}
+
 
 /// Create a copy of Exercise
 /// with the given fields replaced by the non-null parameter values.
@@ -313,18 +327,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Exercise&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.aliases, _aliases)&&const DeepCollectionEquality().equals(other.primaryMuscles, _primaryMuscles)&&const DeepCollectionEquality().equals(other.secondaryMuscles, _secondaryMuscles)&&(identical(other.pattern, pattern) || other.pattern == pattern)&&const DeepCollectionEquality().equals(other.equipment, _equipment)&&(identical(other.level, level) || other.level == level)&&(identical(other.compound, compound) || other.compound == compound)&&(identical(other.repUnit, repUnit) || other.repUnit == repUnit)&&(identical(other.loadType, loadType) || other.loadType == loadType)&&const DeepCollectionEquality().equals(other.instructions, _instructions)&&const DeepCollectionEquality().equals(other.mistakes, _mistakes)&&const DeepCollectionEquality().equals(other.safety, _safety)&&(identical(other.needsSpotter, needsSpotter) || other.needsSpotter == needsSpotter)&&const DeepCollectionEquality().equals(other.alternatives, _alternatives)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Exercise&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.aliases, _aliases)&&const DeepCollectionEquality().equals(other.primaryMuscles, _primaryMuscles)&&const DeepCollectionEquality().equals(other.secondaryMuscles, _secondaryMuscles)&&(identical(other.pattern, pattern) || other.pattern == pattern)&&const DeepCollectionEquality().equals(other.equipment, _equipment)&&(identical(other.level, level) || other.level == level)&&(identical(other.compound, compound) || other.compound == compound)&&(identical(other.repUnit, repUnit) || other.repUnit == repUnit)&&(identical(other.loadType, loadType) || other.loadType == loadType)&&const DeepCollectionEquality().equals(other.instructions, _instructions)&&const DeepCollectionEquality().equals(other.mistakes, _mistakes)&&const DeepCollectionEquality().equals(other.safety, _safety)&&(identical(other.needsSpotter, needsSpotter) || other.needsSpotter == needsSpotter)&&const DeepCollectionEquality().equals(other.alternatives, _alternatives)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl)&&const DeepCollectionEquality().equals(other.images, _images));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,name,const DeepCollectionEquality().hash(_aliases),const DeepCollectionEquality().hash(_primaryMuscles),const DeepCollectionEquality().hash(_secondaryMuscles),pattern,const DeepCollectionEquality().hash(_equipment),level,compound,repUnit,loadType,const DeepCollectionEquality().hash(_instructions),const DeepCollectionEquality().hash(_mistakes),const DeepCollectionEquality().hash(_safety),needsSpotter,const DeepCollectionEquality().hash(_alternatives),videoUrl);
+    return Object.hash(runtimeType,id,name,const DeepCollectionEquality().hash(_aliases),const DeepCollectionEquality().hash(_primaryMuscles),const DeepCollectionEquality().hash(_secondaryMuscles),pattern,const DeepCollectionEquality().hash(_equipment),level,compound,repUnit,loadType,const DeepCollectionEquality().hash(_instructions),const DeepCollectionEquality().hash(_mistakes),const DeepCollectionEquality().hash(_safety),needsSpotter,const DeepCollectionEquality().hash(_alternatives),videoUrl,const DeepCollectionEquality().hash(_images));
 }
 
 @override
 String toString() {
-    return 'Exercise(id: $id, name: $name, aliases: $aliases, primaryMuscles: $primaryMuscles, secondaryMuscles: $secondaryMuscles, pattern: $pattern, equipment: $equipment, level: $level, compound: $compound, repUnit: $repUnit, loadType: $loadType, instructions: $instructions, mistakes: $mistakes, safety: $safety, needsSpotter: $needsSpotter, alternatives: $alternatives, videoUrl: $videoUrl)';
+    return 'Exercise(id: $id, name: $name, aliases: $aliases, primaryMuscles: $primaryMuscles, secondaryMuscles: $secondaryMuscles, pattern: $pattern, equipment: $equipment, level: $level, compound: $compound, repUnit: $repUnit, loadType: $loadType, instructions: $instructions, mistakes: $mistakes, safety: $safety, needsSpotter: $needsSpotter, alternatives: $alternatives, videoUrl: $videoUrl, images: $images)';
 }
 
 
@@ -335,7 +349,7 @@ abstract mixin class _$ExerciseCopyWith<$Res> implements $ExerciseCopyWith<$Res>
   factory _$ExerciseCopyWith(_Exercise value, $Res Function(_Exercise) _then) = __$ExerciseCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, List<String> aliases, List<String> primaryMuscles, List<String> secondaryMuscles, String pattern, List<String> equipment, String level, bool compound, String repUnit, String loadType, List<String> instructions, List<String> mistakes, List<String> safety, bool needsSpotter, List<String> alternatives, String? videoUrl
+ String id, String name, List<String> aliases, List<String> primaryMuscles, List<String> secondaryMuscles, String pattern, List<String> equipment, String level, bool compound, String repUnit, String loadType, List<String> instructions, List<String> mistakes, List<String> safety, bool needsSpotter, List<String> alternatives, String? videoUrl, List<String> images
 });
 
 
@@ -352,7 +366,7 @@ class __$ExerciseCopyWithImpl<$Res>
 
 /// Create a copy of Exercise
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? aliases = null,Object? primaryMuscles = null,Object? secondaryMuscles = null,Object? pattern = null,Object? equipment = null,Object? level = null,Object? compound = null,Object? repUnit = null,Object? loadType = null,Object? instructions = null,Object? mistakes = null,Object? safety = null,Object? needsSpotter = null,Object? alternatives = null,Object? videoUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? aliases = null,Object? primaryMuscles = null,Object? secondaryMuscles = null,Object? pattern = null,Object? equipment = null,Object? level = null,Object? compound = null,Object? repUnit = null,Object? loadType = null,Object? instructions = null,Object? mistakes = null,Object? safety = null,Object? needsSpotter = null,Object? alternatives = null,Object? videoUrl = freezed,Object? images = null,}) {
   return _then(_Exercise(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -371,7 +385,8 @@ as List<String>,safety: null == safety ? _self._safety : safety // ignore: cast_
 as List<String>,needsSpotter: null == needsSpotter ? _self.needsSpotter : needsSpotter // ignore: cast_nullable_to_non_nullable
 as bool,alternatives: null == alternatives ? _self._alternatives : alternatives // ignore: cast_nullable_to_non_nullable
 as List<String>,videoUrl: freezed == videoUrl ? _self.videoUrl : videoUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,images: null == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

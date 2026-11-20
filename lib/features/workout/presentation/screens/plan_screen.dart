@@ -6,6 +6,7 @@ import '../../../../app/router/routes.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/widgets/empty_state.dart';
+import '../../../ai_coach/presentation/ai_plan_flow.dart';
 import '../../domain/entities/workout.dart';
 import '../providers/workout_providers.dart';
 import '../widgets/workout_labels.dart';
@@ -62,7 +63,7 @@ class PlanScreen extends ConsumerWidget {
             IconButton(
               tooltip: l.newPlan,
               icon: const Icon(Icons.refresh),
-              onPressed: busy ? null : () => createAndOpenStarterPlan(context, ref),
+              onPressed: busy ? null : () => chooseAndCreatePlan(context, ref),
             ),
         ],
       ),
@@ -74,7 +75,22 @@ class PlanScreen extends ConsumerWidget {
             Text(
               '${l.levelCode(value.level)} · ${l.planSummary(value.daysPerWeek, value.sessionMinutes)}',
             ),
-            MutedNote(l.planSourceTemplate),
+            if (value.isAiGenerated) ...[
+              const SizedBox(height: 4),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Chip(
+                  avatar: const Icon(Icons.auto_awesome, size: 18),
+                  label: Text(l.aiPlanBadge(value.model ?? '')),
+                ),
+              ),
+              if (value.rationale case final r? when r.isNotEmpty)
+                Card(
+                  child: ListTile(title: Text(l.aiPlanRationaleTitle), subtitle: Text(r)),
+                ),
+              MutedNote(l.aiPlanValidated),
+            ] else
+              MutedNote(l.planSourceTemplate),
             const SizedBox(height: 8),
             PlanWarnings(codes: value.warnings),
             for (final day in days)

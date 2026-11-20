@@ -189,7 +189,54 @@ void main() {
       await tapOn(find.byType(BackButton));
     }
 
-    // Hapus semua data → kembali ke onboarding
+    // Program dari Gemini (opsional: --dart-define=GEMINI_API_KEY=...).
+    const geminiKey = String.fromEnvironment('GEMINI_API_KEY');
+    if (geminiKey.isNotEmpty) {
+      await openProfileTab();
+      await tapText('AI Coach (Gemini)');
+      await tester.enterText(find.byKey(const ValueKey('ai-key')), geminiKey);
+      await hideKeyboard();
+      await tapText('Simpan & uji');
+      await waitFor(find.textContaining('Key tersimpan'));
+      await tapOn(find.byKey(const ValueKey('ai-consent')));
+      await waitFor(find.text('Siap dipakai'));
+      await tapOn(find.byType(BackButton));
+      debugPrint('E2E: API key Gemini tersimpan');
+
+      await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Latihan')));
+      await tapOn(find.widgetWithText(OutlinedButton, 'Program aktif'));
+      await tapOn(find.byTooltip('Buat ulang program'));
+      await tapText('Susun dengan AI');
+      await waitFor(find.text('Aktifkan program'), seconds: 150);
+      expect(find.textContaining('Estimasi AI'), findsOneWidget);
+      debugPrint('E2E: draft program AI tampil');
+      await tapText('Aktifkan program');
+      await tapOn(find.widgetWithText(FilledButton, 'Ganti'));
+      await waitFor(find.byType(NavigationBar));
+      debugPrint('E2E: program AI aktif');
+    }
+
+    // Pengingat lokal: aktifkan, cek jadwal, kirim notifikasi uji.
+    await openProfileTab();
+    await tapText('Pengingat');
+    await tapOn(find.byKey(const ValueKey('reminders-master')));
+    if (find.text('Izinkan notifikasi?').evaluate().isNotEmpty) {
+      await tapText('Izinkan');
+    }
+    final scheduledFinder = find.byWidgetPredicate(
+      (w) => w is Text && RegExp(r'^[1-9]\d* pengingat terjadwal').hasMatch(w.data ?? ''),
+    );
+    await waitFor(scheduledFinder);
+    final scheduledText = tester.widget<Text>(scheduledFinder).data;
+    debugPrint('E2E: $scheduledText');
+    await tapText('Kirim notifikasi uji');
+    debugPrint('E2E: pengingat aktif — jeda untuk verifikasi adb');
+    for (var i = 0; i < 80; i++) {
+      await tester.pump(const Duration(milliseconds: 250));
+    }
+    await tapOn(find.byType(BackButton));
+
+    // Hapus semua data → kembali ke onboarding (pengingat ikut dibatalkan)
     await openProfileAndWipe();
     debugPrint('E2E: data terhapus, kembali ke onboarding');
   });

@@ -35,6 +35,7 @@ _Exercise _$ExerciseFromJson(Map<String, dynamic> json) => _Exercise(
       (json['alternatives'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const <String>[],
   videoUrl: json['videoUrl'] as String?,
+  images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const <String>[],
 );
 
 Map<String, dynamic> _$ExerciseToJson(_Exercise instance) => <String, dynamic>{
@@ -55,4 +56,5 @@ Map<String, dynamic> _$ExerciseToJson(_Exercise instance) => <String, dynamic>{
   'needsSpotter': instance.needsSpotter,
   'alternatives': instance.alternatives,
   'videoUrl': instance.videoUrl,
+  'images': instance.images,
 };

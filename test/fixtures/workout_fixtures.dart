@@ -1,4 +1,5 @@
 import 'package:musclecoach/features/workout/domain/entities/workout.dart';
+import 'package:musclecoach/features/workout/domain/template_planner.dart';
 
 const gobletSquat = PlannedExercise(
   exerciseId: 'goblet_squat',
@@ -89,3 +90,15 @@ SetLog doneSet(int index, int number, {double? kg, int reps = 10, int? rir}) => 
   rir: rir,
   status: SetStatus.done,
 );
+
+/// Draft program sederhana untuk test repository/pengingat.
+abstract final class PlanDraftFixture {
+  static PlanDraft draft(List<PlanDay> days) => PlanDraft(
+    split: 'full_body',
+    level: 'beginner',
+    daysPerWeek: days.length,
+    sessionMinutes: 45,
+    days: [for (final (i, d) in days.indexed) d.copyWith(id: 'd${i + 1}', order: i)],
+    warnings: const [],
+  );
+}

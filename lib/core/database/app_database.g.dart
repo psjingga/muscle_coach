@@ -2236,6 +2236,24 @@ class $WorkoutPlansTable extends WorkoutPlans with TableInfo<$WorkoutPlansTable,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _rationaleMeta = const VerificationMeta('rationale');
+  @override
+  late final GeneratedColumn<String> rationale = GeneratedColumn<String>(
+    'rationale',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  @override
+  late final GeneratedColumn<String> model = GeneratedColumn<String>(
+    'model',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
@@ -2276,6 +2294,8 @@ class $WorkoutPlansTable extends WorkoutPlans with TableInfo<$WorkoutPlansTable,
     daysPerWeek,
     sessionMinutes,
     warnings,
+    rationale,
+    model,
     createdAt,
     activatedAt,
     archivedAt,
@@ -2365,6 +2385,15 @@ class $WorkoutPlansTable extends WorkoutPlans with TableInfo<$WorkoutPlansTable,
     } else if (isInserting) {
       context.missing(_warningsMeta);
     }
+    if (data.containsKey('rationale')) {
+      context.handle(
+        _rationaleMeta,
+        rationale.isAcceptableOrUnknown(data['rationale']!, _rationaleMeta),
+      );
+    }
+    if (data.containsKey('model')) {
+      context.handle(_modelMeta, model.isAcceptableOrUnknown(data['model']!, _modelMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -2435,6 +2464,14 @@ class $WorkoutPlansTable extends WorkoutPlans with TableInfo<$WorkoutPlansTable,
         DriftSqlType.string,
         data['${effectivePrefix}warnings'],
       )!,
+      rationale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rationale'],
+      ),
+      model: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -2468,6 +2505,12 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
   final int daysPerWeek;
   final int sessionMinutes;
   final String warnings;
+
+  /// Ringkasan alasan program dari AI (null untuk template).
+  final String? rationale;
+
+  /// Model AI yang menyusun (null untuk template).
+  final String? model;
   final DateTime createdAt;
   final DateTime? activatedAt;
   final DateTime? archivedAt;
@@ -2483,6 +2526,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
     required this.daysPerWeek,
     required this.sessionMinutes,
     required this.warnings,
+    this.rationale,
+    this.model,
     required this.createdAt,
     this.activatedAt,
     this.archivedAt,
@@ -2501,6 +2546,12 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
     map['days_per_week'] = Variable<int>(daysPerWeek);
     map['session_minutes'] = Variable<int>(sessionMinutes);
     map['warnings'] = Variable<String>(warnings);
+    if (!nullToAbsent || rationale != null) {
+      map['rationale'] = Variable<String>(rationale);
+    }
+    if (!nullToAbsent || model != null) {
+      map['model'] = Variable<String>(model);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     if (!nullToAbsent || activatedAt != null) {
       map['activated_at'] = Variable<DateTime>(activatedAt);
@@ -2524,6 +2575,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
       daysPerWeek: Value(daysPerWeek),
       sessionMinutes: Value(sessionMinutes),
       warnings: Value(warnings),
+      rationale: rationale == null && nullToAbsent ? const Value.absent() : Value(rationale),
+      model: model == null && nullToAbsent ? const Value.absent() : Value(model),
       createdAt: Value(createdAt),
       activatedAt: activatedAt == null && nullToAbsent ? const Value.absent() : Value(activatedAt),
       archivedAt: archivedAt == null && nullToAbsent ? const Value.absent() : Value(archivedAt),
@@ -2544,6 +2597,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
       daysPerWeek: serializer.fromJson<int>(json['daysPerWeek']),
       sessionMinutes: serializer.fromJson<int>(json['sessionMinutes']),
       warnings: serializer.fromJson<String>(json['warnings']),
+      rationale: serializer.fromJson<String?>(json['rationale']),
+      model: serializer.fromJson<String?>(json['model']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       activatedAt: serializer.fromJson<DateTime?>(json['activatedAt']),
       archivedAt: serializer.fromJson<DateTime?>(json['archivedAt']),
@@ -2564,6 +2619,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
       'daysPerWeek': serializer.toJson<int>(daysPerWeek),
       'sessionMinutes': serializer.toJson<int>(sessionMinutes),
       'warnings': serializer.toJson<String>(warnings),
+      'rationale': serializer.toJson<String?>(rationale),
+      'model': serializer.toJson<String?>(model),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'activatedAt': serializer.toJson<DateTime?>(activatedAt),
       'archivedAt': serializer.toJson<DateTime?>(archivedAt),
@@ -2582,6 +2639,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
     int? daysPerWeek,
     int? sessionMinutes,
     String? warnings,
+    Value<String?> rationale = const Value.absent(),
+    Value<String?> model = const Value.absent(),
     DateTime? createdAt,
     Value<DateTime?> activatedAt = const Value.absent(),
     Value<DateTime?> archivedAt = const Value.absent(),
@@ -2597,6 +2656,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
     daysPerWeek: daysPerWeek ?? this.daysPerWeek,
     sessionMinutes: sessionMinutes ?? this.sessionMinutes,
     warnings: warnings ?? this.warnings,
+    rationale: rationale.present ? rationale.value : this.rationale,
+    model: model.present ? model.value : this.model,
     createdAt: createdAt ?? this.createdAt,
     activatedAt: activatedAt.present ? activatedAt.value : this.activatedAt,
     archivedAt: archivedAt.present ? archivedAt.value : this.archivedAt,
@@ -2616,6 +2677,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
       daysPerWeek: data.daysPerWeek.present ? data.daysPerWeek.value : this.daysPerWeek,
       sessionMinutes: data.sessionMinutes.present ? data.sessionMinutes.value : this.sessionMinutes,
       warnings: data.warnings.present ? data.warnings.value : this.warnings,
+      rationale: data.rationale.present ? data.rationale.value : this.rationale,
+      model: data.model.present ? data.model.value : this.model,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       activatedAt: data.activatedAt.present ? data.activatedAt.value : this.activatedAt,
       archivedAt: data.archivedAt.present ? data.archivedAt.value : this.archivedAt,
@@ -2636,6 +2699,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
           ..write('daysPerWeek: $daysPerWeek, ')
           ..write('sessionMinutes: $sessionMinutes, ')
           ..write('warnings: $warnings, ')
+          ..write('rationale: $rationale, ')
+          ..write('model: $model, ')
           ..write('createdAt: $createdAt, ')
           ..write('activatedAt: $activatedAt, ')
           ..write('archivedAt: $archivedAt')
@@ -2656,6 +2721,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
     daysPerWeek,
     sessionMinutes,
     warnings,
+    rationale,
+    model,
     createdAt,
     activatedAt,
     archivedAt,
@@ -2675,6 +2742,8 @@ class WorkoutPlanRow extends DataClass implements Insertable<WorkoutPlanRow> {
           other.daysPerWeek == this.daysPerWeek &&
           other.sessionMinutes == this.sessionMinutes &&
           other.warnings == this.warnings &&
+          other.rationale == this.rationale &&
+          other.model == this.model &&
           other.createdAt == this.createdAt &&
           other.activatedAt == this.activatedAt &&
           other.archivedAt == this.archivedAt);
@@ -2692,6 +2761,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
   final Value<int> daysPerWeek;
   final Value<int> sessionMinutes;
   final Value<String> warnings;
+  final Value<String?> rationale;
+  final Value<String?> model;
   final Value<DateTime> createdAt;
   final Value<DateTime?> activatedAt;
   final Value<DateTime?> archivedAt;
@@ -2708,6 +2779,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
     this.daysPerWeek = const Value.absent(),
     this.sessionMinutes = const Value.absent(),
     this.warnings = const Value.absent(),
+    this.rationale = const Value.absent(),
+    this.model = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.activatedAt = const Value.absent(),
     this.archivedAt = const Value.absent(),
@@ -2725,6 +2798,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
     required int daysPerWeek,
     required int sessionMinutes,
     required String warnings,
+    this.rationale = const Value.absent(),
+    this.model = const Value.absent(),
     required DateTime createdAt,
     this.activatedAt = const Value.absent(),
     this.archivedAt = const Value.absent(),
@@ -2753,6 +2828,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
     Expression<int>? daysPerWeek,
     Expression<int>? sessionMinutes,
     Expression<String>? warnings,
+    Expression<String>? rationale,
+    Expression<String>? model,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? activatedAt,
     Expression<DateTime>? archivedAt,
@@ -2770,6 +2847,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
       if (daysPerWeek != null) 'days_per_week': daysPerWeek,
       if (sessionMinutes != null) 'session_minutes': sessionMinutes,
       if (warnings != null) 'warnings': warnings,
+      if (rationale != null) 'rationale': rationale,
+      if (model != null) 'model': model,
       if (createdAt != null) 'created_at': createdAt,
       if (activatedAt != null) 'activated_at': activatedAt,
       if (archivedAt != null) 'archived_at': archivedAt,
@@ -2789,6 +2868,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
     Value<int>? daysPerWeek,
     Value<int>? sessionMinutes,
     Value<String>? warnings,
+    Value<String?>? rationale,
+    Value<String?>? model,
     Value<DateTime>? createdAt,
     Value<DateTime?>? activatedAt,
     Value<DateTime?>? archivedAt,
@@ -2806,6 +2887,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
       daysPerWeek: daysPerWeek ?? this.daysPerWeek,
       sessionMinutes: sessionMinutes ?? this.sessionMinutes,
       warnings: warnings ?? this.warnings,
+      rationale: rationale ?? this.rationale,
+      model: model ?? this.model,
       createdAt: createdAt ?? this.createdAt,
       activatedAt: activatedAt ?? this.activatedAt,
       archivedAt: archivedAt ?? this.archivedAt,
@@ -2849,6 +2932,12 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
     if (warnings.present) {
       map['warnings'] = Variable<String>(warnings.value);
     }
+    if (rationale.present) {
+      map['rationale'] = Variable<String>(rationale.value);
+    }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -2878,6 +2967,8 @@ class WorkoutPlansCompanion extends UpdateCompanion<WorkoutPlanRow> {
           ..write('daysPerWeek: $daysPerWeek, ')
           ..write('sessionMinutes: $sessionMinutes, ')
           ..write('warnings: $warnings, ')
+          ..write('rationale: $rationale, ')
+          ..write('model: $model, ')
           ..write('createdAt: $createdAt, ')
           ..write('activatedAt: $activatedAt, ')
           ..write('archivedAt: $archivedAt, ')
@@ -4624,6 +4715,907 @@ class SetLogsCompanion extends UpdateCompanion<SetLogRow> {
   }
 }
 
+class $AiGenerationLogsTable extends AiGenerationLogs
+    with TableInfo<$AiGenerationLogsTable, AiLogRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AiGenerationLogsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  @override
+  late final GeneratedColumn<String> model = GeneratedColumn<String>(
+    'model',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _modelVersionMeta = const VerificationMeta('modelVersion');
+  @override
+  late final GeneratedColumn<String> modelVersion = GeneratedColumn<String>(
+    'model_version',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _promptVersionMeta = const VerificationMeta('promptVersion');
+  @override
+  late final GeneratedColumn<String> promptVersion = GeneratedColumn<String>(
+    'prompt_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _attemptsMeta = const VerificationMeta('attempts');
+  @override
+  late final GeneratedColumn<int> attempts = GeneratedColumn<int>(
+    'attempts',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _durationMsMeta = const VerificationMeta('durationMs');
+  @override
+  late final GeneratedColumn<int> durationMs = GeneratedColumn<int>(
+    'duration_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _inputTokensMeta = const VerificationMeta('inputTokens');
+  @override
+  late final GeneratedColumn<int> inputTokens = GeneratedColumn<int>(
+    'input_tokens',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _outputTokensMeta = const VerificationMeta('outputTokens');
+  @override
+  late final GeneratedColumn<int> outputTokens = GeneratedColumn<int>(
+    'output_tokens',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _errorCodeMeta = const VerificationMeta('errorCode');
+  @override
+  late final GeneratedColumn<String> errorCode = GeneratedColumn<String>(
+    'error_code',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    kind,
+    model,
+    modelVersion,
+    promptVersion,
+    status,
+    attempts,
+    durationMs,
+    inputTokens,
+    outputTokens,
+    errorCode,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'ai_generation_logs';
+  @override
+  VerificationContext validateIntegrity(Insertable<AiLogRow> instance, {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(_kindMeta, kind.isAcceptableOrUnknown(data['kind']!, _kindMeta));
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('model')) {
+      context.handle(_modelMeta, model.isAcceptableOrUnknown(data['model']!, _modelMeta));
+    } else if (isInserting) {
+      context.missing(_modelMeta);
+    }
+    if (data.containsKey('model_version')) {
+      context.handle(
+        _modelVersionMeta,
+        modelVersion.isAcceptableOrUnknown(data['model_version']!, _modelVersionMeta),
+      );
+    }
+    if (data.containsKey('prompt_version')) {
+      context.handle(
+        _promptVersionMeta,
+        promptVersion.isAcceptableOrUnknown(data['prompt_version']!, _promptVersionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_promptVersionMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta, status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('attempts')) {
+      context.handle(
+        _attemptsMeta,
+        attempts.isAcceptableOrUnknown(data['attempts']!, _attemptsMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_attemptsMeta);
+    }
+    if (data.containsKey('duration_ms')) {
+      context.handle(
+        _durationMsMeta,
+        durationMs.isAcceptableOrUnknown(data['duration_ms']!, _durationMsMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_durationMsMeta);
+    }
+    if (data.containsKey('input_tokens')) {
+      context.handle(
+        _inputTokensMeta,
+        inputTokens.isAcceptableOrUnknown(data['input_tokens']!, _inputTokensMeta),
+      );
+    }
+    if (data.containsKey('output_tokens')) {
+      context.handle(
+        _outputTokensMeta,
+        outputTokens.isAcceptableOrUnknown(data['output_tokens']!, _outputTokensMeta),
+      );
+    }
+    if (data.containsKey('error_code')) {
+      context.handle(
+        _errorCodeMeta,
+        errorCode.isAcceptableOrUnknown(data['error_code']!, _errorCodeMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AiLogRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AiLogRow(
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      kind: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}kind'])!,
+      model: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model'],
+      )!,
+      modelVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model_version'],
+      ),
+      promptVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prompt_version'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      attempts: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}attempts'],
+      )!,
+      durationMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}duration_ms'],
+      )!,
+      inputTokens: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}input_tokens'],
+      ),
+      outputTokens: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}output_tokens'],
+      ),
+      errorCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}error_code'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $AiGenerationLogsTable createAlias(String alias) {
+    return $AiGenerationLogsTable(attachedDatabase, alias);
+  }
+}
+
+class AiLogRow extends DataClass implements Insertable<AiLogRow> {
+  final String id;
+  final String kind;
+  final String model;
+  final String? modelVersion;
+  final String promptVersion;
+
+  /// success | invalid | error
+  final String status;
+  final int attempts;
+  final int durationMs;
+  final int? inputTokens;
+  final int? outputTokens;
+  final String? errorCode;
+  final DateTime createdAt;
+  const AiLogRow({
+    required this.id,
+    required this.kind,
+    required this.model,
+    this.modelVersion,
+    required this.promptVersion,
+    required this.status,
+    required this.attempts,
+    required this.durationMs,
+    this.inputTokens,
+    this.outputTokens,
+    this.errorCode,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['kind'] = Variable<String>(kind);
+    map['model'] = Variable<String>(model);
+    if (!nullToAbsent || modelVersion != null) {
+      map['model_version'] = Variable<String>(modelVersion);
+    }
+    map['prompt_version'] = Variable<String>(promptVersion);
+    map['status'] = Variable<String>(status);
+    map['attempts'] = Variable<int>(attempts);
+    map['duration_ms'] = Variable<int>(durationMs);
+    if (!nullToAbsent || inputTokens != null) {
+      map['input_tokens'] = Variable<int>(inputTokens);
+    }
+    if (!nullToAbsent || outputTokens != null) {
+      map['output_tokens'] = Variable<int>(outputTokens);
+    }
+    if (!nullToAbsent || errorCode != null) {
+      map['error_code'] = Variable<String>(errorCode);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  AiGenerationLogsCompanion toCompanion(bool nullToAbsent) {
+    return AiGenerationLogsCompanion(
+      id: Value(id),
+      kind: Value(kind),
+      model: Value(model),
+      modelVersion: modelVersion == null && nullToAbsent
+          ? const Value.absent()
+          : Value(modelVersion),
+      promptVersion: Value(promptVersion),
+      status: Value(status),
+      attempts: Value(attempts),
+      durationMs: Value(durationMs),
+      inputTokens: inputTokens == null && nullToAbsent ? const Value.absent() : Value(inputTokens),
+      outputTokens: outputTokens == null && nullToAbsent
+          ? const Value.absent()
+          : Value(outputTokens),
+      errorCode: errorCode == null && nullToAbsent ? const Value.absent() : Value(errorCode),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory AiLogRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AiLogRow(
+      id: serializer.fromJson<String>(json['id']),
+      kind: serializer.fromJson<String>(json['kind']),
+      model: serializer.fromJson<String>(json['model']),
+      modelVersion: serializer.fromJson<String?>(json['modelVersion']),
+      promptVersion: serializer.fromJson<String>(json['promptVersion']),
+      status: serializer.fromJson<String>(json['status']),
+      attempts: serializer.fromJson<int>(json['attempts']),
+      durationMs: serializer.fromJson<int>(json['durationMs']),
+      inputTokens: serializer.fromJson<int?>(json['inputTokens']),
+      outputTokens: serializer.fromJson<int?>(json['outputTokens']),
+      errorCode: serializer.fromJson<String?>(json['errorCode']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'kind': serializer.toJson<String>(kind),
+      'model': serializer.toJson<String>(model),
+      'modelVersion': serializer.toJson<String?>(modelVersion),
+      'promptVersion': serializer.toJson<String>(promptVersion),
+      'status': serializer.toJson<String>(status),
+      'attempts': serializer.toJson<int>(attempts),
+      'durationMs': serializer.toJson<int>(durationMs),
+      'inputTokens': serializer.toJson<int?>(inputTokens),
+      'outputTokens': serializer.toJson<int?>(outputTokens),
+      'errorCode': serializer.toJson<String?>(errorCode),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  AiLogRow copyWith({
+    String? id,
+    String? kind,
+    String? model,
+    Value<String?> modelVersion = const Value.absent(),
+    String? promptVersion,
+    String? status,
+    int? attempts,
+    int? durationMs,
+    Value<int?> inputTokens = const Value.absent(),
+    Value<int?> outputTokens = const Value.absent(),
+    Value<String?> errorCode = const Value.absent(),
+    DateTime? createdAt,
+  }) => AiLogRow(
+    id: id ?? this.id,
+    kind: kind ?? this.kind,
+    model: model ?? this.model,
+    modelVersion: modelVersion.present ? modelVersion.value : this.modelVersion,
+    promptVersion: promptVersion ?? this.promptVersion,
+    status: status ?? this.status,
+    attempts: attempts ?? this.attempts,
+    durationMs: durationMs ?? this.durationMs,
+    inputTokens: inputTokens.present ? inputTokens.value : this.inputTokens,
+    outputTokens: outputTokens.present ? outputTokens.value : this.outputTokens,
+    errorCode: errorCode.present ? errorCode.value : this.errorCode,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  AiLogRow copyWithCompanion(AiGenerationLogsCompanion data) {
+    return AiLogRow(
+      id: data.id.present ? data.id.value : this.id,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      model: data.model.present ? data.model.value : this.model,
+      modelVersion: data.modelVersion.present ? data.modelVersion.value : this.modelVersion,
+      promptVersion: data.promptVersion.present ? data.promptVersion.value : this.promptVersion,
+      status: data.status.present ? data.status.value : this.status,
+      attempts: data.attempts.present ? data.attempts.value : this.attempts,
+      durationMs: data.durationMs.present ? data.durationMs.value : this.durationMs,
+      inputTokens: data.inputTokens.present ? data.inputTokens.value : this.inputTokens,
+      outputTokens: data.outputTokens.present ? data.outputTokens.value : this.outputTokens,
+      errorCode: data.errorCode.present ? data.errorCode.value : this.errorCode,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiLogRow(')
+          ..write('id: $id, ')
+          ..write('kind: $kind, ')
+          ..write('model: $model, ')
+          ..write('modelVersion: $modelVersion, ')
+          ..write('promptVersion: $promptVersion, ')
+          ..write('status: $status, ')
+          ..write('attempts: $attempts, ')
+          ..write('durationMs: $durationMs, ')
+          ..write('inputTokens: $inputTokens, ')
+          ..write('outputTokens: $outputTokens, ')
+          ..write('errorCode: $errorCode, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    kind,
+    model,
+    modelVersion,
+    promptVersion,
+    status,
+    attempts,
+    durationMs,
+    inputTokens,
+    outputTokens,
+    errorCode,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AiLogRow &&
+          other.id == this.id &&
+          other.kind == this.kind &&
+          other.model == this.model &&
+          other.modelVersion == this.modelVersion &&
+          other.promptVersion == this.promptVersion &&
+          other.status == this.status &&
+          other.attempts == this.attempts &&
+          other.durationMs == this.durationMs &&
+          other.inputTokens == this.inputTokens &&
+          other.outputTokens == this.outputTokens &&
+          other.errorCode == this.errorCode &&
+          other.createdAt == this.createdAt);
+}
+
+class AiGenerationLogsCompanion extends UpdateCompanion<AiLogRow> {
+  final Value<String> id;
+  final Value<String> kind;
+  final Value<String> model;
+  final Value<String?> modelVersion;
+  final Value<String> promptVersion;
+  final Value<String> status;
+  final Value<int> attempts;
+  final Value<int> durationMs;
+  final Value<int?> inputTokens;
+  final Value<int?> outputTokens;
+  final Value<String?> errorCode;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const AiGenerationLogsCompanion({
+    this.id = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.model = const Value.absent(),
+    this.modelVersion = const Value.absent(),
+    this.promptVersion = const Value.absent(),
+    this.status = const Value.absent(),
+    this.attempts = const Value.absent(),
+    this.durationMs = const Value.absent(),
+    this.inputTokens = const Value.absent(),
+    this.outputTokens = const Value.absent(),
+    this.errorCode = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AiGenerationLogsCompanion.insert({
+    required String id,
+    required String kind,
+    required String model,
+    this.modelVersion = const Value.absent(),
+    required String promptVersion,
+    required String status,
+    required int attempts,
+    required int durationMs,
+    this.inputTokens = const Value.absent(),
+    this.outputTokens = const Value.absent(),
+    this.errorCode = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       kind = Value(kind),
+       model = Value(model),
+       promptVersion = Value(promptVersion),
+       status = Value(status),
+       attempts = Value(attempts),
+       durationMs = Value(durationMs),
+       createdAt = Value(createdAt);
+  static Insertable<AiLogRow> custom({
+    Expression<String>? id,
+    Expression<String>? kind,
+    Expression<String>? model,
+    Expression<String>? modelVersion,
+    Expression<String>? promptVersion,
+    Expression<String>? status,
+    Expression<int>? attempts,
+    Expression<int>? durationMs,
+    Expression<int>? inputTokens,
+    Expression<int>? outputTokens,
+    Expression<String>? errorCode,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (kind != null) 'kind': kind,
+      if (model != null) 'model': model,
+      if (modelVersion != null) 'model_version': modelVersion,
+      if (promptVersion != null) 'prompt_version': promptVersion,
+      if (status != null) 'status': status,
+      if (attempts != null) 'attempts': attempts,
+      if (durationMs != null) 'duration_ms': durationMs,
+      if (inputTokens != null) 'input_tokens': inputTokens,
+      if (outputTokens != null) 'output_tokens': outputTokens,
+      if (errorCode != null) 'error_code': errorCode,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AiGenerationLogsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? kind,
+    Value<String>? model,
+    Value<String?>? modelVersion,
+    Value<String>? promptVersion,
+    Value<String>? status,
+    Value<int>? attempts,
+    Value<int>? durationMs,
+    Value<int?>? inputTokens,
+    Value<int?>? outputTokens,
+    Value<String?>? errorCode,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return AiGenerationLogsCompanion(
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      model: model ?? this.model,
+      modelVersion: modelVersion ?? this.modelVersion,
+      promptVersion: promptVersion ?? this.promptVersion,
+      status: status ?? this.status,
+      attempts: attempts ?? this.attempts,
+      durationMs: durationMs ?? this.durationMs,
+      inputTokens: inputTokens ?? this.inputTokens,
+      outputTokens: outputTokens ?? this.outputTokens,
+      errorCode: errorCode ?? this.errorCode,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
+    if (modelVersion.present) {
+      map['model_version'] = Variable<String>(modelVersion.value);
+    }
+    if (promptVersion.present) {
+      map['prompt_version'] = Variable<String>(promptVersion.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (attempts.present) {
+      map['attempts'] = Variable<int>(attempts.value);
+    }
+    if (durationMs.present) {
+      map['duration_ms'] = Variable<int>(durationMs.value);
+    }
+    if (inputTokens.present) {
+      map['input_tokens'] = Variable<int>(inputTokens.value);
+    }
+    if (outputTokens.present) {
+      map['output_tokens'] = Variable<int>(outputTokens.value);
+    }
+    if (errorCode.present) {
+      map['error_code'] = Variable<String>(errorCode.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiGenerationLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('kind: $kind, ')
+          ..write('model: $model, ')
+          ..write('modelVersion: $modelVersion, ')
+          ..write('promptVersion: $promptVersion, ')
+          ..write('status: $status, ')
+          ..write('attempts: $attempts, ')
+          ..write('durationMs: $durationMs, ')
+          ..write('inputTokens: $inputTokens, ')
+          ..write('outputTokens: $outputTokens, ')
+          ..write('errorCode: $errorCode, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AppSettingsTable extends AppSettings with TableInfo<$AppSettingsTable, AppSettingRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AppSettingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _valueMeta = const VerificationMeta('value');
+  @override
+  late final GeneratedColumn<String> value = GeneratedColumn<String>(
+    'value',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [key, value, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'app_settings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AppSettingRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('key')) {
+      context.handle(_keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+    } else if (isInserting) {
+      context.missing(_keyMeta);
+    }
+    if (data.containsKey('value')) {
+      context.handle(_valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {key};
+  @override
+  AppSettingRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AppSettingRow(
+      key: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}key'])!,
+      value: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $AppSettingsTable createAlias(String alias) {
+    return $AppSettingsTable(attachedDatabase, alias);
+  }
+}
+
+class AppSettingRow extends DataClass implements Insertable<AppSettingRow> {
+  final String key;
+  final String value;
+  final DateTime updatedAt;
+  const AppSettingRow({required this.key, required this.value, required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['key'] = Variable<String>(key);
+    map['value'] = Variable<String>(value);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  AppSettingsCompanion toCompanion(bool nullToAbsent) {
+    return AppSettingsCompanion(key: Value(key), value: Value(value), updatedAt: Value(updatedAt));
+  }
+
+  factory AppSettingRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AppSettingRow(
+      key: serializer.fromJson<String>(json['key']),
+      value: serializer.fromJson<String>(json['value']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'key': serializer.toJson<String>(key),
+      'value': serializer.toJson<String>(value),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  AppSettingRow copyWith({String? key, String? value, DateTime? updatedAt}) => AppSettingRow(
+    key: key ?? this.key,
+    value: value ?? this.value,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  AppSettingRow copyWithCompanion(AppSettingsCompanion data) {
+    return AppSettingRow(
+      key: data.key.present ? data.key.value : this.key,
+      value: data.value.present ? data.value.value : this.value,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AppSettingRow(')
+          ..write('key: $key, ')
+          ..write('value: $value, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(key, value, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AppSettingRow &&
+          other.key == this.key &&
+          other.value == this.value &&
+          other.updatedAt == this.updatedAt);
+}
+
+class AppSettingsCompanion extends UpdateCompanion<AppSettingRow> {
+  final Value<String> key;
+  final Value<String> value;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const AppSettingsCompanion({
+    this.key = const Value.absent(),
+    this.value = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AppSettingsCompanion.insert({
+    required String key,
+    required String value,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : key = Value(key),
+       value = Value(value),
+       updatedAt = Value(updatedAt);
+  static Insertable<AppSettingRow> custom({
+    Expression<String>? key,
+    Expression<String>? value,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AppSettingsCompanion copyWith({
+    Value<String>? key,
+    Value<String>? value,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return AppSettingsCompanion(
+      key: key ?? this.key,
+      value: value ?? this.value,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (key.present) {
+      map['key'] = Variable<String>(key.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AppSettingsCompanion(')
+          ..write('key: $key, ')
+          ..write('value: $value, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4636,6 +5628,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PlanDaysTable planDays = $PlanDaysTable(this);
   late final $WorkoutSessionsTable workoutSessions = $WorkoutSessionsTable(this);
   late final $SetLogsTable setLogs = $SetLogsTable(this);
+  late final $AiGenerationLogsTable aiGenerationLogs = $AiGenerationLogsTable(this);
+  late final $AppSettingsTable appSettings = $AppSettingsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4650,6 +5644,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     planDays,
     workoutSessions,
     setLogs,
+    aiGenerationLogs,
+    appSettings,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -5698,6 +6694,8 @@ typedef $$WorkoutPlansTableCreateCompanionBuilder = WorkoutPlansCompanion Functi
   required int daysPerWeek,
   required int sessionMinutes,
   required String warnings,
+  Value<String?> rationale,
+  Value<String?> model,
   required DateTime createdAt,
   Value<DateTime?> activatedAt,
   Value<DateTime?> archivedAt,
@@ -5715,6 +6713,8 @@ typedef $$WorkoutPlansTableUpdateCompanionBuilder = WorkoutPlansCompanion Functi
   Value<int> daysPerWeek,
   Value<int> sessionMinutes,
   Value<String> warnings,
+  Value<String?> rationale,
+  Value<String?> model,
   Value<DateTime> createdAt,
   Value<DateTime?> activatedAt,
   Value<DateTime?> archivedAt,
@@ -5785,6 +6785,12 @@ class $$WorkoutPlansTableFilterComposer extends Composer<_$AppDatabase, $Workout
 
   ColumnFilters<String> get warnings =>
       $composableBuilder(column: $table.warnings, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get rationale =>
+      $composableBuilder(column: $table.rationale, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -5861,6 +6867,12 @@ class $$WorkoutPlansTableOrderingComposer extends Composer<_$AppDatabase, $Worko
   ColumnOrderings<String> get warnings =>
       $composableBuilder(column: $table.warnings, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get rationale =>
+      $composableBuilder(column: $table.rationale, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
@@ -5911,6 +6923,12 @@ class $$WorkoutPlansTableAnnotationComposer extends Composer<_$AppDatabase, $Wor
 
   GeneratedColumn<String> get warnings =>
       $composableBuilder(column: $table.warnings, builder: (column) => column);
+
+  GeneratedColumn<String> get rationale =>
+      $composableBuilder(column: $table.rationale, builder: (column) => column);
+
+  GeneratedColumn<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -5979,6 +6997,8 @@ class $$WorkoutPlansTableTableManager
                 Value<int> daysPerWeek = const Value.absent(),
                 Value<int> sessionMinutes = const Value.absent(),
                 Value<String> warnings = const Value.absent(),
+                Value<String?> rationale = const Value.absent(),
+                Value<String?> model = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime?> activatedAt = const Value.absent(),
                 Value<DateTime?> archivedAt = const Value.absent(),
@@ -5995,6 +7015,8 @@ class $$WorkoutPlansTableTableManager
                 daysPerWeek: daysPerWeek,
                 sessionMinutes: sessionMinutes,
                 warnings: warnings,
+                rationale: rationale,
+                model: model,
                 createdAt: createdAt,
                 activatedAt: activatedAt,
                 archivedAt: archivedAt,
@@ -6013,6 +7035,8 @@ class $$WorkoutPlansTableTableManager
                 required int daysPerWeek,
                 required int sessionMinutes,
                 required String warnings,
+                Value<String?> rationale = const Value.absent(),
+                Value<String?> model = const Value.absent(),
                 required DateTime createdAt,
                 Value<DateTime?> activatedAt = const Value.absent(),
                 Value<DateTime?> archivedAt = const Value.absent(),
@@ -6029,6 +7053,8 @@ class $$WorkoutPlansTableTableManager
                 daysPerWeek: daysPerWeek,
                 sessionMinutes: sessionMinutes,
                 warnings: warnings,
+                rationale: rationale,
+                model: model,
                 createdAt: createdAt,
                 activatedAt: activatedAt,
                 archivedAt: archivedAt,
@@ -7138,6 +8164,426 @@ typedef $$SetLogsTableProcessedTableManager =
       SetLogRow,
       PrefetchHooks Function({bool sessionId})
     >;
+typedef $$AiGenerationLogsTableCreateCompanionBuilder = AiGenerationLogsCompanion Function({
+  required String id,
+  required String kind,
+  required String model,
+  Value<String?> modelVersion,
+  required String promptVersion,
+  required String status,
+  required int attempts,
+  required int durationMs,
+  Value<int?> inputTokens,
+  Value<int?> outputTokens,
+  Value<String?> errorCode,
+  required DateTime createdAt,
+  Value<int> rowid,
+});
+typedef $$AiGenerationLogsTableUpdateCompanionBuilder = AiGenerationLogsCompanion Function({
+  Value<String> id,
+  Value<String> kind,
+  Value<String> model,
+  Value<String?> modelVersion,
+  Value<String> promptVersion,
+  Value<String> status,
+  Value<int> attempts,
+  Value<int> durationMs,
+  Value<int?> inputTokens,
+  Value<int?> outputTokens,
+  Value<String?> errorCode,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+
+class $$AiGenerationLogsTableFilterComposer
+    extends Composer<_$AppDatabase, $AiGenerationLogsTable> {
+  $$AiGenerationLogsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get modelVersion =>
+      $composableBuilder(column: $table.modelVersion, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get promptVersion =>
+      $composableBuilder(column: $table.promptVersion, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get attempts =>
+      $composableBuilder(column: $table.attempts, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get durationMs =>
+      $composableBuilder(column: $table.durationMs, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get inputTokens =>
+      $composableBuilder(column: $table.inputTokens, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get outputTokens =>
+      $composableBuilder(column: $table.outputTokens, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get errorCode =>
+      $composableBuilder(column: $table.errorCode, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$AiGenerationLogsTableOrderingComposer
+    extends Composer<_$AppDatabase, $AiGenerationLogsTable> {
+  $$AiGenerationLogsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get modelVersion =>
+      $composableBuilder(column: $table.modelVersion, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get promptVersion => $composableBuilder(
+    column: $table.promptVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get attempts =>
+      $composableBuilder(column: $table.attempts, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get durationMs =>
+      $composableBuilder(column: $table.durationMs, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get inputTokens =>
+      $composableBuilder(column: $table.inputTokens, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get outputTokens =>
+      $composableBuilder(column: $table.outputTokens, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get errorCode =>
+      $composableBuilder(column: $table.errorCode, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$AiGenerationLogsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AiGenerationLogsTable> {
+  $$AiGenerationLogsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => column);
+
+  GeneratedColumn<String> get modelVersion =>
+      $composableBuilder(column: $table.modelVersion, builder: (column) => column);
+
+  GeneratedColumn<String> get promptVersion =>
+      $composableBuilder(column: $table.promptVersion, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get attempts =>
+      $composableBuilder(column: $table.attempts, builder: (column) => column);
+
+  GeneratedColumn<int> get durationMs =>
+      $composableBuilder(column: $table.durationMs, builder: (column) => column);
+
+  GeneratedColumn<int> get inputTokens =>
+      $composableBuilder(column: $table.inputTokens, builder: (column) => column);
+
+  GeneratedColumn<int> get outputTokens =>
+      $composableBuilder(column: $table.outputTokens, builder: (column) => column);
+
+  GeneratedColumn<String> get errorCode =>
+      $composableBuilder(column: $table.errorCode, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$AiGenerationLogsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AiGenerationLogsTable,
+          AiLogRow,
+          $$AiGenerationLogsTableFilterComposer,
+          $$AiGenerationLogsTableOrderingComposer,
+          $$AiGenerationLogsTableAnnotationComposer,
+          $$AiGenerationLogsTableCreateCompanionBuilder,
+          $$AiGenerationLogsTableUpdateCompanionBuilder,
+          (AiLogRow, BaseReferences<_$AppDatabase, $AiGenerationLogsTable, AiLogRow>),
+          AiLogRow,
+          PrefetchHooks Function()
+        > {
+  $$AiGenerationLogsTableTableManager(_$AppDatabase db, $AiGenerationLogsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AiGenerationLogsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AiGenerationLogsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AiGenerationLogsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> model = const Value.absent(),
+                Value<String?> modelVersion = const Value.absent(),
+                Value<String> promptVersion = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> attempts = const Value.absent(),
+                Value<int> durationMs = const Value.absent(),
+                Value<int?> inputTokens = const Value.absent(),
+                Value<int?> outputTokens = const Value.absent(),
+                Value<String?> errorCode = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AiGenerationLogsCompanion(
+                id: id,
+                kind: kind,
+                model: model,
+                modelVersion: modelVersion,
+                promptVersion: promptVersion,
+                status: status,
+                attempts: attempts,
+                durationMs: durationMs,
+                inputTokens: inputTokens,
+                outputTokens: outputTokens,
+                errorCode: errorCode,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String kind,
+                required String model,
+                Value<String?> modelVersion = const Value.absent(),
+                required String promptVersion,
+                required String status,
+                required int attempts,
+                required int durationMs,
+                Value<int?> inputTokens = const Value.absent(),
+                Value<int?> outputTokens = const Value.absent(),
+                Value<String?> errorCode = const Value.absent(),
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => AiGenerationLogsCompanion.insert(
+                id: id,
+                kind: kind,
+                model: model,
+                modelVersion: modelVersion,
+                promptVersion: promptVersion,
+                status: status,
+                attempts: attempts,
+                durationMs: durationMs,
+                inputTokens: inputTokens,
+                outputTokens: outputTokens,
+                errorCode: errorCode,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$AiGenerationLogsTable, AiLogRow>(table),
+                  BaseReferences<_$AppDatabase, $AiGenerationLogsTable, AiLogRow>(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AiGenerationLogsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AiGenerationLogsTable,
+      AiLogRow,
+      $$AiGenerationLogsTableFilterComposer,
+      $$AiGenerationLogsTableOrderingComposer,
+      $$AiGenerationLogsTableAnnotationComposer,
+      $$AiGenerationLogsTableCreateCompanionBuilder,
+      $$AiGenerationLogsTableUpdateCompanionBuilder,
+      (AiLogRow, BaseReferences<_$AppDatabase, $AiGenerationLogsTable, AiLogRow>),
+      AiLogRow,
+      PrefetchHooks Function()
+    >;
+typedef $$AppSettingsTableCreateCompanionBuilder = AppSettingsCompanion Function({
+  required String key,
+  required String value,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$AppSettingsTableUpdateCompanionBuilder = AppSettingsCompanion Function({
+  Value<String> key,
+  Value<String> value,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$AppSettingsTableFilterComposer extends Composer<_$AppDatabase, $AppSettingsTable> {
+  $$AppSettingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get value =>
+      $composableBuilder(column: $table.value, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$AppSettingsTableOrderingComposer extends Composer<_$AppDatabase, $AppSettingsTable> {
+  $$AppSettingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get value =>
+      $composableBuilder(column: $table.value, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$AppSettingsTableAnnotationComposer extends Composer<_$AppDatabase, $AppSettingsTable> {
+  $$AppSettingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => column);
+
+  GeneratedColumn<String> get value =>
+      $composableBuilder(column: $table.value, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$AppSettingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AppSettingsTable,
+          AppSettingRow,
+          $$AppSettingsTableFilterComposer,
+          $$AppSettingsTableOrderingComposer,
+          $$AppSettingsTableAnnotationComposer,
+          $$AppSettingsTableCreateCompanionBuilder,
+          $$AppSettingsTableUpdateCompanionBuilder,
+          (AppSettingRow, BaseReferences<_$AppDatabase, $AppSettingsTable, AppSettingRow>),
+          AppSettingRow,
+          PrefetchHooks Function()
+        > {
+  $$AppSettingsTableTableManager(_$AppDatabase db, $AppSettingsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () => $$AppSettingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$AppSettingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AppSettingsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> key = const Value.absent(),
+            Value<String> value = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) => AppSettingsCompanion(key: key, value: value, updatedAt: updatedAt, rowid: rowid),
+          createCompanionCallback:
+              ({
+                required String key,
+                required String value,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => AppSettingsCompanion.insert(
+                key: key,
+                value: value,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$AppSettingsTable, AppSettingRow>(table),
+                  BaseReferences<_$AppDatabase, $AppSettingsTable, AppSettingRow>(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AppSettingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AppSettingsTable,
+      AppSettingRow,
+      $$AppSettingsTableFilterComposer,
+      $$AppSettingsTableOrderingComposer,
+      $$AppSettingsTableAnnotationComposer,
+      $$AppSettingsTableCreateCompanionBuilder,
+      $$AppSettingsTableUpdateCompanionBuilder,
+      (AppSettingRow, BaseReferences<_$AppDatabase, $AppSettingsTable, AppSettingRow>),
+      AppSettingRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7156,4 +8602,8 @@ class $AppDatabaseManager {
   $$WorkoutSessionsTableTableManager get workoutSessions =>
       $$WorkoutSessionsTableTableManager(_db, _db.workoutSessions);
   $$SetLogsTableTableManager get setLogs => $$SetLogsTableTableManager(_db, _db.setLogs);
+  $$AiGenerationLogsTableTableManager get aiGenerationLogs =>
+      $$AiGenerationLogsTableTableManager(_db, _db.aiGenerationLogs);
+  $$AppSettingsTableTableManager get appSettings =>
+      $$AppSettingsTableTableManager(_db, _db.appSettings);
 }

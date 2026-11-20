@@ -123,6 +123,31 @@ void main() {
   });
 
   group('Pratinjau program', () {
+    testWidgets('program AI: badge estimasi, alasan program & per gerakan', (tester) async {
+      when(() => repo.watchPlan('p8')).thenAnswer(
+        (_) => Stream.value(
+          activePlan.copyWith(
+            id: 'p8',
+            status: PlanStatus.draft,
+            source: 'ai_generated',
+            model: 'gemini-3.6-flash',
+            rationale: 'Full body 2x seminggu untuk pemula.',
+          ),
+        ),
+      );
+      when(() => repo.watchDays('p8')).thenAnswer(
+        (_) => Stream.value([
+          dayA.copyWith(exercises: [gobletSquat.copyWith(rationale: 'Pola squat dasar.')]),
+        ]),
+      );
+      await pump(tester, initial: '/plan/p8');
+      expect(find.text('Estimasi AI · gemini-3.6-flash'), findsOneWidget);
+      expect(find.text('Full body 2x seminggu untuk pemula.'), findsOneWidget);
+      expect(find.textContaining('Pola squat dasar.'), findsOneWidget);
+      expect(find.textContaining('Diperiksa aplikasi'), findsOneWidget);
+      expect(find.textContaining('bukan AI'), findsNothing);
+    });
+
     testWidgets('mengganti program aktif meminta konfirmasi', (tester) async {
       when(() => repo.watchPlan('p9'))
           .thenAnswer((_) => Stream.value(activePlan.copyWith(id: 'p9', status: PlanStatus.draft)));

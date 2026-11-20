@@ -31,7 +31,9 @@ class PlannedExerciseTile extends StatelessWidget {
           if (exercise.priority) ...[const SizedBox(width: 8), _Badge(l.priorityBadge)],
         ],
       ),
-      subtitle: Text('${l.prescriptionOf(exercise)}\n${l.restRirOf(exercise)}'),
+      subtitle: Text(
+        [l.prescriptionOf(exercise), l.restRirOf(exercise), ?exercise.rationale].join('\n'),
+      ),
       isThreeLine: true,
       trailing: const Icon(Icons.info_outline),
       onTap: () => context.push(Routes.exercisePath(exercise.exerciseId)),

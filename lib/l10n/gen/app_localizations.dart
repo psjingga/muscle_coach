@@ -137,13 +137,13 @@ abstract class AppLocalizations {
   /// No description provided for @errorUnauthenticated.
   ///
   /// In id, this message translates to:
-  /// **'Sesi Anda berakhir. Silakan masuk kembali.'**
+  /// **'API key tidak valid atau kedaluwarsa. Periksa di Pengaturan AI.'**
   String get errorUnauthenticated;
 
   /// No description provided for @errorPermissionDenied.
   ///
   /// In id, this message translates to:
-  /// **'Anda tidak memiliki akses untuk tindakan ini.'**
+  /// **'Akses ditolak. Periksa izin atau pembatasan API key Anda.'**
   String get errorPermissionDenied;
 
   /// No description provided for @errorNotFound.
@@ -2287,6 +2287,540 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Hapus permanen'**
   String get wipeDataConfirm;
+
+  /// No description provided for @aiSettingsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'AI Coach (Gemini)'**
+  String get aiSettingsTitle;
+
+  /// No description provided for @aiSettingsIntro.
+  ///
+  /// In id, this message translates to:
+  /// **'Program latihan dapat disusun oleh Google Gemini memakai API key Anda sendiri. Key disimpan terenkripsi hanya di perangkat ini — tidak di aplikasi, server, atau backup.'**
+  String get aiSettingsIntro;
+
+  /// No description provided for @aiStatusReady.
+  ///
+  /// In id, this message translates to:
+  /// **'Siap dipakai'**
+  String get aiStatusReady;
+
+  /// No description provided for @aiStatusNotReady.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum siap: simpan API key dan setujui pemrosesan data.'**
+  String get aiStatusNotReady;
+
+  /// No description provided for @aiKeyLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'API key Gemini'**
+  String get aiKeyLabel;
+
+  /// No description provided for @aiKeyHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Tempel key dari Google AI Studio'**
+  String get aiKeyHint;
+
+  /// No description provided for @aiKeySaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Key tersimpan (…{suffix})'**
+  String aiKeySaved(Object suffix);
+
+  /// No description provided for @aiSaveKey.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan & uji'**
+  String get aiSaveKey;
+
+  /// No description provided for @aiKeyVerified.
+  ///
+  /// In id, this message translates to:
+  /// **'API key valid dan tersimpan.'**
+  String get aiKeyVerified;
+
+  /// No description provided for @aiDeleteKey.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus key'**
+  String get aiDeleteKey;
+
+  /// No description provided for @aiKeyDeleted.
+  ///
+  /// In id, this message translates to:
+  /// **'API key dihapus dari perangkat.'**
+  String get aiKeyDeleted;
+
+  /// No description provided for @aiModelLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Model'**
+  String get aiModelLabel;
+
+  /// No description provided for @aiConsentTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Persetujuan pemrosesan data oleh AI'**
+  String get aiConsentTitle;
+
+  /// No description provided for @aiConsentBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Saat menyusun program, aplikasi mengirim ke Google Gemini: tujuan, level & pengalaman latihan, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, dan daftar gerakan katalog. Tidak dikirim: nama, umur, tanggal lahir, tinggi/berat badan, jenis kondisi medis, atau data makan.'**
+  String get aiConsentBody;
+
+  /// No description provided for @aiFreeTierNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Di tier gratis Google AI Studio, Google dapat memakai isi permintaan untuk meningkatkan produknya. Gunakan tier berbayar bila Anda tidak menginginkannya.'**
+  String get aiFreeTierNote;
+
+  /// No description provided for @aiConsentCheckbox.
+  ///
+  /// In id, this message translates to:
+  /// **'Saya setuju data di atas dikirim ke Google Gemini untuk menyusun program.'**
+  String get aiConsentCheckbox;
+
+  /// No description provided for @aiQuotaNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas {limit} kali penyusunan AI per hari (menahan biaya).'**
+  String aiQuotaNote(Object limit);
+
+  /// No description provided for @generateWithAi.
+  ///
+  /// In id, this message translates to:
+  /// **'Susun dengan AI'**
+  String get generateWithAi;
+
+  /// No description provided for @generateTemplate.
+  ///
+  /// In id, this message translates to:
+  /// **'Program template (tanpa AI)'**
+  String get generateTemplate;
+
+  /// No description provided for @aiGenerating.
+  ///
+  /// In id, this message translates to:
+  /// **'Menyusun program dengan AI…'**
+  String get aiGenerating;
+
+  /// No description provided for @aiGeneratingHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Biasanya 10–60 detik. Hasilnya diperiksa aplikasi sebelum ditampilkan.'**
+  String get aiGeneratingHint;
+
+  /// No description provided for @aiErrorTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Program AI belum bisa disusun'**
+  String get aiErrorTitle;
+
+  /// No description provided for @aiErrorSetup.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan API key Gemini dan setujui pemrosesan data di Pengaturan AI terlebih dulu.'**
+  String get aiErrorSetup;
+
+  /// No description provided for @aiErrorQuota.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas penyusunan AI hari ini tercapai. Coba lagi besok atau pakai program template.'**
+  String get aiErrorQuota;
+
+  /// No description provided for @aiErrorInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil AI tidak lolos pemeriksaan keamanan aplikasi (dicoba 2 kali). Coba lagi, atau pakai program template.'**
+  String get aiErrorInvalid;
+
+  /// No description provided for @openAiSettings.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka pengaturan AI'**
+  String get openAiSettings;
+
+  /// No description provided for @useTemplate.
+  ///
+  /// In id, this message translates to:
+  /// **'Pakai template'**
+  String get useTemplate;
+
+  /// No description provided for @close.
+  ///
+  /// In id, this message translates to:
+  /// **'Tutup'**
+  String get close;
+
+  /// No description provided for @aiPlanBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi AI · {model}'**
+  String aiPlanBadge(Object model);
+
+  /// No description provided for @aiPlanRationaleTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Alasan dari AI'**
+  String get aiPlanRationaleTitle;
+
+  /// No description provided for @aiPlanValidated.
+  ///
+  /// In id, this message translates to:
+  /// **'Diperiksa aplikasi: gerakan dari katalog, alat & level sesuai, angka dalam batas aman. Tetap tinjau sebelum mengaktifkan.'**
+  String get aiPlanValidated;
+
+  /// No description provided for @chooseGenerator.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat program baru'**
+  String get chooseGenerator;
+
+  /// No description provided for @reminderWorkoutTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya latihan: {focus}'**
+  String reminderWorkoutTitle(Object focus);
+
+  /// No description provided for @reminderWorkoutBody.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} latihan · ± {minutes} menit. Ketuk untuk membuka sesi.'**
+  String reminderWorkoutBody(Object count, Object minutes);
+
+  /// No description provided for @reminderBreakfastTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya sarapan'**
+  String get reminderBreakfastTitle;
+
+  /// No description provided for @reminderLunchTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya makan siang'**
+  String get reminderLunchTitle;
+
+  /// No description provided for @reminderDinnerTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya makan malam'**
+  String get reminderDinnerTitle;
+
+  /// No description provided for @reminderSnackTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya snack'**
+  String get reminderSnackTitle;
+
+  /// No description provided for @reminderMealBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Makan cukup protein membantu pemulihan otot.'**
+  String get reminderMealBody;
+
+  /// No description provided for @reminderWeighInTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya timbang berat badan'**
+  String get reminderWeighInTitle;
+
+  /// No description provided for @reminderWeighInBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Timbang dalam kondisi sama (pagi, setelah ke toilet, sebelum makan) agar trennya akurat.'**
+  String get reminderWeighInBody;
+
+  /// No description provided for @reminderCheckInTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in harian'**
+  String get reminderCheckInTitle;
+
+  /// No description provided for @reminderCheckInBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagaimana energi, tidur, dan latihan hari ini?'**
+  String get reminderCheckInBody;
+
+  /// No description provided for @reminderExample.
+  ///
+  /// In id, this message translates to:
+  /// **'Contoh: latihan {days} pukul {workout}, sarapan {breakfast}, check-in {checkIn}.'**
+  String reminderExample(Object days, Object workout, Object breakfast, Object checkIn);
+
+  /// No description provided for @notificationSettingsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat'**
+  String get notificationSettingsTitle;
+
+  /// No description provided for @notificationIntro.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat dijadwalkan langsung di perangkat — tetap berjalan tanpa internet dan tanpa AI. Waktu dapat sedikit tertunda karena penghematan baterai.'**
+  String get notificationIntro;
+
+  /// No description provided for @notificationEnable.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktifkan pengingat'**
+  String get notificationEnable;
+
+  /// No description provided for @notificationPermissionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Izinkan notifikasi?'**
+  String get notificationPermissionTitle;
+
+  /// No description provided for @notificationPermissionBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Muscle Coach butuh izin notifikasi untuk mengingatkan sesi latihan, waktu makan, timbang, dan check-in sesuai jadwal yang Anda atur.'**
+  String get notificationPermissionBody;
+
+  /// No description provided for @notificationPermissionAllow.
+  ///
+  /// In id, this message translates to:
+  /// **'Izinkan'**
+  String get notificationPermissionAllow;
+
+  /// No description provided for @notificationDenied.
+  ///
+  /// In id, this message translates to:
+  /// **'Izin notifikasi ditolak. Aktifkan di pengaturan sistem agar pengingat dapat muncul.'**
+  String get notificationDenied;
+
+  /// No description provided for @openSystemSettings.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka pengaturan sistem'**
+  String get openSystemSettings;
+
+  /// No description provided for @notificationBatteryHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Bila pengingat tidak muncul, izinkan Muscle Coach berjalan di latar belakang / matikan optimasi baterai untuk aplikasi ini (pengaturan HP).'**
+  String get notificationBatteryHint;
+
+  /// No description provided for @notificationScheduled.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} pengingat terjadwal untuk 14 hari ke depan.'**
+  String notificationScheduled(Object count);
+
+  /// No description provided for @notificationTimezone.
+  ///
+  /// In id, this message translates to:
+  /// **'Zona waktu: {zone}'**
+  String notificationTimezone(Object zone);
+
+  /// No description provided for @reminderWorkoutLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesi latihan'**
+  String get reminderWorkoutLabel;
+
+  /// No description provided for @reminderWorkoutHelp.
+  ///
+  /// In id, this message translates to:
+  /// **'Pada hari latihan program aktif: {days}.'**
+  String reminderWorkoutHelp(Object days);
+
+  /// No description provided for @reminderWorkoutNoPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktifkan program latihan agar pengingat sesi terjadwal.'**
+  String get reminderWorkoutNoPlan;
+
+  /// No description provided for @reminderMealsLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu makan'**
+  String get reminderMealsLabel;
+
+  /// No description provided for @breakfastLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Sarapan'**
+  String get breakfastLabel;
+
+  /// No description provided for @lunchLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Makan siang'**
+  String get lunchLabel;
+
+  /// No description provided for @dinnerLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Makan malam'**
+  String get dinnerLabel;
+
+  /// No description provided for @snackLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Snack'**
+  String get snackLabel;
+
+  /// No description provided for @reminderWeighInLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Timbang berat badan'**
+  String get reminderWeighInLabel;
+
+  /// No description provided for @reminderCheckInLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in harian'**
+  String get reminderCheckInLabel;
+
+  /// No description provided for @quietHoursLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Jam tenang'**
+  String get quietHoursLabel;
+
+  /// No description provided for @quietHoursHelp.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat yang jatuh di jam tenang dilewati.'**
+  String get quietHoursHelp;
+
+  /// No description provided for @quietStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai'**
+  String get quietStart;
+
+  /// No description provided for @quietEnd.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get quietEnd;
+
+  /// No description provided for @sendTestNotification.
+  ///
+  /// In id, this message translates to:
+  /// **'Kirim notifikasi uji'**
+  String get sendTestNotification;
+
+  /// No description provided for @testNotificationTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Notifikasi uji'**
+  String get testNotificationTitle;
+
+  /// No description provided for @testNotificationBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat Muscle Coach berfungsi.'**
+  String get testNotificationBody;
+
+  /// No description provided for @profileRemindersTile.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat'**
+  String get profileRemindersTile;
+
+  /// No description provided for @remindersOn.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktif'**
+  String get remindersOn;
+
+  /// No description provided for @remindersOff.
+  ///
+  /// In id, this message translates to:
+  /// **'Nonaktif'**
+  String get remindersOff;
+
+  /// No description provided for @exerciseMovementTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Gerakan'**
+  String get exerciseMovementTitle;
+
+  /// No description provided for @exerciseFrameStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Posisi awal'**
+  String get exerciseFrameStart;
+
+  /// No description provided for @exerciseFrameEnd.
+  ///
+  /// In id, this message translates to:
+  /// **'Posisi akhir'**
+  String get exerciseFrameEnd;
+
+  /// No description provided for @exercisePhotoCredit.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto: Free Exercise DB (domain publik). Variasi alat di foto bisa sedikit berbeda.'**
+  String get exercisePhotoCredit;
+
+  /// No description provided for @exercisePhotoSemantics.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto gerakan {name}, {frame}'**
+  String exercisePhotoSemantics(String name, String frame);
+
+  /// No description provided for @playMotion.
+  ///
+  /// In id, this message translates to:
+  /// **'Putar gerakan'**
+  String get playMotion;
+
+  /// No description provided for @pauseMotion.
+  ///
+  /// In id, this message translates to:
+  /// **'Jeda gerakan'**
+  String get pauseMotion;
+
+  /// No description provided for @muscleMapTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Otot yang dilatih'**
+  String get muscleMapTitle;
+
+  /// No description provided for @muscleMapFront.
+  ///
+  /// In id, this message translates to:
+  /// **'Depan'**
+  String get muscleMapFront;
+
+  /// No description provided for @muscleMapBack.
+  ///
+  /// In id, this message translates to:
+  /// **'Belakang'**
+  String get muscleMapBack;
+
+  /// No description provided for @muscleMapSemantics.
+  ///
+  /// In id, this message translates to:
+  /// **'Peta otot. Otot utama: {primary}. Otot pendukung: {secondary}.'**
+  String muscleMapSemantics(String primary, String secondary);
+
+  /// No description provided for @noneLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'tidak ada'**
+  String get noneLabel;
+
+  /// No description provided for @exerciseQuickViewHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Ketuk gambar untuk melihat gerakan'**
+  String get exerciseQuickViewHint;
+
+  /// No description provided for @exerciseOpenDetail.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat detail lengkap'**
+  String get exerciseOpenDetail;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

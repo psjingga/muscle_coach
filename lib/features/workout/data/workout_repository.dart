@@ -14,8 +14,21 @@ abstract interface class WorkoutRepository {
   Stream<WorkoutPlan?> watchPlan(String planId);
   Stream<List<PlanDay>> watchDays(String planId);
 
-  /// Buat draft program awal dari assessment terakhir → ID draft program.
+  /// Buat draft program awal (template) dari assessment terakhir → ID draft program.
   Future<String> createStarterPlan();
+
+  /// Assessment terakhir + katalog untuk menyusun program. Melempar bila
+  /// onboarding belum selesai atau ada gejala bahaya.
+  Future<({AssessmentData assessment, Map<String, Exercise> catalog})> planningContext();
+
+  /// Simpan draft program (menggantikan draft lama) → ID draft.
+  Future<String> saveDraftPlan(
+    PlanDraft draft, {
+    required String source,
+    required String generatorVersion,
+    String? rationale,
+    String? model,
+  });
 
   /// Aktifkan draft; program aktif sebelumnya diarsipkan.
   Future<void> activatePlan(String planId);
@@ -75,6 +88,8 @@ class LocalWorkoutRepository implements WorkoutRepository {
     daysPerWeek: r.daysPerWeek,
     sessionMinutes: r.sessionMinutes,
     warnings: (jsonDecode(r.warnings) as List<dynamic>).cast<String>(),
+    rationale: r.rationale,
+    model: r.model,
   );
 
   static PlanDay _day(PlanDayRow r) => PlanDay(
@@ -126,7 +141,7 @@ class LocalWorkoutRepository implements WorkoutRepository {
           .map((rows) => rows.map(_day).toList());
 
   @override
-  Future<String> createStarterPlan() async {
+  Future<({AssessmentData assessment, Map<String, Exercise> catalog})> planningContext() async {
     final profile = await readProfile(_db);
     if (profile == null || !profile.onboardingCompleted) {
       throw const AppFailure(FailureKind.invalidInput, debugMessage: 'onboarding-required');
@@ -144,8 +159,28 @@ class LocalWorkoutRepository implements WorkoutRepository {
     if (assessment.safety.redFlags.isNotEmpty) {
       throw const AppFailure(FailureKind.invalidInput, debugMessage: 'safety-stop');
     }
-    final catalog = await _catalog();
-    final draft = TemplatePlanner.build(assessment, catalog);
+    return (assessment: assessment, catalog: await _catalog());
+  }
+
+  @override
+  Future<String> createStarterPlan() async {
+    final ctx = await planningContext();
+    return saveDraftPlan(
+      TemplatePlanner.build(ctx.assessment, ctx.catalog),
+      source: 'template',
+      generatorVersion: TemplatePlanner.generatorVersion,
+    );
+  }
+
+  @override
+  Future<String> saveDraftPlan(
+    PlanDraft draft, {
+    required String source,
+    required String generatorVersion,
+    String? rationale,
+    String? model,
+  }) async {
+    final assessmentId = (await readProfile(_db))?.latestAssessmentId ?? '';
     final now = _clock();
     final planId = newId();
 
@@ -158,15 +193,17 @@ class LocalWorkoutRepository implements WorkoutRepository {
             WorkoutPlansCompanion.insert(
               id: planId,
               status: 'draft',
-              source: 'template',
-              generatorVersion: TemplatePlanner.generatorVersion,
+              source: source,
+              generatorVersion: generatorVersion,
               catalogVersion: catalogVersion,
-              assessmentId: assessmentId!,
+              assessmentId: assessmentId,
               split: draft.split,
               level: draft.level,
               daysPerWeek: draft.daysPerWeek,
               sessionMinutes: draft.sessionMinutes,
               warnings: jsonEncode(draft.warnings),
+              rationale: Value(rationale),
+              model: Value(model),
               createdAt: now,
             ),
           );

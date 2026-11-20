@@ -12,6 +12,8 @@ import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/database/database_providers.dart';
+import '../../../exercise_library/presentation/providers/exercise_providers.dart';
+import '../../../exercise_library/presentation/widgets/exercise_media.dart';
 import '../../domain/entities/workout.dart';
 import '../../domain/workout_math.dart';
 import '../providers/workout_providers.dart';
@@ -265,6 +267,7 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
     final done = widget.sets.where((s) => s.status == SetStatus.done).length;
     final previousDone = widget.previous.where((s) => s.status == SetStatus.done).toList();
     final canAddSet = _nextSet <= WorkoutMath.maxSetsPerExercise;
+    final exercise = ref.watch(exerciseCatalogProvider).value?[p.exerciseId];
 
     return Card(
       child: Padding(
@@ -274,6 +277,13 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
           children: [
             Row(
               children: [
+                if (exercise != null) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 4),
+                    child: ExerciseThumbnail(exercise: exercise),
+                  ),
+                  const SizedBox(width: 12),
+                ],
                 Expanded(
                   child: InkWell(
                     onTap: () => context.push(Routes.exercisePath(p.exerciseId)),

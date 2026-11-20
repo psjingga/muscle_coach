@@ -39,6 +39,10 @@
         "goblet_squat",
         "dumbbell_squat",
         "dumbbell_bulgarian_split_squat"
+      ],
+      "images": [
+        "assets/exercises/barbell_back_squat_0.jpg",
+        "assets/exercises/barbell_back_squat_1.jpg"
       ]
     },
     {
@@ -77,6 +81,10 @@
       "alternatives": [
         "goblet_squat",
         "barbell_back_squat"
+      ],
+      "images": [
+        "assets/exercises/barbell_front_squat_0.jpg",
+        "assets/exercises/barbell_front_squat_1.jpg"
       ]
     },
     {
@@ -117,6 +125,10 @@
       "alternatives": [
         "dumbbell_squat",
         "dumbbell_reverse_lunge"
+      ],
+      "images": [
+        "assets/exercises/goblet_squat_0.jpg",
+        "assets/exercises/goblet_squat_1.jpg"
       ]
     },
     {
@@ -154,6 +166,10 @@
       "alternatives": [
         "goblet_squat",
         "dumbbell_step_up"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_squat_0.jpg",
+        "assets/exercises/dumbbell_squat_1.jpg"
       ]
     },
     {
@@ -192,6 +208,10 @@
       "alternatives": [
         "dumbbell_step_up",
         "dumbbell_bulgarian_split_squat"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_reverse_lunge_0.jpg",
+        "assets/exercises/dumbbell_reverse_lunge_1.jpg"
       ]
     },
     {
@@ -227,6 +247,10 @@
       ],
       "alternatives": [
         "dumbbell_reverse_lunge"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_walking_lunge_0.jpg",
+        "assets/exercises/dumbbell_walking_lunge_1.jpg"
       ]
     },
     {
@@ -265,6 +289,10 @@
       "alternatives": [
         "dumbbell_reverse_lunge",
         "goblet_squat"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_bulgarian_split_squat_0.jpg",
+        "assets/exercises/dumbbell_bulgarian_split_squat_1.jpg"
       ]
     },
     {
@@ -301,6 +329,10 @@
       ],
       "alternatives": [
         "dumbbell_reverse_lunge"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_step_up_0.jpg",
+        "assets/exercises/dumbbell_step_up_1.jpg"
       ]
     },
     {
@@ -342,6 +374,10 @@
       "alternatives": [
         "barbell_romanian_deadlift",
         "dumbbell_romanian_deadlift"
+      ],
+      "images": [
+        "assets/exercises/barbell_deadlift_0.jpg",
+        "assets/exercises/barbell_deadlift_1.jpg"
       ]
     },
     {
@@ -383,6 +419,10 @@
       "alternatives": [
         "dumbbell_romanian_deadlift",
         "dumbbell_glute_bridge"
+      ],
+      "images": [
+        "assets/exercises/barbell_romanian_deadlift_0.jpg",
+        "assets/exercises/barbell_romanian_deadlift_1.jpg"
       ]
     },
     {
@@ -420,6 +460,10 @@
       "alternatives": [
         "dumbbell_glute_bridge",
         "dumbbell_single_leg_rdl"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_romanian_deadlift_0.jpg",
+        "assets/exercises/dumbbell_romanian_deadlift_1.jpg"
       ]
     },
     {
@@ -490,6 +534,10 @@
       ],
       "alternatives": [
         "dumbbell_glute_bridge"
+      ],
+      "images": [
+        "assets/exercises/barbell_hip_thrust_0.jpg",
+        "assets/exercises/barbell_hip_thrust_1.jpg"
       ]
     },
     {
@@ -525,6 +573,10 @@
       ],
       "alternatives": [
         "barbell_hip_thrust"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_glute_bridge_0.jpg",
+        "assets/exercises/dumbbell_glute_bridge_1.jpg"
       ]
     },
     {
@@ -565,6 +617,10 @@
         "dumbbell_bench_press",
         "dumbbell_floor_press",
         "push_up"
+      ],
+      "images": [
+        "assets/exercises/barbell_bench_press_0.jpg",
+        "assets/exercises/barbell_bench_press_1.jpg"
       ]
     },
     {
@@ -602,6 +658,10 @@
       "alternatives": [
         "dumbbell_floor_press",
         "push_up"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_bench_press_0.jpg",
+        "assets/exercises/dumbbell_bench_press_1.jpg"
       ]
     },
     {
@@ -639,6 +699,10 @@
       "alternatives": [
         "dumbbell_bench_press",
         "push_up"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_incline_press_0.jpg",
+        "assets/exercises/dumbbell_incline_press_1.jpg"
       ]
     },
     {
@@ -675,6 +739,10 @@
       "alternatives": [
         "push_up",
         "dumbbell_bench_press"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_floor_press_0.jpg",
+        "assets/exercises/dumbbell_floor_press_1.jpg"
       ]
     },
     {
@@ -709,6 +777,10 @@
       ],
       "alternatives": [
         "dumbbell_floor_press"
+      ],
+      "images": [
+        "assets/exercises/push_up_0.jpg",
+        "assets/exercises/push_up_1.jpg"
       ]
     },
     {
@@ -745,6 +817,10 @@
       "alternatives": [
         "push_up",
         "dumbbell_bench_press"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_fly_0.jpg",
+        "assets/exercises/dumbbell_fly_1.jpg"
       ]
     },
     {
@@ -782,6 +858,10 @@
       ],
       "alternatives": [
         "dumbbell_shoulder_press"
+      ],
+      "images": [
+        "assets/exercises/barbell_overhead_press_0.jpg",
+        "assets/exercises/barbell_overhead_press_1.jpg"
       ]
     },
     {
@@ -818,6 +898,10 @@
       "alternatives": [
         "push_up",
         "dumbbell_arnold_press"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_shoulder_press_0.jpg",
+        "assets/exercises/dumbbell_shoulder_press_1.jpg"
       ]
     },
     {
@@ -853,6 +937,10 @@
       ],
       "alternatives": [
         "dumbbell_shoulder_press"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_arnold_press_0.jpg",
+        "assets/exercises/dumbbell_arnold_press_1.jpg"
       ]
     },
     {
@@ -891,6 +979,10 @@
       "alternatives": [
         "dumbbell_one_arm_row",
         "dumbbell_chest_supported_row"
+      ],
+      "images": [
+        "assets/exercises/barbell_bent_over_row_0.jpg",
+        "assets/exercises/barbell_bent_over_row_1.jpg"
       ]
     },
     {
@@ -928,6 +1020,10 @@
       "alternatives": [
         "dumbbell_bent_over_row",
         "dumbbell_chest_supported_row"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_one_arm_row_0.jpg",
+        "assets/exercises/dumbbell_one_arm_row_1.jpg"
       ]
     },
     {
@@ -964,6 +1060,10 @@
       ],
       "alternatives": [
         "dumbbell_one_arm_row"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_bent_over_row_0.jpg",
+        "assets/exercises/dumbbell_bent_over_row_1.jpg"
       ]
     },
     {
@@ -1001,6 +1101,10 @@
       ],
       "alternatives": [
         "dumbbell_one_arm_row"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_chest_supported_row_0.jpg",
+        "assets/exercises/dumbbell_chest_supported_row_1.jpg"
       ]
     },
     {
@@ -1038,6 +1142,10 @@
       "alternatives": [
         "chin_up",
         "dumbbell_one_arm_row"
+      ],
+      "images": [
+        "assets/exercises/pull_up_0.jpg",
+        "assets/exercises/pull_up_1.jpg"
       ]
     },
     {
@@ -1074,6 +1182,10 @@
       "alternatives": [
         "pull_up",
         "dumbbell_one_arm_row"
+      ],
+      "images": [
+        "assets/exercises/chin_up_0.jpg",
+        "assets/exercises/chin_up_1.jpg"
       ]
     },
     {
@@ -1110,6 +1222,10 @@
       ],
       "alternatives": [
         "dumbbell_one_arm_row"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_pullover_0.jpg",
+        "assets/exercises/dumbbell_pullover_1.jpg"
       ]
     },
     {
@@ -1145,6 +1261,10 @@
       ],
       "alternatives": [
         "dumbbell_shoulder_press"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_lateral_raise_0.jpg",
+        "assets/exercises/dumbbell_lateral_raise_1.jpg"
       ]
     },
     {
@@ -1179,6 +1299,10 @@
       ],
       "alternatives": [
         "dumbbell_bent_over_row"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_rear_delt_fly_0.jpg",
+        "assets/exercises/dumbbell_rear_delt_fly_1.jpg"
       ]
     },
     {
@@ -1212,6 +1336,10 @@
       ],
       "alternatives": [
         "dumbbell_farmer_carry"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_shrug_0.jpg",
+        "assets/exercises/dumbbell_shrug_1.jpg"
       ]
     },
     {
@@ -1247,6 +1375,10 @@
       "alternatives": [
         "dumbbell_hammer_curl",
         "barbell_curl"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_biceps_curl_0.jpg",
+        "assets/exercises/dumbbell_biceps_curl_1.jpg"
       ]
     },
     {
@@ -1279,6 +1411,10 @@
       ],
       "alternatives": [
         "dumbbell_biceps_curl"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_hammer_curl_0.jpg",
+        "assets/exercises/dumbbell_hammer_curl_1.jpg"
       ]
     },
     {
@@ -1312,6 +1448,10 @@
       ],
       "alternatives": [
         "dumbbell_biceps_curl"
+      ],
+      "images": [
+        "assets/exercises/barbell_curl_0.jpg",
+        "assets/exercises/barbell_curl_1.jpg"
       ]
     },
     {
@@ -1345,6 +1485,10 @@
       "alternatives": [
         "dumbbell_skull_crusher",
         "push_up"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_overhead_triceps_extension_0.jpg",
+        "assets/exercises/dumbbell_overhead_triceps_extension_1.jpg"
       ]
     },
     {
@@ -1378,6 +1522,10 @@
       ],
       "alternatives": [
         "dumbbell_overhead_triceps_extension"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_skull_crusher_0.jpg",
+        "assets/exercises/dumbbell_skull_crusher_1.jpg"
       ]
     },
     {
@@ -1416,6 +1564,10 @@
       "alternatives": [
         "dumbbell_floor_press",
         "dumbbell_overhead_triceps_extension"
+      ],
+      "images": [
+        "assets/exercises/barbell_close_grip_bench_press_0.jpg",
+        "assets/exercises/barbell_close_grip_bench_press_1.jpg"
       ]
     },
     {
@@ -1446,7 +1598,11 @@
       "safety": [
         "Pegang dinding dengan satu tangan untuk keseimbangan."
       ],
-      "alternatives": []
+      "alternatives": [],
+      "images": [
+        "assets/exercises/dumbbell_standing_calf_raise_0.jpg",
+        "assets/exercises/dumbbell_standing_calf_raise_1.jpg"
+      ]
     },
     {
       "aliases": [],
@@ -1475,6 +1631,10 @@
       ],
       "alternatives": [
         "dead_bug"
+      ],
+      "images": [
+        "assets/exercises/plank_0.jpg",
+        "assets/exercises/plank_1.jpg"
       ]
     },
     {
@@ -1505,6 +1665,10 @@
       ],
       "alternatives": [
         "plank"
+      ],
+      "images": [
+        "assets/exercises/dead_bug_0.jpg",
+        "assets/exercises/dead_bug_1.jpg"
       ]
     },
     {
@@ -1539,6 +1703,10 @@
       "alternatives": [
         "dumbbell_shrug",
         "plank"
+      ],
+      "images": [
+        "assets/exercises/dumbbell_farmer_carry_0.jpg",
+        "assets/exercises/dumbbell_farmer_carry_1.jpg"
       ]
     }
   ]

@@ -1,0 +1,4 @@
+tags:
+  live:
+    # Uji ke Gemini sungguhan hanya bila diminta: fvm flutter test --tags live
+    skip: "Uji live: jalankan dengan --tags live dan GEMINI_API_KEY"

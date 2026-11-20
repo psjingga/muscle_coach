@@ -31,10 +31,11 @@ class AppLocalizationsId extends AppLocalizations {
   String get errorNetwork => 'Tidak ada koneksi internet. Periksa jaringan Anda lalu coba lagi.';
 
   @override
-  String get errorUnauthenticated => 'Sesi Anda berakhir. Silakan masuk kembali.';
+  String get errorUnauthenticated =>
+      'API key tidak valid atau kedaluwarsa. Periksa di Pengaturan AI.';
 
   @override
-  String get errorPermissionDenied => 'Anda tidak memiliki akses untuk tindakan ini.';
+  String get errorPermissionDenied => 'Akses ditolak. Periksa izin atau pembatasan API key Anda.';
 
   @override
   String get errorNotFound => 'Data tidak ditemukan.';
@@ -1233,4 +1234,308 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get wipeDataConfirm => 'Hapus permanen';
+
+  @override
+  String get aiSettingsTitle => 'AI Coach (Gemini)';
+
+  @override
+  String get aiSettingsIntro =>
+      'Program latihan dapat disusun oleh Google Gemini memakai API key Anda sendiri. Key disimpan terenkripsi hanya di perangkat ini — tidak di aplikasi, server, atau backup.';
+
+  @override
+  String get aiStatusReady => 'Siap dipakai';
+
+  @override
+  String get aiStatusNotReady => 'Belum siap: simpan API key dan setujui pemrosesan data.';
+
+  @override
+  String get aiKeyLabel => 'API key Gemini';
+
+  @override
+  String get aiKeyHint => 'Tempel key dari Google AI Studio';
+
+  @override
+  String aiKeySaved(Object suffix) {
+    return 'Key tersimpan (…$suffix)';
+  }
+
+  @override
+  String get aiSaveKey => 'Simpan & uji';
+
+  @override
+  String get aiKeyVerified => 'API key valid dan tersimpan.';
+
+  @override
+  String get aiDeleteKey => 'Hapus key';
+
+  @override
+  String get aiKeyDeleted => 'API key dihapus dari perangkat.';
+
+  @override
+  String get aiModelLabel => 'Model';
+
+  @override
+  String get aiConsentTitle => 'Persetujuan pemrosesan data oleh AI';
+
+  @override
+  String get aiConsentBody =>
+      'Saat menyusun program, aplikasi mengirim ke Google Gemini: tujuan, level & pengalaman latihan, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, dan daftar gerakan katalog. Tidak dikirim: nama, umur, tanggal lahir, tinggi/berat badan, jenis kondisi medis, atau data makan.';
+
+  @override
+  String get aiFreeTierNote =>
+      'Di tier gratis Google AI Studio, Google dapat memakai isi permintaan untuk meningkatkan produknya. Gunakan tier berbayar bila Anda tidak menginginkannya.';
+
+  @override
+  String get aiConsentCheckbox =>
+      'Saya setuju data di atas dikirim ke Google Gemini untuk menyusun program.';
+
+  @override
+  String aiQuotaNote(Object limit) {
+    return 'Batas $limit kali penyusunan AI per hari (menahan biaya).';
+  }
+
+  @override
+  String get generateWithAi => 'Susun dengan AI';
+
+  @override
+  String get generateTemplate => 'Program template (tanpa AI)';
+
+  @override
+  String get aiGenerating => 'Menyusun program dengan AI…';
+
+  @override
+  String get aiGeneratingHint =>
+      'Biasanya 10–60 detik. Hasilnya diperiksa aplikasi sebelum ditampilkan.';
+
+  @override
+  String get aiErrorTitle => 'Program AI belum bisa disusun';
+
+  @override
+  String get aiErrorSetup =>
+      'Simpan API key Gemini dan setujui pemrosesan data di Pengaturan AI terlebih dulu.';
+
+  @override
+  String get aiErrorQuota =>
+      'Batas penyusunan AI hari ini tercapai. Coba lagi besok atau pakai program template.';
+
+  @override
+  String get aiErrorInvalid =>
+      'Hasil AI tidak lolos pemeriksaan keamanan aplikasi (dicoba 2 kali). Coba lagi, atau pakai program template.';
+
+  @override
+  String get openAiSettings => 'Buka pengaturan AI';
+
+  @override
+  String get useTemplate => 'Pakai template';
+
+  @override
+  String get close => 'Tutup';
+
+  @override
+  String aiPlanBadge(Object model) {
+    return 'Estimasi AI · $model';
+  }
+
+  @override
+  String get aiPlanRationaleTitle => 'Alasan dari AI';
+
+  @override
+  String get aiPlanValidated =>
+      'Diperiksa aplikasi: gerakan dari katalog, alat & level sesuai, angka dalam batas aman. Tetap tinjau sebelum mengaktifkan.';
+
+  @override
+  String get chooseGenerator => 'Buat program baru';
+
+  @override
+  String reminderWorkoutTitle(Object focus) {
+    return 'Waktunya latihan: $focus';
+  }
+
+  @override
+  String reminderWorkoutBody(Object count, Object minutes) {
+    return '$count latihan · ± $minutes menit. Ketuk untuk membuka sesi.';
+  }
+
+  @override
+  String get reminderBreakfastTitle => 'Waktunya sarapan';
+
+  @override
+  String get reminderLunchTitle => 'Waktunya makan siang';
+
+  @override
+  String get reminderDinnerTitle => 'Waktunya makan malam';
+
+  @override
+  String get reminderSnackTitle => 'Waktunya snack';
+
+  @override
+  String get reminderMealBody => 'Makan cukup protein membantu pemulihan otot.';
+
+  @override
+  String get reminderWeighInTitle => 'Waktunya timbang berat badan';
+
+  @override
+  String get reminderWeighInBody =>
+      'Timbang dalam kondisi sama (pagi, setelah ke toilet, sebelum makan) agar trennya akurat.';
+
+  @override
+  String get reminderCheckInTitle => 'Check-in harian';
+
+  @override
+  String get reminderCheckInBody => 'Bagaimana energi, tidur, dan latihan hari ini?';
+
+  @override
+  String reminderExample(Object days, Object workout, Object breakfast, Object checkIn) {
+    return 'Contoh: latihan $days pukul $workout, sarapan $breakfast, check-in $checkIn.';
+  }
+
+  @override
+  String get notificationSettingsTitle => 'Pengingat';
+
+  @override
+  String get notificationIntro =>
+      'Pengingat dijadwalkan langsung di perangkat — tetap berjalan tanpa internet dan tanpa AI. Waktu dapat sedikit tertunda karena penghematan baterai.';
+
+  @override
+  String get notificationEnable => 'Aktifkan pengingat';
+
+  @override
+  String get notificationPermissionTitle => 'Izinkan notifikasi?';
+
+  @override
+  String get notificationPermissionBody =>
+      'Muscle Coach butuh izin notifikasi untuk mengingatkan sesi latihan, waktu makan, timbang, dan check-in sesuai jadwal yang Anda atur.';
+
+  @override
+  String get notificationPermissionAllow => 'Izinkan';
+
+  @override
+  String get notificationDenied =>
+      'Izin notifikasi ditolak. Aktifkan di pengaturan sistem agar pengingat dapat muncul.';
+
+  @override
+  String get openSystemSettings => 'Buka pengaturan sistem';
+
+  @override
+  String get notificationBatteryHint =>
+      'Bila pengingat tidak muncul, izinkan Muscle Coach berjalan di latar belakang / matikan optimasi baterai untuk aplikasi ini (pengaturan HP).';
+
+  @override
+  String notificationScheduled(Object count) {
+    return '$count pengingat terjadwal untuk 14 hari ke depan.';
+  }
+
+  @override
+  String notificationTimezone(Object zone) {
+    return 'Zona waktu: $zone';
+  }
+
+  @override
+  String get reminderWorkoutLabel => 'Sesi latihan';
+
+  @override
+  String reminderWorkoutHelp(Object days) {
+    return 'Pada hari latihan program aktif: $days.';
+  }
+
+  @override
+  String get reminderWorkoutNoPlan => 'Aktifkan program latihan agar pengingat sesi terjadwal.';
+
+  @override
+  String get reminderMealsLabel => 'Waktu makan';
+
+  @override
+  String get breakfastLabel => 'Sarapan';
+
+  @override
+  String get lunchLabel => 'Makan siang';
+
+  @override
+  String get dinnerLabel => 'Makan malam';
+
+  @override
+  String get snackLabel => 'Snack';
+
+  @override
+  String get reminderWeighInLabel => 'Timbang berat badan';
+
+  @override
+  String get reminderCheckInLabel => 'Check-in harian';
+
+  @override
+  String get quietHoursLabel => 'Jam tenang';
+
+  @override
+  String get quietHoursHelp => 'Pengingat yang jatuh di jam tenang dilewati.';
+
+  @override
+  String get quietStart => 'Mulai';
+
+  @override
+  String get quietEnd => 'Selesai';
+
+  @override
+  String get sendTestNotification => 'Kirim notifikasi uji';
+
+  @override
+  String get testNotificationTitle => 'Notifikasi uji';
+
+  @override
+  String get testNotificationBody => 'Pengingat Muscle Coach berfungsi.';
+
+  @override
+  String get profileRemindersTile => 'Pengingat';
+
+  @override
+  String get remindersOn => 'Aktif';
+
+  @override
+  String get remindersOff => 'Nonaktif';
+
+  @override
+  String get exerciseMovementTitle => 'Gerakan';
+
+  @override
+  String get exerciseFrameStart => 'Posisi awal';
+
+  @override
+  String get exerciseFrameEnd => 'Posisi akhir';
+
+  @override
+  String get exercisePhotoCredit =>
+      'Foto: Free Exercise DB (domain publik). Variasi alat di foto bisa sedikit berbeda.';
+
+  @override
+  String exercisePhotoSemantics(String name, String frame) {
+    return 'Foto gerakan $name, $frame';
+  }
+
+  @override
+  String get playMotion => 'Putar gerakan';
+
+  @override
+  String get pauseMotion => 'Jeda gerakan';
+
+  @override
+  String get muscleMapTitle => 'Otot yang dilatih';
+
+  @override
+  String get muscleMapFront => 'Depan';
+
+  @override
+  String get muscleMapBack => 'Belakang';
+
+  @override
+  String muscleMapSemantics(String primary, String secondary) {
+    return 'Peta otot. Otot utama: $primary. Otot pendukung: $secondary.';
+  }
+
+  @override
+  String get noneLabel => 'tidak ada';
+
+  @override
+  String get exerciseQuickViewHint => 'Ketuk gambar untuk melihat gerakan';
+
+  @override
+  String get exerciseOpenDetail => 'Lihat detail lengkap';
 }

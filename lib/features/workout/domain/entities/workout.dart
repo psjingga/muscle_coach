@@ -28,6 +28,9 @@ abstract class PlannedExercise with _$PlannedExercise {
     required int rirMin,
     required int rirMax,
     @Default(false) bool priority,
+
+    /// Alasan singkat dari AI (null untuk program template).
+    String? rationale,
   }) = _PlannedExercise;
 
   const PlannedExercise._();
@@ -65,7 +68,15 @@ abstract class WorkoutPlan with _$WorkoutPlan {
     required int daysPerWeek,
     required int sessionMinutes,
     @Default(<String>[]) List<String> warnings,
+
+    /// Ringkasan alasan dari AI & model penyusun (null untuk template).
+    String? rationale,
+    String? model,
   }) = _WorkoutPlan;
+
+  const WorkoutPlan._();
+
+  bool get isAiGenerated => source == 'ai_generated';
 
   factory WorkoutPlan.fromJson(Map<String, dynamic> json) => _$WorkoutPlanFromJson(json);
 }

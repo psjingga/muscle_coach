@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/router/routes.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
+import '../../../ai_coach/presentation/providers/ai_providers.dart';
+import '../../../reminders/presentation/providers/reminder_providers.dart';
 import '../providers/profile_providers.dart';
 
 /// Tab Profil: assessment & target, serta data & privasi.
@@ -36,6 +38,11 @@ class ProfileScreen extends ConsumerWidget {
     if (!(ok ?? false)) return;
     try {
       await ref.read(profileRepositoryProvider).wipeAllData();
+      // API key Gemini ikut dihapus dari penyimpanan terenkripsi.
+      await ref.read(aiKeyStoreProvider).delete();
+      ref.invalidate(aiSettingsControllerProvider);
+      // Semua pengingat terjadwal dibatalkan.
+      await ref.read(reminderSchedulerProvider).cancelAll();
       // Router otomatis kembali ke onboarding (profil kosong).
     } catch (e) {
       if (context.mounted) context.showSnack(failureMessage(l, e));
@@ -47,6 +54,8 @@ class ProfileScreen extends ConsumerWidget {
     final l = context.l10n;
     final theme = Theme.of(context);
     final activeGoalId = ref.watch(userProfileProvider).value?.activeGoalId;
+    final aiReady = ref.watch(aiSettingsControllerProvider).value?.ready ?? false;
+    final remindersOn = ref.watch(notificationSettingsProvider).value?.enabled ?? false;
 
     return Scaffold(
       appBar: AppBar(title: Text(l.tabProfile)),
@@ -77,6 +86,28 @@ class ProfileScreen extends ConsumerWidget {
                   onTap: () => context.push(Routes.assessment),
                 ),
               ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: ListTile(
+              leading: const Icon(Icons.auto_awesome),
+              title: Text(l.aiSettingsTitle),
+              subtitle: Text(aiReady ? l.aiStatusReady : l.aiStatusNotReady),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(Routes.aiSettings),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: ListTile(
+              leading: const Icon(Icons.notifications_outlined),
+              title: Text(l.profileRemindersTile),
+              subtitle: Text(remindersOn ? l.remindersOn : l.remindersOff),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(Routes.reminders),
             ),
           ),
           const SizedBox(height: 16),

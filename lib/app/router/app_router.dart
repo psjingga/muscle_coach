@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../features/ai_coach/presentation/screens/ai_settings_screen.dart';
 import '../../features/assessment/presentation/screens/assessment_wizard_screen.dart';
 import '../../features/dashboard/presentation/screens/home_screen.dart';
+import '../../features/reminders/presentation/screens/notification_settings_screen.dart';
 import '../../features/exercise_library/presentation/screens/exercise_screens.dart';
 import '../../features/goals/presentation/screens/goal_review_screen.dart';
 import '../../features/nutrition/presentation/screens/nutrition_screen.dart';
@@ -63,6 +65,8 @@ GoRouter appRouter(Ref ref) {
         builder: (_, s) => SessionScreen(sessionId: s.pathParameters['sessionId']!),
       ),
       GoRoute(path: Routes.history, builder: (_, _) => const HistoryScreen()),
+      GoRoute(path: Routes.aiSettings, builder: (_, _) => const AiSettingsScreen()),
+      GoRoute(path: Routes.reminders, builder: (_, _) => const NotificationSettingsScreen()),
       GoRoute(path: Routes.exercises, builder: (_, _) => const ExerciseLibraryScreen()),
       GoRoute(
         path: '${Routes.exercise}/:exerciseId',

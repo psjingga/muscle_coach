@@ -94,6 +94,25 @@ abstract final class TemplatePlanner {
 
   static const _maxDays = {'beginner': 4, 'intermediate': 5, 'advanced': 6};
 
+  /// Maksimal hari latihan per minggu untuk level ini (pemulihan).
+  static int maxDaysFor(String level) => _maxDays[level] ?? 4;
+
+  /// Pemanasan (menit) sesuai durasi sesi.
+  static int warmupFor(int sessionMinutes) => sessionMinutes <= 30 ? 5 : 8;
+
+  /// Kode otot katalog untuk otot prioritas assessment.
+  static Set<String> priorityMusclesOf(AssessmentData a) => {
+    for (final m in a.goal.priorityMuscles) ...?_priorityMuscles[m],
+  };
+
+  /// Peringatan berbasis assessment (cedera/gerakan dihindari).
+  static bool needsInjuryReview(AssessmentData a) {
+    final s = a.safety;
+    return (s.injuries?.trim().isNotEmpty ?? false) ||
+        (s.avoidedMovements?.trim().isNotEmpty ?? false) ||
+        s.medicalFlags.contains(MedicalFlag.injuryRecovery);
+  }
+
   static const _priorityMuscles = {
     MuscleGroup.chest: ['chest'],
     MuscleGroup.back: ['upper_back', 'lats'],
@@ -198,7 +217,7 @@ abstract final class TemplatePlanner {
     required String level,
     required Set<String> priorityMuscles,
   }) {
-    final warmup = sessionMinutes <= 30 ? 5 : 8;
+    final warmup = warmupFor(sessionMinutes);
     final used = <String>{};
     final exercises = <PlannedExercise>[];
     var skipped = 0;
@@ -281,12 +300,8 @@ abstract final class TemplatePlanner {
       planDays.add(r.day);
     }
 
-    final s = a.safety;
     final warnings = <String>{
-      if ((s.injuries?.trim().isNotEmpty ?? false) ||
-          (s.avoidedMovements?.trim().isNotEmpty ?? false) ||
-          s.medicalFlags.contains(MedicalFlag.injuryRecovery))
-        'review_injuries',
+      if (needsInjuryReview(a)) 'review_injuries',
       if (days.length < available.toSet().length) 'days_reduced',
       if (skipped > 0) 'limited_equipment',
     };

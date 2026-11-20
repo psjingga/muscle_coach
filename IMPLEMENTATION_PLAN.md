@@ -306,6 +306,54 @@ Setiap fase diakhiri: `dart format`, `flutter analyze`, test, ringkasan perubaha
 
 **Ditunda**: ganti latihan di tengah sesi (butuh validasi alat/keselamatan bersama Fase 4), pengingat sesi (notifikasi lokal), grafik per gerakan (Fase 6).
 
+## 6d. Status Fase 4 — Program latihan dari Gemini (selesai 19 Nov 2026, arsitektur lokal)
+
+**Alur**: Profil → *AI Coach (Gemini)*: tempel API key → *Simpan & uji* (diverifikasi ke API, disimpan terenkripsi di Android Keystore/iOS Keychain; UI hanya menampilkan 4 karakter terakhir) → pilih model → setujui pemrosesan data (daftar data yang dikirim & tidak dikirim, catatan tier gratis). Tab Latihan → *Susun dengan AI* (atau dari program aktif: *Buat ulang program* → AI/template) → dialog progres → draft dengan badge **"Estimasi AI · model"**, alasan program & per gerakan → *Aktifkan program* (konfirmasi bila mengganti). Gagal → pesan jelas + *Coba lagi* / *Pakai template* / *Buka pengaturan AI*. *Hapus semua data* juga menghapus key.
+
+**Komponen** (`lib/features/ai_coach/`)
+- `GeminiClient` (dio, REST `generateContent`, key di header `x-goog-api-key`, tidak pernah di URL/log; timeout 120 dtk; bagian *thought* diabaikan; error HTTP → `AppFailure` stabil: key tidak valid, izin, kuota 429, 5xx, timeout, jaringan).
+- Prompt berversi `workout_plan.v1` (`domain/prompts/`): instruksi sistem (draft edukatif, hanya ID katalog, hari & durasi tersedia, volume konservatif, RIR pemula ≥ 2, hindari otot sama di hari berurutan, patuhi cedera, JSON saja) + **structured output** (`responseSchema`, `exerciseId` dibatasi `enum` katalog yang lolos filter alat & level).
+- **Minimisasi data**: dikirim tujuan, level/pengalaman, hari & durasi, alat & beban maks., otot prioritas, preferensi, catatan cedera/gerakan dihindari, mode konservatif (boolean). Tidak dikirim: nama, umur/tanggal lahir, tinggi/berat, jenis kelamin, jenis kondisi medis, data makan.
+- `AiPlanParser`: JSON → `PlanDraft`; nama/satuan/tipe beban dari katalog; tolak hari di luar ketersediaan, > maks. hari per level, < 3 gerakan, sesi > 115 % durasi, pemula RIR < 2, plus seluruh `PlanValidator` (katalog, alat, level, batas angka, duplikat).
+- `AiPlanService`: cek key → persetujuan → kuota lokal 10/hari → prompt → panggil → validasi → **maks. 1 retry** dengan daftar masalah → simpan sebagai **draft** (`source: ai_generated`, versi prompt, model). Gagal 2× → tidak ada yang disimpan; tersedia fallback template.
+- Log generasi (`ai_generation_logs`): model & versi, versi prompt, status, percobaan, durasi, token, kode error — **tanpa** isi prompt/data pengguna.
+- Basis data v2 (migrasi otomatis dari v1: kolom `rationale`/`model` di program + tabel log) — terverifikasi di Realme (DB v1 dari instalasi sebelumnya).
+
+**Uji live** (`test/live`, hanya dengan `--tags live` + env `GEMINI_API_KEY`): `gemini-3.5-flash-lite` valid 4/4 (pemula 3 hari & menengah 4 hari dengan cedera bahu → AI menghindari overhead press), 5–12 dtk. `gemini-3.5-flash` (thinking) 35 dtk s.d. timeout 120 dtk / 503 → default diganti ke flash-lite; `gemini-2.5-flash` 404 untuk key ini.
+
+**Test**: Flutter 116 (+17: client Gemini, minimisasi prompt, parser/validator, service retry/kuota/consent/log, widget pengaturan & badge AI) · E2E di Realme RMX1971 **lolos** termasuk penyusunan program oleh Gemini sungguhan, aktivasi, lalu hapus data.
+
+**Belum/ditunda**: notifikasi pengingat sesi (dipindah ke fase notifikasi tersendiri), ganti gerakan di tengah sesi dengan validasi, AI untuk menu makan (Fase 5) & weekly review (Fase 6).
+
+## 6e. Status — Pengingat lewat notifikasi lokal (selesai 19 Nov 2026)
+
+**Alur**: Profil → *Pengingat* → saklar utama → dialog penjelasan + **contoh jadwal** (sebelum izin sistem diminta; izin tidak pernah diminta saat aplikasi dibuka) → izin ditolak → tidak dianggap aktif, panduan + *Buka pengaturan sistem*. Atur per kategori: **sesi latihan** (hari dari program aktif, jam pilihan), **makan** (sarapan/siang/malam/snack), **timbang** (hari & jam), **check-in harian**, **jam tenang**. Tampil jumlah jadwal 14 hari, zona waktu, *Kirim notifikasi uji*, saran pengaturan baterai. Ketuk notifikasi → layar terkait (detail hari latihan, Nutrisi, Progres, Beranda); Android: aksi **Tunda 10 menit** (berjalan di latar belakang).
+
+**Desain** (brief §15)
+- `core/notifications/NotificationService` (abstraksi) + `LocalNotificationService` (flutter_local_notifications 23, timezone, flutter_timezone). UI tidak memanggil plugin langsung.
+- Preferensi = sumber kebenaran, disimpan di `app_settings` (JSON, basis data v3); bentuk mengikuti contoh brief (ISO 1=Senin…7=Minggu, `HH:mm`), divalidasi di domain. Jadwal OS selalu dibangun ulang.
+- `ReminderPlanner` (murni): 14 hari ke depan, **maks. 60** (batas iOS 64, prioritas terdekat), **ID stabil** FNV-1a 31-bit dari kategori + entitas + tanggal → penjadwalan ulang menimpa, tanpa duplikat; jam di jam tenang dilewati; hari yang sesinya sudah selesai tidak diingatkan; aritmetika kalender aman DST.
+- `ReminderScheduler.reconcile()`: batalkan ID tertunda yang tidak diinginkan → jadwalkan yang diinginkan. Dipicu saat aplikasi dibuka & kembali aktif (zona waktu bisa berubah), preferensi berubah, program aktif berubah, sesi selesai; *Hapus semua data* → batalkan semua.
+- Android: `POST_NOTIFICATIONS`, `RECEIVE_BOOT_COMPLETED` + receiver boot/package-replaced (jadwal pulih setelah reboot/update), channel per kategori, **jadwal tidak presisi** (`inexactAllowWhileIdle`, tanpa izin exact alarm). compileSdk 37 & AGP 9.1.1 (syarat plugin; targetSdk tidak berubah). iOS: delegate `UNUserNotificationCenter` (tampil di foreground), izin diminta dari layar pengaturan.
+
+**Verifikasi di Realme RMX1971**: E2E mengaktifkan pengingat → layar "60 pengingat terjadwal"; `adb dumpsys alarm` menunjukkan alarm aplikasi (mis. makan malam 19:00, check-in 21:00, sarapan besok 07:00 dengan jendela tidak presisi); notifikasi uji tampil; 5 channel terbuat; setelah *Hapus semua data* alarm aplikasi = 0.
+
+**Test**: Flutter 135 (+19: planner — hari program, sesi selesai, jam lewat, ID stabil, ganti program, jam tenang lintas tengah malam, hari timbang, batas 60, DST Eropa; validasi preferensi; rekonsiliasi — tanpa duplikat, sesi selesai hanya membatalkan pengingat sesi itu, ganti program tanpa sisa, izin ditolak; widget izin & penjelasan).
+
+**Catatan/keterbatasan**: aksi *Tunda* hanya Android (iOS: ketuk membuka aplikasi). Notifikasi bisa tertunda oleh optimasi baterai OEM (tidak dijanjikan tepat waktu). Tujuan "Nutrisi/Progres/check-in" masih layar placeholder sampai Fase 5–6. "Mark as done" ditunda sampai fitur check-in ada.
+
+## 6f. Status — Ilustrasi gerakan & peta otot (selesai 20 Nov 2026)
+
+**Foto gerakan**: 42 dari 43 latihan punya 2 foto (posisi awal → akhir) dari [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (Unlicense / domain publik; turunan dari wrkout/exercises.json yang juga Unlicense). Pemetaan ID dicek manual per gerakan (lihat contact sheet saat implementasi); beberapa memakai variasi terdekat (mis. *Dumbbell Glute Bridge* → bridge tanpa beban, *Rear Delt Fly* → versi duduk, *Farmer Carry* → farmer handle). `dumbbell_single_leg_rdl` sengaja tanpa foto (hanya ada versi kettlebell). Foto diperkecil ke 480 px JPEG q65 → ±1,5 MB total, dibundel di `assets/exercises/` (offline). Atribusi ditampilkan di bawah foto.
+
+**Peta otot**: `MuscleMap` (CustomPainter, tanpa aset) — figur depan & belakang, otot utama = warna primer, pendukung = primer transparan; mendukung dark mode; label aksesibilitas berisi daftar otot.
+
+**UI**: detail latihan (foto bergantian otomatis tiap 1,4 dtk seperti animasi + tombol jeda; diam bila animasi sistem dimatikan) + peta otot; daftar katalog & kartu sesi menampilkan thumbnail → ketuk = *tampilan cepat* (bottom sheet: gerakan, peta otot, langkah) tanpa meninggalkan sesi. Latihan tanpa foto memakai peta otot sebagai thumbnail.
+
+**Data**: field `images` (opsional) di `Exercise`/katalog; versi katalog tidak diubah (isi untuk AI tidak berubah).
+
+**Test**: Flutter 143 (+8: semua foto yang dirujuk ada & berpasangan, tidak ada file yatim, semua kode otot katalog tergambar, pewarnaan, animasi/jeda, animasi dimatikan, tanpa foto, tampilan cepat).
+
 ## 7. Keputusan & blocker
 
 **Diputuskan (19 Nov 2026):**

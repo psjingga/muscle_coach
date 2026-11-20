@@ -7,8 +7,8 @@
   "tabProfile": "Profil",
   "cancel": "Batal",
   "errorNetwork": "Tidak ada koneksi internet. Periksa jaringan Anda lalu coba lagi.",
-  "errorUnauthenticated": "Sesi Anda berakhir. Silakan masuk kembali.",
-  "errorPermissionDenied": "Anda tidak memiliki akses untuk tindakan ini.",
+  "errorUnauthenticated": "API key tidak valid atau kedaluwarsa. Periksa di Pengaturan AI.",
+  "errorPermissionDenied": "Akses ditolak. Periksa izin atau pembatasan API key Anda.",
   "errorNotFound": "Data tidak ditemukan.",
   "errorInvalidInput": "Data yang dikirim tidak valid.",
   "errorQuotaExceeded": "Batas penggunaan tercapai. Coba lagi nanti.",
@@ -593,5 +593,155 @@
   "wipeData": "Hapus semua data",
   "wipeDataTitle": "Hapus semua data?",
   "wipeDataMessage": "Assessment, target, program, dan seluruh catatan latihan di perangkat ini akan dihapus permanen dan tidak dapat dipulihkan.",
-  "wipeDataConfirm": "Hapus permanen"
+  "wipeDataConfirm": "Hapus permanen",
+  "aiSettingsTitle": "AI Coach (Gemini)",
+  "aiSettingsIntro": "Program latihan dapat disusun oleh Google Gemini memakai API key Anda sendiri. Key disimpan terenkripsi hanya di perangkat ini — tidak di aplikasi, server, atau backup.",
+  "aiStatusReady": "Siap dipakai",
+  "aiStatusNotReady": "Belum siap: simpan API key dan setujui pemrosesan data.",
+  "aiKeyLabel": "API key Gemini",
+  "aiKeyHint": "Tempel key dari Google AI Studio",
+  "aiKeySaved": "Key tersimpan (…{suffix})",
+  "@aiKeySaved": {
+    "placeholders": {
+      "suffix": {}
+    }
+  },
+  "aiSaveKey": "Simpan & uji",
+  "aiKeyVerified": "API key valid dan tersimpan.",
+  "aiDeleteKey": "Hapus key",
+  "aiKeyDeleted": "API key dihapus dari perangkat.",
+  "aiModelLabel": "Model",
+  "aiConsentTitle": "Persetujuan pemrosesan data oleh AI",
+  "aiConsentBody": "Saat menyusun program, aplikasi mengirim ke Google Gemini: tujuan, level & pengalaman latihan, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, dan daftar gerakan katalog. Tidak dikirim: nama, umur, tanggal lahir, tinggi/berat badan, jenis kondisi medis, atau data makan.",
+  "aiFreeTierNote": "Di tier gratis Google AI Studio, Google dapat memakai isi permintaan untuk meningkatkan produknya. Gunakan tier berbayar bila Anda tidak menginginkannya.",
+  "aiConsentCheckbox": "Saya setuju data di atas dikirim ke Google Gemini untuk menyusun program.",
+  "aiQuotaNote": "Batas {limit} kali penyusunan AI per hari (menahan biaya).",
+  "@aiQuotaNote": {
+    "placeholders": {
+      "limit": {}
+    }
+  },
+  "generateWithAi": "Susun dengan AI",
+  "generateTemplate": "Program template (tanpa AI)",
+  "aiGenerating": "Menyusun program dengan AI…",
+  "aiGeneratingHint": "Biasanya 10–60 detik. Hasilnya diperiksa aplikasi sebelum ditampilkan.",
+  "aiErrorTitle": "Program AI belum bisa disusun",
+  "aiErrorSetup": "Simpan API key Gemini dan setujui pemrosesan data di Pengaturan AI terlebih dulu.",
+  "aiErrorQuota": "Batas penyusunan AI hari ini tercapai. Coba lagi besok atau pakai program template.",
+  "aiErrorInvalid": "Hasil AI tidak lolos pemeriksaan keamanan aplikasi (dicoba 2 kali). Coba lagi, atau pakai program template.",
+  "openAiSettings": "Buka pengaturan AI",
+  "useTemplate": "Pakai template",
+  "close": "Tutup",
+  "aiPlanBadge": "Estimasi AI · {model}",
+  "@aiPlanBadge": {
+    "placeholders": {
+      "model": {}
+    }
+  },
+  "aiPlanRationaleTitle": "Alasan dari AI",
+  "aiPlanValidated": "Diperiksa aplikasi: gerakan dari katalog, alat & level sesuai, angka dalam batas aman. Tetap tinjau sebelum mengaktifkan.",
+  "chooseGenerator": "Buat program baru",
+  "reminderWorkoutTitle": "Waktunya latihan: {focus}",
+  "@reminderWorkoutTitle": {
+    "placeholders": {
+      "focus": {}
+    }
+  },
+  "reminderWorkoutBody": "{count} latihan · ± {minutes} menit. Ketuk untuk membuka sesi.",
+  "@reminderWorkoutBody": {
+    "placeholders": {
+      "count": {},
+      "minutes": {}
+    }
+  },
+  "reminderBreakfastTitle": "Waktunya sarapan",
+  "reminderLunchTitle": "Waktunya makan siang",
+  "reminderDinnerTitle": "Waktunya makan malam",
+  "reminderSnackTitle": "Waktunya snack",
+  "reminderMealBody": "Makan cukup protein membantu pemulihan otot.",
+  "reminderWeighInTitle": "Waktunya timbang berat badan",
+  "reminderWeighInBody": "Timbang dalam kondisi sama (pagi, setelah ke toilet, sebelum makan) agar trennya akurat.",
+  "reminderCheckInTitle": "Check-in harian",
+  "reminderCheckInBody": "Bagaimana energi, tidur, dan latihan hari ini?",
+  "reminderExample": "Contoh: latihan {days} pukul {workout}, sarapan {breakfast}, check-in {checkIn}.",
+  "@reminderExample": {
+    "placeholders": {
+      "days": {},
+      "workout": {},
+      "breakfast": {},
+      "checkIn": {}
+    }
+  },
+  "notificationSettingsTitle": "Pengingat",
+  "notificationIntro": "Pengingat dijadwalkan langsung di perangkat — tetap berjalan tanpa internet dan tanpa AI. Waktu dapat sedikit tertunda karena penghematan baterai.",
+  "notificationEnable": "Aktifkan pengingat",
+  "notificationPermissionTitle": "Izinkan notifikasi?",
+  "notificationPermissionBody": "Muscle Coach butuh izin notifikasi untuk mengingatkan sesi latihan, waktu makan, timbang, dan check-in sesuai jadwal yang Anda atur.",
+  "notificationPermissionAllow": "Izinkan",
+  "notificationDenied": "Izin notifikasi ditolak. Aktifkan di pengaturan sistem agar pengingat dapat muncul.",
+  "openSystemSettings": "Buka pengaturan sistem",
+  "notificationBatteryHint": "Bila pengingat tidak muncul, izinkan Muscle Coach berjalan di latar belakang / matikan optimasi baterai untuk aplikasi ini (pengaturan HP).",
+  "notificationScheduled": "{count} pengingat terjadwal untuk 14 hari ke depan.",
+  "@notificationScheduled": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notificationTimezone": "Zona waktu: {zone}",
+  "@notificationTimezone": {
+    "placeholders": {
+      "zone": {}
+    }
+  },
+  "reminderWorkoutLabel": "Sesi latihan",
+  "reminderWorkoutHelp": "Pada hari latihan program aktif: {days}.",
+  "@reminderWorkoutHelp": {
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "reminderWorkoutNoPlan": "Aktifkan program latihan agar pengingat sesi terjadwal.",
+  "reminderMealsLabel": "Waktu makan",
+  "breakfastLabel": "Sarapan",
+  "lunchLabel": "Makan siang",
+  "dinnerLabel": "Makan malam",
+  "snackLabel": "Snack",
+  "reminderWeighInLabel": "Timbang berat badan",
+  "reminderCheckInLabel": "Check-in harian",
+  "quietHoursLabel": "Jam tenang",
+  "quietHoursHelp": "Pengingat yang jatuh di jam tenang dilewati.",
+  "quietStart": "Mulai",
+  "quietEnd": "Selesai",
+  "sendTestNotification": "Kirim notifikasi uji",
+  "testNotificationTitle": "Notifikasi uji",
+  "testNotificationBody": "Pengingat Muscle Coach berfungsi.",
+  "profileRemindersTile": "Pengingat",
+  "remindersOn": "Aktif",
+  "remindersOff": "Nonaktif",
+  "exerciseMovementTitle": "Gerakan",
+  "exerciseFrameStart": "Posisi awal",
+  "exerciseFrameEnd": "Posisi akhir",
+  "exercisePhotoCredit": "Foto: Free Exercise DB (domain publik). Variasi alat di foto bisa sedikit berbeda.",
+  "exercisePhotoSemantics": "Foto gerakan {name}, {frame}",
+  "@exercisePhotoSemantics": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "frame": {"type": "String"}
+    }
+  },
+  "playMotion": "Putar gerakan",
+  "pauseMotion": "Jeda gerakan",
+  "muscleMapTitle": "Otot yang dilatih",
+  "muscleMapFront": "Depan",
+  "muscleMapBack": "Belakang",
+  "muscleMapSemantics": "Peta otot. Otot utama: {primary}. Otot pendukung: {secondary}.",
+  "@muscleMapSemantics": {
+    "placeholders": {
+      "primary": {"type": "String"},
+      "secondary": {"type": "String"}
+    }
+  },
+  "noneLabel": "tidak ada",
+  "exerciseQuickViewHint": "Ketuk gambar untuk melihat gerakan",
+  "exerciseOpenDetail": "Lihat detail lengkap"
 }

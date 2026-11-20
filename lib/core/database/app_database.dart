@@ -94,6 +94,12 @@ class WorkoutPlans extends Table {
   IntColumn get daysPerWeek => integer()();
   IntColumn get sessionMinutes => integer()();
   TextColumn get warnings => text()();
+
+  /// Ringkasan alasan program dari AI (null untuk template).
+  TextColumn get rationale => text().nullable()();
+
+  /// Model AI yang menyusun (null untuk template).
+  TextColumn get model => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get activatedAt => dateTime().nullable()();
   DateTimeColumn get archivedAt => dateTime().nullable()();
@@ -159,6 +165,39 @@ class SetLogs extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+/// Metadata setiap pemanggilan AI — tanpa prompt/isi data pengguna.
+@DataClassName('AiLogRow')
+class AiGenerationLogs extends Table {
+  TextColumn get id => text()();
+  TextColumn get kind => text()();
+  TextColumn get model => text()();
+  TextColumn get modelVersion => text().nullable()();
+  TextColumn get promptVersion => text()();
+
+  /// success | invalid | error
+  TextColumn get status => text()();
+  IntColumn get attempts => integer()();
+  IntColumn get durationMs => integer()();
+  IntColumn get inputTokens => integer().nullable()();
+  IntColumn get outputTokens => integer().nullable()();
+  TextColumn get errorCode => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Pengaturan aplikasi sebagai key → JSON (mis. preferensi notifikasi).
+@DataClassName('AppSettingRow')
+class AppSettings extends Table {
+  TextColumn get key => text()();
+  TextColumn get value => text()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {key};
+}
+
 @DriftDatabase(
   tables: [
     ProfileState,
@@ -170,13 +209,15 @@ class SetLogs extends Table {
     PlanDays,
     WorkoutSessions,
     SetLogs,
+    AiGenerationLogs,
+    AppSettings,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'musclecoach'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -189,6 +230,18 @@ class AppDatabase extends _$AppDatabase {
         'CREATE INDEX idx_sessions_plan_day ON workout_sessions (plan_id, day_id, status, date DESC)',
       );
       await customStatement('CREATE INDEX idx_sets_session ON set_logs (session_id)');
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        // Fase 4: program dari AI + log generasi.
+        await m.addColumn(workoutPlans, workoutPlans.rationale);
+        await m.addColumn(workoutPlans, workoutPlans.model);
+        await m.createTable(aiGenerationLogs);
+      }
+      if (from < 3) {
+        // Pengingat lokal: preferensi notifikasi.
+        await m.createTable(appSettings);
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');

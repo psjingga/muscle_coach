@@ -9,6 +9,7 @@ import '../../../../core/widgets/empty_state.dart';
 import '../../../workout/presentation/widgets/workout_labels.dart';
 import '../../domain/exercise.dart';
 import '../providers/exercise_providers.dart';
+import '../widgets/exercise_media.dart';
 
 /// Daftar katalog latihan dengan pencarian nama/otot.
 class ExerciseLibraryScreen extends ConsumerStatefulWidget {
@@ -58,6 +59,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                 children: [
                   for (final e in value.values.where(_matches))
                     ListTile(
+                      leading: ExerciseThumbnail(exercise: e, size: 48),
                       title: Text(e.name),
                       subtitle: Text(
                         [
@@ -160,6 +162,8 @@ class _Detail extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        ExerciseVisuals(exercise: e),
+        const SizedBox(height: 16),
         Wrap(
           spacing: 8,
           runSpacing: 8,

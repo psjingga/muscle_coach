@@ -18,6 +18,7 @@ _PlannedExercise _$PlannedExerciseFromJson(Map<String, dynamic> json) => _Planne
   rirMin: (json['rirMin'] as num).toInt(),
   rirMax: (json['rirMax'] as num).toInt(),
   priority: json['priority'] as bool? ?? false,
+  rationale: json['rationale'] as String?,
 );
 
 Map<String, dynamic> _$PlannedExerciseToJson(_PlannedExercise instance) => <String, dynamic>{
@@ -32,6 +33,7 @@ Map<String, dynamic> _$PlannedExerciseToJson(_PlannedExercise instance) => <Stri
   'rirMin': instance.rirMin,
   'rirMax': instance.rirMax,
   'priority': instance.priority,
+  'rationale': instance.rationale,
 };
 
 _PlanDay _$PlanDayFromJson(Map<String, dynamic> json) => _PlanDay(
@@ -65,6 +67,8 @@ _WorkoutPlan _$WorkoutPlanFromJson(Map<String, dynamic> json) => _WorkoutPlan(
   sessionMinutes: (json['sessionMinutes'] as num).toInt(),
   warnings:
       (json['warnings'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const <String>[],
+  rationale: json['rationale'] as String?,
+  model: json['model'] as String?,
 );
 
 Map<String, dynamic> _$WorkoutPlanToJson(_WorkoutPlan instance) => <String, dynamic>{
@@ -75,6 +79,8 @@ Map<String, dynamic> _$WorkoutPlanToJson(_WorkoutPlan instance) => <String, dyna
   'daysPerWeek': instance.daysPerWeek,
   'sessionMinutes': instance.sessionMinutes,
   'warnings': instance.warnings,
+  'rationale': instance.rationale,
+  'model': instance.model,
 };
 
 const _$PlanStatusEnumMap = {

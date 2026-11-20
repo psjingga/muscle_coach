@@ -34,13 +34,32 @@ APK release saat ini ditandatangani dengan kunci debug (cukup untuk pemakaian pr
 - Basis data: `musclecoach.sqlite` di folder data aplikasi (drift). Skema di `lib/core/database/app_database.dart`; ubah `schemaVersion` + migrasi bila struktur berubah.
 - Tidak ada backup otomatis: menghapus aplikasi atau kehilangan HP = data hilang (fitur ekspor/impor menyusul).
 - Profil → **Hapus semua data** menghapus seluruh isi basis data.
-- API key Gemini (Fase 4) tidak pernah ditanam di APK atau repo; dimasukkan di aplikasi dan disimpan terenkripsi di perangkat.
+- API key Gemini tidak pernah ditanam di APK atau repo; dimasukkan di aplikasi dan disimpan terenkripsi di perangkat. *Hapus semua data* ikut menghapus key.
+
+## AI Coach (Gemini)
+
+- Di aplikasi: **Profil → AI Coach (Gemini)** → tempel API key dari [Google AI Studio](https://aistudio.google.com) → *Simpan & uji* → setujui pemrosesan data.
+- Key disimpan terenkripsi di perangkat (Keystore/Keychain); tidak pernah ada di kode, APK, repo, log, atau basis data.
+- Batasi key di Google AI Studio / Cloud Console (hanya *Generative Language API*, pasang kuota). Tier gratis: Google dapat memakai isi permintaan untuk meningkatkan produknya.
+- Model default `gemini-3.5-flash-lite` (dapat diganti di Pengaturan). Prompt berversi di `lib/features/ai_coach/domain/prompts/`; output selalu divalidasi dan disimpan sebagai **draft** yang harus disetujui.
+
+## Pengingat (notifikasi lokal)
+
+- **Profil → Pengingat**: aktifkan, atur jam latihan (hari mengikuti program aktif), makan, timbang, check-in, dan jam tenang. Izin notifikasi diminta di sini dengan penjelasan — tidak saat aplikasi dibuka.
+- Dijadwalkan di perangkat (14 hari ke depan, maks. 60) dan disinkronkan ulang saat aplikasi dibuka, pengaturan/program berubah, atau sesi selesai. Tetap jalan tanpa internet & tanpa AI.
+- Jadwal tidak presisi (tanpa izin *exact alarm*); bila tidak muncul, matikan optimasi baterai untuk aplikasi di pengaturan HP.
+
+## Ilustrasi latihan
+
+Foto gerakan di `assets/exercises/` berasal dari [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (Unlicense, domain publik), diperkecil untuk aplikasi. Peta otot digambar di aplikasi (`exercise_library/presentation/widgets/muscle_map.dart`). Untuk menambah foto: simpan `<exerciseId>_0.jpg` (awal) dan `_1.jpg` (akhir) lalu isi `images` di `assets/catalog/exercises.json`; test `exercise_media_test.dart` memeriksa kelengkapannya.
 
 ## Pemeriksaan & test
 
 ```bash
 tool/check.sh                                   # format, analyze, flutter test
 fvm flutter test integration_test -d <device>   # E2E di perangkat/simulator
+#   + alur Gemini: --dart-define=GEMINI_API_KEY=<key>  (hanya build tes; uninstall setelahnya)
+GEMINI_API_KEY=<key> fvm flutter test test/live --tags live   # uji prompt ke Gemini sungguhan
 ```
 
 Setelah mengubah kelas `@freezed` / `@riverpod` / tabel drift: `fvm dart run build_runner build`.

@@ -12,6 +12,8 @@ abstract final class Routes {
   static const history = '/history';
   static const exercises = '/exercises';
   static const exercise = '/exercise';
+  static const aiSettings = '/settings/ai';
+  static const reminders = '/settings/reminders';
 
   static const home = '/home';
   static const workout = '/workout';

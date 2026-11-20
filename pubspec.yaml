@@ -44,4 +44,5 @@ flutter:
   generate: true
   assets:
     - assets/catalog/exercises.json
+    - assets/catalog/foods_tkpi.json
     - assets/exercises/

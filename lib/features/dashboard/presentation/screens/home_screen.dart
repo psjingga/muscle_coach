@@ -9,15 +9,16 @@ import '../../../../core/utils/formatters.dart';
 import '../../../assessment/presentation/widgets/assessment_labels.dart';
 import '../../../goals/domain/entities/goal.dart';
 import '../../../goals/presentation/providers/goal_providers.dart';
-import '../../../goals/presentation/widgets/nutrition_target_card.dart';
+import '../../../nutrition/presentation/providers/nutrition_providers.dart';
+import '../../../nutrition/presentation/widgets/day_summary_card.dart';
 import '../../../../core/database/database_providers.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../../../workout/domain/workout_math.dart';
 import '../../../workout/presentation/providers/workout_providers.dart';
 import '../../../workout/presentation/widgets/workout_labels.dart';
 
-/// Tab Home: sapaan, target nutrisi harian, dan ringkasan goal aktif.
-/// Check-in & sisa makro harian menyusul pada fase selanjutnya.
+/// Tab Home: sapaan, latihan berikutnya, asupan & sisa target hari ini, dan
+/// ringkasan goal aktif. Check-in menyusul pada fase selanjutnya.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -40,15 +41,42 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           const _WorkoutCard(),
           const SizedBox(height: 12),
-          if (nutrition != null) ...[
-            NutritionTargetCard(plan: nutrition),
-            const SizedBox(height: 12),
-          ],
+          if (nutrition != null) ...[const _TodayNutritionCard(), const SizedBox(height: 12)],
           if (goal != null) _GoalSummaryCard(goal: goal),
           const SizedBox(height: 24),
           Text(
             l.homeNextSteps,
             style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Asupan hari ini vs target (ringkas) + tombol catat makanan.
+class _TodayNutritionCard extends ConsumerWidget {
+  const _TodayNutritionCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final date = ref.watch(todayDateProvider);
+    final day = ref.watch(dayNutritionProvider(date)).value;
+    if (day == null) return const SizedBox.shrink();
+    return DaySummaryCard(
+      day: day,
+      compact: true,
+      footer: Row(
+        children: [
+          Expanded(
+            child: Text(l.nutritionHomeTitle, style: Theme.of(context).textTheme.labelLarge),
+          ),
+          TextButton.icon(
+            key: const Key('home-log-food'),
+            onPressed: () => context.go(Routes.nutrition),
+            icon: const Icon(Icons.restaurant),
+            label: Text(l.nutritionHomeLog),
           ),
         ],
       ),

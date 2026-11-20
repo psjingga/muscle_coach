@@ -1532,4 +1532,304 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get exerciseOpenDetail => 'Lihat detail lengkap';
+
+  @override
+  String get save => 'Simpan';
+
+  @override
+  String get nutritionToday => 'Hari ini';
+
+  @override
+  String get nutritionPrevDay => 'Hari sebelumnya';
+
+  @override
+  String get nutritionNextDay => 'Hari berikutnya';
+
+  @override
+  String get nutritionConsumed => 'Tercatat';
+
+  @override
+  String get nutritionRemaining => 'Sisa';
+
+  @override
+  String get nutritionOver => 'Lebih';
+
+  @override
+  String nutritionOfTarget(Object target) {
+    return 'dari $target';
+  }
+
+  @override
+  String nutritionKcalLeft(Object kcal) {
+    return 'Sisa $kcal kcal';
+  }
+
+  @override
+  String nutritionKcalOver(Object kcal) {
+    return 'Lebih $kcal kcal';
+  }
+
+  @override
+  String nutritionMacroProgress(Object got, Object target) {
+    return '$got / $target g';
+  }
+
+  @override
+  String get nutritionEstimateNote =>
+      'Angka gizi adalah estimasi dari TKPI per 100 g bagian yang dapat dimakan; porsi & cara masak bisa membuat nilainya berbeda.';
+
+  @override
+  String get nutritionHasEstimates =>
+      'Sebagian catatan memakai angka dari label/manual atau data sumber yang perlu dicek.';
+
+  @override
+  String get nutritionAddFood => 'Tambah';
+
+  @override
+  String nutritionAddTo(Object meal) {
+    return 'Tambah ke $meal';
+  }
+
+  @override
+  String get nutritionEmptyMeal => 'Belum ada catatan';
+
+  @override
+  String get nutritionWaterTitle => 'Minum air';
+
+  @override
+  String get nutritionWaterBody =>
+      'Biasakan minum air sepanjang hari, terutama saat latihan dan cuaca panas. Ini pengingat kebiasaan umum, bukan anjuran medis pribadi.';
+
+  @override
+  String get nutritionHomeTitle => 'Nutrisi hari ini';
+
+  @override
+  String get nutritionHomeLog => 'Catat makanan';
+
+  @override
+  String entryGrams(Object grams) {
+    return '$grams g';
+  }
+
+  @override
+  String entryMacros(Object p, Object c, Object f) {
+    return 'P $p · K $c · L $f';
+  }
+
+  @override
+  String get entryManual => 'manual';
+
+  @override
+  String get entryLabel => 'label';
+
+  @override
+  String get entryCheck => 'cek data';
+
+  @override
+  String get entryDeleteTitle => 'Hapus catatan?';
+
+  @override
+  String get entryDeleted => 'Catatan dihapus';
+
+  @override
+  String get entrySaved => 'Tersimpan';
+
+  @override
+  String get foodSearchTitle => 'Tambah makanan';
+
+  @override
+  String get foodSearchHint => 'Cari makanan, mis. nasi, tempe, telur';
+
+  @override
+  String get foodRecent => 'Terakhir dicatat';
+
+  @override
+  String get foodRecentEmpty =>
+      'Ketik nama makanan untuk mencari di Tabel Komposisi Pangan Indonesia (TKPI).';
+
+  @override
+  String get foodNoResult => 'Tidak ditemukan. Coba kata lain, atau tambahkan dari label kemasan.';
+
+  @override
+  String foodPer100(Object kcal) {
+    return '$kcal kcal / 100 g';
+  }
+
+  @override
+  String get foodCustomBadge => 'Milik saya';
+
+  @override
+  String get foodInconsistentBadge => 'Cek data';
+
+  @override
+  String get foodAddCustom => 'Makanan dari label kemasan';
+
+  @override
+  String get foodAddManual => 'Catat kalori/makro saja';
+
+  @override
+  String foodSourceAttribution(Object name, Object publisher, Object date) {
+    return 'Sumber: $name, $publisher (panganku.org). Data diambil $date.';
+  }
+
+  @override
+  String get portionTitle => 'Porsi';
+
+  @override
+  String get portionGrams => 'Berat (g)';
+
+  @override
+  String get portionGramsError => 'Isi 1–5000 g';
+
+  @override
+  String get portionMeal => 'Waktu makan';
+
+  @override
+  String portionEdible(Object pct) {
+    return 'Nilai per 100 g bagian yang dapat dimakan ($pct%). Timbang tanpa kulit/tulang.';
+  }
+
+  @override
+  String get portionInconsistent =>
+      'Di sumber, energi makanan ini tidak cocok dengan protein/lemak/karbohidratnya. Angka tetap ditampilkan apa adanya — anggap sebagai perkiraan kasar.';
+
+  @override
+  String portionLast(Object grams) {
+    return 'Terakhir $grams g';
+  }
+
+  @override
+  String get customFoodTitle => 'Makanan dari label';
+
+  @override
+  String get customFoodName => 'Nama makanan';
+
+  @override
+  String get customFoodBasis => 'Nilai gizi per (g)';
+
+  @override
+  String get customFoodBasisHelp => 'Isi sesuai label, mis. \"per sajian 30 g\" → 30.';
+
+  @override
+  String get customFoodKcal => 'Energi (kcal)';
+
+  @override
+  String get customFoodProtein => 'Protein (g)';
+
+  @override
+  String get customFoodCarbs => 'Karbohidrat (g)';
+
+  @override
+  String get customFoodFat => 'Lemak (g)';
+
+  @override
+  String get customFoodRequired => 'Wajib diisi';
+
+  @override
+  String get customFoodNumber => 'Isi angka 0–5000';
+
+  @override
+  String customFoodMismatch(Object kcal) {
+    return 'Energi pada label berbeda jauh dari hitungan makro (≈$kcal kcal). Periksa lagi angkanya.';
+  }
+
+  @override
+  String get customFoodSaved => 'Makanan disimpan';
+
+  @override
+  String get customFoodDelete => 'Hapus makanan saya';
+
+  @override
+  String get manualTitle => 'Catat kalori/makro';
+
+  @override
+  String get manualName => 'Keterangan';
+
+  @override
+  String get manualNameHint => 'mis. Nasi padang (perkiraan)';
+
+  @override
+  String get mealPlanTitle => 'Contoh menu harian';
+
+  @override
+  String get mealPlanEmpty =>
+      'Belum ada menu. AI bisa menyusun contoh menu dari bahan TKPI sesuai target dan preferensi makanmu.';
+
+  @override
+  String get mealPlanGenerate => 'Susun menu dengan AI';
+
+  @override
+  String get mealPlanRegenerate => 'Susun ulang';
+
+  @override
+  String get mealPlanGenerating => 'Menyusun menu dengan AI…';
+
+  @override
+  String get mealPlanErrorTitle => 'Menu AI belum bisa disusun';
+
+  @override
+  String get mealPlanErrorInvalid =>
+      'Hasil AI tidak memenuhi target atau aturan aplikasi (dicoba 2 kali). Coba lagi.';
+
+  @override
+  String get mealPlanErrorQuota => 'Batas penyusunan AI hari ini tercapai. Coba lagi besok.';
+
+  @override
+  String get mealPlanAiLabel => 'Estimasi AI';
+
+  @override
+  String mealPlanTotals(Object kcal, Object p, Object c, Object f) {
+    return 'Total menu: $kcal · P $p g · K $c g · L $f g';
+  }
+
+  @override
+  String mealPlanVsTarget(Object kcal, Object p, Object c, Object f) {
+    return 'Target: $kcal · P $p g · K $c g · L $f g';
+  }
+
+  @override
+  String get mealPlanRecalc => 'Total dihitung aplikasi dari data TKPI × gram, bukan dari AI.';
+
+  @override
+  String get mealPlanUse => 'Pakai menu ini';
+
+  @override
+  String get mealPlanDiscard => 'Buang';
+
+  @override
+  String get mealPlanActivated => 'Menu dipakai';
+
+  @override
+  String get mealPlanMarkEaten => 'Tandai dimakan';
+
+  @override
+  String get mealPlanEaten => 'Sudah dicatat';
+
+  @override
+  String get mealPlanUndoEaten => 'Batalkan';
+
+  @override
+  String mealPlanEatenSnack(Object meal) {
+    return '$meal dicatat ke hari ini';
+  }
+
+  @override
+  String get mealPlanOpen => 'Lihat menu';
+
+  @override
+  String get mealPlanWarnEatingDisorder =>
+      'Kamu mencatat riwayat gangguan makan. Gunakan menu ini hanya sebagai gambaran dan diskusikan pola makanmu dengan tenaga kesehatan.';
+
+  @override
+  String get mealPlanWarnAllergy =>
+      'Aplikasi hanya memeriksa alergen dari nama bahan. Selalu cek sendiri bahan & bumbu yang dipakai.';
+
+  @override
+  String get mealPlanWarnInconsistent =>
+      'Ada bahan yang angka sumbernya perlu dicek; totalnya bisa kurang tepat.';
+
+  @override
+  String mealPlanModel(Object model, Object version) {
+    return 'Disusun oleh $model · $version';
+  }
 }

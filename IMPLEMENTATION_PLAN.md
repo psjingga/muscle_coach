@@ -360,6 +360,44 @@ Konsep "dumbbell di atas grafik naik" (dipilih pengguna dari 3 konsep). Sumber t
 
 Juga dari uji E2E iOS (20 Nov): peringatan "izin ditolak" tidak lagi tampil sebelum izin diminta (iOS & Android 13+ tidak membedakan belum-ditanya vs ditolak); saran optimasi baterai hanya di Android; label foto netral "1/2"; label peta otot sejajar figur. E2E iOS lolos penuh (ketuk "Allow" dialog izin dilakukan manual).
 
+## 6h. Status — Fase 5 Nutrisi (20 Nov 2026)
+
+**Sumber data (keputusan pengguna: TKPI)**: Tabel Komposisi Pangan Indonesia (Kemenkes RI, panganku.org). Dipakai snapshot CSV 1.146 baris dari rilis `nichsedge/indoscraping` `dataset-panganku-latest` (28 Okt 2026), disalin ke `tool/food_catalog/source/panganku.csv` (sha256 dicatat).
+- `tool/food_catalog/build_tkpi_catalog.py` → `assets/catalog/foods_tkpi.json` (versi `tkpi-panganku-2026-10-28`) berisi 1.144 makanan per 100 g BDD: kode TKPI, kategori, mentah/olahan, asal daerah, keterangan, serat, dan % BDD.
+- Angka tidak diubah dan tidak ditebak. 2 baris tanpa makro lengkap dilewati. 16 baris yang energinya tidak konsisten dengan 4/4/9 diberi `quality: inconsistent` (tampil "cek data" dan tidak ditawarkan ke AI).
+- Cek acak cocok dengan TKPI (mis. Nasi AP001 180 kcal, P 3, L 0,3, K 39,8).
+- Ukuran rumah tangga (URT) tidak dikarang. Porsi diisi dalam gram, dengan pilihan cepat 50/100/150/200 g, gram terakhir dicatat, dan porsi dari label.
+- Lisensi: publikasi pemerintah tanpa lisensi terbuka eksplisit. Untuk penggunaan pribadi dipakai dengan atribusi di aplikasi. Perlu ditinjau sebelum rilis publik.
+
+**Arsitektur**:
+- `FoodDataSource` (abstraksi; implementasi `TkpiAssetFoodDataSource`).
+- `NutritionRepository` (drift, DB v4 dengan tabel baru `custom_foods`, `food_logs` (indeks tanggal & makanan), dan `meal_plans`).
+- Domain murni: `Nutrients`, `FoodSearch`, `DayNutrition`, `MealPlanCandidates`, `MealPlanValidator`.
+
+**Food log**:
+- Sumber catatan: katalog, makanan dari label (`user_label`), atau kalori/makro manual (`manual`). Nilai gizi disalin saat dicatat.
+- Porsi dan waktu makan bisa diubah (dihitung ulang dari katalog), dan catatan bisa dihapus.
+- Ringkasan harian vs target dan sisa tampil di tab Nutrisi dan Home. Label estimasi muncul bila ada catatan non-sumber.
+- Ada pengingat minum air sebagai kebiasaan umum, tanpa angka anjuran.
+
+**Menu AI** (`meal_plan.v1`):
+- Kandidat bahan disaring deterministik sebelum dikirim: pola makan (vegetarian/vegan per kategori + kata kunci nama), alergi & tidak disukai (frasa nama), produk bayi, dan data tidak konsisten. AI hanya mengembalikan `code` + `grams`.
+- Validator menolak:
+  - kode di luar daftar;
+  - gram di luar 5–600;
+  - bahan yang dihindari;
+  - jumlah/slot waktu makan yang salah;
+  - total di luar batas: kcal ±10 %, protein 90–130 %, lemak/karbo ±30 %.
+- Total **dihitung aplikasi**. Retry maks. 1 dengan umpan balik berisi angka hitungan aplikasi. Hasil disimpan sebagai draft, ditinjau, lalu "Pakai".
+- Peringatan ditampilkan untuk riwayat gangguan makan dan pengecekan alergen (yang hanya berbasis nama). Log generasi tanpa data pribadi.
+- Data yang dikirim: target + preferensi makan saja.
+
+**Belum/ditunda**:
+- Uji live menu dengan key Gemini (butuh key pengguna; jalankan lewat Pengaturan AI).
+- URT/porsi rumah tangga terverifikasi.
+- Menu lebih dari 1 hari.
+- Grafik asupan vs target (Fase 6).
+
 ## 7. Keputusan & blocker
 
 **Diputuskan (19 Nov 2026):**

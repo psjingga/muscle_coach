@@ -14,6 +14,8 @@ abstract final class Routes {
   static const exercise = '/exercise';
   static const aiSettings = '/settings/ai';
   static const reminders = '/settings/reminders';
+  static const addFood = '/food/add';
+  static const mealPlan = '/meal-plan';
 
   static const home = '/home';
   static const workout = '/workout';
@@ -29,6 +31,10 @@ abstract final class Routes {
   static String dayPath(String planId, String dayId) => '$day/$planId/$dayId';
   static String sessionPath(String sessionId) => '$session/$sessionId';
   static String exercisePath(String exerciseId) => '$exercise/$exerciseId';
+  static String mealPlanPath(String id) => '$mealPlan/$id';
+
+  /// `/food/add?date=2026-11-20&meal=lunch`
+  static String addFoodPath(String date, String meal) => '$addFood?date=$date&meal=$meal';
 
   /// Rute yang boleh dibuka selama onboarding belum selesai.
   static bool isOnboardingRoute(String location) =>

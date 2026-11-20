@@ -2809,6 +2809,522 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Lihat detail lengkap'**
   String get exerciseOpenDetail;
+
+  /// No description provided for @save.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan'**
+  String get save;
+
+  /// No description provided for @nutritionToday.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari ini'**
+  String get nutritionToday;
+
+  /// No description provided for @nutritionPrevDay.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari sebelumnya'**
+  String get nutritionPrevDay;
+
+  /// No description provided for @nutritionNextDay.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari berikutnya'**
+  String get nutritionNextDay;
+
+  /// No description provided for @nutritionConsumed.
+  ///
+  /// In id, this message translates to:
+  /// **'Tercatat'**
+  String get nutritionConsumed;
+
+  /// No description provided for @nutritionRemaining.
+  ///
+  /// In id, this message translates to:
+  /// **'Sisa'**
+  String get nutritionRemaining;
+
+  /// No description provided for @nutritionOver.
+  ///
+  /// In id, this message translates to:
+  /// **'Lebih'**
+  String get nutritionOver;
+
+  /// No description provided for @nutritionOfTarget.
+  ///
+  /// In id, this message translates to:
+  /// **'dari {target}'**
+  String nutritionOfTarget(Object target);
+
+  /// No description provided for @nutritionKcalLeft.
+  ///
+  /// In id, this message translates to:
+  /// **'Sisa {kcal} kcal'**
+  String nutritionKcalLeft(Object kcal);
+
+  /// No description provided for @nutritionKcalOver.
+  ///
+  /// In id, this message translates to:
+  /// **'Lebih {kcal} kcal'**
+  String nutritionKcalOver(Object kcal);
+
+  /// No description provided for @nutritionMacroProgress.
+  ///
+  /// In id, this message translates to:
+  /// **'{got} / {target} g'**
+  String nutritionMacroProgress(Object got, Object target);
+
+  /// No description provided for @nutritionEstimateNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Angka gizi adalah estimasi dari TKPI per 100 g bagian yang dapat dimakan; porsi & cara masak bisa membuat nilainya berbeda.'**
+  String get nutritionEstimateNote;
+
+  /// No description provided for @nutritionHasEstimates.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebagian catatan memakai angka dari label/manual atau data sumber yang perlu dicek.'**
+  String get nutritionHasEstimates;
+
+  /// No description provided for @nutritionAddFood.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah'**
+  String get nutritionAddFood;
+
+  /// No description provided for @nutritionAddTo.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah ke {meal}'**
+  String nutritionAddTo(Object meal);
+
+  /// No description provided for @nutritionEmptyMeal.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada catatan'**
+  String get nutritionEmptyMeal;
+
+  /// No description provided for @nutritionWaterTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Minum air'**
+  String get nutritionWaterTitle;
+
+  /// No description provided for @nutritionWaterBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Biasakan minum air sepanjang hari, terutama saat latihan dan cuaca panas. Ini pengingat kebiasaan umum, bukan anjuran medis pribadi.'**
+  String get nutritionWaterBody;
+
+  /// No description provided for @nutritionHomeTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Nutrisi hari ini'**
+  String get nutritionHomeTitle;
+
+  /// No description provided for @nutritionHomeLog.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat makanan'**
+  String get nutritionHomeLog;
+
+  /// No description provided for @entryGrams.
+  ///
+  /// In id, this message translates to:
+  /// **'{grams} g'**
+  String entryGrams(Object grams);
+
+  /// No description provided for @entryMacros.
+  ///
+  /// In id, this message translates to:
+  /// **'P {p} · K {c} · L {f}'**
+  String entryMacros(Object p, Object c, Object f);
+
+  /// No description provided for @entryManual.
+  ///
+  /// In id, this message translates to:
+  /// **'manual'**
+  String get entryManual;
+
+  /// No description provided for @entryLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'label'**
+  String get entryLabel;
+
+  /// No description provided for @entryCheck.
+  ///
+  /// In id, this message translates to:
+  /// **'cek data'**
+  String get entryCheck;
+
+  /// No description provided for @entryDeleteTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus catatan?'**
+  String get entryDeleteTitle;
+
+  /// No description provided for @entryDeleted.
+  ///
+  /// In id, this message translates to:
+  /// **'Catatan dihapus'**
+  String get entryDeleted;
+
+  /// No description provided for @entrySaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Tersimpan'**
+  String get entrySaved;
+
+  /// No description provided for @foodSearchTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah makanan'**
+  String get foodSearchTitle;
+
+  /// No description provided for @foodSearchHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari makanan, mis. nasi, tempe, telur'**
+  String get foodSearchHint;
+
+  /// No description provided for @foodRecent.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir dicatat'**
+  String get foodRecent;
+
+  /// No description provided for @foodRecentEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Ketik nama makanan untuk mencari di Tabel Komposisi Pangan Indonesia (TKPI).'**
+  String get foodRecentEmpty;
+
+  /// No description provided for @foodNoResult.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ditemukan. Coba kata lain, atau tambahkan dari label kemasan.'**
+  String get foodNoResult;
+
+  /// No description provided for @foodPer100.
+  ///
+  /// In id, this message translates to:
+  /// **'{kcal} kcal / 100 g'**
+  String foodPer100(Object kcal);
+
+  /// No description provided for @foodCustomBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Milik saya'**
+  String get foodCustomBadge;
+
+  /// No description provided for @foodInconsistentBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Cek data'**
+  String get foodInconsistentBadge;
+
+  /// No description provided for @foodAddCustom.
+  ///
+  /// In id, this message translates to:
+  /// **'Makanan dari label kemasan'**
+  String get foodAddCustom;
+
+  /// No description provided for @foodAddManual.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat kalori/makro saja'**
+  String get foodAddManual;
+
+  /// No description provided for @foodSourceAttribution.
+  ///
+  /// In id, this message translates to:
+  /// **'Sumber: {name}, {publisher} (panganku.org). Data diambil {date}.'**
+  String foodSourceAttribution(Object name, Object publisher, Object date);
+
+  /// No description provided for @portionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Porsi'**
+  String get portionTitle;
+
+  /// No description provided for @portionGrams.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat (g)'**
+  String get portionGrams;
+
+  /// No description provided for @portionGramsError.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi 1–5000 g'**
+  String get portionGramsError;
+
+  /// No description provided for @portionMeal.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu makan'**
+  String get portionMeal;
+
+  /// No description provided for @portionEdible.
+  ///
+  /// In id, this message translates to:
+  /// **'Nilai per 100 g bagian yang dapat dimakan ({pct}%). Timbang tanpa kulit/tulang.'**
+  String portionEdible(Object pct);
+
+  /// No description provided for @portionInconsistent.
+  ///
+  /// In id, this message translates to:
+  /// **'Di sumber, energi makanan ini tidak cocok dengan protein/lemak/karbohidratnya. Angka tetap ditampilkan apa adanya — anggap sebagai perkiraan kasar.'**
+  String get portionInconsistent;
+
+  /// No description provided for @portionLast.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir {grams} g'**
+  String portionLast(Object grams);
+
+  /// No description provided for @customFoodTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Makanan dari label'**
+  String get customFoodTitle;
+
+  /// No description provided for @customFoodName.
+  ///
+  /// In id, this message translates to:
+  /// **'Nama makanan'**
+  String get customFoodName;
+
+  /// No description provided for @customFoodBasis.
+  ///
+  /// In id, this message translates to:
+  /// **'Nilai gizi per (g)'**
+  String get customFoodBasis;
+
+  /// No description provided for @customFoodBasisHelp.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi sesuai label, mis. \"per sajian 30 g\" → 30.'**
+  String get customFoodBasisHelp;
+
+  /// No description provided for @customFoodKcal.
+  ///
+  /// In id, this message translates to:
+  /// **'Energi (kcal)'**
+  String get customFoodKcal;
+
+  /// No description provided for @customFoodProtein.
+  ///
+  /// In id, this message translates to:
+  /// **'Protein (g)'**
+  String get customFoodProtein;
+
+  /// No description provided for @customFoodCarbs.
+  ///
+  /// In id, this message translates to:
+  /// **'Karbohidrat (g)'**
+  String get customFoodCarbs;
+
+  /// No description provided for @customFoodFat.
+  ///
+  /// In id, this message translates to:
+  /// **'Lemak (g)'**
+  String get customFoodFat;
+
+  /// No description provided for @customFoodRequired.
+  ///
+  /// In id, this message translates to:
+  /// **'Wajib diisi'**
+  String get customFoodRequired;
+
+  /// No description provided for @customFoodNumber.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi angka 0–5000'**
+  String get customFoodNumber;
+
+  /// No description provided for @customFoodMismatch.
+  ///
+  /// In id, this message translates to:
+  /// **'Energi pada label berbeda jauh dari hitungan makro (≈{kcal} kcal). Periksa lagi angkanya.'**
+  String customFoodMismatch(Object kcal);
+
+  /// No description provided for @customFoodSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Makanan disimpan'**
+  String get customFoodSaved;
+
+  /// No description provided for @customFoodDelete.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus makanan saya'**
+  String get customFoodDelete;
+
+  /// No description provided for @manualTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat kalori/makro'**
+  String get manualTitle;
+
+  /// No description provided for @manualName.
+  ///
+  /// In id, this message translates to:
+  /// **'Keterangan'**
+  String get manualName;
+
+  /// No description provided for @manualNameHint.
+  ///
+  /// In id, this message translates to:
+  /// **'mis. Nasi padang (perkiraan)'**
+  String get manualNameHint;
+
+  /// No description provided for @mealPlanTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Contoh menu harian'**
+  String get mealPlanTitle;
+
+  /// No description provided for @mealPlanEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada menu. AI bisa menyusun contoh menu dari bahan TKPI sesuai target dan preferensi makanmu.'**
+  String get mealPlanEmpty;
+
+  /// No description provided for @mealPlanGenerate.
+  ///
+  /// In id, this message translates to:
+  /// **'Susun menu dengan AI'**
+  String get mealPlanGenerate;
+
+  /// No description provided for @mealPlanRegenerate.
+  ///
+  /// In id, this message translates to:
+  /// **'Susun ulang'**
+  String get mealPlanRegenerate;
+
+  /// No description provided for @mealPlanGenerating.
+  ///
+  /// In id, this message translates to:
+  /// **'Menyusun menu dengan AI…'**
+  String get mealPlanGenerating;
+
+  /// No description provided for @mealPlanErrorTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Menu AI belum bisa disusun'**
+  String get mealPlanErrorTitle;
+
+  /// No description provided for @mealPlanErrorInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil AI tidak memenuhi target atau aturan aplikasi (dicoba 2 kali). Coba lagi.'**
+  String get mealPlanErrorInvalid;
+
+  /// No description provided for @mealPlanErrorQuota.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas penyusunan AI hari ini tercapai. Coba lagi besok.'**
+  String get mealPlanErrorQuota;
+
+  /// No description provided for @mealPlanAiLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi AI'**
+  String get mealPlanAiLabel;
+
+  /// No description provided for @mealPlanTotals.
+  ///
+  /// In id, this message translates to:
+  /// **'Total menu: {kcal} · P {p} g · K {c} g · L {f} g'**
+  String mealPlanTotals(Object kcal, Object p, Object c, Object f);
+
+  /// No description provided for @mealPlanVsTarget.
+  ///
+  /// In id, this message translates to:
+  /// **'Target: {kcal} · P {p} g · K {c} g · L {f} g'**
+  String mealPlanVsTarget(Object kcal, Object p, Object c, Object f);
+
+  /// No description provided for @mealPlanRecalc.
+  ///
+  /// In id, this message translates to:
+  /// **'Total dihitung aplikasi dari data TKPI × gram, bukan dari AI.'**
+  String get mealPlanRecalc;
+
+  /// No description provided for @mealPlanUse.
+  ///
+  /// In id, this message translates to:
+  /// **'Pakai menu ini'**
+  String get mealPlanUse;
+
+  /// No description provided for @mealPlanDiscard.
+  ///
+  /// In id, this message translates to:
+  /// **'Buang'**
+  String get mealPlanDiscard;
+
+  /// No description provided for @mealPlanActivated.
+  ///
+  /// In id, this message translates to:
+  /// **'Menu dipakai'**
+  String get mealPlanActivated;
+
+  /// No description provided for @mealPlanMarkEaten.
+  ///
+  /// In id, this message translates to:
+  /// **'Tandai dimakan'**
+  String get mealPlanMarkEaten;
+
+  /// No description provided for @mealPlanEaten.
+  ///
+  /// In id, this message translates to:
+  /// **'Sudah dicatat'**
+  String get mealPlanEaten;
+
+  /// No description provided for @mealPlanUndoEaten.
+  ///
+  /// In id, this message translates to:
+  /// **'Batalkan'**
+  String get mealPlanUndoEaten;
+
+  /// No description provided for @mealPlanEatenSnack.
+  ///
+  /// In id, this message translates to:
+  /// **'{meal} dicatat ke hari ini'**
+  String mealPlanEatenSnack(Object meal);
+
+  /// No description provided for @mealPlanOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat menu'**
+  String get mealPlanOpen;
+
+  /// No description provided for @mealPlanWarnEatingDisorder.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu mencatat riwayat gangguan makan. Gunakan menu ini hanya sebagai gambaran dan diskusikan pola makanmu dengan tenaga kesehatan.'**
+  String get mealPlanWarnEatingDisorder;
+
+  /// No description provided for @mealPlanWarnAllergy.
+  ///
+  /// In id, this message translates to:
+  /// **'Aplikasi hanya memeriksa alergen dari nama bahan. Selalu cek sendiri bahan & bumbu yang dipakai.'**
+  String get mealPlanWarnAllergy;
+
+  /// No description provided for @mealPlanWarnInconsistent.
+  ///
+  /// In id, this message translates to:
+  /// **'Ada bahan yang angka sumbernya perlu dicek; totalnya bisa kurang tepat.'**
+  String get mealPlanWarnInconsistent;
+
+  /// No description provided for @mealPlanModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Disusun oleh {model} · {version}'**
+  String mealPlanModel(Object model, Object version);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

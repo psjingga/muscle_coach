@@ -43,6 +43,18 @@ APK release saat ini ditandatangani dengan kunci debug (cukup untuk pemakaian pr
 - Batasi key di Google AI Studio / Cloud Console (hanya *Generative Language API*, pasang kuota). Tier gratis: Google dapat memakai isi permintaan untuk meningkatkan produknya.
 - Model default `gemini-3.5-flash-lite` (dapat diganti di Pengaturan). Prompt berversi di `lib/features/ai_coach/domain/prompts/`; output selalu divalidasi dan disimpan sebagai **draft** yang harus disetujui.
 
+## Nutrisi & data makanan
+
+- **Tab Nutrisi**: asupan per hari (sarapan, makan siang, makan malam, snack) dibandingkan target kalori & makro, beserta sisa target. Hari sebelumnya bisa dilihat. Catatan bisa diketuk untuk mengubah porsi, memindahkan waktu makan, atau menghapus.
+- **Tambah makanan**: cari di katalog TKPI, atau masukkan makanan dari **label kemasan** (nilai per sajian otomatis diubah ke per 100 g), atau **catat kalori/makro saja**. Nilai gizi disalin ke catatan saat dicatat, jadi riwayat tidak berubah bila katalog diperbarui.
+- **Contoh menu (AI)**: Gemini memilih bahan **hanya** dari katalog TKPI dan menentukan gramnya. Aplikasi menghitung ulang total dari katalog × gram, menolak menu yang meleset dari target (kcal ±10 %, protein 90–130 %, lemak & karbohidrat ±30 %), dan menyaring pola makan, alergi, serta makanan yang tidak disukai **sebelum** daftar bahan dikirim. Retry maksimal 1 kali. Menu disimpan sebagai draft dan baru dipakai setelah disetujui. Tiap waktu makan di menu bisa ditandai "dimakan" dan langsung tercatat. Yang dikirim ke AI hanya target & preferensi makan, tanpa nama, umur, berat, atau kondisi medis.
+- **Sumber data**: [Tabel Komposisi Pangan Indonesia (TKPI)](https://www.panganku.org), Kementerian Kesehatan RI. Dipakai snapshot 1.146 baris dari [nichsedge/indoscraping](https://github.com/nichsedge/indoscraping/releases/tag/dataset-panganku-latest) (rilis 28 Okt 2026), disalin ke `tool/food_catalog/source/panganku.csv`. Hash sha256 tercatat di katalog. Semua nilai per 100 g bagian yang dapat dimakan (BDD).
+  - Angka tidak diubah. Yang dilakukan hanya pembulatan float hasil scraping dan perapian spasi nama.
+  - 2 baris tanpa makro lengkap (Melase, Salak segar) **tidak dimasukkan**.
+  - 16 baris yang energinya jauh berbeda dari 4/4/9 × makro ditandai **"cek data"** di aplikasi dan tidak dipakai AI.
+  - Lisensi: TKPI adalah publikasi pemerintah tanpa lisensi terbuka yang eksplisit. Untuk penggunaan pribadi ini dipakai dengan atribusi. **Tinjau ketentuannya sebelum rilis publik/komersial.**
+- Membangun ulang katalog: `python3 tool/food_catalog/build_tkpi_catalog.py` → `assets/catalog/foods_tkpi.json`.
+
 ## Pengingat (notifikasi lokal)
 
 - **Profil → Pengingat**: aktifkan, atur jam latihan (hari mengikuti program aktif), makan, timbang, check-in, dan jam tenang. Izin notifikasi diminta di sini dengan penjelasan — tidak saat aplikasi dibuka.

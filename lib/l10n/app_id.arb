@@ -723,8 +723,12 @@
   "exercisePhotoSemantics": "Foto gerakan {name}, fase {frame}",
   "@exercisePhotoSemantics": {
     "placeholders": {
-      "name": {"type": "String"},
-      "frame": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "frame": {
+        "type": "String"
+      }
     }
   },
   "playMotion": "Putar gerakan",
@@ -735,11 +739,193 @@
   "muscleMapSemantics": "Peta otot. Otot utama: {primary}. Otot pendukung: {secondary}.",
   "@muscleMapSemantics": {
     "placeholders": {
-      "primary": {"type": "String"},
-      "secondary": {"type": "String"}
+      "primary": {
+        "type": "String"
+      },
+      "secondary": {
+        "type": "String"
+      }
     }
   },
   "noneLabel": "tidak ada",
   "exerciseQuickViewHint": "Ketuk gambar untuk melihat gerakan",
-  "exerciseOpenDetail": "Lihat detail lengkap"
+  "exerciseOpenDetail": "Lihat detail lengkap",
+  "save": "Simpan",
+  "nutritionToday": "Hari ini",
+  "nutritionPrevDay": "Hari sebelumnya",
+  "nutritionNextDay": "Hari berikutnya",
+  "nutritionConsumed": "Tercatat",
+  "nutritionRemaining": "Sisa",
+  "nutritionOver": "Lebih",
+  "nutritionOfTarget": "dari {target}",
+  "@nutritionOfTarget": {
+    "placeholders": {
+      "target": {}
+    }
+  },
+  "nutritionKcalLeft": "Sisa {kcal} kcal",
+  "@nutritionKcalLeft": {
+    "placeholders": {
+      "kcal": {}
+    }
+  },
+  "nutritionKcalOver": "Lebih {kcal} kcal",
+  "@nutritionKcalOver": {
+    "placeholders": {
+      "kcal": {}
+    }
+  },
+  "nutritionMacroProgress": "{got} / {target} g",
+  "@nutritionMacroProgress": {
+    "placeholders": {
+      "got": {},
+      "target": {}
+    }
+  },
+  "nutritionEstimateNote": "Angka gizi adalah estimasi dari TKPI per 100 g bagian yang dapat dimakan; porsi & cara masak bisa membuat nilainya berbeda.",
+  "nutritionHasEstimates": "Sebagian catatan memakai angka dari label/manual atau data sumber yang perlu dicek.",
+  "nutritionAddFood": "Tambah",
+  "nutritionAddTo": "Tambah ke {meal}",
+  "@nutritionAddTo": {
+    "placeholders": {
+      "meal": {}
+    }
+  },
+  "nutritionEmptyMeal": "Belum ada catatan",
+  "nutritionWaterTitle": "Minum air",
+  "nutritionWaterBody": "Biasakan minum air sepanjang hari, terutama saat latihan dan cuaca panas. Ini pengingat kebiasaan umum, bukan anjuran medis pribadi.",
+  "nutritionHomeTitle": "Nutrisi hari ini",
+  "nutritionHomeLog": "Catat makanan",
+  "entryGrams": "{grams} g",
+  "@entryGrams": {
+    "placeholders": {
+      "grams": {}
+    }
+  },
+  "entryMacros": "P {p} · K {c} · L {f}",
+  "@entryMacros": {
+    "placeholders": {
+      "p": {},
+      "c": {},
+      "f": {}
+    }
+  },
+  "entryManual": "manual",
+  "entryLabel": "label",
+  "entryCheck": "cek data",
+  "entryDeleteTitle": "Hapus catatan?",
+  "entryDeleted": "Catatan dihapus",
+  "entrySaved": "Tersimpan",
+  "foodSearchTitle": "Tambah makanan",
+  "foodSearchHint": "Cari makanan, mis. nasi, tempe, telur",
+  "foodRecent": "Terakhir dicatat",
+  "foodRecentEmpty": "Ketik nama makanan untuk mencari di Tabel Komposisi Pangan Indonesia (TKPI).",
+  "foodNoResult": "Tidak ditemukan. Coba kata lain, atau tambahkan dari label kemasan.",
+  "foodPer100": "{kcal} kcal / 100 g",
+  "@foodPer100": {
+    "placeholders": {
+      "kcal": {}
+    }
+  },
+  "foodCustomBadge": "Milik saya",
+  "foodInconsistentBadge": "Cek data",
+  "foodAddCustom": "Makanan dari label kemasan",
+  "foodAddManual": "Catat kalori/makro saja",
+  "foodSourceAttribution": "Sumber: {name}, {publisher} (panganku.org). Data diambil {date}.",
+  "@foodSourceAttribution": {
+    "placeholders": {
+      "name": {},
+      "publisher": {},
+      "date": {}
+    }
+  },
+  "portionTitle": "Porsi",
+  "portionGrams": "Berat (g)",
+  "portionGramsError": "Isi 1–5000 g",
+  "portionMeal": "Waktu makan",
+  "portionEdible": "Nilai per 100 g bagian yang dapat dimakan ({pct}%). Timbang tanpa kulit/tulang.",
+  "@portionEdible": {
+    "placeholders": {
+      "pct": {}
+    }
+  },
+  "portionInconsistent": "Di sumber, energi makanan ini tidak cocok dengan protein/lemak/karbohidratnya. Angka tetap ditampilkan apa adanya — anggap sebagai perkiraan kasar.",
+  "portionLast": "Terakhir {grams} g",
+  "@portionLast": {
+    "placeholders": {
+      "grams": {}
+    }
+  },
+  "customFoodTitle": "Makanan dari label",
+  "customFoodName": "Nama makanan",
+  "customFoodBasis": "Nilai gizi per (g)",
+  "customFoodBasisHelp": "Isi sesuai label, mis. \"per sajian 30 g\" → 30.",
+  "customFoodKcal": "Energi (kcal)",
+  "customFoodProtein": "Protein (g)",
+  "customFoodCarbs": "Karbohidrat (g)",
+  "customFoodFat": "Lemak (g)",
+  "customFoodRequired": "Wajib diisi",
+  "customFoodNumber": "Isi angka 0–5000",
+  "customFoodMismatch": "Energi pada label berbeda jauh dari hitungan makro (≈{kcal} kcal). Periksa lagi angkanya.",
+  "@customFoodMismatch": {
+    "placeholders": {
+      "kcal": {}
+    }
+  },
+  "customFoodSaved": "Makanan disimpan",
+  "customFoodDelete": "Hapus makanan saya",
+  "manualTitle": "Catat kalori/makro",
+  "manualName": "Keterangan",
+  "manualNameHint": "mis. Nasi padang (perkiraan)",
+  "mealPlanTitle": "Contoh menu harian",
+  "mealPlanEmpty": "Belum ada menu. AI bisa menyusun contoh menu dari bahan TKPI sesuai target dan preferensi makanmu.",
+  "mealPlanGenerate": "Susun menu dengan AI",
+  "mealPlanRegenerate": "Susun ulang",
+  "mealPlanGenerating": "Menyusun menu dengan AI…",
+  "mealPlanErrorTitle": "Menu AI belum bisa disusun",
+  "mealPlanErrorInvalid": "Hasil AI tidak memenuhi target atau aturan aplikasi (dicoba 2 kali). Coba lagi.",
+  "mealPlanErrorQuota": "Batas penyusunan AI hari ini tercapai. Coba lagi besok.",
+  "mealPlanAiLabel": "Estimasi AI",
+  "mealPlanTotals": "Total menu: {kcal} · P {p} g · K {c} g · L {f} g",
+  "@mealPlanTotals": {
+    "placeholders": {
+      "kcal": {},
+      "p": {},
+      "c": {},
+      "f": {}
+    }
+  },
+  "mealPlanVsTarget": "Target: {kcal} · P {p} g · K {c} g · L {f} g",
+  "@mealPlanVsTarget": {
+    "placeholders": {
+      "kcal": {},
+      "p": {},
+      "c": {},
+      "f": {}
+    }
+  },
+  "mealPlanRecalc": "Total dihitung aplikasi dari data TKPI × gram, bukan dari AI.",
+  "mealPlanUse": "Pakai menu ini",
+  "mealPlanDiscard": "Buang",
+  "mealPlanActivated": "Menu dipakai",
+  "mealPlanMarkEaten": "Tandai dimakan",
+  "mealPlanEaten": "Sudah dicatat",
+  "mealPlanUndoEaten": "Batalkan",
+  "mealPlanEatenSnack": "{meal} dicatat ke hari ini",
+  "@mealPlanEatenSnack": {
+    "placeholders": {
+      "meal": {}
+    }
+  },
+  "mealPlanOpen": "Lihat menu",
+  "mealPlanWarnEatingDisorder": "Kamu mencatat riwayat gangguan makan. Gunakan menu ini hanya sebagai gambaran dan diskusikan pola makanmu dengan tenaga kesehatan.",
+  "mealPlanWarnAllergy": "Aplikasi hanya memeriksa alergen dari nama bahan. Selalu cek sendiri bahan & bumbu yang dipakai.",
+  "mealPlanWarnInconsistent": "Ada bahan yang angka sumbernya perlu dicek; totalnya bisa kurang tepat.",
+  "mealPlanModel": "Disusun oleh {model} · {version}",
+  "@mealPlanModel": {
+    "placeholders": {
+      "model": {},
+      "version": {}
+    }
+  }
 }

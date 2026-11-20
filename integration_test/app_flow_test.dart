@@ -166,7 +166,7 @@ void main() {
     await tapOn(find.widgetWithText(FilledButton, 'Konfirmasi target'));
     // Penanda khusus Beranda (kartu target nutrisi juga ada di layar ringkasan).
     await waitFor(find.textContaining('Belum ada program latihan'));
-    await waitFor(find.text('Target nutrisi harian'));
+    await waitFor(find.byKey(const ValueKey('home-log-food')));
     debugPrint('E2E: target aktif & beranda tampil');
 
     // Program latihan awal (Cloud Function createStarterPlan → activateWorkoutPlan)
@@ -235,6 +235,31 @@ void main() {
       await tapOn(find.byType(BackButton));
     }
 
+    // Nutrisi: catat 150 g nasi (TKPI AP001 = 180 kcal/100 g) → 270 kcal.
+    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Nutrisi')));
+    await waitFor(find.byKey(const ValueKey('add-lunch')));
+    await shot('nutrisi-kosong');
+    await tapOn(find.byKey(const ValueKey('add-lunch')));
+    await waitFor(find.byKey(const ValueKey('food-search')));
+    await tester.enterText(find.byKey(const ValueKey('food-search')), 'nasi');
+    await waitFor(find.byKey(const ValueKey('food-tkpi:AP001')));
+    await hideKeyboard();
+    await shot('cari-makanan');
+    await tapOn(find.byKey(const ValueKey('food-tkpi:AP001')));
+    await waitFor(find.byKey(const ValueKey('portion-grams')));
+    await tester.enterText(find.byKey(const ValueKey('portion-grams')), '150');
+    await hideKeyboard();
+    await waitFor(find.text('270 kcal'));
+    await shot('porsi');
+    await tapOn(find.byKey(const ValueKey('portion-save')));
+    await waitFor(find.text('Makan siang · 270 kcal'));
+    await shot('nutrisi-tercatat');
+    debugPrint('E2E: makanan tercatat (270 kcal)');
+    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Beranda')));
+    await waitFor(find.byKey(const ValueKey('home-log-food')));
+    expect(find.text('270 kcal'), findsWidgets);
+    await shot('beranda-nutrisi');
+
     // Program dari Gemini (opsional: --dart-define=GEMINI_API_KEY=...).
     const geminiKey = String.fromEnvironment('GEMINI_API_KEY');
     if (geminiKey.isNotEmpty) {
@@ -260,6 +285,14 @@ void main() {
       await tapOn(find.widgetWithText(FilledButton, 'Ganti'));
       await waitFor(find.byType(NavigationBar));
       debugPrint('E2E: program AI aktif');
+
+      await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Nutrisi')));
+      await tapOn(find.byKey(const ValueKey('meal-plan-generate')));
+      await waitFor(find.byKey(const ValueKey('meal-plan-use')), seconds: 150);
+      await shot('menu-ai');
+      await tapOn(find.byKey(const ValueKey('meal-plan-use')));
+      await waitFor(find.byKey(const ValueKey('plan-log-0')));
+      debugPrint('E2E: menu AI dipakai');
     }
 
     // Pengingat lokal: aktifkan, cek jadwal, kirim notifikasi uji.

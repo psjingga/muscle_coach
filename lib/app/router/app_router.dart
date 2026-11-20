@@ -9,7 +9,11 @@ import '../../features/dashboard/presentation/screens/home_screen.dart';
 import '../../features/reminders/presentation/screens/notification_settings_screen.dart';
 import '../../features/exercise_library/presentation/screens/exercise_screens.dart';
 import '../../features/goals/presentation/screens/goal_review_screen.dart';
+import '../../features/nutrition/domain/food_log.dart';
+import '../../features/nutrition/presentation/screens/add_food_screen.dart';
+import '../../features/nutrition/presentation/screens/meal_plan_screen.dart';
 import '../../features/nutrition/presentation/screens/nutrition_screen.dart';
+import '../../core/utils/formatters.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/profile/presentation/providers/profile_providers.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
@@ -71,6 +75,17 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '${Routes.exercise}/:exerciseId',
         builder: (_, s) => ExerciseDetailScreen(exerciseId: s.pathParameters['exerciseId']!),
+      ),
+      GoRoute(
+        path: Routes.addFood,
+        builder: (_, s) => AddFoodScreen(
+          date: s.uri.queryParameters['date'] ?? Fmt.toIsoDate(DateTime.now()),
+          meal: MealSlot.values.asNameMap()[s.uri.queryParameters['meal']] ?? MealSlot.snack,
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.mealPlan}/:id',
+        builder: (_, s) => MealPlanScreen(planId: s.pathParameters['id']!),
       ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),

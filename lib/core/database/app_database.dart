@@ -198,6 +198,77 @@ class AppSettings extends Table {
   Set<Column> get primaryKey => {key};
 }
 
+/// Makanan yang dimasukkan pengguna dari label kemasan (nilai per 100 g).
+@DataClassName('CustomFoodRow')
+class CustomFoods extends Table {
+  TextColumn get id => text()();
+  TextColumn get name => text()();
+  RealColumn get kcal => real()();
+  RealColumn get protein => real()();
+  RealColumn get carbs => real()();
+  RealColumn get fat => real()();
+
+  /// Ukuran porsi pada label (g), untuk isian bawaan.
+  RealColumn get servingGrams => real().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Catatan makanan. Nilai gizi = salinan saat dicatat (kcal & gram).
+@DataClassName('FoodLogRow')
+class FoodLogs extends Table {
+  TextColumn get id => text()();
+
+  /// Tanggal lokal `YYYY-MM-DD`.
+  TextColumn get date => text()();
+
+  /// breakfast | lunch | dinner | snack
+  TextColumn get meal => text()();
+
+  /// `tkpi:<kode>` / `custom:<id>`; null = catatan manual.
+  TextColumn get foodId => text().nullable()();
+  TextColumn get name => text()();
+  RealColumn get grams => real().nullable()();
+  RealColumn get kcal => real()();
+  RealColumn get protein => real()();
+  RealColumn get carbs => real()();
+  RealColumn get fat => real()();
+
+  /// source | inconsistent | user_label | manual
+  TextColumn get quality => text()();
+
+  /// `<mealPlanId>:<indeks waktu makan>` bila dicatat dari menu.
+  TextColumn get planRef => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Contoh menu harian (AI, sudah divalidasi). Isi menu di kolom `data`.
+@DataClassName('MealPlanRow')
+class MealPlans extends Table {
+  TextColumn get id => text()();
+
+  /// draft | active | archived
+  TextColumn get status => text()();
+  TextColumn get source => text()();
+  TextColumn get data => text()();
+  TextColumn get model => text().nullable()();
+  TextColumn get promptVersion => text()();
+  TextColumn get catalogVersion => text()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get activatedAt => dateTime().nullable()();
+  DateTimeColumn get archivedAt => dateTime().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     ProfileState,
@@ -211,13 +282,16 @@ class AppSettings extends Table {
     SetLogs,
     AiGenerationLogs,
     AppSettings,
+    CustomFoods,
+    FoodLogs,
+    MealPlans,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'musclecoach'));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -230,6 +304,7 @@ class AppDatabase extends _$AppDatabase {
         'CREATE INDEX idx_sessions_plan_day ON workout_sessions (plan_id, day_id, status, date DESC)',
       );
       await customStatement('CREATE INDEX idx_sets_session ON set_logs (session_id)');
+      await _createFoodLogIndexes();
     },
     onUpgrade: (m, from, to) async {
       if (from < 2) {
@@ -242,11 +317,25 @@ class AppDatabase extends _$AppDatabase {
         // Pengingat lokal: preferensi notifikasi.
         await m.createTable(appSettings);
       }
+      if (from < 4) {
+        // Fase 5: nutrisi.
+        await m.createTable(customFoods);
+        await m.createTable(foodLogs);
+        await m.createTable(mealPlans);
+        await _createFoodLogIndexes();
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     },
   );
+
+  Future<void> _createFoodLogIndexes() async {
+    await customStatement('CREATE INDEX idx_food_logs_date ON food_logs (date, created_at)');
+    await customStatement(
+      'CREATE INDEX idx_food_logs_food ON food_logs (food_id, created_at DESC)',
+    );
+  }
 
   /// Hapus seluruh data pengguna (tabel tetap ada).
   Future<void> wipeAll() => transaction(() async {

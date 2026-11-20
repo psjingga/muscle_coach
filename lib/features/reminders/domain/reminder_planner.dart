@@ -134,7 +134,7 @@ abstract final class ReminderPlanner {
           '/progress',
         );
       }
-      add(ReminderCategory.dailyCheckIn, 'checkin', date, settings.dailyCheckIn, '/home');
+      add(ReminderCategory.dailyCheckIn, 'checkin', date, settings.dailyCheckIn, '/check-in/$iso');
     }
 
     result.sort((a, b) => a.when.compareTo(b.when));

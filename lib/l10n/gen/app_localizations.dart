@@ -3325,6 +3325,624 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Disusun oleh {model} · {version}'**
   String mealPlanModel(Object model, Object version);
+
+  /// No description provided for @weightTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat badan'**
+  String get weightTitle;
+
+  /// No description provided for @weightNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat badan bukan massa otot. Nilai dinilai dari rata-rata mingguan, bukan satu penimbangan.'**
+  String get weightNote;
+
+  /// No description provided for @weightLog.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat berat'**
+  String get weightLog;
+
+  /// No description provided for @weightLatest.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir {kg} kg · {date}'**
+  String weightLatest(Object kg, Object date);
+
+  /// No description provided for @weightAvg7.
+  ///
+  /// In id, this message translates to:
+  /// **'Rata-rata 7 hari {kg} kg'**
+  String weightAvg7(Object kg);
+
+  /// No description provided for @weightEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada penimbangan. Timbang 2–3× per minggu pada kondisi yang sama (mis. pagi setelah ke toilet).'**
+  String get weightEmpty;
+
+  /// No description provided for @weightSheetTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat berat badan'**
+  String get weightSheetTitle;
+
+  /// No description provided for @weightField.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat (kg)'**
+  String get weightField;
+
+  /// No description provided for @weightDate.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanggal'**
+  String get weightDate;
+
+  /// No description provided for @weightRangeError.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi 25–400 kg'**
+  String get weightRangeError;
+
+  /// No description provided for @weightSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat tersimpan'**
+  String get weightSaved;
+
+  /// No description provided for @weightDeleteTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus penimbangan {date}?'**
+  String weightDeleteTitle(Object date);
+
+  /// No description provided for @goalStatusTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Status target'**
+  String get goalStatusTitle;
+
+  /// No description provided for @goalStatusInsufficient.
+  ///
+  /// In id, this message translates to:
+  /// **'Data belum cukup'**
+  String get goalStatusInsufficient;
+
+  /// No description provided for @goalStatusInsufficientBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Butuh minimal 2 minggu berurutan dengan ≥ 2 penimbangan per minggu sebelum tren bisa dinilai.'**
+  String get goalStatusInsufficientBody;
+
+  /// No description provided for @goalStatusOnTrack.
+  ///
+  /// In id, this message translates to:
+  /// **'On track'**
+  String get goalStatusOnTrack;
+
+  /// No description provided for @goalStatusOnTrackBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Perubahan rata-rata minggu lalu {change} kg, dalam rentang yang diharapkan ({min}–{max} kg/minggu).'**
+  String goalStatusOnTrackBody(Object change, Object min, Object max);
+
+  /// No description provided for @goalStatusReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Perlu evaluasi'**
+  String get goalStatusReview;
+
+  /// No description provided for @goalStatusReviewBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Perubahan rata-rata minggu lalu {change} kg, di luar rentang {min}–{max} kg/minggu. Pantau satu minggu lagi sebelum mengubah apa pun.'**
+  String goalStatusReviewBody(Object change, Object min, Object max);
+
+  /// No description provided for @goalStatusAdjust.
+  ///
+  /// In id, this message translates to:
+  /// **'Target perlu disesuaikan'**
+  String get goalStatusAdjust;
+
+  /// No description provided for @goalStatusAdjustBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Dua minggu berturut-turut perubahan berat di luar rentang {min}–{max} kg/minggu. Lihat usulan di ringkasan mingguan.'**
+  String goalStatusAdjustBody(Object min, Object max);
+
+  /// No description provided for @intakeChartTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Asupan vs target (14 hari)'**
+  String get intakeChartTitle;
+
+  /// No description provided for @intakeChartEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada catatan makan.'**
+  String get intakeChartEmpty;
+
+  /// No description provided for @intakeChartLegend.
+  ///
+  /// In id, this message translates to:
+  /// **'Batang = kalori tercatat · garis = target {kcal}'**
+  String intakeChartLegend(Object kcal);
+
+  /// No description provided for @volumeChartTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Volume latihan per minggu'**
+  String get volumeChartTitle;
+
+  /// No description provided for @volumeChartNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Volume = beban × repetisi dari set yang selesai (set berbasis waktu tidak dihitung).'**
+  String get volumeChartNote;
+
+  /// No description provided for @volumeChartEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada sesi selesai.'**
+  String get volumeChartEmpty;
+
+  /// No description provided for @volumeWeek.
+  ///
+  /// In id, this message translates to:
+  /// **'{sessions} sesi'**
+  String volumeWeek(Object sessions);
+
+  /// No description provided for @exerciseChartTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Progres per gerakan'**
+  String get exerciseChartTitle;
+
+  /// No description provided for @exerciseChartHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Set terberat per sesi'**
+  String get exerciseChartHint;
+
+  /// No description provided for @exerciseChartEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada set berbeban yang tercatat.'**
+  String get exerciseChartEmpty;
+
+  /// No description provided for @exerciseChartLatest.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir {kg} kg × {reps}'**
+  String exerciseChartLatest(Object kg, Object reps);
+
+  /// No description provided for @milestonesTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pencapaian'**
+  String get milestonesTitle;
+
+  /// No description provided for @milestoneSessions.
+  ///
+  /// In id, this message translates to:
+  /// **'{n} sesi selesai'**
+  String milestoneSessions(Object n);
+
+  /// No description provided for @milestoneSets.
+  ///
+  /// In id, this message translates to:
+  /// **'{n} set tercatat'**
+  String milestoneSets(Object n);
+
+  /// No description provided for @milestoneStreak.
+  ///
+  /// In id, this message translates to:
+  /// **'{n} minggu berturut-turut latihan'**
+  String milestoneStreak(Object n);
+
+  /// No description provided for @milestoneWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat {change} kg sejak awal (rata-rata mingguan)'**
+  String milestoneWeight(Object change);
+
+  /// No description provided for @checkInTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in harian'**
+  String get checkInTitle;
+
+  /// No description provided for @checkInToday.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in hari ini'**
+  String get checkInToday;
+
+  /// No description provided for @checkInDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in hari ini sudah diisi'**
+  String get checkInDone;
+
+  /// No description provided for @checkInPrompt.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat tidur, energi, dan kendala hari ini (1 menit).'**
+  String get checkInPrompt;
+
+  /// No description provided for @checkInOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi check-in'**
+  String get checkInOpen;
+
+  /// No description provided for @checkInEdit.
+  ///
+  /// In id, this message translates to:
+  /// **'Ubah'**
+  String get checkInEdit;
+
+  /// No description provided for @checkInWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat badan (kg, opsional)'**
+  String get checkInWeight;
+
+  /// No description provided for @checkInSleep.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidur semalam (jam)'**
+  String get checkInSleep;
+
+  /// No description provided for @checkInEnergy.
+  ///
+  /// In id, this message translates to:
+  /// **'Energi'**
+  String get checkInEnergy;
+
+  /// No description provided for @checkInMood.
+  ///
+  /// In id, this message translates to:
+  /// **'Suasana hati (opsional)'**
+  String get checkInMood;
+
+  /// No description provided for @checkInScaleLow.
+  ///
+  /// In id, this message translates to:
+  /// **'rendah'**
+  String get checkInScaleLow;
+
+  /// No description provided for @checkInScaleHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'baik'**
+  String get checkInScaleHigh;
+
+  /// No description provided for @checkInDiscomfort.
+  ///
+  /// In id, this message translates to:
+  /// **'Nyeri/tidak nyaman saat latihan (opsional)'**
+  String get checkInDiscomfort;
+
+  /// No description provided for @checkInNotes.
+  ///
+  /// In id, this message translates to:
+  /// **'Catatan kendala (opsional)'**
+  String get checkInNotes;
+
+  /// No description provided for @checkInWorkoutDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan hari ini: selesai ✓'**
+  String get checkInWorkoutDone;
+
+  /// No description provided for @checkInWorkoutNone.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan hari ini: belum ada sesi selesai'**
+  String get checkInWorkoutNone;
+
+  /// No description provided for @checkInIntake.
+  ///
+  /// In id, this message translates to:
+  /// **'Makan tercatat: {kcal} dari {target}'**
+  String checkInIntake(Object kcal, Object target);
+
+  /// No description provided for @checkInSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in tersimpan'**
+  String get checkInSaved;
+
+  /// No description provided for @checkInSleepError.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi 0–24 jam'**
+  String get checkInSleepError;
+
+  /// No description provided for @checkInDiscomfortWarning.
+  ///
+  /// In id, this message translates to:
+  /// **'Bila nyeri tajam, bengkak, atau tidak membaik, hentikan gerakan pemicunya dan konsultasikan ke tenaga kesehatan.'**
+  String get checkInDiscomfortWarning;
+
+  /// No description provided for @weeklyTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan mingguan'**
+  String get weeklyTitle;
+
+  /// No description provided for @weeklyOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat ringkasan minggu lalu'**
+  String get weeklyOpen;
+
+  /// No description provided for @weeklyThisWeek.
+  ///
+  /// In id, this message translates to:
+  /// **'Minggu ini (berjalan)'**
+  String get weeklyThisWeek;
+
+  /// No description provided for @weeklyRange.
+  ///
+  /// In id, this message translates to:
+  /// **'{start} – {end}'**
+  String weeklyRange(Object start, Object end);
+
+  /// No description provided for @weeklyPrev.
+  ///
+  /// In id, this message translates to:
+  /// **'Minggu sebelumnya'**
+  String get weeklyPrev;
+
+  /// No description provided for @weeklyNext.
+  ///
+  /// In id, this message translates to:
+  /// **'Minggu berikutnya'**
+  String get weeklyNext;
+
+  /// No description provided for @weeklyNoData.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada data pada minggu ini.'**
+  String get weeklyNoData;
+
+  /// No description provided for @weeklyWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat rata-rata'**
+  String get weeklyWeight;
+
+  /// No description provided for @weeklyWeightValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{kg} kg ({n}× timbang)'**
+  String weeklyWeightValue(Object kg, Object n);
+
+  /// No description provided for @weeklyWeightChange.
+  ///
+  /// In id, this message translates to:
+  /// **'{change} kg dari minggu sebelumnya'**
+  String weeklyWeightChange(Object change);
+
+  /// No description provided for @weeklyWeightMissing.
+  ///
+  /// In id, this message translates to:
+  /// **'Kurang dari 2 penimbangan'**
+  String get weeklyWeightMissing;
+
+  /// No description provided for @weeklyTraining.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan'**
+  String get weeklyTraining;
+
+  /// No description provided for @weeklyTrainingValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{done} dari {planned} sesi · {sets} set'**
+  String weeklyTrainingValue(Object done, Object planned, Object sets);
+
+  /// No description provided for @weeklyTrainingNoPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'{done} sesi · {sets} set'**
+  String weeklyTrainingNoPlan(Object done, Object sets);
+
+  /// No description provided for @weeklyVolume.
+  ///
+  /// In id, this message translates to:
+  /// **'Volume {kg} kg'**
+  String weeklyVolume(Object kg);
+
+  /// No description provided for @weeklyVolumeChange.
+  ///
+  /// In id, this message translates to:
+  /// **'{pct}% dari minggu sebelumnya'**
+  String weeklyVolumeChange(Object pct);
+
+  /// No description provided for @weeklyIntake.
+  ///
+  /// In id, this message translates to:
+  /// **'Makan'**
+  String get weeklyIntake;
+
+  /// No description provided for @weeklyIntakeValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{days} hari tercatat · rata-rata {kcal} ({pct}% target)'**
+  String weeklyIntakeValue(Object days, Object kcal, Object pct);
+
+  /// No description provided for @weeklyIntakeNone.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada catatan makan'**
+  String get weeklyIntakeNone;
+
+  /// No description provided for @weeklyProtein.
+  ///
+  /// In id, this message translates to:
+  /// **'Protein rata-rata {g} g dari {target} g'**
+  String weeklyProtein(Object g, Object target);
+
+  /// No description provided for @weeklyRecovery.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemulihan'**
+  String get weeklyRecovery;
+
+  /// No description provided for @weeklyRecoveryValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{n} check-in · tidur {sleep} jam · energi {energy}/5'**
+  String weeklyRecoveryValue(Object n, Object sleep, Object energy);
+
+  /// No description provided for @weeklyRecoveryNone.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada check-in'**
+  String get weeklyRecoveryNone;
+
+  /// No description provided for @weeklyDiscomfort.
+  ///
+  /// In id, this message translates to:
+  /// **'Keluhan nyeri pada {n} hari'**
+  String weeklyDiscomfort(Object n);
+
+  /// No description provided for @adjustTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Usulan penyesuaian target'**
+  String get adjustTitle;
+
+  /// No description provided for @adjustUp.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat naik lebih lambat dari rentang yang diharapkan selama 2 minggu, dengan makan tercatat konsisten. Usulan: naikkan target {delta} kcal (karbohidrat +{carbs} g) → {kcal}.'**
+  String adjustUp(Object delta, Object carbs, Object kcal);
+
+  /// No description provided for @adjustDown.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat naik lebih cepat dari rentang yang diharapkan selama 2 minggu, dengan makan tercatat konsisten. Usulan: turunkan target {delta} kcal (karbohidrat −{carbs} g) → {kcal}.'**
+  String adjustDown(Object delta, Object carbs, Object kcal);
+
+  /// No description provided for @adjustNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Perubahan kecil, dihitung aplikasi (bukan AI). Tidak berlaku sebelum kamu menyetujuinya.'**
+  String get adjustNote;
+
+  /// No description provided for @adjustAccept.
+  ///
+  /// In id, this message translates to:
+  /// **'Terapkan'**
+  String get adjustAccept;
+
+  /// No description provided for @adjustDecline.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak sekarang'**
+  String get adjustDecline;
+
+  /// No description provided for @adjustAccepted.
+  ///
+  /// In id, this message translates to:
+  /// **'Target baru aktif.'**
+  String get adjustAccepted;
+
+  /// No description provided for @adjustDeclined.
+  ///
+  /// In id, this message translates to:
+  /// **'Usulan tidak diterapkan.'**
+  String get adjustDeclined;
+
+  /// No description provided for @adjustAcceptedLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Diterapkan'**
+  String get adjustAcceptedLabel;
+
+  /// No description provided for @adjustDeclinedLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak diterapkan'**
+  String get adjustDeclinedLabel;
+
+  /// No description provided for @adjustBlockedIntake.
+  ///
+  /// In id, this message translates to:
+  /// **'Tren berat di luar rentang, tetapi makan belum tercatat konsisten (≥ 4 hari/minggu, dekat target). Perbaiki pencatatan dulu sebelum target diubah.'**
+  String get adjustBlockedIntake;
+
+  /// No description provided for @adjustBlockedSafety.
+  ///
+  /// In id, this message translates to:
+  /// **'Karena ada riwayat gangguan makan, perubahan target kalori sebaiknya didiskusikan dengan tenaga kesehatan.'**
+  String get adjustBlockedSafety;
+
+  /// No description provided for @weeklyAiTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan AI'**
+  String get weeklyAiTitle;
+
+  /// No description provided for @weeklyAiGenerate.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat ringkasan dengan AI'**
+  String get weeklyAiGenerate;
+
+  /// No description provided for @weeklyAiRegenerate.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat ulang'**
+  String get weeklyAiRegenerate;
+
+  /// No description provided for @weeklyAiGenerating.
+  ///
+  /// In id, this message translates to:
+  /// **'Menyusun ringkasan…'**
+  String get weeklyAiGenerating;
+
+  /// No description provided for @weeklyAiWentWell.
+  ///
+  /// In id, this message translates to:
+  /// **'Yang berjalan baik'**
+  String get weeklyAiWentWell;
+
+  /// No description provided for @weeklyAiObstacles.
+  ///
+  /// In id, this message translates to:
+  /// **'Hambatan'**
+  String get weeklyAiObstacles;
+
+  /// No description provided for @weeklyAiSuggestions.
+  ///
+  /// In id, this message translates to:
+  /// **'Saran minggu depan'**
+  String get weeklyAiSuggestions;
+
+  /// No description provided for @weeklyAiNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Ditulis AI dari statistik di atas (tanpa nama, umur, atau catatan pribadi). Tidak mengubah target.'**
+  String get weeklyAiNote;
+
+  /// No description provided for @weeklyAiError.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan AI belum bisa dibuat.'**
+  String get weeklyAiError;
+
+  /// No description provided for @weeklyHistory.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan tersimpan'**
+  String get weeklyHistory;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -260,6 +260,41 @@ void main() {
     expect(find.text('270 kcal'), findsWidgets);
     await shot('beranda-nutrisi');
 
+    // Progres: catat berat, check-in harian, ringkasan mingguan.
+    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Progres')));
+    await waitFor(find.byKey(const ValueKey('weight-log')));
+    await tapOn(find.byKey(const ValueKey('weight-log')));
+    await waitFor(find.byKey(const ValueKey('weight-kg')));
+    await tester.enterText(find.byKey(const ValueKey('weight-kg')), '70,4');
+    await hideKeyboard();
+    await tapOn(find.byKey(const ValueKey('weight-save')));
+    await waitFor(find.byKey(const ValueKey('weight-latest')));
+    final checkInButton = find.descendant(
+      of: find.byKey(const ValueKey('checkin-card')),
+      matching: find.byType(TextButton),
+    );
+    await tester.scrollUntilVisible(
+      checkInButton,
+      -300,
+      scrollable: find
+          .descendant(of: find.byType(ListView), matching: find.byType(Scrollable))
+          .first,
+    );
+    await tapOn(checkInButton);
+    await waitFor(find.byKey(const ValueKey('checkin-sleep')));
+    await tester.enterText(find.byKey(const ValueKey('checkin-sleep')), '7');
+    await hideKeyboard();
+    await tapOn(find.byKey(const ValueKey('energy-4')));
+    await shot('check-in');
+    await tapOn(find.byKey(const ValueKey('checkin-save')));
+    await waitFor(find.text('Check-in hari ini sudah diisi'));
+    await shot('progres');
+    await tapOn(find.byKey(const ValueKey('weekly-open')));
+    await waitFor(find.byKey(const ValueKey('weekly-range')));
+    await shot('ringkasan-mingguan');
+    await tapOn(find.byType(BackButton));
+    debugPrint('E2E: berat, check-in, ringkasan mingguan');
+
     // Program dari Gemini (opsional: --dart-define=GEMINI_API_KEY=...).
     const geminiKey = String.fromEnvironment('GEMINI_API_KEY');
     if (geminiKey.isNotEmpty) {

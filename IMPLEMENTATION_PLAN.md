@@ -398,6 +398,47 @@ Juga dari uji E2E iOS (20 Nov): peringatan "izin ditolak" tidak lagi tampil sebe
 - Menu lebih dari 1 hari.
 - Grafik asupan vs target (Fase 6).
 
+## 6i. Status — Fase 6 Progres & review (20 Nov 2026)
+
+**Data (DB v5)**:
+- `body_metrics`: berat per tanggal, dibulatkan 0,1 kg, 25–400 kg.
+- `daily_check_ins`: tidur 0–24 jam, energi/mood 1–5, nyeri, catatan ≤ 500 karakter.
+- `weekly_reviews`: salinan statistik, status target, usulan + keputusan, ringkasan AI, model, versi prompt & konfigurasi.
+- Statistik dihitung dari data yang ada: sesi/set dan catatan makanan (agregat SQL per tanggal).
+
+**Domain** (`progress/domain/progress_math.dart`, konfigurasi `ProgressConfig` versi `progress-2026-11-v1`):
+- Awal minggu = Senin. Rata-rata mingguan butuh ≥ 2 penimbangan. Rata-rata bergerak 7 hari.
+- Status target:
+  - < 2 minggu lengkap & berurutan → data belum cukup;
+  - perubahan terakhir dalam rentang (toleransi ±0,1 kg) → on track;
+  - menyimpang 1 minggu → perlu evaluasi;
+  - menyimpang 2 minggu searah → target perlu disesuaikan.
+- Rentang laju: muscle gain/strength memakai `expectedWeeklyGainKg` milik goal; recomposition ±0,3 % BB.
+- Usulan penyesuaian ±100 kcal (±25 g karbohidrat; kcal dihitung ulang 4/4/9). Syarat:
+  - status "disesuaikan";
+  - makan tercatat ≥ 4 hari/minggu dan rata-rata ±15 % target selama 2 minggu;
+  - bukan riwayat gangguan makan;
+  - untuk muscle gain, tidak di bawah TDEE min.
+- Saat usulan diterapkan: target nutrisi baru dibuat, yang lama diarsipkan, `configVersion` diberi tanda penyesuaian, dan keputusan dicatat. Usulan yang sudah diputuskan tidak ditimpa.
+
+**UI**:
+- Tab Progres: check-in, berat + grafik + status, ringkasan mingguan & riwayat, asupan vs target 14 hari, volume 8 minggu, progres per gerakan, pencapaian.
+- Layar check-in.
+- Layar ringkasan mingguan: navigasi antar minggu, statistik, status, usulan dengan tombol Terapkan/Tidak sekarang, ringkasan AI.
+- Beranda menampilkan kartu check-in.
+- Notifikasi check-in kini membuka `/check-in/<tanggal>`.
+
+**AI** (`weekly_review.v1`):
+- Input hanya agregat: tanpa berat absolut, nama, umur, atau catatan bebas.
+- Output divalidasi: maks. 3 butir per bagian, panjang dibatasi. Ditolak bila menyebut angka kcal/gram atau istilah diagnosis/obat.
+- Retry maks. 1, lalu log tanpa data pribadi. AI tidak bisa mengubah target.
+
+**Package**: `fl_chart` ^1.3.1 (MIT, 150 poin pub, aktif dirawat).
+
+**Test**: Flutter 221 (+35): matematika progres (status, usulan, ringkasan, volume), validator prompt, repository (upsert, agregat, terapkan/tolak penyesuaian), layanan AI, widget (berat, grafik, check-in, usulan diterapkan, usulan diblokir).
+
+**Belum/ditunda**: uji live ringkasan AI dengan key; grafik lingkar badan/foto progres; penyesuaian program latihan otomatis dari performa (sekarang hanya ringkasan); notifikasi "Mark as done" check-in.
+
 ## 7. Keputusan & blocker
 
 **Diputuskan (19 Nov 2026):**

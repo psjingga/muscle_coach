@@ -16,6 +16,8 @@ abstract final class Routes {
   static const reminders = '/settings/reminders';
   static const addFood = '/food/add';
   static const mealPlan = '/meal-plan';
+  static const checkIn = '/check-in';
+  static const weeklyReview = '/weekly-review';
 
   static const home = '/home';
   static const workout = '/workout';
@@ -32,6 +34,8 @@ abstract final class Routes {
   static String sessionPath(String sessionId) => '$session/$sessionId';
   static String exercisePath(String exerciseId) => '$exercise/$exerciseId';
   static String mealPlanPath(String id) => '$mealPlan/$id';
+  static String checkInPath(String date) => '$checkIn/$date';
+  static String weeklyReviewPath(String weekStart) => '$weeklyReview/$weekStart';
 
   /// `/food/add?date=2026-11-20&meal=lunch`
   static String addFoodPath(String date, String meal) => '$addFood?date=$date&meal=$meal';

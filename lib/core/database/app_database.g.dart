@@ -7416,6 +7416,1442 @@ class MealPlansCompanion extends UpdateCompanion<MealPlanRow> {
   }
 }
 
+class $BodyMetricsTable extends BodyMetrics with TableInfo<$BodyMetricsTable, BodyMetricRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BodyMetricsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _weightKgMeta = const VerificationMeta('weightKg');
+  @override
+  late final GeneratedColumn<double> weightKg = GeneratedColumn<double>(
+    'weight_kg',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [date, weightKg, createdAt, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'body_metrics';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BodyMetricRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('date')) {
+      context.handle(_dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('weight_kg')) {
+      context.handle(
+        _weightKgMeta,
+        weightKg.isAcceptableOrUnknown(data['weight_kg']!, _weightKgMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_weightKgMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {date};
+  @override
+  BodyMetricRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BodyMetricRow(
+      date: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}date'])!,
+      weightKg: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}weight_kg'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $BodyMetricsTable createAlias(String alias) {
+    return $BodyMetricsTable(attachedDatabase, alias);
+  }
+}
+
+class BodyMetricRow extends DataClass implements Insertable<BodyMetricRow> {
+  final String date;
+  final double weightKg;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const BodyMetricRow({
+    required this.date,
+    required this.weightKg,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['date'] = Variable<String>(date);
+    map['weight_kg'] = Variable<double>(weightKg);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  BodyMetricsCompanion toCompanion(bool nullToAbsent) {
+    return BodyMetricsCompanion(
+      date: Value(date),
+      weightKg: Value(weightKg),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory BodyMetricRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BodyMetricRow(
+      date: serializer.fromJson<String>(json['date']),
+      weightKg: serializer.fromJson<double>(json['weightKg']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'date': serializer.toJson<String>(date),
+      'weightKg': serializer.toJson<double>(weightKg),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  BodyMetricRow copyWith({
+    String? date,
+    double? weightKg,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => BodyMetricRow(
+    date: date ?? this.date,
+    weightKg: weightKg ?? this.weightKg,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  BodyMetricRow copyWithCompanion(BodyMetricsCompanion data) {
+    return BodyMetricRow(
+      date: data.date.present ? data.date.value : this.date,
+      weightKg: data.weightKg.present ? data.weightKg.value : this.weightKg,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BodyMetricRow(')
+          ..write('date: $date, ')
+          ..write('weightKg: $weightKg, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(date, weightKg, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BodyMetricRow &&
+          other.date == this.date &&
+          other.weightKg == this.weightKg &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class BodyMetricsCompanion extends UpdateCompanion<BodyMetricRow> {
+  final Value<String> date;
+  final Value<double> weightKg;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const BodyMetricsCompanion({
+    this.date = const Value.absent(),
+    this.weightKg = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  BodyMetricsCompanion.insert({
+    required String date,
+    required double weightKg,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : date = Value(date),
+       weightKg = Value(weightKg),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<BodyMetricRow> custom({
+    Expression<String>? date,
+    Expression<double>? weightKg,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (date != null) 'date': date,
+      if (weightKg != null) 'weight_kg': weightKg,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  BodyMetricsCompanion copyWith({
+    Value<String>? date,
+    Value<double>? weightKg,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return BodyMetricsCompanion(
+      date: date ?? this.date,
+      weightKg: weightKg ?? this.weightKg,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (weightKg.present) {
+      map['weight_kg'] = Variable<double>(weightKg.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BodyMetricsCompanion(')
+          ..write('date: $date, ')
+          ..write('weightKg: $weightKg, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DailyCheckInsTable extends DailyCheckIns
+    with TableInfo<$DailyCheckInsTable, DailyCheckInRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DailyCheckInsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sleepHoursMeta = const VerificationMeta('sleepHours');
+  @override
+  late final GeneratedColumn<double> sleepHours = GeneratedColumn<double>(
+    'sleep_hours',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _energyMeta = const VerificationMeta('energy');
+  @override
+  late final GeneratedColumn<int> energy = GeneratedColumn<int>(
+    'energy',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _moodMeta = const VerificationMeta('mood');
+  @override
+  late final GeneratedColumn<int> mood = GeneratedColumn<int>(
+    'mood',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _discomfortMeta = const VerificationMeta('discomfort');
+  @override
+  late final GeneratedColumn<String> discomfort = GeneratedColumn<String>(
+    'discomfort',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    date,
+    sleepHours,
+    energy,
+    mood,
+    discomfort,
+    notes,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'daily_check_ins';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DailyCheckInRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('date')) {
+      context.handle(_dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('sleep_hours')) {
+      context.handle(
+        _sleepHoursMeta,
+        sleepHours.isAcceptableOrUnknown(data['sleep_hours']!, _sleepHoursMeta),
+      );
+    }
+    if (data.containsKey('energy')) {
+      context.handle(_energyMeta, energy.isAcceptableOrUnknown(data['energy']!, _energyMeta));
+    }
+    if (data.containsKey('mood')) {
+      context.handle(_moodMeta, mood.isAcceptableOrUnknown(data['mood']!, _moodMeta));
+    }
+    if (data.containsKey('discomfort')) {
+      context.handle(
+        _discomfortMeta,
+        discomfort.isAcceptableOrUnknown(data['discomfort']!, _discomfortMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(_notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {date};
+  @override
+  DailyCheckInRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DailyCheckInRow(
+      date: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}date'])!,
+      sleepHours: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}sleep_hours'],
+      ),
+      energy: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}energy']),
+      mood: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}mood']),
+      discomfort: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}discomfort'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DailyCheckInsTable createAlias(String alias) {
+    return $DailyCheckInsTable(attachedDatabase, alias);
+  }
+}
+
+class DailyCheckInRow extends DataClass implements Insertable<DailyCheckInRow> {
+  final String date;
+  final double? sleepHours;
+  final int? energy;
+  final int? mood;
+  final String? discomfort;
+  final String? notes;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const DailyCheckInRow({
+    required this.date,
+    this.sleepHours,
+    this.energy,
+    this.mood,
+    this.discomfort,
+    this.notes,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['date'] = Variable<String>(date);
+    if (!nullToAbsent || sleepHours != null) {
+      map['sleep_hours'] = Variable<double>(sleepHours);
+    }
+    if (!nullToAbsent || energy != null) {
+      map['energy'] = Variable<int>(energy);
+    }
+    if (!nullToAbsent || mood != null) {
+      map['mood'] = Variable<int>(mood);
+    }
+    if (!nullToAbsent || discomfort != null) {
+      map['discomfort'] = Variable<String>(discomfort);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  DailyCheckInsCompanion toCompanion(bool nullToAbsent) {
+    return DailyCheckInsCompanion(
+      date: Value(date),
+      sleepHours: sleepHours == null && nullToAbsent ? const Value.absent() : Value(sleepHours),
+      energy: energy == null && nullToAbsent ? const Value.absent() : Value(energy),
+      mood: mood == null && nullToAbsent ? const Value.absent() : Value(mood),
+      discomfort: discomfort == null && nullToAbsent ? const Value.absent() : Value(discomfort),
+      notes: notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DailyCheckInRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DailyCheckInRow(
+      date: serializer.fromJson<String>(json['date']),
+      sleepHours: serializer.fromJson<double?>(json['sleepHours']),
+      energy: serializer.fromJson<int?>(json['energy']),
+      mood: serializer.fromJson<int?>(json['mood']),
+      discomfort: serializer.fromJson<String?>(json['discomfort']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'date': serializer.toJson<String>(date),
+      'sleepHours': serializer.toJson<double?>(sleepHours),
+      'energy': serializer.toJson<int?>(energy),
+      'mood': serializer.toJson<int?>(mood),
+      'discomfort': serializer.toJson<String?>(discomfort),
+      'notes': serializer.toJson<String?>(notes),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DailyCheckInRow copyWith({
+    String? date,
+    Value<double?> sleepHours = const Value.absent(),
+    Value<int?> energy = const Value.absent(),
+    Value<int?> mood = const Value.absent(),
+    Value<String?> discomfort = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => DailyCheckInRow(
+    date: date ?? this.date,
+    sleepHours: sleepHours.present ? sleepHours.value : this.sleepHours,
+    energy: energy.present ? energy.value : this.energy,
+    mood: mood.present ? mood.value : this.mood,
+    discomfort: discomfort.present ? discomfort.value : this.discomfort,
+    notes: notes.present ? notes.value : this.notes,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  DailyCheckInRow copyWithCompanion(DailyCheckInsCompanion data) {
+    return DailyCheckInRow(
+      date: data.date.present ? data.date.value : this.date,
+      sleepHours: data.sleepHours.present ? data.sleepHours.value : this.sleepHours,
+      energy: data.energy.present ? data.energy.value : this.energy,
+      mood: data.mood.present ? data.mood.value : this.mood,
+      discomfort: data.discomfort.present ? data.discomfort.value : this.discomfort,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DailyCheckInRow(')
+          ..write('date: $date, ')
+          ..write('sleepHours: $sleepHours, ')
+          ..write('energy: $energy, ')
+          ..write('mood: $mood, ')
+          ..write('discomfort: $discomfort, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(date, sleepHours, energy, mood, discomfort, notes, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DailyCheckInRow &&
+          other.date == this.date &&
+          other.sleepHours == this.sleepHours &&
+          other.energy == this.energy &&
+          other.mood == this.mood &&
+          other.discomfort == this.discomfort &&
+          other.notes == this.notes &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class DailyCheckInsCompanion extends UpdateCompanion<DailyCheckInRow> {
+  final Value<String> date;
+  final Value<double?> sleepHours;
+  final Value<int?> energy;
+  final Value<int?> mood;
+  final Value<String?> discomfort;
+  final Value<String?> notes;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const DailyCheckInsCompanion({
+    this.date = const Value.absent(),
+    this.sleepHours = const Value.absent(),
+    this.energy = const Value.absent(),
+    this.mood = const Value.absent(),
+    this.discomfort = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DailyCheckInsCompanion.insert({
+    required String date,
+    this.sleepHours = const Value.absent(),
+    this.energy = const Value.absent(),
+    this.mood = const Value.absent(),
+    this.discomfort = const Value.absent(),
+    this.notes = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : date = Value(date),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<DailyCheckInRow> custom({
+    Expression<String>? date,
+    Expression<double>? sleepHours,
+    Expression<int>? energy,
+    Expression<int>? mood,
+    Expression<String>? discomfort,
+    Expression<String>? notes,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (date != null) 'date': date,
+      if (sleepHours != null) 'sleep_hours': sleepHours,
+      if (energy != null) 'energy': energy,
+      if (mood != null) 'mood': mood,
+      if (discomfort != null) 'discomfort': discomfort,
+      if (notes != null) 'notes': notes,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DailyCheckInsCompanion copyWith({
+    Value<String>? date,
+    Value<double?>? sleepHours,
+    Value<int?>? energy,
+    Value<int?>? mood,
+    Value<String?>? discomfort,
+    Value<String?>? notes,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return DailyCheckInsCompanion(
+      date: date ?? this.date,
+      sleepHours: sleepHours ?? this.sleepHours,
+      energy: energy ?? this.energy,
+      mood: mood ?? this.mood,
+      discomfort: discomfort ?? this.discomfort,
+      notes: notes ?? this.notes,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (sleepHours.present) {
+      map['sleep_hours'] = Variable<double>(sleepHours.value);
+    }
+    if (energy.present) {
+      map['energy'] = Variable<int>(energy.value);
+    }
+    if (mood.present) {
+      map['mood'] = Variable<int>(mood.value);
+    }
+    if (discomfort.present) {
+      map['discomfort'] = Variable<String>(discomfort.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DailyCheckInsCompanion(')
+          ..write('date: $date, ')
+          ..write('sleepHours: $sleepHours, ')
+          ..write('energy: $energy, ')
+          ..write('mood: $mood, ')
+          ..write('discomfort: $discomfort, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $WeeklyReviewsTable extends WeeklyReviews
+    with TableInfo<$WeeklyReviewsTable, WeeklyReviewRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WeeklyReviewsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _weekStartMeta = const VerificationMeta('weekStart');
+  @override
+  late final GeneratedColumn<String> weekStart = GeneratedColumn<String>(
+    'week_start',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statsMeta = const VerificationMeta('stats');
+  @override
+  late final GeneratedColumn<String> stats = GeneratedColumn<String>(
+    'stats',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _goalStatusMeta = const VerificationMeta('goalStatus');
+  @override
+  late final GeneratedColumn<String> goalStatus = GeneratedColumn<String>(
+    'goal_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _proposalMeta = const VerificationMeta('proposal');
+  @override
+  late final GeneratedColumn<String> proposal = GeneratedColumn<String>(
+    'proposal',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _decisionMeta = const VerificationMeta('decision');
+  @override
+  late final GeneratedColumn<String> decision = GeneratedColumn<String>(
+    'decision',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _decidedAtMeta = const VerificationMeta('decidedAt');
+  @override
+  late final GeneratedColumn<DateTime> decidedAt = GeneratedColumn<DateTime>(
+    'decided_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _aiSummaryMeta = const VerificationMeta('aiSummary');
+  @override
+  late final GeneratedColumn<String> aiSummary = GeneratedColumn<String>(
+    'ai_summary',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  @override
+  late final GeneratedColumn<String> model = GeneratedColumn<String>(
+    'model',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _promptVersionMeta = const VerificationMeta('promptVersion');
+  @override
+  late final GeneratedColumn<String> promptVersion = GeneratedColumn<String>(
+    'prompt_version',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _configVersionMeta = const VerificationMeta('configVersion');
+  @override
+  late final GeneratedColumn<String> configVersion = GeneratedColumn<String>(
+    'config_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    weekStart,
+    stats,
+    goalStatus,
+    proposal,
+    decision,
+    decidedAt,
+    aiSummary,
+    model,
+    promptVersion,
+    configVersion,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'weekly_reviews';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WeeklyReviewRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('week_start')) {
+      context.handle(
+        _weekStartMeta,
+        weekStart.isAcceptableOrUnknown(data['week_start']!, _weekStartMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_weekStartMeta);
+    }
+    if (data.containsKey('stats')) {
+      context.handle(_statsMeta, stats.isAcceptableOrUnknown(data['stats']!, _statsMeta));
+    } else if (isInserting) {
+      context.missing(_statsMeta);
+    }
+    if (data.containsKey('goal_status')) {
+      context.handle(
+        _goalStatusMeta,
+        goalStatus.isAcceptableOrUnknown(data['goal_status']!, _goalStatusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_goalStatusMeta);
+    }
+    if (data.containsKey('proposal')) {
+      context.handle(
+        _proposalMeta,
+        proposal.isAcceptableOrUnknown(data['proposal']!, _proposalMeta),
+      );
+    }
+    if (data.containsKey('decision')) {
+      context.handle(
+        _decisionMeta,
+        decision.isAcceptableOrUnknown(data['decision']!, _decisionMeta),
+      );
+    }
+    if (data.containsKey('decided_at')) {
+      context.handle(
+        _decidedAtMeta,
+        decidedAt.isAcceptableOrUnknown(data['decided_at']!, _decidedAtMeta),
+      );
+    }
+    if (data.containsKey('ai_summary')) {
+      context.handle(
+        _aiSummaryMeta,
+        aiSummary.isAcceptableOrUnknown(data['ai_summary']!, _aiSummaryMeta),
+      );
+    }
+    if (data.containsKey('model')) {
+      context.handle(_modelMeta, model.isAcceptableOrUnknown(data['model']!, _modelMeta));
+    }
+    if (data.containsKey('prompt_version')) {
+      context.handle(
+        _promptVersionMeta,
+        promptVersion.isAcceptableOrUnknown(data['prompt_version']!, _promptVersionMeta),
+      );
+    }
+    if (data.containsKey('config_version')) {
+      context.handle(
+        _configVersionMeta,
+        configVersion.isAcceptableOrUnknown(data['config_version']!, _configVersionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_configVersionMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {weekStart};
+  @override
+  WeeklyReviewRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WeeklyReviewRow(
+      weekStart: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}week_start'],
+      )!,
+      stats: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}stats'],
+      )!,
+      goalStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}goal_status'],
+      )!,
+      proposal: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}proposal'],
+      ),
+      decision: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}decision'],
+      ),
+      decidedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}decided_at'],
+      ),
+      aiSummary: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ai_summary'],
+      ),
+      model: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model'],
+      ),
+      promptVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prompt_version'],
+      ),
+      configVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}config_version'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $WeeklyReviewsTable createAlias(String alias) {
+    return $WeeklyReviewsTable(attachedDatabase, alias);
+  }
+}
+
+class WeeklyReviewRow extends DataClass implements Insertable<WeeklyReviewRow> {
+  /// Senin `YYYY-MM-DD`.
+  final String weekStart;
+  final String stats;
+  final String goalStatus;
+  final String? proposal;
+
+  /// accepted | declined
+  final String? decision;
+  final DateTime? decidedAt;
+  final String? aiSummary;
+  final String? model;
+  final String? promptVersion;
+  final String configVersion;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const WeeklyReviewRow({
+    required this.weekStart,
+    required this.stats,
+    required this.goalStatus,
+    this.proposal,
+    this.decision,
+    this.decidedAt,
+    this.aiSummary,
+    this.model,
+    this.promptVersion,
+    required this.configVersion,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['week_start'] = Variable<String>(weekStart);
+    map['stats'] = Variable<String>(stats);
+    map['goal_status'] = Variable<String>(goalStatus);
+    if (!nullToAbsent || proposal != null) {
+      map['proposal'] = Variable<String>(proposal);
+    }
+    if (!nullToAbsent || decision != null) {
+      map['decision'] = Variable<String>(decision);
+    }
+    if (!nullToAbsent || decidedAt != null) {
+      map['decided_at'] = Variable<DateTime>(decidedAt);
+    }
+    if (!nullToAbsent || aiSummary != null) {
+      map['ai_summary'] = Variable<String>(aiSummary);
+    }
+    if (!nullToAbsent || model != null) {
+      map['model'] = Variable<String>(model);
+    }
+    if (!nullToAbsent || promptVersion != null) {
+      map['prompt_version'] = Variable<String>(promptVersion);
+    }
+    map['config_version'] = Variable<String>(configVersion);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  WeeklyReviewsCompanion toCompanion(bool nullToAbsent) {
+    return WeeklyReviewsCompanion(
+      weekStart: Value(weekStart),
+      stats: Value(stats),
+      goalStatus: Value(goalStatus),
+      proposal: proposal == null && nullToAbsent ? const Value.absent() : Value(proposal),
+      decision: decision == null && nullToAbsent ? const Value.absent() : Value(decision),
+      decidedAt: decidedAt == null && nullToAbsent ? const Value.absent() : Value(decidedAt),
+      aiSummary: aiSummary == null && nullToAbsent ? const Value.absent() : Value(aiSummary),
+      model: model == null && nullToAbsent ? const Value.absent() : Value(model),
+      promptVersion: promptVersion == null && nullToAbsent
+          ? const Value.absent()
+          : Value(promptVersion),
+      configVersion: Value(configVersion),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory WeeklyReviewRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WeeklyReviewRow(
+      weekStart: serializer.fromJson<String>(json['weekStart']),
+      stats: serializer.fromJson<String>(json['stats']),
+      goalStatus: serializer.fromJson<String>(json['goalStatus']),
+      proposal: serializer.fromJson<String?>(json['proposal']),
+      decision: serializer.fromJson<String?>(json['decision']),
+      decidedAt: serializer.fromJson<DateTime?>(json['decidedAt']),
+      aiSummary: serializer.fromJson<String?>(json['aiSummary']),
+      model: serializer.fromJson<String?>(json['model']),
+      promptVersion: serializer.fromJson<String?>(json['promptVersion']),
+      configVersion: serializer.fromJson<String>(json['configVersion']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'weekStart': serializer.toJson<String>(weekStart),
+      'stats': serializer.toJson<String>(stats),
+      'goalStatus': serializer.toJson<String>(goalStatus),
+      'proposal': serializer.toJson<String?>(proposal),
+      'decision': serializer.toJson<String?>(decision),
+      'decidedAt': serializer.toJson<DateTime?>(decidedAt),
+      'aiSummary': serializer.toJson<String?>(aiSummary),
+      'model': serializer.toJson<String?>(model),
+      'promptVersion': serializer.toJson<String?>(promptVersion),
+      'configVersion': serializer.toJson<String>(configVersion),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  WeeklyReviewRow copyWith({
+    String? weekStart,
+    String? stats,
+    String? goalStatus,
+    Value<String?> proposal = const Value.absent(),
+    Value<String?> decision = const Value.absent(),
+    Value<DateTime?> decidedAt = const Value.absent(),
+    Value<String?> aiSummary = const Value.absent(),
+    Value<String?> model = const Value.absent(),
+    Value<String?> promptVersion = const Value.absent(),
+    String? configVersion,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => WeeklyReviewRow(
+    weekStart: weekStart ?? this.weekStart,
+    stats: stats ?? this.stats,
+    goalStatus: goalStatus ?? this.goalStatus,
+    proposal: proposal.present ? proposal.value : this.proposal,
+    decision: decision.present ? decision.value : this.decision,
+    decidedAt: decidedAt.present ? decidedAt.value : this.decidedAt,
+    aiSummary: aiSummary.present ? aiSummary.value : this.aiSummary,
+    model: model.present ? model.value : this.model,
+    promptVersion: promptVersion.present ? promptVersion.value : this.promptVersion,
+    configVersion: configVersion ?? this.configVersion,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  WeeklyReviewRow copyWithCompanion(WeeklyReviewsCompanion data) {
+    return WeeklyReviewRow(
+      weekStart: data.weekStart.present ? data.weekStart.value : this.weekStart,
+      stats: data.stats.present ? data.stats.value : this.stats,
+      goalStatus: data.goalStatus.present ? data.goalStatus.value : this.goalStatus,
+      proposal: data.proposal.present ? data.proposal.value : this.proposal,
+      decision: data.decision.present ? data.decision.value : this.decision,
+      decidedAt: data.decidedAt.present ? data.decidedAt.value : this.decidedAt,
+      aiSummary: data.aiSummary.present ? data.aiSummary.value : this.aiSummary,
+      model: data.model.present ? data.model.value : this.model,
+      promptVersion: data.promptVersion.present ? data.promptVersion.value : this.promptVersion,
+      configVersion: data.configVersion.present ? data.configVersion.value : this.configVersion,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WeeklyReviewRow(')
+          ..write('weekStart: $weekStart, ')
+          ..write('stats: $stats, ')
+          ..write('goalStatus: $goalStatus, ')
+          ..write('proposal: $proposal, ')
+          ..write('decision: $decision, ')
+          ..write('decidedAt: $decidedAt, ')
+          ..write('aiSummary: $aiSummary, ')
+          ..write('model: $model, ')
+          ..write('promptVersion: $promptVersion, ')
+          ..write('configVersion: $configVersion, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    weekStart,
+    stats,
+    goalStatus,
+    proposal,
+    decision,
+    decidedAt,
+    aiSummary,
+    model,
+    promptVersion,
+    configVersion,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WeeklyReviewRow &&
+          other.weekStart == this.weekStart &&
+          other.stats == this.stats &&
+          other.goalStatus == this.goalStatus &&
+          other.proposal == this.proposal &&
+          other.decision == this.decision &&
+          other.decidedAt == this.decidedAt &&
+          other.aiSummary == this.aiSummary &&
+          other.model == this.model &&
+          other.promptVersion == this.promptVersion &&
+          other.configVersion == this.configVersion &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class WeeklyReviewsCompanion extends UpdateCompanion<WeeklyReviewRow> {
+  final Value<String> weekStart;
+  final Value<String> stats;
+  final Value<String> goalStatus;
+  final Value<String?> proposal;
+  final Value<String?> decision;
+  final Value<DateTime?> decidedAt;
+  final Value<String?> aiSummary;
+  final Value<String?> model;
+  final Value<String?> promptVersion;
+  final Value<String> configVersion;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const WeeklyReviewsCompanion({
+    this.weekStart = const Value.absent(),
+    this.stats = const Value.absent(),
+    this.goalStatus = const Value.absent(),
+    this.proposal = const Value.absent(),
+    this.decision = const Value.absent(),
+    this.decidedAt = const Value.absent(),
+    this.aiSummary = const Value.absent(),
+    this.model = const Value.absent(),
+    this.promptVersion = const Value.absent(),
+    this.configVersion = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  WeeklyReviewsCompanion.insert({
+    required String weekStart,
+    required String stats,
+    required String goalStatus,
+    this.proposal = const Value.absent(),
+    this.decision = const Value.absent(),
+    this.decidedAt = const Value.absent(),
+    this.aiSummary = const Value.absent(),
+    this.model = const Value.absent(),
+    this.promptVersion = const Value.absent(),
+    required String configVersion,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : weekStart = Value(weekStart),
+       stats = Value(stats),
+       goalStatus = Value(goalStatus),
+       configVersion = Value(configVersion),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<WeeklyReviewRow> custom({
+    Expression<String>? weekStart,
+    Expression<String>? stats,
+    Expression<String>? goalStatus,
+    Expression<String>? proposal,
+    Expression<String>? decision,
+    Expression<DateTime>? decidedAt,
+    Expression<String>? aiSummary,
+    Expression<String>? model,
+    Expression<String>? promptVersion,
+    Expression<String>? configVersion,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (weekStart != null) 'week_start': weekStart,
+      if (stats != null) 'stats': stats,
+      if (goalStatus != null) 'goal_status': goalStatus,
+      if (proposal != null) 'proposal': proposal,
+      if (decision != null) 'decision': decision,
+      if (decidedAt != null) 'decided_at': decidedAt,
+      if (aiSummary != null) 'ai_summary': aiSummary,
+      if (model != null) 'model': model,
+      if (promptVersion != null) 'prompt_version': promptVersion,
+      if (configVersion != null) 'config_version': configVersion,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  WeeklyReviewsCompanion copyWith({
+    Value<String>? weekStart,
+    Value<String>? stats,
+    Value<String>? goalStatus,
+    Value<String?>? proposal,
+    Value<String?>? decision,
+    Value<DateTime?>? decidedAt,
+    Value<String?>? aiSummary,
+    Value<String?>? model,
+    Value<String?>? promptVersion,
+    Value<String>? configVersion,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return WeeklyReviewsCompanion(
+      weekStart: weekStart ?? this.weekStart,
+      stats: stats ?? this.stats,
+      goalStatus: goalStatus ?? this.goalStatus,
+      proposal: proposal ?? this.proposal,
+      decision: decision ?? this.decision,
+      decidedAt: decidedAt ?? this.decidedAt,
+      aiSummary: aiSummary ?? this.aiSummary,
+      model: model ?? this.model,
+      promptVersion: promptVersion ?? this.promptVersion,
+      configVersion: configVersion ?? this.configVersion,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (weekStart.present) {
+      map['week_start'] = Variable<String>(weekStart.value);
+    }
+    if (stats.present) {
+      map['stats'] = Variable<String>(stats.value);
+    }
+    if (goalStatus.present) {
+      map['goal_status'] = Variable<String>(goalStatus.value);
+    }
+    if (proposal.present) {
+      map['proposal'] = Variable<String>(proposal.value);
+    }
+    if (decision.present) {
+      map['decision'] = Variable<String>(decision.value);
+    }
+    if (decidedAt.present) {
+      map['decided_at'] = Variable<DateTime>(decidedAt.value);
+    }
+    if (aiSummary.present) {
+      map['ai_summary'] = Variable<String>(aiSummary.value);
+    }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
+    if (promptVersion.present) {
+      map['prompt_version'] = Variable<String>(promptVersion.value);
+    }
+    if (configVersion.present) {
+      map['config_version'] = Variable<String>(configVersion.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WeeklyReviewsCompanion(')
+          ..write('weekStart: $weekStart, ')
+          ..write('stats: $stats, ')
+          ..write('goalStatus: $goalStatus, ')
+          ..write('proposal: $proposal, ')
+          ..write('decision: $decision, ')
+          ..write('decidedAt: $decidedAt, ')
+          ..write('aiSummary: $aiSummary, ')
+          ..write('model: $model, ')
+          ..write('promptVersion: $promptVersion, ')
+          ..write('configVersion: $configVersion, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -7433,6 +8869,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CustomFoodsTable customFoods = $CustomFoodsTable(this);
   late final $FoodLogsTable foodLogs = $FoodLogsTable(this);
   late final $MealPlansTable mealPlans = $MealPlansTable(this);
+  late final $BodyMetricsTable bodyMetrics = $BodyMetricsTable(this);
+  late final $DailyCheckInsTable dailyCheckIns = $DailyCheckInsTable(this);
+  late final $WeeklyReviewsTable weeklyReviews = $WeeklyReviewsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7452,6 +8891,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     customFoods,
     foodLogs,
     mealPlans,
+    bodyMetrics,
+    dailyCheckIns,
+    weeklyReviews,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -11180,6 +12622,663 @@ typedef $$MealPlansTableProcessedTableManager =
       MealPlanRow,
       PrefetchHooks Function()
     >;
+typedef $$BodyMetricsTableCreateCompanionBuilder = BodyMetricsCompanion Function({
+  required String date,
+  required double weightKg,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$BodyMetricsTableUpdateCompanionBuilder = BodyMetricsCompanion Function({
+  Value<String> date,
+  Value<double> weightKg,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$BodyMetricsTableFilterComposer extends Composer<_$AppDatabase, $BodyMetricsTable> {
+  $$BodyMetricsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get weightKg =>
+      $composableBuilder(column: $table.weightKg, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$BodyMetricsTableOrderingComposer extends Composer<_$AppDatabase, $BodyMetricsTable> {
+  $$BodyMetricsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get weightKg =>
+      $composableBuilder(column: $table.weightKg, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BodyMetricsTableAnnotationComposer extends Composer<_$AppDatabase, $BodyMetricsTable> {
+  $$BodyMetricsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<double> get weightKg =>
+      $composableBuilder(column: $table.weightKg, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$BodyMetricsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BodyMetricsTable,
+          BodyMetricRow,
+          $$BodyMetricsTableFilterComposer,
+          $$BodyMetricsTableOrderingComposer,
+          $$BodyMetricsTableAnnotationComposer,
+          $$BodyMetricsTableCreateCompanionBuilder,
+          $$BodyMetricsTableUpdateCompanionBuilder,
+          (BodyMetricRow, BaseReferences<_$AppDatabase, $BodyMetricsTable, BodyMetricRow>),
+          BodyMetricRow,
+          PrefetchHooks Function()
+        > {
+  $$BodyMetricsTableTableManager(_$AppDatabase db, $BodyMetricsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () => $$BodyMetricsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$BodyMetricsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BodyMetricsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> date = const Value.absent(),
+                Value<double> weightKg = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BodyMetricsCompanion(
+                date: date,
+                weightKg: weightKg,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String date,
+                required double weightKg,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => BodyMetricsCompanion.insert(
+                date: date,
+                weightKg: weightKg,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$BodyMetricsTable, BodyMetricRow>(table),
+                  BaseReferences<_$AppDatabase, $BodyMetricsTable, BodyMetricRow>(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$BodyMetricsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BodyMetricsTable,
+      BodyMetricRow,
+      $$BodyMetricsTableFilterComposer,
+      $$BodyMetricsTableOrderingComposer,
+      $$BodyMetricsTableAnnotationComposer,
+      $$BodyMetricsTableCreateCompanionBuilder,
+      $$BodyMetricsTableUpdateCompanionBuilder,
+      (BodyMetricRow, BaseReferences<_$AppDatabase, $BodyMetricsTable, BodyMetricRow>),
+      BodyMetricRow,
+      PrefetchHooks Function()
+    >;
+typedef $$DailyCheckInsTableCreateCompanionBuilder = DailyCheckInsCompanion Function({
+  required String date,
+  Value<double?> sleepHours,
+  Value<int?> energy,
+  Value<int?> mood,
+  Value<String?> discomfort,
+  Value<String?> notes,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$DailyCheckInsTableUpdateCompanionBuilder = DailyCheckInsCompanion Function({
+  Value<String> date,
+  Value<double?> sleepHours,
+  Value<int?> energy,
+  Value<int?> mood,
+  Value<String?> discomfort,
+  Value<String?> notes,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$DailyCheckInsTableFilterComposer extends Composer<_$AppDatabase, $DailyCheckInsTable> {
+  $$DailyCheckInsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get sleepHours =>
+      $composableBuilder(column: $table.sleepHours, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get energy =>
+      $composableBuilder(column: $table.energy, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get mood =>
+      $composableBuilder(column: $table.mood, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get discomfort =>
+      $composableBuilder(column: $table.discomfort, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$DailyCheckInsTableOrderingComposer extends Composer<_$AppDatabase, $DailyCheckInsTable> {
+  $$DailyCheckInsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get sleepHours =>
+      $composableBuilder(column: $table.sleepHours, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get energy =>
+      $composableBuilder(column: $table.energy, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get mood =>
+      $composableBuilder(column: $table.mood, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get discomfort =>
+      $composableBuilder(column: $table.discomfort, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$DailyCheckInsTableAnnotationComposer extends Composer<_$AppDatabase, $DailyCheckInsTable> {
+  $$DailyCheckInsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<double> get sleepHours =>
+      $composableBuilder(column: $table.sleepHours, builder: (column) => column);
+
+  GeneratedColumn<int> get energy =>
+      $composableBuilder(column: $table.energy, builder: (column) => column);
+
+  GeneratedColumn<int> get mood =>
+      $composableBuilder(column: $table.mood, builder: (column) => column);
+
+  GeneratedColumn<String> get discomfort =>
+      $composableBuilder(column: $table.discomfort, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$DailyCheckInsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DailyCheckInsTable,
+          DailyCheckInRow,
+          $$DailyCheckInsTableFilterComposer,
+          $$DailyCheckInsTableOrderingComposer,
+          $$DailyCheckInsTableAnnotationComposer,
+          $$DailyCheckInsTableCreateCompanionBuilder,
+          $$DailyCheckInsTableUpdateCompanionBuilder,
+          (DailyCheckInRow, BaseReferences<_$AppDatabase, $DailyCheckInsTable, DailyCheckInRow>),
+          DailyCheckInRow,
+          PrefetchHooks Function()
+        > {
+  $$DailyCheckInsTableTableManager(_$AppDatabase db, $DailyCheckInsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () => $$DailyCheckInsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DailyCheckInsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DailyCheckInsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> date = const Value.absent(),
+                Value<double?> sleepHours = const Value.absent(),
+                Value<int?> energy = const Value.absent(),
+                Value<int?> mood = const Value.absent(),
+                Value<String?> discomfort = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DailyCheckInsCompanion(
+                date: date,
+                sleepHours: sleepHours,
+                energy: energy,
+                mood: mood,
+                discomfort: discomfort,
+                notes: notes,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String date,
+                Value<double?> sleepHours = const Value.absent(),
+                Value<int?> energy = const Value.absent(),
+                Value<int?> mood = const Value.absent(),
+                Value<String?> discomfort = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => DailyCheckInsCompanion.insert(
+                date: date,
+                sleepHours: sleepHours,
+                energy: energy,
+                mood: mood,
+                discomfort: discomfort,
+                notes: notes,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DailyCheckInsTable, DailyCheckInRow>(table),
+                  BaseReferences<_$AppDatabase, $DailyCheckInsTable, DailyCheckInRow>(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DailyCheckInsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DailyCheckInsTable,
+      DailyCheckInRow,
+      $$DailyCheckInsTableFilterComposer,
+      $$DailyCheckInsTableOrderingComposer,
+      $$DailyCheckInsTableAnnotationComposer,
+      $$DailyCheckInsTableCreateCompanionBuilder,
+      $$DailyCheckInsTableUpdateCompanionBuilder,
+      (DailyCheckInRow, BaseReferences<_$AppDatabase, $DailyCheckInsTable, DailyCheckInRow>),
+      DailyCheckInRow,
+      PrefetchHooks Function()
+    >;
+typedef $$WeeklyReviewsTableCreateCompanionBuilder = WeeklyReviewsCompanion Function({
+  required String weekStart,
+  required String stats,
+  required String goalStatus,
+  Value<String?> proposal,
+  Value<String?> decision,
+  Value<DateTime?> decidedAt,
+  Value<String?> aiSummary,
+  Value<String?> model,
+  Value<String?> promptVersion,
+  required String configVersion,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$WeeklyReviewsTableUpdateCompanionBuilder = WeeklyReviewsCompanion Function({
+  Value<String> weekStart,
+  Value<String> stats,
+  Value<String> goalStatus,
+  Value<String?> proposal,
+  Value<String?> decision,
+  Value<DateTime?> decidedAt,
+  Value<String?> aiSummary,
+  Value<String?> model,
+  Value<String?> promptVersion,
+  Value<String> configVersion,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$WeeklyReviewsTableFilterComposer extends Composer<_$AppDatabase, $WeeklyReviewsTable> {
+  $$WeeklyReviewsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get weekStart =>
+      $composableBuilder(column: $table.weekStart, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get stats =>
+      $composableBuilder(column: $table.stats, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get goalStatus =>
+      $composableBuilder(column: $table.goalStatus, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get proposal =>
+      $composableBuilder(column: $table.proposal, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get decision =>
+      $composableBuilder(column: $table.decision, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get decidedAt =>
+      $composableBuilder(column: $table.decidedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get aiSummary =>
+      $composableBuilder(column: $table.aiSummary, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get promptVersion =>
+      $composableBuilder(column: $table.promptVersion, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get configVersion =>
+      $composableBuilder(column: $table.configVersion, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$WeeklyReviewsTableOrderingComposer extends Composer<_$AppDatabase, $WeeklyReviewsTable> {
+  $$WeeklyReviewsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get weekStart =>
+      $composableBuilder(column: $table.weekStart, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get stats =>
+      $composableBuilder(column: $table.stats, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get goalStatus =>
+      $composableBuilder(column: $table.goalStatus, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get proposal =>
+      $composableBuilder(column: $table.proposal, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get decision =>
+      $composableBuilder(column: $table.decision, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get decidedAt =>
+      $composableBuilder(column: $table.decidedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get aiSummary =>
+      $composableBuilder(column: $table.aiSummary, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get promptVersion => $composableBuilder(
+    column: $table.promptVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get configVersion => $composableBuilder(
+    column: $table.configVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$WeeklyReviewsTableAnnotationComposer extends Composer<_$AppDatabase, $WeeklyReviewsTable> {
+  $$WeeklyReviewsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get weekStart =>
+      $composableBuilder(column: $table.weekStart, builder: (column) => column);
+
+  GeneratedColumn<String> get stats =>
+      $composableBuilder(column: $table.stats, builder: (column) => column);
+
+  GeneratedColumn<String> get goalStatus =>
+      $composableBuilder(column: $table.goalStatus, builder: (column) => column);
+
+  GeneratedColumn<String> get proposal =>
+      $composableBuilder(column: $table.proposal, builder: (column) => column);
+
+  GeneratedColumn<String> get decision =>
+      $composableBuilder(column: $table.decision, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get decidedAt =>
+      $composableBuilder(column: $table.decidedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get aiSummary =>
+      $composableBuilder(column: $table.aiSummary, builder: (column) => column);
+
+  GeneratedColumn<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => column);
+
+  GeneratedColumn<String> get promptVersion =>
+      $composableBuilder(column: $table.promptVersion, builder: (column) => column);
+
+  GeneratedColumn<String> get configVersion =>
+      $composableBuilder(column: $table.configVersion, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$WeeklyReviewsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WeeklyReviewsTable,
+          WeeklyReviewRow,
+          $$WeeklyReviewsTableFilterComposer,
+          $$WeeklyReviewsTableOrderingComposer,
+          $$WeeklyReviewsTableAnnotationComposer,
+          $$WeeklyReviewsTableCreateCompanionBuilder,
+          $$WeeklyReviewsTableUpdateCompanionBuilder,
+          (WeeklyReviewRow, BaseReferences<_$AppDatabase, $WeeklyReviewsTable, WeeklyReviewRow>),
+          WeeklyReviewRow,
+          PrefetchHooks Function()
+        > {
+  $$WeeklyReviewsTableTableManager(_$AppDatabase db, $WeeklyReviewsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () => $$WeeklyReviewsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WeeklyReviewsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WeeklyReviewsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> weekStart = const Value.absent(),
+                Value<String> stats = const Value.absent(),
+                Value<String> goalStatus = const Value.absent(),
+                Value<String?> proposal = const Value.absent(),
+                Value<String?> decision = const Value.absent(),
+                Value<DateTime?> decidedAt = const Value.absent(),
+                Value<String?> aiSummary = const Value.absent(),
+                Value<String?> model = const Value.absent(),
+                Value<String?> promptVersion = const Value.absent(),
+                Value<String> configVersion = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WeeklyReviewsCompanion(
+                weekStart: weekStart,
+                stats: stats,
+                goalStatus: goalStatus,
+                proposal: proposal,
+                decision: decision,
+                decidedAt: decidedAt,
+                aiSummary: aiSummary,
+                model: model,
+                promptVersion: promptVersion,
+                configVersion: configVersion,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String weekStart,
+                required String stats,
+                required String goalStatus,
+                Value<String?> proposal = const Value.absent(),
+                Value<String?> decision = const Value.absent(),
+                Value<DateTime?> decidedAt = const Value.absent(),
+                Value<String?> aiSummary = const Value.absent(),
+                Value<String?> model = const Value.absent(),
+                Value<String?> promptVersion = const Value.absent(),
+                required String configVersion,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => WeeklyReviewsCompanion.insert(
+                weekStart: weekStart,
+                stats: stats,
+                goalStatus: goalStatus,
+                proposal: proposal,
+                decision: decision,
+                decidedAt: decidedAt,
+                aiSummary: aiSummary,
+                model: model,
+                promptVersion: promptVersion,
+                configVersion: configVersion,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$WeeklyReviewsTable, WeeklyReviewRow>(table),
+                  BaseReferences<_$AppDatabase, $WeeklyReviewsTable, WeeklyReviewRow>(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WeeklyReviewsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WeeklyReviewsTable,
+      WeeklyReviewRow,
+      $$WeeklyReviewsTableFilterComposer,
+      $$WeeklyReviewsTableOrderingComposer,
+      $$WeeklyReviewsTableAnnotationComposer,
+      $$WeeklyReviewsTableCreateCompanionBuilder,
+      $$WeeklyReviewsTableUpdateCompanionBuilder,
+      (WeeklyReviewRow, BaseReferences<_$AppDatabase, $WeeklyReviewsTable, WeeklyReviewRow>),
+      WeeklyReviewRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -11206,4 +13305,10 @@ class $AppDatabaseManager {
       $$CustomFoodsTableTableManager(_db, _db.customFoods);
   $$FoodLogsTableTableManager get foodLogs => $$FoodLogsTableTableManager(_db, _db.foodLogs);
   $$MealPlansTableTableManager get mealPlans => $$MealPlansTableTableManager(_db, _db.mealPlans);
+  $$BodyMetricsTableTableManager get bodyMetrics =>
+      $$BodyMetricsTableTableManager(_db, _db.bodyMetrics);
+  $$DailyCheckInsTableTableManager get dailyCheckIns =>
+      $$DailyCheckInsTableTableManager(_db, _db.dailyCheckIns);
+  $$WeeklyReviewsTableTableManager get weeklyReviews =>
+      $$WeeklyReviewsTableTableManager(_db, _db.weeklyReviews);
 }

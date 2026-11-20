@@ -927,5 +927,265 @@
       "model": {},
       "version": {}
     }
-  }
+  },
+  "weightTitle": "Berat badan",
+  "weightNote": "Berat badan bukan massa otot. Nilai dinilai dari rata-rata mingguan, bukan satu penimbangan.",
+  "weightLog": "Catat berat",
+  "weightLatest": "Terakhir {kg} kg · {date}",
+  "@weightLatest": {
+    "placeholders": {
+      "kg": {},
+      "date": {}
+    }
+  },
+  "weightAvg7": "Rata-rata 7 hari {kg} kg",
+  "@weightAvg7": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "weightEmpty": "Belum ada penimbangan. Timbang 2–3× per minggu pada kondisi yang sama (mis. pagi setelah ke toilet).",
+  "weightSheetTitle": "Catat berat badan",
+  "weightField": "Berat (kg)",
+  "weightDate": "Tanggal",
+  "weightRangeError": "Isi 25–400 kg",
+  "weightSaved": "Berat tersimpan",
+  "weightDeleteTitle": "Hapus penimbangan {date}?",
+  "@weightDeleteTitle": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "goalStatusTitle": "Status target",
+  "goalStatusInsufficient": "Data belum cukup",
+  "goalStatusInsufficientBody": "Butuh minimal 2 minggu berurutan dengan ≥ 2 penimbangan per minggu sebelum tren bisa dinilai.",
+  "goalStatusOnTrack": "On track",
+  "goalStatusOnTrackBody": "Perubahan rata-rata minggu lalu {change} kg, dalam rentang yang diharapkan ({min}–{max} kg/minggu).",
+  "@goalStatusOnTrackBody": {
+    "placeholders": {
+      "change": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "goalStatusReview": "Perlu evaluasi",
+  "goalStatusReviewBody": "Perubahan rata-rata minggu lalu {change} kg, di luar rentang {min}–{max} kg/minggu. Pantau satu minggu lagi sebelum mengubah apa pun.",
+  "@goalStatusReviewBody": {
+    "placeholders": {
+      "change": {},
+      "min": {},
+      "max": {}
+    }
+  },
+  "goalStatusAdjust": "Target perlu disesuaikan",
+  "goalStatusAdjustBody": "Dua minggu berturut-turut perubahan berat di luar rentang {min}–{max} kg/minggu. Lihat usulan di ringkasan mingguan.",
+  "@goalStatusAdjustBody": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "intakeChartTitle": "Asupan vs target (14 hari)",
+  "intakeChartEmpty": "Belum ada catatan makan.",
+  "intakeChartLegend": "Batang = kalori tercatat · garis = target {kcal}",
+  "@intakeChartLegend": {
+    "placeholders": {
+      "kcal": {}
+    }
+  },
+  "volumeChartTitle": "Volume latihan per minggu",
+  "volumeChartNote": "Volume = beban × repetisi dari set yang selesai (set berbasis waktu tidak dihitung).",
+  "volumeChartEmpty": "Belum ada sesi selesai.",
+  "volumeWeek": "{sessions} sesi",
+  "@volumeWeek": {
+    "placeholders": {
+      "sessions": {}
+    }
+  },
+  "exerciseChartTitle": "Progres per gerakan",
+  "exerciseChartHint": "Set terberat per sesi",
+  "exerciseChartEmpty": "Belum ada set berbeban yang tercatat.",
+  "exerciseChartLatest": "Terakhir {kg} kg × {reps}",
+  "@exerciseChartLatest": {
+    "placeholders": {
+      "kg": {},
+      "reps": {}
+    }
+  },
+  "milestonesTitle": "Pencapaian",
+  "milestoneSessions": "{n} sesi selesai",
+  "@milestoneSessions": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "milestoneSets": "{n} set tercatat",
+  "@milestoneSets": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "milestoneStreak": "{n} minggu berturut-turut latihan",
+  "@milestoneStreak": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "milestoneWeight": "Berat {change} kg sejak awal (rata-rata mingguan)",
+  "@milestoneWeight": {
+    "placeholders": {
+      "change": {}
+    }
+  },
+  "checkInTitle": "Check-in harian",
+  "checkInToday": "Check-in hari ini",
+  "checkInDone": "Check-in hari ini sudah diisi",
+  "checkInPrompt": "Catat tidur, energi, dan kendala hari ini (1 menit).",
+  "checkInOpen": "Isi check-in",
+  "checkInEdit": "Ubah",
+  "checkInWeight": "Berat badan (kg, opsional)",
+  "checkInSleep": "Tidur semalam (jam)",
+  "checkInEnergy": "Energi",
+  "checkInMood": "Suasana hati (opsional)",
+  "checkInScaleLow": "rendah",
+  "checkInScaleHigh": "baik",
+  "checkInDiscomfort": "Nyeri/tidak nyaman saat latihan (opsional)",
+  "checkInNotes": "Catatan kendala (opsional)",
+  "checkInWorkoutDone": "Latihan hari ini: selesai ✓",
+  "checkInWorkoutNone": "Latihan hari ini: belum ada sesi selesai",
+  "checkInIntake": "Makan tercatat: {kcal} dari {target}",
+  "@checkInIntake": {
+    "placeholders": {
+      "kcal": {},
+      "target": {}
+    }
+  },
+  "checkInSaved": "Check-in tersimpan",
+  "checkInSleepError": "Isi 0–24 jam",
+  "checkInDiscomfortWarning": "Bila nyeri tajam, bengkak, atau tidak membaik, hentikan gerakan pemicunya dan konsultasikan ke tenaga kesehatan.",
+  "weeklyTitle": "Ringkasan mingguan",
+  "weeklyOpen": "Lihat ringkasan minggu lalu",
+  "weeklyThisWeek": "Minggu ini (berjalan)",
+  "weeklyRange": "{start} – {end}",
+  "@weeklyRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
+  "weeklyPrev": "Minggu sebelumnya",
+  "weeklyNext": "Minggu berikutnya",
+  "weeklyNoData": "Belum ada data pada minggu ini.",
+  "weeklyWeight": "Berat rata-rata",
+  "weeklyWeightValue": "{kg} kg ({n}× timbang)",
+  "@weeklyWeightValue": {
+    "placeholders": {
+      "kg": {},
+      "n": {}
+    }
+  },
+  "weeklyWeightChange": "{change} kg dari minggu sebelumnya",
+  "@weeklyWeightChange": {
+    "placeholders": {
+      "change": {}
+    }
+  },
+  "weeklyWeightMissing": "Kurang dari 2 penimbangan",
+  "weeklyTraining": "Latihan",
+  "weeklyTrainingValue": "{done} dari {planned} sesi · {sets} set",
+  "@weeklyTrainingValue": {
+    "placeholders": {
+      "done": {},
+      "planned": {},
+      "sets": {}
+    }
+  },
+  "weeklyTrainingNoPlan": "{done} sesi · {sets} set",
+  "@weeklyTrainingNoPlan": {
+    "placeholders": {
+      "done": {},
+      "sets": {}
+    }
+  },
+  "weeklyVolume": "Volume {kg} kg",
+  "@weeklyVolume": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "weeklyVolumeChange": "{pct}% dari minggu sebelumnya",
+  "@weeklyVolumeChange": {
+    "placeholders": {
+      "pct": {}
+    }
+  },
+  "weeklyIntake": "Makan",
+  "weeklyIntakeValue": "{days} hari tercatat · rata-rata {kcal} ({pct}% target)",
+  "@weeklyIntakeValue": {
+    "placeholders": {
+      "days": {},
+      "kcal": {},
+      "pct": {}
+    }
+  },
+  "weeklyIntakeNone": "Belum ada catatan makan",
+  "weeklyProtein": "Protein rata-rata {g} g dari {target} g",
+  "@weeklyProtein": {
+    "placeholders": {
+      "g": {},
+      "target": {}
+    }
+  },
+  "weeklyRecovery": "Pemulihan",
+  "weeklyRecoveryValue": "{n} check-in · tidur {sleep} jam · energi {energy}/5",
+  "@weeklyRecoveryValue": {
+    "placeholders": {
+      "n": {},
+      "sleep": {},
+      "energy": {}
+    }
+  },
+  "weeklyRecoveryNone": "Belum ada check-in",
+  "weeklyDiscomfort": "Keluhan nyeri pada {n} hari",
+  "@weeklyDiscomfort": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "adjustTitle": "Usulan penyesuaian target",
+  "adjustUp": "Berat naik lebih lambat dari rentang yang diharapkan selama 2 minggu, dengan makan tercatat konsisten. Usulan: naikkan target {delta} kcal (karbohidrat +{carbs} g) → {kcal}.",
+  "@adjustUp": {
+    "placeholders": {
+      "delta": {},
+      "carbs": {},
+      "kcal": {}
+    }
+  },
+  "adjustDown": "Berat naik lebih cepat dari rentang yang diharapkan selama 2 minggu, dengan makan tercatat konsisten. Usulan: turunkan target {delta} kcal (karbohidrat −{carbs} g) → {kcal}.",
+  "@adjustDown": {
+    "placeholders": {
+      "delta": {},
+      "carbs": {},
+      "kcal": {}
+    }
+  },
+  "adjustNote": "Perubahan kecil, dihitung aplikasi (bukan AI). Tidak berlaku sebelum kamu menyetujuinya.",
+  "adjustAccept": "Terapkan",
+  "adjustDecline": "Tidak sekarang",
+  "adjustAccepted": "Target baru aktif.",
+  "adjustDeclined": "Usulan tidak diterapkan.",
+  "adjustAcceptedLabel": "Diterapkan",
+  "adjustDeclinedLabel": "Tidak diterapkan",
+  "adjustBlockedIntake": "Tren berat di luar rentang, tetapi makan belum tercatat konsisten (≥ 4 hari/minggu, dekat target). Perbaiki pencatatan dulu sebelum target diubah.",
+  "adjustBlockedSafety": "Karena ada riwayat gangguan makan, perubahan target kalori sebaiknya didiskusikan dengan tenaga kesehatan.",
+  "weeklyAiTitle": "Ringkasan AI",
+  "weeklyAiGenerate": "Buat ringkasan dengan AI",
+  "weeklyAiRegenerate": "Buat ulang",
+  "weeklyAiGenerating": "Menyusun ringkasan…",
+  "weeklyAiWentWell": "Yang berjalan baik",
+  "weeklyAiObstacles": "Hambatan",
+  "weeklyAiSuggestions": "Saran minggu depan",
+  "weeklyAiNote": "Ditulis AI dari statistik di atas (tanpa nama, umur, atau catatan pribadi). Tidak mengubah target.",
+  "weeklyAiError": "Ringkasan AI belum bisa dibuat.",
+  "weeklyHistory": "Ringkasan tersimpan"
 }

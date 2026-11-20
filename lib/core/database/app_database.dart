@@ -269,6 +269,58 @@ class MealPlans extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+/// Penimbangan berat badan: satu nilai per tanggal lokal.
+@DataClassName('BodyMetricRow')
+class BodyMetrics extends Table {
+  TextColumn get date => text()();
+  RealColumn get weightKg => real()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {date};
+}
+
+/// Check-in harian (satu per tanggal). Semua isian opsional.
+@DataClassName('DailyCheckInRow')
+class DailyCheckIns extends Table {
+  TextColumn get date => text()();
+  RealColumn get sleepHours => real().nullable()();
+  IntColumn get energy => integer().nullable()();
+  IntColumn get mood => integer().nullable()();
+  TextColumn get discomfort => text().nullable()();
+  TextColumn get notes => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {date};
+}
+
+/// Ringkasan mingguan: salinan statistik, status target, usulan
+/// penyesuaian + keputusan pengguna, dan ringkasan AI (opsional).
+@DataClassName('WeeklyReviewRow')
+class WeeklyReviews extends Table {
+  /// Senin `YYYY-MM-DD`.
+  TextColumn get weekStart => text()();
+  TextColumn get stats => text()();
+  TextColumn get goalStatus => text()();
+  TextColumn get proposal => text().nullable()();
+
+  /// accepted | declined
+  TextColumn get decision => text().nullable()();
+  DateTimeColumn get decidedAt => dateTime().nullable()();
+  TextColumn get aiSummary => text().nullable()();
+  TextColumn get model => text().nullable()();
+  TextColumn get promptVersion => text().nullable()();
+  TextColumn get configVersion => text()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {weekStart};
+}
+
 @DriftDatabase(
   tables: [
     ProfileState,
@@ -285,13 +337,16 @@ class MealPlans extends Table {
     CustomFoods,
     FoodLogs,
     MealPlans,
+    BodyMetrics,
+    DailyCheckIns,
+    WeeklyReviews,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'musclecoach'));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -323,6 +378,12 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(foodLogs);
         await m.createTable(mealPlans);
         await _createFoodLogIndexes();
+      }
+      if (from < 5) {
+        // Fase 6: progres & check-in.
+        await m.createTable(bodyMetrics);
+        await m.createTable(dailyCheckIns);
+        await m.createTable(weeklyReviews);
       }
     },
     beforeOpen: (details) async {

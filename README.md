@@ -55,6 +55,26 @@ APK release saat ini ditandatangani dengan kunci debug (cukup untuk pemakaian pr
   - Lisensi: TKPI adalah publikasi pemerintah tanpa lisensi terbuka yang eksplisit. Untuk penggunaan pribadi ini dipakai dengan atribusi. **Tinjau ketentuannya sebelum rilis publik/komersial.**
 - Membangun ulang katalog: `python3 tool/food_catalog/build_tkpi_catalog.py` → `assets/catalog/foods_tkpi.json`.
 
+## Progres, check-in & ringkasan mingguan
+
+- **Tab Progres**:
+  - Check-in hari ini.
+  - Berat badan: grafik penimbangan + rata-rata 7 hari, dengan label "bukan massa otot".
+  - **Status target**: on track / perlu evaluasi / target perlu disesuaikan / data belum cukup.
+  - Asupan vs target (14 hari), volume latihan per minggu, progres per gerakan (set terberat per sesi), dan pencapaian.
+- **Check-in harian**: berat (opsional), tidur, energi & suasana hati 1–5, nyeri, dan catatan. Status latihan & asupan hari itu diambil otomatis. Bila ada keluhan nyeri, muncul saran keselamatan. Notifikasi check-in membuka layar ini.
+- **Status target** dinilai dari rata-rata berat **mingguan** (minimal 2 penimbangan per minggu, minggu berjalan tidak dihitung), dibandingkan laju yang diharapkan dari target. Muscle gain/strength memakai rentang dari kalkulasi target; recomposition dianggap stabil bila berubah ≤ 0,3 % BB.
+  - 1 minggu menyimpang → "perlu evaluasi".
+  - 2 minggu menyimpang searah → "target perlu disesuaikan".
+- **Usulan penyesuaian** dihitung aplikasi (bukan AI): ±100 kcal lewat karbohidrat. Usulan hanya muncul bila:
+  - makan tercatat ≥ 4 hari/minggu dengan rata-rata dalam ±15 % target selama 2 minggu;
+  - tidak menurunkan target di bawah perkiraan TDEE untuk muscle gain;
+  - tidak ada riwayat gangguan makan.
+
+  Target baru baru berlaku setelah kamu memilih **Terapkan**. Target lama diarsipkan.
+- **Ringkasan AI** (opsional, `weekly_review.v1`): Gemini hanya menerima statistik agregat — perubahan berat, kepatuhan, % target, tidur, dan jumlah hari nyeri. Yang **tidak** dikirim: berat absolut, nama, umur, isi catatan. Ringkasan ditolak bila AI menyebut angka kalori/gram atau istilah diagnosis/obat.
+- Grafik memakai package [fl_chart](https://pub.dev/packages/fl_chart) (MIT).
+
 ## Pengingat (notifikasi lokal)
 
 - **Profil → Pengingat**: aktifkan, atur jam latihan (hari mengikuti program aktif), makan, timbang, check-in, dan jam tenang. Izin notifikasi diminta di sini dengan penjelasan — tidak saat aplikasi dibuka.

@@ -1832,4 +1832,376 @@ class AppLocalizationsId extends AppLocalizations {
   String mealPlanModel(Object model, Object version) {
     return 'Disusun oleh $model · $version';
   }
+
+  @override
+  String get weightTitle => 'Berat badan';
+
+  @override
+  String get weightNote =>
+      'Berat badan bukan massa otot. Nilai dinilai dari rata-rata mingguan, bukan satu penimbangan.';
+
+  @override
+  String get weightLog => 'Catat berat';
+
+  @override
+  String weightLatest(Object kg, Object date) {
+    return 'Terakhir $kg kg · $date';
+  }
+
+  @override
+  String weightAvg7(Object kg) {
+    return 'Rata-rata 7 hari $kg kg';
+  }
+
+  @override
+  String get weightEmpty =>
+      'Belum ada penimbangan. Timbang 2–3× per minggu pada kondisi yang sama (mis. pagi setelah ke toilet).';
+
+  @override
+  String get weightSheetTitle => 'Catat berat badan';
+
+  @override
+  String get weightField => 'Berat (kg)';
+
+  @override
+  String get weightDate => 'Tanggal';
+
+  @override
+  String get weightRangeError => 'Isi 25–400 kg';
+
+  @override
+  String get weightSaved => 'Berat tersimpan';
+
+  @override
+  String weightDeleteTitle(Object date) {
+    return 'Hapus penimbangan $date?';
+  }
+
+  @override
+  String get goalStatusTitle => 'Status target';
+
+  @override
+  String get goalStatusInsufficient => 'Data belum cukup';
+
+  @override
+  String get goalStatusInsufficientBody =>
+      'Butuh minimal 2 minggu berurutan dengan ≥ 2 penimbangan per minggu sebelum tren bisa dinilai.';
+
+  @override
+  String get goalStatusOnTrack => 'On track';
+
+  @override
+  String goalStatusOnTrackBody(Object change, Object min, Object max) {
+    return 'Perubahan rata-rata minggu lalu $change kg, dalam rentang yang diharapkan ($min–$max kg/minggu).';
+  }
+
+  @override
+  String get goalStatusReview => 'Perlu evaluasi';
+
+  @override
+  String goalStatusReviewBody(Object change, Object min, Object max) {
+    return 'Perubahan rata-rata minggu lalu $change kg, di luar rentang $min–$max kg/minggu. Pantau satu minggu lagi sebelum mengubah apa pun.';
+  }
+
+  @override
+  String get goalStatusAdjust => 'Target perlu disesuaikan';
+
+  @override
+  String goalStatusAdjustBody(Object min, Object max) {
+    return 'Dua minggu berturut-turut perubahan berat di luar rentang $min–$max kg/minggu. Lihat usulan di ringkasan mingguan.';
+  }
+
+  @override
+  String get intakeChartTitle => 'Asupan vs target (14 hari)';
+
+  @override
+  String get intakeChartEmpty => 'Belum ada catatan makan.';
+
+  @override
+  String intakeChartLegend(Object kcal) {
+    return 'Batang = kalori tercatat · garis = target $kcal';
+  }
+
+  @override
+  String get volumeChartTitle => 'Volume latihan per minggu';
+
+  @override
+  String get volumeChartNote =>
+      'Volume = beban × repetisi dari set yang selesai (set berbasis waktu tidak dihitung).';
+
+  @override
+  String get volumeChartEmpty => 'Belum ada sesi selesai.';
+
+  @override
+  String volumeWeek(Object sessions) {
+    return '$sessions sesi';
+  }
+
+  @override
+  String get exerciseChartTitle => 'Progres per gerakan';
+
+  @override
+  String get exerciseChartHint => 'Set terberat per sesi';
+
+  @override
+  String get exerciseChartEmpty => 'Belum ada set berbeban yang tercatat.';
+
+  @override
+  String exerciseChartLatest(Object kg, Object reps) {
+    return 'Terakhir $kg kg × $reps';
+  }
+
+  @override
+  String get milestonesTitle => 'Pencapaian';
+
+  @override
+  String milestoneSessions(Object n) {
+    return '$n sesi selesai';
+  }
+
+  @override
+  String milestoneSets(Object n) {
+    return '$n set tercatat';
+  }
+
+  @override
+  String milestoneStreak(Object n) {
+    return '$n minggu berturut-turut latihan';
+  }
+
+  @override
+  String milestoneWeight(Object change) {
+    return 'Berat $change kg sejak awal (rata-rata mingguan)';
+  }
+
+  @override
+  String get checkInTitle => 'Check-in harian';
+
+  @override
+  String get checkInToday => 'Check-in hari ini';
+
+  @override
+  String get checkInDone => 'Check-in hari ini sudah diisi';
+
+  @override
+  String get checkInPrompt => 'Catat tidur, energi, dan kendala hari ini (1 menit).';
+
+  @override
+  String get checkInOpen => 'Isi check-in';
+
+  @override
+  String get checkInEdit => 'Ubah';
+
+  @override
+  String get checkInWeight => 'Berat badan (kg, opsional)';
+
+  @override
+  String get checkInSleep => 'Tidur semalam (jam)';
+
+  @override
+  String get checkInEnergy => 'Energi';
+
+  @override
+  String get checkInMood => 'Suasana hati (opsional)';
+
+  @override
+  String get checkInScaleLow => 'rendah';
+
+  @override
+  String get checkInScaleHigh => 'baik';
+
+  @override
+  String get checkInDiscomfort => 'Nyeri/tidak nyaman saat latihan (opsional)';
+
+  @override
+  String get checkInNotes => 'Catatan kendala (opsional)';
+
+  @override
+  String get checkInWorkoutDone => 'Latihan hari ini: selesai ✓';
+
+  @override
+  String get checkInWorkoutNone => 'Latihan hari ini: belum ada sesi selesai';
+
+  @override
+  String checkInIntake(Object kcal, Object target) {
+    return 'Makan tercatat: $kcal dari $target';
+  }
+
+  @override
+  String get checkInSaved => 'Check-in tersimpan';
+
+  @override
+  String get checkInSleepError => 'Isi 0–24 jam';
+
+  @override
+  String get checkInDiscomfortWarning =>
+      'Bila nyeri tajam, bengkak, atau tidak membaik, hentikan gerakan pemicunya dan konsultasikan ke tenaga kesehatan.';
+
+  @override
+  String get weeklyTitle => 'Ringkasan mingguan';
+
+  @override
+  String get weeklyOpen => 'Lihat ringkasan minggu lalu';
+
+  @override
+  String get weeklyThisWeek => 'Minggu ini (berjalan)';
+
+  @override
+  String weeklyRange(Object start, Object end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get weeklyPrev => 'Minggu sebelumnya';
+
+  @override
+  String get weeklyNext => 'Minggu berikutnya';
+
+  @override
+  String get weeklyNoData => 'Belum ada data pada minggu ini.';
+
+  @override
+  String get weeklyWeight => 'Berat rata-rata';
+
+  @override
+  String weeklyWeightValue(Object kg, Object n) {
+    return '$kg kg ($n× timbang)';
+  }
+
+  @override
+  String weeklyWeightChange(Object change) {
+    return '$change kg dari minggu sebelumnya';
+  }
+
+  @override
+  String get weeklyWeightMissing => 'Kurang dari 2 penimbangan';
+
+  @override
+  String get weeklyTraining => 'Latihan';
+
+  @override
+  String weeklyTrainingValue(Object done, Object planned, Object sets) {
+    return '$done dari $planned sesi · $sets set';
+  }
+
+  @override
+  String weeklyTrainingNoPlan(Object done, Object sets) {
+    return '$done sesi · $sets set';
+  }
+
+  @override
+  String weeklyVolume(Object kg) {
+    return 'Volume $kg kg';
+  }
+
+  @override
+  String weeklyVolumeChange(Object pct) {
+    return '$pct% dari minggu sebelumnya';
+  }
+
+  @override
+  String get weeklyIntake => 'Makan';
+
+  @override
+  String weeklyIntakeValue(Object days, Object kcal, Object pct) {
+    return '$days hari tercatat · rata-rata $kcal ($pct% target)';
+  }
+
+  @override
+  String get weeklyIntakeNone => 'Belum ada catatan makan';
+
+  @override
+  String weeklyProtein(Object g, Object target) {
+    return 'Protein rata-rata $g g dari $target g';
+  }
+
+  @override
+  String get weeklyRecovery => 'Pemulihan';
+
+  @override
+  String weeklyRecoveryValue(Object n, Object sleep, Object energy) {
+    return '$n check-in · tidur $sleep jam · energi $energy/5';
+  }
+
+  @override
+  String get weeklyRecoveryNone => 'Belum ada check-in';
+
+  @override
+  String weeklyDiscomfort(Object n) {
+    return 'Keluhan nyeri pada $n hari';
+  }
+
+  @override
+  String get adjustTitle => 'Usulan penyesuaian target';
+
+  @override
+  String adjustUp(Object delta, Object carbs, Object kcal) {
+    return 'Berat naik lebih lambat dari rentang yang diharapkan selama 2 minggu, dengan makan tercatat konsisten. Usulan: naikkan target $delta kcal (karbohidrat +$carbs g) → $kcal.';
+  }
+
+  @override
+  String adjustDown(Object delta, Object carbs, Object kcal) {
+    return 'Berat naik lebih cepat dari rentang yang diharapkan selama 2 minggu, dengan makan tercatat konsisten. Usulan: turunkan target $delta kcal (karbohidrat −$carbs g) → $kcal.';
+  }
+
+  @override
+  String get adjustNote =>
+      'Perubahan kecil, dihitung aplikasi (bukan AI). Tidak berlaku sebelum kamu menyetujuinya.';
+
+  @override
+  String get adjustAccept => 'Terapkan';
+
+  @override
+  String get adjustDecline => 'Tidak sekarang';
+
+  @override
+  String get adjustAccepted => 'Target baru aktif.';
+
+  @override
+  String get adjustDeclined => 'Usulan tidak diterapkan.';
+
+  @override
+  String get adjustAcceptedLabel => 'Diterapkan';
+
+  @override
+  String get adjustDeclinedLabel => 'Tidak diterapkan';
+
+  @override
+  String get adjustBlockedIntake =>
+      'Tren berat di luar rentang, tetapi makan belum tercatat konsisten (≥ 4 hari/minggu, dekat target). Perbaiki pencatatan dulu sebelum target diubah.';
+
+  @override
+  String get adjustBlockedSafety =>
+      'Karena ada riwayat gangguan makan, perubahan target kalori sebaiknya didiskusikan dengan tenaga kesehatan.';
+
+  @override
+  String get weeklyAiTitle => 'Ringkasan AI';
+
+  @override
+  String get weeklyAiGenerate => 'Buat ringkasan dengan AI';
+
+  @override
+  String get weeklyAiRegenerate => 'Buat ulang';
+
+  @override
+  String get weeklyAiGenerating => 'Menyusun ringkasan…';
+
+  @override
+  String get weeklyAiWentWell => 'Yang berjalan baik';
+
+  @override
+  String get weeklyAiObstacles => 'Hambatan';
+
+  @override
+  String get weeklyAiSuggestions => 'Saran minggu depan';
+
+  @override
+  String get weeklyAiNote =>
+      'Ditulis AI dari statistik di atas (tanpa nama, umur, atau catatan pribadi). Tidak mengubah target.';
+
+  @override
+  String get weeklyAiError => 'Ringkasan AI belum bisa dibuat.';
+
+  @override
+  String get weeklyHistory => 'Ringkasan tersimpan';
 }

@@ -11,6 +11,7 @@ import '../../../goals/domain/entities/goal.dart';
 import '../../../goals/presentation/providers/goal_providers.dart';
 import '../../../nutrition/presentation/providers/nutrition_providers.dart';
 import '../../../nutrition/presentation/widgets/day_summary_card.dart';
+import '../../../progress/presentation/screens/progress_screen.dart' show CheckInCard;
 import '../../../../core/database/database_providers.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../../../workout/domain/workout_math.dart';
@@ -18,7 +19,7 @@ import '../../../workout/presentation/providers/workout_providers.dart';
 import '../../../workout/presentation/widgets/workout_labels.dart';
 
 /// Tab Home: sapaan, latihan berikutnya, asupan & sisa target hari ini, dan
-/// ringkasan goal aktif. Check-in menyusul pada fase selanjutnya.
+/// check-in harian, dan ringkasan goal aktif.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -42,6 +43,10 @@ class HomeScreen extends ConsumerWidget {
           const _WorkoutCard(),
           const SizedBox(height: 12),
           if (nutrition != null) ...[const _TodayNutritionCard(), const SizedBox(height: 12)],
+          if (goal != null) ...[
+            CheckInCard(date: ref.watch(todayDateProvider)),
+            const SizedBox(height: 12),
+          ],
           if (goal != null) _GoalSummaryCard(goal: goal),
           const SizedBox(height: 24),
           Text(

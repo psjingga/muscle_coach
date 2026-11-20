@@ -17,7 +17,9 @@ import '../../core/utils/formatters.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/profile/presentation/providers/profile_providers.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/progress/presentation/screens/check_in_screen.dart';
 import '../../features/progress/presentation/screens/progress_screen.dart';
+import '../../features/progress/presentation/screens/weekly_review_screen.dart';
 import '../../features/workout/presentation/screens/day_screen.dart';
 import '../../features/workout/presentation/screens/history_screen.dart';
 import '../../features/workout/presentation/screens/plan_screen.dart';
@@ -86,6 +88,14 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '${Routes.mealPlan}/:id',
         builder: (_, s) => MealPlanScreen(planId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '${Routes.checkIn}/:date',
+        builder: (_, s) => CheckInScreen(date: s.pathParameters['date']!),
+      ),
+      GoRoute(
+        path: '${Routes.weeklyReview}/:week',
+        builder: (_, s) => WeeklyReviewScreen(weekStart: s.pathParameters['week']!),
       ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),

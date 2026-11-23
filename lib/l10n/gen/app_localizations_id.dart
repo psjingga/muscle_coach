@@ -2149,6 +2149,41 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String get fmCheckInWorkoutLabel => 'Latihan';
+
+  @override
+  String get fmCheckInIntakeLabel => 'Asupan';
+
+  @override
+  String get fmCheckInWorkoutDone => 'Selesai ✓';
+
+  @override
+  String get fmCheckInWorkoutNone => 'Belum ada sesi selesai';
+
+  @override
+  String fmCheckInIntakeValue(Object kcal, Object target) {
+    return '$kcal / $target';
+  }
+
+  @override
+  String get fmCheckInWeight => 'Berat badan (opsional)';
+
+  @override
+  String get fmCheckInSleep => 'Tidur semalam';
+
+  @override
+  String get fmCheckInHours => 'jam';
+
+  @override
+  String get fmKcalPer100 => 'kcal / 100 g';
+
+  @override
+  String get fmSourceTkpi => 'TKPI';
+
+  @override
+  String get fmOtherWays => 'Cara lain';
+
+  @override
   String get checkInTitle => 'Check-in harian';
 
   @override

@@ -158,7 +158,7 @@ void main() {
     await pump(tester);
     unawaited(router.push(Routes.checkInPath('2026-11-19')));
     await settle(tester);
-    expect(find.text('Latihan hari ini: belum ada sesi selesai'), findsOneWidget);
+    expect(find.text('Belum ada sesi selesai'), findsOneWidget);
     await tester.enterText(find.byKey(const Key('checkin-sleep')), '30');
     await tester.tap(find.byKey(const Key('checkin-save')));
     await tester.pumpAndSettle();

@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/logging/app_logger.dart';
 import 'app.dart';
+import 'app_restart.dart';
 
 /// Pasang penanganan error global lalu jalankan aplikasi. Basis data lokal
 /// dibuka saat pertama kali dibutuhkan (`appDatabaseProvider`).
@@ -20,5 +20,5 @@ Future<void> bootstrap() async {
     return true;
   };
 
-  runApp(const ProviderScope(child: MuscleCoachApp()));
+  runApp(const AppRestartScope(child: MuscleCoachApp()));
 }

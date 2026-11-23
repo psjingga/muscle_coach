@@ -2720,6 +2720,198 @@ abstract class AppLocalizations {
   /// **'Buka'**
   String get openWorkout;
 
+  /// No description provided for @backupExport.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangkan data'**
+  String get backupExport;
+
+  /// No description provided for @backupExportSub.
+  ///
+  /// In id, this message translates to:
+  /// **'Berkas terenkripsi berisi data & foto progres'**
+  String get backupExportSub;
+
+  /// No description provided for @backupLast.
+  ///
+  /// In id, this message translates to:
+  /// **'Terakhir dicadangkan {date}'**
+  String backupLast(Object date);
+
+  /// No description provided for @backupNever.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum pernah dicadangkan'**
+  String get backupNever;
+
+  /// No description provided for @backupRestore.
+  ///
+  /// In id, this message translates to:
+  /// **'Pulihkan dari cadangan'**
+  String get backupRestore;
+
+  /// No description provided for @backupRestoreSub.
+  ///
+  /// In id, this message translates to:
+  /// **'Ganti data di HP ini dengan isi berkas cadangan'**
+  String get backupRestoreSub;
+
+  /// No description provided for @backupPasswordTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kata sandi cadangan'**
+  String get backupPasswordTitle;
+
+  /// No description provided for @backupPasswordBodyExport.
+  ///
+  /// In id, this message translates to:
+  /// **'Kata sandi ini dibutuhkan untuk memulihkan cadangan. Simpan baik-baik — bila lupa, cadangan tidak bisa dibuka oleh siapa pun.'**
+  String get backupPasswordBodyExport;
+
+  /// No description provided for @backupPasswordBodyRestore.
+  ///
+  /// In id, this message translates to:
+  /// **'Masukkan kata sandi yang dipakai saat membuat cadangan.'**
+  String get backupPasswordBodyRestore;
+
+  /// No description provided for @backupPasswordLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Kata sandi'**
+  String get backupPasswordLabel;
+
+  /// No description provided for @backupPasswordConfirm.
+  ///
+  /// In id, this message translates to:
+  /// **'Ulangi kata sandi'**
+  String get backupPasswordConfirm;
+
+  /// No description provided for @backupPasswordTooShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Minimal 8 karakter'**
+  String get backupPasswordTooShort;
+
+  /// No description provided for @backupPasswordMismatch.
+  ///
+  /// In id, this message translates to:
+  /// **'Kata sandi tidak sama'**
+  String get backupPasswordMismatch;
+
+  /// No description provided for @backupContinue.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjut'**
+  String get backupContinue;
+
+  /// No description provided for @backupCreating.
+  ///
+  /// In id, this message translates to:
+  /// **'Membuat cadangan…'**
+  String get backupCreating;
+
+  /// No description provided for @backupShareSubject.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangan Muscle Coach'**
+  String get backupShareSubject;
+
+  /// No description provided for @backupShared.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangan dibuat. Simpan berkasnya di tempat aman.'**
+  String get backupShared;
+
+  /// No description provided for @backupNotShared.
+  ///
+  /// In id, this message translates to:
+  /// **'Berkas cadangan belum disimpan ke mana pun.'**
+  String get backupNotShared;
+
+  /// No description provided for @backupFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangan gagal dibuat. Coba lagi.'**
+  String get backupFailed;
+
+  /// No description provided for @backupRestoreWarnTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pulihkan dari cadangan?'**
+  String get backupRestoreWarnTitle;
+
+  /// No description provided for @backupRestoreWarnBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua data di HP ini (assessment, program, catatan, foto progres) akan diganti dengan isi cadangan. API key Gemini tidak termasuk cadangan dan perlu dimasukkan lagi di HP baru.'**
+  String get backupRestoreWarnBody;
+
+  /// No description provided for @backupChooseFile.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih berkas'**
+  String get backupChooseFile;
+
+  /// No description provided for @backupChecking.
+  ///
+  /// In id, this message translates to:
+  /// **'Memeriksa cadangan…'**
+  String get backupChecking;
+
+  /// No description provided for @backupWrongPassword.
+  ///
+  /// In id, this message translates to:
+  /// **'Kata sandi salah atau berkas rusak.'**
+  String get backupWrongPassword;
+
+  /// No description provided for @backupNotBackup.
+  ///
+  /// In id, this message translates to:
+  /// **'Berkas ini bukan cadangan Muscle Coach.'**
+  String get backupNotBackup;
+
+  /// No description provided for @backupNewer.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangan dibuat oleh versi aplikasi yang lebih baru. Perbarui aplikasi dulu.'**
+  String get backupNewer;
+
+  /// No description provided for @backupInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'Berkas cadangan tidak valid atau rusak.'**
+  String get backupInvalid;
+
+  /// No description provided for @backupConfirmTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Ganti data dengan cadangan ini?'**
+  String get backupConfirmTitle;
+
+  /// No description provided for @backupConfirmBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangan {date} · {photos} foto progres. Data di HP ini akan diganti dan aplikasi dimuat ulang.'**
+  String backupConfirmBody(Object date, Object photos);
+
+  /// No description provided for @backupRestoreAction.
+  ///
+  /// In id, this message translates to:
+  /// **'Pulihkan'**
+  String get backupRestoreAction;
+
+  /// No description provided for @backupRestoring.
+  ///
+  /// In id, this message translates to:
+  /// **'Memulihkan data…'**
+  String get backupRestoring;
+
+  /// No description provided for @backupRestoreFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemulihan gagal. Data lama tetap dipakai.'**
+  String get backupRestoreFailed;
+
   /// No description provided for @dataPrivacySection.
   ///
   /// In id, this message translates to:
@@ -2729,7 +2921,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataLocalOnly.
   ///
   /// In id, this message translates to:
-  /// **'Semua data tersimpan hanya di perangkat ini, tanpa akun dan tanpa server. Bila aplikasi dihapus atau HP hilang, data ikut hilang — fitur backup menyusul.'**
+  /// **'Semua data tersimpan hanya di perangkat ini, tanpa akun dan tanpa server. Bila aplikasi dihapus atau HP hilang, data ikut hilang — buat cadangan terenkripsi secara berkala.'**
   String get dataLocalOnly;
 
   /// No description provided for @wipeData.

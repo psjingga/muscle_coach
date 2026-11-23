@@ -1482,11 +1482,114 @@ class AppLocalizationsId extends AppLocalizations {
   String get openWorkout => 'Buka';
 
   @override
+  String get backupExport => 'Cadangkan data';
+
+  @override
+  String get backupExportSub => 'Berkas terenkripsi berisi data & foto progres';
+
+  @override
+  String backupLast(Object date) {
+    return 'Terakhir dicadangkan $date';
+  }
+
+  @override
+  String get backupNever => 'Belum pernah dicadangkan';
+
+  @override
+  String get backupRestore => 'Pulihkan dari cadangan';
+
+  @override
+  String get backupRestoreSub => 'Ganti data di HP ini dengan isi berkas cadangan';
+
+  @override
+  String get backupPasswordTitle => 'Kata sandi cadangan';
+
+  @override
+  String get backupPasswordBodyExport =>
+      'Kata sandi ini dibutuhkan untuk memulihkan cadangan. Simpan baik-baik — bila lupa, cadangan tidak bisa dibuka oleh siapa pun.';
+
+  @override
+  String get backupPasswordBodyRestore => 'Masukkan kata sandi yang dipakai saat membuat cadangan.';
+
+  @override
+  String get backupPasswordLabel => 'Kata sandi';
+
+  @override
+  String get backupPasswordConfirm => 'Ulangi kata sandi';
+
+  @override
+  String get backupPasswordTooShort => 'Minimal 8 karakter';
+
+  @override
+  String get backupPasswordMismatch => 'Kata sandi tidak sama';
+
+  @override
+  String get backupContinue => 'Lanjut';
+
+  @override
+  String get backupCreating => 'Membuat cadangan…';
+
+  @override
+  String get backupShareSubject => 'Cadangan Muscle Coach';
+
+  @override
+  String get backupShared => 'Cadangan dibuat. Simpan berkasnya di tempat aman.';
+
+  @override
+  String get backupNotShared => 'Berkas cadangan belum disimpan ke mana pun.';
+
+  @override
+  String get backupFailed => 'Cadangan gagal dibuat. Coba lagi.';
+
+  @override
+  String get backupRestoreWarnTitle => 'Pulihkan dari cadangan?';
+
+  @override
+  String get backupRestoreWarnBody =>
+      'Semua data di HP ini (assessment, program, catatan, foto progres) akan diganti dengan isi cadangan. API key Gemini tidak termasuk cadangan dan perlu dimasukkan lagi di HP baru.';
+
+  @override
+  String get backupChooseFile => 'Pilih berkas';
+
+  @override
+  String get backupChecking => 'Memeriksa cadangan…';
+
+  @override
+  String get backupWrongPassword => 'Kata sandi salah atau berkas rusak.';
+
+  @override
+  String get backupNotBackup => 'Berkas ini bukan cadangan Muscle Coach.';
+
+  @override
+  String get backupNewer =>
+      'Cadangan dibuat oleh versi aplikasi yang lebih baru. Perbarui aplikasi dulu.';
+
+  @override
+  String get backupInvalid => 'Berkas cadangan tidak valid atau rusak.';
+
+  @override
+  String get backupConfirmTitle => 'Ganti data dengan cadangan ini?';
+
+  @override
+  String backupConfirmBody(Object date, Object photos) {
+    return 'Cadangan $date · $photos foto progres. Data di HP ini akan diganti dan aplikasi dimuat ulang.';
+  }
+
+  @override
+  String get backupRestoreAction => 'Pulihkan';
+
+  @override
+  String get backupRestoring => 'Memulihkan data…';
+
+  @override
+  String get backupRestoreFailed => 'Pemulihan gagal. Data lama tetap dipakai.';
+
+  @override
   String get dataPrivacySection => 'Data & privasi';
 
   @override
   String get dataLocalOnly =>
-      'Semua data tersimpan hanya di perangkat ini, tanpa akun dan tanpa server. Bila aplikasi dihapus atau HP hilang, data ikut hilang — fitur backup menyusul.';
+      'Semua data tersimpan hanya di perangkat ini, tanpa akun dan tanpa server. Bila aplikasi dihapus atau HP hilang, data ikut hilang — buat cadangan terenkripsi secara berkala.';
 
   @override
   String get wipeData => 'Hapus semua data';

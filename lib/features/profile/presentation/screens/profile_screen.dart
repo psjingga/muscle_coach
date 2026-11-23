@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../backup/presentation/backup_flow.dart';
+import '../../../backup/presentation/backup_providers.dart';
 import '../../../../app/router/routes.dart';
 import '../../../../app/theme/app_palette.dart';
 import '../../../../app/theme/app_theme.dart';
@@ -133,6 +135,29 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
             ),
+          ),
+          const SizedBox(height: 12),
+          SettingsGroup(
+            children: [
+              SettingsRow(
+                key: const Key('backup-export'),
+                icon: Icons.cloud_upload_outlined,
+                accentIcon: true,
+                title: l.backupExport,
+                subtitle: switch (ref.watch(lastBackupProvider).value) {
+                  final t? => l.backupLast(Fmt.date(t)),
+                  null => l.backupNever,
+                },
+                onTap: () => exportBackup(context, ref),
+              ),
+              SettingsRow(
+                key: const Key('backup-restore'),
+                icon: Icons.settings_backup_restore_rounded,
+                title: l.backupRestore,
+                subtitle: l.backupRestoreSub,
+                onTap: () => restoreBackup(context, ref),
+              ),
+            ],
           ),
           const SizedBox(height: 12),
           OutlinedButton.icon(

@@ -54,6 +54,14 @@ Hasil AI selalu divalidasi aplikasi sebelum disimpan sebagai **draft**, lalu bar
   - `PRAGMA secure_delete` aktif, sehingga baris yang dihapus ditimpa.
 - **Kuota AI**: maks. 10 pemanggilan per hari (lokal), timeout 120 dtk, maks. 1 retry.
 
+## Cadangan (ekspor/impor)
+
+- **Profil → Cadangkan data** membuat satu berkas `.mcbackup` berisi salinan basis data (`VACUUM INTO`), foto progres, dan manifest, lalu **dienkripsi AES-256-GCM** dengan kunci dari kata sandi pengguna (PBKDF2-HMAC-SHA256, 210.000 iterasi, salt acak). Header ikut diautentikasi; berkas yang diubah atau kata sandi salah ditolak.
+- Berkas dibagikan lewat lembar bagikan sistem (Files, Drive, WhatsApp, dll.) — **tujuan sepenuhnya pilihan pengguna**; aplikasi tidak mengunggah ke mana pun. Kata sandi tidak disimpan dan tidak bisa dipulihkan.
+- **API key Gemini tidak ikut dicadangkan** (tetap di Keystore/Keychain); di perangkat baru key perlu dimasukkan lagi.
+- **Profil → Pulihkan dari cadangan** memeriksa berkas (kata sandi, format, versi skema) sebelum mengganti data; cadangan dari versi aplikasi yang lebih baru ditolak. Setelah dipulihkan, aplikasi dimuat ulang dan migrasi basis data berjalan otomatis bila cadangan berasal dari versi lama.
+- Berkas sementara ada di folder cache aplikasi dan diganti setiap kali membuat cadangan baru.
+
 ## Penghapusan & retensi
 
 - **Profil → Hapus semua data**: mengosongkan semua tabel, menjalankan `VACUUM`, menghapus folder foto progres, menghapus API key, dan membatalkan semua notifikasi. Tidak bisa dibatalkan.
@@ -64,6 +72,5 @@ Hasil AI selalu divalidasi aplikasi sebelum disimpan sebagai **draft**, lalu bar
 ## Keterbatasan & keputusan terbuka
 
 - Basis data SQLite **tidak dienkripsi tersendiri** (mis. SQLCipher). Untuk penggunaan pribadi, sandbox + enkripsi perangkat dianggap cukup. Tinjau ulang bila aplikasi dirilis publik.
-- Belum ada ekspor/impor cadangan manual.
 - Data TKPI dipakai dengan atribusi; lisensi resmi perlu ditinjau sebelum rilis publik.
 - Rilis publik membutuhkan kebijakan privasi resmi, penanganan permintaan pengguna, dan penilaian kepatuhan (mis. UU PDP Indonesia untuk data kesehatan).

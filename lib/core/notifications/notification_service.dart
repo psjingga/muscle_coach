@@ -28,8 +28,13 @@ class ScheduledNotification {
 
 /// Abstraksi notifikasi lokal. UI & use case tidak memanggil plugin langsung.
 abstract interface class NotificationService {
-  /// Inisialisasi plugin; [onOpenRoute] dipanggil saat notifikasi diketuk.
-  Future<void> init({required void Function(String route) onOpenRoute});
+  /// Inisialisasi plugin; [onOpenRoute] dipanggil saat notifikasi diketuk,
+  /// [onCheckInDone] saat aksi "Tandai selesai" pada pengingat check-in
+  /// ditekan selagi aplikasi berjalan (tanggal `YYYY-MM-DD`).
+  Future<void> init({
+    required void Function(String route) onOpenRoute,
+    Future<void> Function(String date)? onCheckInDone,
+  });
 
   /// Rute dari notifikasi yang membuka aplikasi (cold start), bila ada.
   Future<String?> launchRoute();

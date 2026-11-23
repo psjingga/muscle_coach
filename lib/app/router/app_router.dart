@@ -17,6 +17,7 @@ import '../../core/utils/formatters.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/profile/presentation/providers/profile_providers.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/progress/presentation/screens/photo_compare_screen.dart';
 import '../../features/progress/presentation/screens/check_in_screen.dart';
 import '../../features/progress/presentation/screens/progress_screen.dart';
 import '../../features/progress/presentation/screens/weekly_review_screen.dart';
@@ -93,6 +94,7 @@ GoRouter appRouter(Ref ref) {
         path: '${Routes.checkIn}/:date',
         builder: (_, s) => CheckInScreen(date: s.pathParameters['date']!),
       ),
+      GoRoute(path: Routes.photoCompare, builder: (_, _) => const PhotoCompareScreen()),
       GoRoute(
         path: '${Routes.weeklyReview}/:week',
         builder: (_, s) => WeeklyReviewScreen(weekStart: s.pathParameters['week']!),

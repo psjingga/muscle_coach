@@ -6,9 +6,10 @@ import 'package:musclecoach/core/database/app_database.dart';
 import '../generated_migrations/schema.dart';
 import '../generated_migrations/schema_v3.dart' as v3;
 import '../generated_migrations/schema_v4.dart' as v4;
+import '../generated_migrations/schema_v5.dart' as v5;
 
 /// Skema dibuat dengan `drift_dev schema dump` dari commit yang dirilis
-/// (v1 7d900e2, v3 4054a30, v4 677040c, v5 sekarang); v2 tidak pernah dirilis.
+/// (v1 7d900e2, v3 4054a30, v4 677040c, v5 7bcc285, v6 sekarang); v2 tidak pernah dirilis.
 /// Tambah snapshot baru setiap kali `schemaVersion` naik (lihat README).
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -16,11 +17,11 @@ void main() {
 
   setUpAll(() => verifier = SchemaVerifier(GeneratedHelper()));
 
-  for (final from in GeneratedHelper.versions.where((v) => v < 5)) {
-    test('migrasi v$from → v5 menghasilkan skema yang sama dengan instalasi baru', () async {
+  for (final from in GeneratedHelper.versions.where((v) => v < 6)) {
+    test('migrasi v$from → v6 menghasilkan skema yang sama dengan instalasi baru', () async {
       final schema = await verifier.schemaAt(from);
       final db = AppDatabase(schema.newConnection());
-      await verifier.migrateAndValidate(db, 5);
+      await verifier.migrateAndValidate(db, 6);
       await db.close();
     });
   }
@@ -55,7 +56,7 @@ void main() {
     await db.close();
   });
 
-  test('data v4 (catatan makanan) tetap utuh setelah migrasi ke v5', () async {
+  test('data v4 (catatan makanan) tetap utuh setelah migrasi ke v6', () async {
     final schema = await verifier.schemaAt(4);
     final old = v4.DatabaseAtV4(schema.newConnection());
     final t = DateTime(2026, 11, 19).millisecondsSinceEpoch ~/ 1000;
@@ -84,6 +85,29 @@ void main() {
     final row = await db.select(db.foodLogs).getSingle();
     expect((row.name, row.kcal, row.grams), ('Nasi', 270.0, 150.0));
     await db.saveWeightForTest();
+    await db.close();
+  });
+
+  test('data v5 (berat & check-in) tetap utuh; tabel lingkar & foto tersedia', () async {
+    final schema = await verifier.schemaAt(5);
+    final old = v5.DatabaseAtV5(schema.newConnection());
+    final t = DateTime(2026, 11, 19).millisecondsSinceEpoch ~/ 1000;
+    await old
+        .into(old.bodyMetrics)
+        .insert(
+          v5.BodyMetricsCompanion.insert(
+            date: '2026-11-19',
+            weightKg: 70.5,
+            createdAt: t,
+            updatedAt: t,
+          ),
+        );
+    await old.close();
+
+    final db = AppDatabase(schema.newConnection());
+    expect((await db.select(db.bodyMetrics).getSingle()).weightKg, 70.5);
+    expect(await db.select(db.bodyMeasurements).get(), isEmpty);
+    expect(await db.select(db.progressPhotos).get(), isEmpty);
     await db.close();
   });
 

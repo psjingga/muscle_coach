@@ -3620,6 +3620,264 @@ abstract class AppLocalizations {
   /// **'Check-in hari ini'**
   String get checkInToday;
 
+  /// No description provided for @checkInMarkedDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Ditandai selesai dari notifikasi. Tambahkan detail bila sempat.'**
+  String get checkInMarkedDone;
+
+  /// No description provided for @measurementsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Lingkar badan'**
+  String get measurementsTitle;
+
+  /// No description provided for @measurementsLog.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat ukuran'**
+  String get measurementsLog;
+
+  /// No description provided for @measurementsEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada ukuran. Lingkar badan membantu melihat perubahan bentuk tubuh yang tidak tampak dari berat saja.'**
+  String get measurementsEmpty;
+
+  /// No description provided for @measurementsNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Ukur di titik yang sama, pagi hari sebelum makan, dengan pita ukur tidak ditarik kencang. Lingkar badan tidak mengukur massa otot secara langsung.'**
+  String get measurementsNote;
+
+  /// No description provided for @siteWaist.
+  ///
+  /// In id, this message translates to:
+  /// **'Pinggang'**
+  String get siteWaist;
+
+  /// No description provided for @siteChest.
+  ///
+  /// In id, this message translates to:
+  /// **'Dada'**
+  String get siteChest;
+
+  /// No description provided for @siteArm.
+  ///
+  /// In id, this message translates to:
+  /// **'Lengan atas'**
+  String get siteArm;
+
+  /// No description provided for @siteThigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Paha'**
+  String get siteThigh;
+
+  /// No description provided for @siteHip.
+  ///
+  /// In id, this message translates to:
+  /// **'Pinggul'**
+  String get siteHip;
+
+  /// No description provided for @measurementLatest.
+  ///
+  /// In id, this message translates to:
+  /// **'{value} cm · {date}'**
+  String measurementLatest(Object value, Object date);
+
+  /// No description provided for @measurementChange.
+  ///
+  /// In id, this message translates to:
+  /// **'{delta} cm sejak {date}'**
+  String measurementChange(Object delta, Object date);
+
+  /// No description provided for @measurementSheetTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat lingkar badan'**
+  String get measurementSheetTitle;
+
+  /// No description provided for @measurementSheetHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi ukuran yang Anda ukur saja; yang kosong tidak disimpan.'**
+  String get measurementSheetHint;
+
+  /// No description provided for @measurementDate.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanggal pengukuran'**
+  String get measurementDate;
+
+  /// No description provided for @measurementRangeError.
+  ///
+  /// In id, this message translates to:
+  /// **'Antara 10–250 cm'**
+  String get measurementRangeError;
+
+  /// No description provided for @measurementSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Ukuran tersimpan.'**
+  String get measurementSaved;
+
+  /// No description provided for @measurementChartLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Grafik lingkar {site}'**
+  String measurementChartLabel(Object site);
+
+  /// No description provided for @photosTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto progres'**
+  String get photosTitle;
+
+  /// No description provided for @photosAdd.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah foto'**
+  String get photosAdd;
+
+  /// No description provided for @photosEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada foto. Foto dengan pose, tempat, dan cahaya yang sama tiap 2–4 minggu memudahkan melihat perubahan.'**
+  String get photosEmpty;
+
+  /// No description provided for @photosPrivacy.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto hanya disimpan di HP ini, tidak dikirim ke AI, dan ikut terhapus saat \"Hapus semua data\".'**
+  String get photosPrivacy;
+
+  /// No description provided for @poseFront.
+  ///
+  /// In id, this message translates to:
+  /// **'Depan'**
+  String get poseFront;
+
+  /// No description provided for @poseSide.
+  ///
+  /// In id, this message translates to:
+  /// **'Samping'**
+  String get poseSide;
+
+  /// No description provided for @poseBack.
+  ///
+  /// In id, this message translates to:
+  /// **'Belakang'**
+  String get poseBack;
+
+  /// No description provided for @photoSheetTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah foto progres'**
+  String get photoSheetTitle;
+
+  /// No description provided for @photoPose.
+  ///
+  /// In id, this message translates to:
+  /// **'Pose'**
+  String get photoPose;
+
+  /// No description provided for @photoDate.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanggal foto'**
+  String get photoDate;
+
+  /// No description provided for @photoCamera.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamera'**
+  String get photoCamera;
+
+  /// No description provided for @photoGallery.
+  ///
+  /// In id, this message translates to:
+  /// **'Galeri'**
+  String get photoGallery;
+
+  /// No description provided for @photoSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto tersimpan.'**
+  String get photoSaved;
+
+  /// No description provided for @photoFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto tidak bisa diambil atau disimpan. Periksa izin kamera/galeri di pengaturan.'**
+  String get photoFailed;
+
+  /// No description provided for @photoDeleteTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus foto ini?'**
+  String get photoDeleteTitle;
+
+  /// No description provided for @photoDeleteMessage.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto dihapus dari HP ini dan tidak bisa dikembalikan.'**
+  String get photoDeleteMessage;
+
+  /// No description provided for @photoDeleted.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto dihapus.'**
+  String get photoDeleted;
+
+  /// No description provided for @photoCompare.
+  ///
+  /// In id, this message translates to:
+  /// **'Bandingkan'**
+  String get photoCompare;
+
+  /// No description provided for @photoCompareTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Bandingkan foto'**
+  String get photoCompareTitle;
+
+  /// No description provided for @photoCompareNeedTwo.
+  ///
+  /// In id, this message translates to:
+  /// **'Butuh minimal dua tanggal dengan pose yang sama.'**
+  String get photoCompareNeedTwo;
+
+  /// No description provided for @photoBefore.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebelum'**
+  String get photoBefore;
+
+  /// No description provided for @photoAfter.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesudah'**
+  String get photoAfter;
+
+  /// No description provided for @photoWeightOn.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat {kg} kg'**
+  String photoWeightOn(Object kg);
+
+  /// No description provided for @photoMissing.
+  ///
+  /// In id, this message translates to:
+  /// **'Berkas foto tidak ditemukan'**
+  String get photoMissing;
+
+  /// No description provided for @photoOpenLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto {pose} {date}'**
+  String photoOpenLabel(Object pose, Object date);
+
   /// No description provided for @checkInDone.
   ///
   /// In id, this message translates to:

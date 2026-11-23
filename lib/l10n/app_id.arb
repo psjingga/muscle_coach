@@ -1064,6 +1064,77 @@
   },
   "checkInTitle": "Check-in harian",
   "checkInToday": "Check-in hari ini",
+  "checkInMarkedDone": "Ditandai selesai dari notifikasi. Tambahkan detail bila sempat.",
+  "measurementsTitle": "Lingkar badan",
+  "measurementsLog": "Catat ukuran",
+  "measurementsEmpty": "Belum ada ukuran. Lingkar badan membantu melihat perubahan bentuk tubuh yang tidak tampak dari berat saja.",
+  "measurementsNote": "Ukur di titik yang sama, pagi hari sebelum makan, dengan pita ukur tidak ditarik kencang. Lingkar badan tidak mengukur massa otot secara langsung.",
+  "siteWaist": "Pinggang",
+  "siteChest": "Dada",
+  "siteArm": "Lengan atas",
+  "siteThigh": "Paha",
+  "siteHip": "Pinggul",
+  "measurementLatest": "{value} cm · {date}",
+  "@measurementLatest": {
+    "placeholders": {
+      "value": {},
+      "date": {}
+    }
+  },
+  "measurementChange": "{delta} cm sejak {date}",
+  "@measurementChange": {
+    "placeholders": {
+      "delta": {},
+      "date": {}
+    }
+  },
+  "measurementSheetTitle": "Catat lingkar badan",
+  "measurementSheetHint": "Isi ukuran yang Anda ukur saja; yang kosong tidak disimpan.",
+  "measurementDate": "Tanggal pengukuran",
+  "measurementRangeError": "Antara 10–250 cm",
+  "measurementSaved": "Ukuran tersimpan.",
+  "measurementChartLabel": "Grafik lingkar {site}",
+  "@measurementChartLabel": {
+    "placeholders": {
+      "site": {}
+    }
+  },
+  "photosTitle": "Foto progres",
+  "photosAdd": "Tambah foto",
+  "photosEmpty": "Belum ada foto. Foto dengan pose, tempat, dan cahaya yang sama tiap 2–4 minggu memudahkan melihat perubahan.",
+  "photosPrivacy": "Foto hanya disimpan di HP ini, tidak dikirim ke AI, dan ikut terhapus saat \"Hapus semua data\".",
+  "poseFront": "Depan",
+  "poseSide": "Samping",
+  "poseBack": "Belakang",
+  "photoSheetTitle": "Tambah foto progres",
+  "photoPose": "Pose",
+  "photoDate": "Tanggal foto",
+  "photoCamera": "Kamera",
+  "photoGallery": "Galeri",
+  "photoSaved": "Foto tersimpan.",
+  "photoFailed": "Foto tidak bisa diambil atau disimpan. Periksa izin kamera/galeri di pengaturan.",
+  "photoDeleteTitle": "Hapus foto ini?",
+  "photoDeleteMessage": "Foto dihapus dari HP ini dan tidak bisa dikembalikan.",
+  "photoDeleted": "Foto dihapus.",
+  "photoCompare": "Bandingkan",
+  "photoCompareTitle": "Bandingkan foto",
+  "photoCompareNeedTwo": "Butuh minimal dua tanggal dengan pose yang sama.",
+  "photoBefore": "Sebelum",
+  "photoAfter": "Sesudah",
+  "photoWeightOn": "Berat {kg} kg",
+  "@photoWeightOn": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "photoMissing": "Berkas foto tidak ditemukan",
+  "photoOpenLabel": "Foto {pose} {date}",
+  "@photoOpenLabel": {
+    "placeholders": {
+      "pose": {},
+      "date": {}
+    }
+  },
   "checkInDone": "Check-in hari ini sudah diisi",
   "checkInPrompt": "Catat tidur, energi, dan kendala hari ini (1 menit).",
   "checkInOpen": "Isi check-in",

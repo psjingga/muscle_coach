@@ -100,6 +100,21 @@ void main() {
     });
   });
 
+  group('Tandai check-in selesai (notifikasi)', () {
+    test('mencatat check-in kosong; check-in yang sudah diisi tidak berubah', () async {
+      await repo.markCheckInDone('2026-11-19');
+      await repo.markCheckInDone('2026-11-19');
+      final empty = (await repo.watchCheckIns().first).single;
+      expect((empty.date, empty.isEmpty), ('2026-11-19', true));
+
+      await repo.saveCheckIn(const DailyCheckIn(date: '2026-11-20', energy: 4));
+      await repo.markCheckInDone('2026-11-20');
+      final filled = (await repo.watchCheckIns().first).last;
+      expect((filled.energy, filled.isEmpty), (4, false));
+      expect(repo.markCheckInDone('bukan-tanggal'), throwsA(failure(FailureKind.invalidInput)));
+    });
+  });
+
   group('Data agregat', () {
     test('asupan per tanggal dari catatan makanan', () async {
       final nutrition = LocalNutritionRepository(db, clock, foodSource);

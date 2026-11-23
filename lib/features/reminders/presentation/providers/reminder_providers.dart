@@ -7,6 +7,8 @@ import '../../../../core/notifications/notification_service.dart';
 import '../../../../l10n/gen/app_localizations.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../../../workout/presentation/providers/workout_providers.dart';
+import '../../../progress/presentation/providers/progress_providers.dart';
+import '../../application/notification_actions.dart';
 import '../../application/reminder_scheduler.dart';
 import '../../data/notification_settings_repository.dart';
 import '../../domain/notification_settings.dart';
@@ -14,7 +16,8 @@ import '../../domain/notification_settings.dart';
 part 'reminder_providers.g.dart';
 
 @Riverpod(keepAlive: true)
-NotificationService notificationService(Ref ref) => LocalNotificationService();
+NotificationService notificationService(Ref ref) =>
+    LocalNotificationService(backgroundHandler: reminderBackgroundHandler);
 
 @Riverpod(keepAlive: true)
 NotificationSettingsRepository notificationSettingsRepository(Ref ref) =>
@@ -29,6 +32,9 @@ ReminderScheduler reminderScheduler(Ref ref) => ReminderScheduler(
   service: ref.watch(notificationServiceProvider),
   settings: ref.watch(notificationSettingsRepositoryProvider),
   workouts: ref.watch(workoutRepositoryProvider),
+  checkedInDates: () async => {
+    for (final c in await ref.read(progressRepositoryProvider).watchCheckIns().first) c.date,
+  },
   activePlanId: () async => (await ref.read(userProfileProvider.future))?.activeWorkoutPlanId,
   clock: ref.watch(clockProvider),
   l10n: lookupAppLocalizations(const Locale('id')),

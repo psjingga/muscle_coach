@@ -4,7 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/router/app_router.dart';
+import '../../../core/database/database_providers.dart';
 import '../../../core/logging/app_logger.dart';
+import '../../progress/presentation/providers/progress_providers.dart';
 import '../../profile/presentation/providers/profile_providers.dart';
 import '../../workout/presentation/providers/workout_providers.dart';
 import 'providers/reminder_providers.dart';
@@ -35,7 +37,10 @@ class _ReminderSyncState extends ConsumerState<ReminderSync> with WidgetsBinding
     try {
       final service = ref.read(notificationServiceProvider);
       void open(String route) => ref.read(appRouterProvider).push(route);
-      await service.init(onOpenRoute: open);
+      await service.init(
+        onOpenRoute: open,
+        onCheckInDone: (date) => ref.read(progressRepositoryProvider).markCheckInDone(date),
+      );
       final launch = await service.launchRoute();
       if (launch != null) WidgetsBinding.instance.addPostFrameCallback((_) => open(launch));
     } catch (e) {
@@ -54,7 +59,13 @@ class _ReminderSyncState extends ConsumerState<ReminderSync> with WidgetsBinding
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) _schedule();
+    if (state == AppLifecycleState.resumed) {
+      // "Tandai selesai" di latar belakang menulis lewat koneksi lain →
+      // segarkan tampilan check-in.
+      final db = ref.read(appDatabaseProvider);
+      db.markTablesUpdated([db.dailyCheckIns]);
+      _schedule();
+    }
   }
 
   @override
@@ -71,6 +82,8 @@ class _ReminderSyncState extends ConsumerState<ReminderSync> with WidgetsBinding
       userProfileProvider.select((p) => p.value?.activeWorkoutPlanId),
       (_, _) => _schedule(),
     );
+    // Check-in diisi/ditandai selesai → pengingat hari itu dibatalkan.
+    ref.listen(checkInsProvider.select((c) => c.value?.length), (_, _) => _schedule());
     // Sesi terbaru yang selesai berubah → batalkan pengingat sesi tersebut.
     ref.listen(
       workoutHistoryProvider.select((h) => h.value?.firstOrNull?.id),

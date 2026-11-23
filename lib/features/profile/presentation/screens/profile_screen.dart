@@ -6,6 +6,7 @@ import '../../../../app/router/routes.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../ai_coach/presentation/providers/ai_providers.dart';
+import '../../../progress/presentation/providers/progress_providers.dart';
 import '../../../reminders/presentation/providers/reminder_providers.dart';
 import '../providers/profile_providers.dart';
 
@@ -38,6 +39,8 @@ class ProfileScreen extends ConsumerWidget {
     if (!(ok ?? false)) return;
     try {
       await ref.read(profileRepositoryProvider).wipeAllData();
+      // Berkas foto progres di folder privat ikut dihapus.
+      await ref.read(photoStoreProvider).deleteAll();
       // API key Gemini ikut dihapus dari penyimpanan terenkripsi.
       await ref.read(aiKeyStoreProvider).delete();
       ref.invalidate(aiSettingsControllerProvider);

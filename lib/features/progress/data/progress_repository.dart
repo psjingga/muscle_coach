@@ -76,6 +76,10 @@ abstract interface class ProgressRepository {
   Stream<List<DailyCheckIn>> watchCheckIns();
   Future<void> saveCheckIn(DailyCheckIn checkIn);
 
+  /// "Tandai selesai" dari notifikasi: catat check-in [date] tanpa isian
+  /// bila belum ada (check-in yang sudah diisi tidak diubah).
+  Future<void> markCheckInDone(String date);
+
   /// Total asupan per tanggal (hanya tanggal yang punya catatan).
   Stream<List<DayIntake>> watchIntake();
 
@@ -170,6 +174,18 @@ class LocalProgressRepository implements ProgressRepository {
       (_db.select(_db.dailyCheckIns)..orderBy([(t) => OrderingTerm.asc(t.date)])).watch().map(
         (rows) => [for (final r in rows) _checkIn(r)],
       );
+
+  @override
+  Future<void> markCheckInDone(String date) async {
+    _checkDate(date);
+    final now = _clock();
+    await _db
+        .into(_db.dailyCheckIns)
+        .insert(
+          DailyCheckInsCompanion.insert(date: date, createdAt: now, updatedAt: now),
+          mode: InsertMode.insertOrIgnore,
+        );
+  }
 
   @override
   Future<void> saveCheckIn(DailyCheckIn c) async {

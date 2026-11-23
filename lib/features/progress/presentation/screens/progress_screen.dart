@@ -12,11 +12,13 @@ import '../../../goals/presentation/providers/goal_providers.dart';
 import '../../domain/progress_math.dart';
 import '../../domain/progress_models.dart';
 import '../providers/progress_providers.dart';
+import '../widgets/body_widgets.dart';
 import '../widgets/progress_charts.dart';
 import '../widgets/progress_forms.dart';
 import '../widgets/progress_labels.dart';
+import '../widgets/progress_section.dart';
 
-/// Tab Progres: check-in, berat & status target, ringkasan mingguan,
+/// Tab Progres: check-in, berat & status target, lingkar badan, foto, ringkasan mingguan,
 /// asupan vs target, volume latihan, progres per gerakan, pencapaian.
 class ProgressScreen extends ConsumerWidget {
   const ProgressScreen({super.key});
@@ -34,6 +36,10 @@ class ProgressScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           const _WeightCard(),
           const SizedBox(height: 8),
+          const MeasurementsCard(),
+          const SizedBox(height: 8),
+          const PhotosCard(),
+          const SizedBox(height: 8),
           _WeeklyCard(today: today),
           const SizedBox(height: 8),
           _IntakeCard(today: today),
@@ -49,42 +55,6 @@ class ProgressScreen extends ConsumerWidget {
   }
 }
 
-class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.children, this.trailing});
-
-  final String title;
-  final List<Widget> children;
-  final Widget? trailing;
-
-  @override
-  Widget build(BuildContext context) => Card(
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(child: Text(title, style: Theme.of(context).textTheme.titleMedium)),
-              ?trailing,
-            ],
-          ),
-          const SizedBox(height: 8),
-          ...children,
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _muted(BuildContext context, String text) {
-  final theme = Theme.of(context);
-  return Text(
-    text,
-    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-  );
-}
-
 /// Kartu check-in hari ini (juga dipakai di Beranda).
 class CheckInCard extends ConsumerWidget {
   const CheckInCard({super.key, required this.date});
@@ -94,7 +64,8 @@ class CheckInCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    final done = ref.watch(checkInsProvider).value?.any((c) => c.date == date) ?? false;
+    final checkIn = ref.watch(checkInsProvider).value?.where((c) => c.date == date).firstOrNull;
+    final done = checkIn != null;
     final theme = Theme.of(context);
     return Card(
       color: done ? null : theme.colorScheme.tertiaryContainer,
@@ -102,7 +73,9 @@ class CheckInCard extends ConsumerWidget {
         key: const Key('checkin-card'),
         leading: Icon(done ? Icons.task_alt : Icons.edit_calendar_outlined),
         title: Text(done ? l.checkInDone : l.checkInToday),
-        subtitle: done ? null : Text(l.checkInPrompt),
+        subtitle: !done
+            ? Text(l.checkInPrompt)
+            : (checkIn.isEmpty ? Text(l.checkInMarkedDone) : null),
         trailing: TextButton(
           onPressed: () => context.push(Routes.checkInPath(date)),
           child: Text(done ? l.checkInEdit : l.checkInOpen),
@@ -141,7 +114,7 @@ class _WeightCard extends ConsumerWidget {
       if (context.mounted) context.showSnack(ok ? l.weightSaved : l.errorUnknown);
     }
 
-    return _Section(
+    return ProgressSection(
       title: l.weightTitle,
       trailing: FilledButton.tonalIcon(
         key: const Key('weight-log'),
@@ -170,7 +143,7 @@ class _WeightCard extends ConsumerWidget {
             ),
         ],
         const SizedBox(height: 8),
-        _muted(context, l.weightNote),
+        mutedText(context, l.weightNote),
         if (progress != null) ...[const SizedBox(height: 8), GoalStatusCard(progress: progress)],
       ],
     );
@@ -188,7 +161,7 @@ class _WeeklyCard extends ConsumerWidget {
     final current = ProgressMath.weekStartOf(today);
     final last = ProgressMath.addDays(current, -7);
     final reviews = ref.watch(storedReviewsProvider).value ?? const [];
-    return _Section(
+    return ProgressSection(
       title: l.weeklyTitle,
       children: [
         ListTile(
@@ -250,7 +223,7 @@ class _IntakeCard extends ConsumerWidget {
         }(),
     ];
     final any = days.any((d) => d.kcal > 0);
-    return _Section(
+    return ProgressSection(
       title: l.intakeChartTitle,
       children: [
         if (!any)
@@ -263,7 +236,7 @@ class _IntakeCard extends ConsumerWidget {
           ),
           if (target != null) ...[
             const SizedBox(height: 4),
-            _muted(context, l.intakeChartLegend(l.kcalValue(Fmt.integer(target.targetKcal)))),
+            mutedText(context, l.intakeChartLegend(l.kcalValue(Fmt.integer(target.targetKcal)))),
           ],
         ],
       ],
@@ -282,7 +255,7 @@ class _VolumeCard extends ConsumerWidget {
     final training = ref.watch(trainingDaysProvider).value ?? const <TrainingDay>[];
     final weeks = ProgressMath.weeklyVolume(training, today: today);
     final thisWeek = weeks.last;
-    return _Section(
+    return ProgressSection(
       title: l.volumeChartTitle,
       children: [
         if (training.isEmpty)
@@ -294,7 +267,7 @@ class _VolumeCard extends ConsumerWidget {
             '${l.weeklyThisWeek}: ${l.weeklyVolume(Fmt.integer(thisWeek.volumeKg))} · '
             '${l.volumeWeek(thisWeek.sessions)}',
           ),
-          _muted(context, l.volumeChartNote),
+          mutedText(context, l.volumeChartNote),
         ],
       ],
     );
@@ -325,13 +298,13 @@ class _ExerciseCardState extends ConsumerState<_ExerciseCard> {
     }
     final ids = counts.keys.toList()..sort((a, b) => counts[b]!.compareTo(counts[a]!));
     if (ids.isEmpty) {
-      return _Section(title: l.exerciseChartTitle, children: [Text(l.exerciseChartEmpty)]);
+      return ProgressSection(title: l.exerciseChartTitle, children: [Text(l.exerciseChartEmpty)]);
     }
     final id = ids.contains(_selected) ? _selected! : ids.first;
     final points = ProgressMath.exerciseProgress(training, id);
     String name(String x) => catalog[x]?.name ?? x;
     final last = points.last;
-    return _Section(
+    return ProgressSection(
       title: l.exerciseChartTitle,
       children: [
         DropdownButtonFormField<String>(
@@ -370,7 +343,7 @@ class _MilestonesCard extends ConsumerWidget {
     final weekly = ProgressMath.weeklyWeights(weights);
     final sets = training.fold<int>(0, (s, t) => s + t.sets.length);
     final streak = ProgressMath.trainingStreakWeeks(training, today: today);
-    return _Section(
+    return ProgressSection(
       title: l.milestonesTitle,
       children: [
         if (training.isNotEmpty) ...[

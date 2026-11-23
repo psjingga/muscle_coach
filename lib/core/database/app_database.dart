@@ -281,6 +281,39 @@ class BodyMetrics extends Table {
   Set<Column> get primaryKey => {date};
 }
 
+/// Lingkar badan (cm), satu baris per tanggal lokal; semua ukuran opsional.
+@DataClassName('BodyMeasurementRow')
+class BodyMeasurements extends Table {
+  TextColumn get date => text()();
+  RealColumn get waistCm => real().nullable()();
+  RealColumn get chestCm => real().nullable()();
+  RealColumn get armCm => real().nullable()();
+  RealColumn get thighCm => real().nullable()();
+  RealColumn get hipCm => real().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {date};
+}
+
+/// Foto progres: hanya metadata; berkasnya di folder privat aplikasi.
+@DataClassName('ProgressPhotoRow')
+class ProgressPhotos extends Table {
+  TextColumn get id => text()();
+  TextColumn get date => text()();
+
+  /// front | side | back
+  TextColumn get pose => text()();
+
+  /// Nama berkas di folder foto (bukan path absolut).
+  TextColumn get fileName => text()();
+  DateTimeColumn get createdAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 /// Check-in harian (satu per tanggal). Semua isian opsional.
 @DataClassName('DailyCheckInRow')
 class DailyCheckIns extends Table {
@@ -340,13 +373,15 @@ class WeeklyReviews extends Table {
     BodyMetrics,
     DailyCheckIns,
     WeeklyReviews,
+    BodyMeasurements,
+    ProgressPhotos,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'musclecoach'));
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -385,9 +420,16 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(dailyCheckIns);
         await m.createTable(weeklyReviews);
       }
+      if (from < 6) {
+        // Lingkar badan & foto progres.
+        await m.createTable(bodyMeasurements);
+        await m.createTable(progressPhotos);
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
+      // Aksi notifikasi di latar belakang bisa membuka koneksi kedua.
+      await customStatement('PRAGMA busy_timeout = 5000');
       // Data yang dihapus ditimpa nol, bukan sekadar ditandai bebas.
       await customStatement('PRAGMA secure_delete = ON');
     },

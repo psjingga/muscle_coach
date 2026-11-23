@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -10,7 +12,10 @@ import '../../../ai_coach/domain/ai_config.dart';
 import '../../../ai_coach/presentation/providers/ai_providers.dart';
 import '../../../goals/presentation/providers/goal_providers.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
+import '../../../../core/storage/photo_store.dart';
 import '../../application/weekly_review_service.dart';
+import '../../data/body_repository.dart';
+import '../../data/photo_picker.dart';
 import '../../data/progress_repository.dart';
 import '../../domain/progress_math.dart';
 import '../../domain/progress_models.dart';
@@ -27,6 +32,31 @@ Stream<List<WeightEntry>> weights(Ref ref) => ref.watch(progressRepositoryProvid
 @riverpod
 Stream<List<DailyCheckIn>> checkIns(Ref ref) =>
     ref.watch(progressRepositoryProvider).watchCheckIns();
+
+@Riverpod(keepAlive: true)
+PhotoStore photoStore(Ref ref) => LocalPhotoStore();
+
+@Riverpod(keepAlive: true)
+PhotoPicker photoPicker(Ref ref) => ImagePickerPhotoPicker();
+
+/// Folder foto progres (untuk menampilkan berkas).
+@Riverpod(keepAlive: true)
+Future<Directory> photoDirectory(Ref ref) => ref.watch(photoStoreProvider).directory();
+
+@Riverpod(keepAlive: true)
+BodyRepository bodyRepository(Ref ref) => LocalBodyRepository(
+  ref.watch(appDatabaseProvider),
+  ref.watch(photoStoreProvider),
+  ref.watch(clockProvider),
+);
+
+@riverpod
+Stream<List<BodyMeasurement>> measurements(Ref ref) =>
+    ref.watch(bodyRepositoryProvider).watchMeasurements();
+
+@riverpod
+Stream<List<ProgressPhoto>> progressPhotos(Ref ref) =>
+    ref.watch(bodyRepositoryProvider).watchPhotos();
 
 @riverpod
 Stream<List<DayIntake>> intakeByDay(Ref ref) => ref.watch(progressRepositoryProvider).watchIntake();
@@ -146,6 +176,28 @@ class ProgressActions extends _$ProgressActions {
   Future<bool> saveWeight(String date, double kg) => _ok(() => _repo.saveWeight(date, kg));
   Future<bool> deleteWeight(String date) => _ok(() => _repo.deleteWeight(date));
   Future<bool> saveCheckIn(DailyCheckIn c) => _ok(() => _repo.saveCheckIn(c));
+
+  BodyRepository get _body => ref.read(bodyRepositoryProvider);
+  Future<bool> saveMeasurement(BodyMeasurement m) => _ok(() => _body.saveMeasurement(m));
+  Future<bool> deleteMeasurement(String date) => _ok(() => _body.deleteMeasurement(date));
+  Future<bool> deletePhoto(String id) => _ok(() => _body.deletePhoto(id));
+
+  /// Ambil foto dari kamera/galeri lalu simpan. `null` bila dibatalkan.
+  Future<bool?> addPhoto({
+    required String date,
+    required PhotoPose pose,
+    required PhotoSource source,
+  }) async {
+    final String? path;
+    try {
+      path = await ref.read(photoPickerProvider).pick(source);
+    } catch (e) {
+      appLogger.w('Gagal mengambil foto: ${e.runtimeType}');
+      return false;
+    }
+    if (path == null) return null;
+    return _ok(() => _body.addPhoto(date: date, pose: pose, sourcePath: path!));
+  }
 
   /// Simpan statistik minggu + status + usulan saat ini.
   Future<bool> saveReview(

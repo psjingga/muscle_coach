@@ -26,7 +26,10 @@ class FakeNotificationService implements NotificationService {
   int scheduleCalls = 0;
 
   @override
-  Future<void> init({required void Function(String route) onOpenRoute}) async {}
+  Future<void> init({
+    required void Function(String route) onOpenRoute,
+    Future<void> Function(String date)? onCheckInDone,
+  }) async {}
   @override
   Future<String?> launchRoute() async => null;
   @override
@@ -79,6 +82,7 @@ void main() {
     NotificationSettings settings = on,
     tz.TZDateTime? at,
     Set<String> completed = const {},
+    Set<String> checkedIn = const {},
     String? planId = 'p1',
     List<PlanDay>? planDays,
     int max = ReminderPlanner.maxPending,
@@ -88,6 +92,7 @@ void main() {
     planId: planId,
     planDays: planDays ?? days,
     completedWorkoutDates: completed,
+    checkedInDates: checkedIn,
     max: max,
   );
 
@@ -110,6 +115,18 @@ void main() {
           .where((r) => r.category == ReminderCategory.workout);
       expect(ws.any((r) => r.when.day == 19), isFalse);
       expect(ws, hasLength(3));
+    });
+
+    test('check-in hari itu sudah ada → pengingat check-in hari itu dilewati', () {
+      bool on19(Set<String> c) =>
+          build(checkedIn: c)
+              .any((r) => r.category == ReminderCategory.dailyCheckIn && r.when.day == 19);
+      expect(on19({}), isTrue);
+      expect(on19({'2026-11-19'}), isFalse);
+      expect(
+        build(checkedIn: {'2026-11-19'}).where((r) => r.category == ReminderCategory.dailyCheckIn),
+        hasLength(13),
+      );
     });
 
     test('jam yang sudah lewat tidak dijadwalkan (sarapan 07:00 hari ini)', () {

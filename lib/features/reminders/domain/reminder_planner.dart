@@ -71,6 +71,9 @@ abstract final class ReminderPlanner {
     String? planId,
     List<PlanDay> planDays = const [],
     Set<String> completedWorkoutDates = const {},
+
+    /// Tanggal yang sudah punya check-in → pengingat check-in dilewati.
+    Set<String> checkedInDates = const {},
     int horizon = horizonDays,
     int max = maxPending,
   }) {
@@ -134,7 +137,15 @@ abstract final class ReminderPlanner {
           '/progress',
         );
       }
-      add(ReminderCategory.dailyCheckIn, 'checkin', date, settings.dailyCheckIn, '/check-in/$iso');
+      if (!checkedInDates.contains(iso)) {
+        add(
+          ReminderCategory.dailyCheckIn,
+          'checkin',
+          date,
+          settings.dailyCheckIn,
+          '/check-in/$iso',
+        );
+      }
     }
 
     result.sort((a, b) => a.when.compareTo(b.when));

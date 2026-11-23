@@ -32,6 +32,47 @@ class DailyCheckIn {
   final String? notes;
 
   bool get hasDiscomfort => (discomfort ?? '').trim().isNotEmpty;
+
+  /// Tanpa isian (mis. "Tandai selesai" dari notifikasi).
+  bool get isEmpty =>
+      sleepHours == null &&
+      energy == null &&
+      mood == null &&
+      !hasDiscomfort &&
+      (notes ?? '').trim().isEmpty;
+}
+
+/// Titik ukur lingkar badan.
+enum BodySite { waist, chest, arm, thigh, hip }
+
+/// Lingkar badan (cm) pada satu tanggal; ukuran yang tidak diisi = tidak ada.
+class BodyMeasurement {
+  const BodyMeasurement({required this.date, required this.cm});
+
+  /// `YYYY-MM-DD` lokal.
+  final String date;
+  final Map<BodySite, double> cm;
+
+  double? of(BodySite site) => cm[site];
+  bool get isEmpty => cm.isEmpty;
+}
+
+/// Pose foto progres.
+enum PhotoPose { front, side, back }
+
+/// Metadata foto progres; berkasnya di folder privat aplikasi.
+class ProgressPhoto {
+  const ProgressPhoto({
+    required this.id,
+    required this.date,
+    required this.pose,
+    required this.fileName,
+  });
+
+  final String id;
+  final String date;
+  final PhotoPose pose;
+  final String fileName;
 }
 
 /// Total asupan tercatat pada satu tanggal.

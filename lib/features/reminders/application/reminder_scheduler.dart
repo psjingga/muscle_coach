@@ -35,6 +35,7 @@ class ReminderScheduler {
     required this.settings,
     required this.workouts,
     required this.activePlanId,
+    this.checkedInDates,
     required this.clock,
     required this.l10n,
   });
@@ -43,6 +44,9 @@ class ReminderScheduler {
   final NotificationSettingsRepository settings;
   final WorkoutRepository workouts;
   final Future<String?> Function() activePlanId;
+
+  /// Tanggal yang sudah punya check-in (pengingatnya tidak perlu dikirim).
+  final Future<Set<String>> Function()? checkedInDates;
   final DateTime Function() clock;
   final AppLocalizations l10n;
 
@@ -78,6 +82,7 @@ class ReminderScheduler {
       planId: planId,
       planDays: days,
       completedWorkoutDates: completed,
+      checkedInDates: await checkedInDates?.call() ?? const {},
     );
     final desiredIds = {for (final r in desired) r.id};
     var cancelled = 0;

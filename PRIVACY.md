@@ -1,6 +1,6 @@
 # Privasi & keamanan data — Muscle Coach
 
-Dokumen ini menjelaskan data apa yang disimpan aplikasi, ke mana data dikirim, dan cara menghapusnya. Berlaku untuk versi lokal (tanpa akun/server) per 20 November 2026.
+Dokumen ini menjelaskan data apa yang disimpan aplikasi, ke mana data dikirim, dan cara menghapusnya. Berlaku untuk versi lokal (tanpa akun/server) per 23 November 2026.
 
 ## Ringkasan
 
@@ -17,6 +17,8 @@ Dokumen ini menjelaskan data apa yang disimpan aplikasi, ke mana data dikirim, d
 | Program & sesi latihan, set aktual, catatan nyeri | `workout_plans`, `plan_days`, `workout_sessions`, `set_logs` | Sensitif |
 | Catatan makanan, makanan sendiri, menu | `food_logs`, `custom_foods`, `meal_plans` | Sensitif |
 | Berat badan, check-in (tidur, energi, suasana hati, nyeri, catatan), ringkasan mingguan | `body_metrics`, `daily_check_ins`, `weekly_reviews` | Sensitif |
+| Lingkar badan (pinggang, dada, lengan, paha, pinggul) | `body_measurements` | Sensitif |
+| Foto progres: metadata (tanggal, pose) di basis data, berkas JPG di folder privat `progress_photos` | `progress_photos` + berkas | **Sangat sensitif**; tidak pernah dikirim ke AI |
 | Persetujuan, preferensi pengingat | `consents`, `app_settings` | — |
 | Log pemanggilan AI: jenis, model, versi prompt, status, durasi, jumlah token, kode error — **tanpa isi prompt/jawaban** | `ai_generation_logs` | Metadata |
 | API key Gemini & pilihan model | Android Keystore / iOS Keychain (`this device only`) | Rahasia |
@@ -44,7 +46,8 @@ Hasil AI selalu divalidasi aplikasi sebelum disimpan sebagai **draft**, lalu bar
   - Pindah perangkat langsung (kabel/Wi-Fi, terenkripsi) membawa basis data, tapi tidak membawa key.
   - Lalu lintas HTTP tanpa enkripsi ditolak.
   - Tidak ada izin selain internet, notifikasi, dan jadwal ulang setelah reboot (tanpa *exact alarm*).
-- **iOS**: API key di Keychain dengan akses `first_unlock_this_device` (tidak ikut cadangan, tidak pindah perangkat). App Transport Security bawaan (HTTPS saja).
+- **iOS**: API key di Keychain dengan akses `first_unlock_this_device` (tidak ikut cadangan, tidak pindah perangkat). Folder basis data (Documents) dan foto (Application Support) ditandai *exclude from backup* saat aplikasi dibuka, sehingga tidak ikut cadangan iCloud/komputer. App Transport Security bawaan (HTTPS saja).
+- **Foto progres**: diambil lewat kamera/galeri sistem (Android tanpa izin tambahan; iOS meminta izin kamera/galeri saat dipakai), diperkecil & dikompres ulang tanpa metadata lengkap, lalu disalin ke folder privat aplikasi. Tidak dikirim ke Gemini maupun layanan lain.
 - **Basis data**:
   - Berada di sandbox aplikasi dan dilindungi enkripsi perangkat (aktif bila HP memakai kunci layar). Basis data sendiri tidak dienkripsi terpisah (lihat "Keterbatasan").
   - `PRAGMA secure_delete` aktif, sehingga baris yang dihapus ditimpa.
@@ -52,7 +55,7 @@ Hasil AI selalu divalidasi aplikasi sebelum disimpan sebagai **draft**, lalu bar
 
 ## Penghapusan & retensi
 
-- **Profil → Hapus semua data**: mengosongkan semua tabel, menjalankan `VACUUM`, menghapus API key, dan membatalkan semua notifikasi. Tidak bisa dibatalkan.
+- **Profil → Hapus semua data**: mengosongkan semua tabel, menjalankan `VACUUM`, menghapus folder foto progres, menghapus API key, dan membatalkan semua notifikasi. Tidak bisa dibatalkan.
 - Menghapus aplikasi menghapus seluruh data aplikasi dari perangkat.
 - Data disimpan sampai pengguna menghapusnya; tidak ada penghapusan otomatis.
 - Data yang sudah dikirim ke Gemini tunduk pada kebijakan Google; aplikasi tidak menyimpan salinan prompt.

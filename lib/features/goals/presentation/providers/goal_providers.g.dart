@@ -217,7 +217,7 @@ final class GoalConfirmControllerProvider
   GoalConfirmController create() => GoalConfirmController();
 }
 
-String _$goalConfirmControllerHash() => r'e673a963b86ca1bc4a7c78519b3713d5e127c894';
+String _$goalConfirmControllerHash() => r'37866d53ef1723538959d784e2e4d005e8dc29a5';
 
 /// Aksi konfirmasi goal; `state` = status aksi terakhir.
 

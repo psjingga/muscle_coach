@@ -19,19 +19,27 @@ const notificationChannels = {
 };
 
 const _snoozeAction = 'snooze';
+const _doneAction = 'done';
 const _snoozeMinutes = 10;
 
-AndroidNotificationDetails _android(String channel, {bool snooze = true}) =>
-    AndroidNotificationDetails(
-      channel,
-      notificationChannels[channel] ?? channel,
-      importance: Importance.high,
-      priority: Priority.high,
-      category: AndroidNotificationCategory.reminder,
-      actions: snooze
-          ? const [AndroidNotificationAction(_snoozeAction, 'Tunda $_snoozeMinutes menit')]
-          : null,
-    );
+/// Kanal yang punya aksi "Tandai selesai".
+const _doneChannels = {'check_in'};
+
+AndroidNotificationDetails _android(String channel, {bool snooze = true}) {
+  final actions = [
+    if (snooze) const AndroidNotificationAction(_snoozeAction, 'Tunda $_snoozeMinutes menit'),
+    if (_doneChannels.contains(channel))
+      const AndroidNotificationAction(_doneAction, 'Tandai selesai'),
+  ];
+  return AndroidNotificationDetails(
+    channel,
+    notificationChannels[channel] ?? channel,
+    importance: Importance.high,
+    priority: Priority.high,
+    category: AndroidNotificationCategory.reminder,
+    actions: actions.isEmpty ? null : actions,
+  );
+}
 
 NotificationDetails _details(String channel, {bool snooze = true}) => NotificationDetails(
   android: _android(channel, snooze: snooze),
@@ -70,10 +78,35 @@ Future<void> _snooze(FlutterLocalNotificationsPlugin plugin, NotificationRespons
   );
 }
 
-/// Aksi "Tunda" saat aplikasi tertutup (isolate latar belakang, Android).
-@pragma('vm:entry-point')
-Future<void> notificationBackgroundHandler(NotificationResponse response) async {
-  if (response.actionId != _snoozeAction) return;
+/// Tanggal check-in (`YYYY-MM-DD`) dari payload notifikasi check-in.
+String? checkInDateOf(String? payload) {
+  final route = _decode(payload)?['route'] as String?;
+  final m = RegExp(r'^/check-in/(\d{4}-\d{2}-\d{2})$').firstMatch(route ?? '');
+  return m?.group(1);
+}
+
+/// Dipanggil saat "Tandai selesai" pada notifikasi check-in ditekan.
+typedef CheckInDoneHandler = Future<void> Function(String date);
+
+/// "Tandai selesai": batalkan tunda yang mungkin menyusul, lalu catat.
+Future<void> _done(
+  FlutterLocalNotificationsPlugin plugin,
+  NotificationResponse r,
+  CheckInDoneHandler? onCheckInDone,
+) async {
+  if (r.id != null) await plugin.cancel(id: snoozeIdFor(r.id!));
+  final date = checkInDateOf(r.payload);
+  if (date != null) await onCheckInDone?.call(date);
+}
+
+/// Aksi notifikasi saat aplikasi tertutup (isolate latar belakang, Android).
+/// Fitur membungkus fungsi ini dalam handler `@pragma('vm:entry-point')`
+/// sendiri untuk menyediakan [onCheckInDone].
+Future<void> handleNotificationActionInBackground(
+  NotificationResponse response, {
+  CheckInDoneHandler? onCheckInDone,
+}) async {
+  if (response.actionId != _snoozeAction && response.actionId != _doneAction) return;
   tzdata.initializeTimeZones();
   final plugin = FlutterLocalNotificationsPlugin();
   await plugin.initialize(
@@ -82,14 +115,28 @@ Future<void> notificationBackgroundHandler(NotificationResponse response) async 
       iOS: DarwinInitializationSettings(),
     ),
   );
-  await _snooze(plugin, response);
+  if (response.actionId == _snoozeAction) {
+    await _snooze(plugin, response);
+  } else {
+    await _done(plugin, response, onCheckInDone);
+  }
 }
 
+/// Handler latar belakang bawaan (hanya "Tunda").
+@pragma('vm:entry-point')
+Future<void> notificationBackgroundHandler(NotificationResponse response) =>
+    handleNotificationActionInBackground(response);
+
 class LocalNotificationService implements NotificationService {
-  LocalNotificationService([FlutterLocalNotificationsPlugin? plugin])
-    : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
+  LocalNotificationService({
+    FlutterLocalNotificationsPlugin? plugin,
+    this.backgroundHandler = notificationBackgroundHandler,
+  }) : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   final FlutterLocalNotificationsPlugin _plugin;
+
+  /// Harus fungsi top-level ber-`@pragma('vm:entry-point')`.
+  final DidReceiveBackgroundNotificationResponseCallback backgroundHandler;
   bool _initialized = false;
 
   AndroidFlutterLocalNotificationsPlugin? get _androidImpl =>
@@ -99,7 +146,10 @@ class LocalNotificationService implements NotificationService {
       _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
 
   @override
-  Future<void> init({required void Function(String route) onOpenRoute}) async {
+  Future<void> init({
+    required void Function(String route) onOpenRoute,
+    CheckInDoneHandler? onCheckInDone,
+  }) async {
     if (_initialized) return;
     tzdata.initializeTimeZones();
     await _plugin.initialize(
@@ -117,10 +167,14 @@ class LocalNotificationService implements NotificationService {
           await _snooze(_plugin, r);
           return;
         }
+        if (r.actionId == _doneAction) {
+          await _done(_plugin, r, onCheckInDone);
+          return;
+        }
         final route = _decode(r.payload)?['route'] as String?;
         if (route != null) onOpenRoute(route);
       },
-      onDidReceiveBackgroundNotificationResponse: notificationBackgroundHandler,
+      onDidReceiveBackgroundNotificationResponse: backgroundHandler,
     );
     for (final entry in notificationChannels.entries) {
       await _androidImpl?.createNotificationChannel(
@@ -135,7 +189,7 @@ class LocalNotificationService implements NotificationService {
     final details = await _plugin.getNotificationAppLaunchDetails();
     if (!(details?.didNotificationLaunchApp ?? false)) return null;
     final response = details!.notificationResponse;
-    if (response?.actionId == _snoozeAction) return null;
+    if (response?.actionId == _snoozeAction || response?.actionId == _doneAction) return null;
     return _decode(response?.payload)?['route'] as String?;
   }
 

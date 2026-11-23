@@ -8852,6 +8852,804 @@ class WeeklyReviewsCompanion extends UpdateCompanion<WeeklyReviewRow> {
   }
 }
 
+class $BodyMeasurementsTable extends BodyMeasurements
+    with TableInfo<$BodyMeasurementsTable, BodyMeasurementRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BodyMeasurementsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _waistCmMeta = const VerificationMeta('waistCm');
+  @override
+  late final GeneratedColumn<double> waistCm = GeneratedColumn<double>(
+    'waist_cm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _chestCmMeta = const VerificationMeta('chestCm');
+  @override
+  late final GeneratedColumn<double> chestCm = GeneratedColumn<double>(
+    'chest_cm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _armCmMeta = const VerificationMeta('armCm');
+  @override
+  late final GeneratedColumn<double> armCm = GeneratedColumn<double>(
+    'arm_cm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _thighCmMeta = const VerificationMeta('thighCm');
+  @override
+  late final GeneratedColumn<double> thighCm = GeneratedColumn<double>(
+    'thigh_cm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hipCmMeta = const VerificationMeta('hipCm');
+  @override
+  late final GeneratedColumn<double> hipCm = GeneratedColumn<double>(
+    'hip_cm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    date,
+    waistCm,
+    chestCm,
+    armCm,
+    thighCm,
+    hipCm,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'body_measurements';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BodyMeasurementRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('date')) {
+      context.handle(_dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('waist_cm')) {
+      context.handle(_waistCmMeta, waistCm.isAcceptableOrUnknown(data['waist_cm']!, _waistCmMeta));
+    }
+    if (data.containsKey('chest_cm')) {
+      context.handle(_chestCmMeta, chestCm.isAcceptableOrUnknown(data['chest_cm']!, _chestCmMeta));
+    }
+    if (data.containsKey('arm_cm')) {
+      context.handle(_armCmMeta, armCm.isAcceptableOrUnknown(data['arm_cm']!, _armCmMeta));
+    }
+    if (data.containsKey('thigh_cm')) {
+      context.handle(_thighCmMeta, thighCm.isAcceptableOrUnknown(data['thigh_cm']!, _thighCmMeta));
+    }
+    if (data.containsKey('hip_cm')) {
+      context.handle(_hipCmMeta, hipCm.isAcceptableOrUnknown(data['hip_cm']!, _hipCmMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {date};
+  @override
+  BodyMeasurementRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BodyMeasurementRow(
+      date: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}date'])!,
+      waistCm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}waist_cm'],
+      ),
+      chestCm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}chest_cm'],
+      ),
+      armCm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}arm_cm'],
+      ),
+      thighCm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}thigh_cm'],
+      ),
+      hipCm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}hip_cm'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $BodyMeasurementsTable createAlias(String alias) {
+    return $BodyMeasurementsTable(attachedDatabase, alias);
+  }
+}
+
+class BodyMeasurementRow extends DataClass implements Insertable<BodyMeasurementRow> {
+  final String date;
+  final double? waistCm;
+  final double? chestCm;
+  final double? armCm;
+  final double? thighCm;
+  final double? hipCm;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const BodyMeasurementRow({
+    required this.date,
+    this.waistCm,
+    this.chestCm,
+    this.armCm,
+    this.thighCm,
+    this.hipCm,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['date'] = Variable<String>(date);
+    if (!nullToAbsent || waistCm != null) {
+      map['waist_cm'] = Variable<double>(waistCm);
+    }
+    if (!nullToAbsent || chestCm != null) {
+      map['chest_cm'] = Variable<double>(chestCm);
+    }
+    if (!nullToAbsent || armCm != null) {
+      map['arm_cm'] = Variable<double>(armCm);
+    }
+    if (!nullToAbsent || thighCm != null) {
+      map['thigh_cm'] = Variable<double>(thighCm);
+    }
+    if (!nullToAbsent || hipCm != null) {
+      map['hip_cm'] = Variable<double>(hipCm);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  BodyMeasurementsCompanion toCompanion(bool nullToAbsent) {
+    return BodyMeasurementsCompanion(
+      date: Value(date),
+      waistCm: waistCm == null && nullToAbsent ? const Value.absent() : Value(waistCm),
+      chestCm: chestCm == null && nullToAbsent ? const Value.absent() : Value(chestCm),
+      armCm: armCm == null && nullToAbsent ? const Value.absent() : Value(armCm),
+      thighCm: thighCm == null && nullToAbsent ? const Value.absent() : Value(thighCm),
+      hipCm: hipCm == null && nullToAbsent ? const Value.absent() : Value(hipCm),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory BodyMeasurementRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BodyMeasurementRow(
+      date: serializer.fromJson<String>(json['date']),
+      waistCm: serializer.fromJson<double?>(json['waistCm']),
+      chestCm: serializer.fromJson<double?>(json['chestCm']),
+      armCm: serializer.fromJson<double?>(json['armCm']),
+      thighCm: serializer.fromJson<double?>(json['thighCm']),
+      hipCm: serializer.fromJson<double?>(json['hipCm']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'date': serializer.toJson<String>(date),
+      'waistCm': serializer.toJson<double?>(waistCm),
+      'chestCm': serializer.toJson<double?>(chestCm),
+      'armCm': serializer.toJson<double?>(armCm),
+      'thighCm': serializer.toJson<double?>(thighCm),
+      'hipCm': serializer.toJson<double?>(hipCm),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  BodyMeasurementRow copyWith({
+    String? date,
+    Value<double?> waistCm = const Value.absent(),
+    Value<double?> chestCm = const Value.absent(),
+    Value<double?> armCm = const Value.absent(),
+    Value<double?> thighCm = const Value.absent(),
+    Value<double?> hipCm = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => BodyMeasurementRow(
+    date: date ?? this.date,
+    waistCm: waistCm.present ? waistCm.value : this.waistCm,
+    chestCm: chestCm.present ? chestCm.value : this.chestCm,
+    armCm: armCm.present ? armCm.value : this.armCm,
+    thighCm: thighCm.present ? thighCm.value : this.thighCm,
+    hipCm: hipCm.present ? hipCm.value : this.hipCm,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  BodyMeasurementRow copyWithCompanion(BodyMeasurementsCompanion data) {
+    return BodyMeasurementRow(
+      date: data.date.present ? data.date.value : this.date,
+      waistCm: data.waistCm.present ? data.waistCm.value : this.waistCm,
+      chestCm: data.chestCm.present ? data.chestCm.value : this.chestCm,
+      armCm: data.armCm.present ? data.armCm.value : this.armCm,
+      thighCm: data.thighCm.present ? data.thighCm.value : this.thighCm,
+      hipCm: data.hipCm.present ? data.hipCm.value : this.hipCm,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BodyMeasurementRow(')
+          ..write('date: $date, ')
+          ..write('waistCm: $waistCm, ')
+          ..write('chestCm: $chestCm, ')
+          ..write('armCm: $armCm, ')
+          ..write('thighCm: $thighCm, ')
+          ..write('hipCm: $hipCm, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(date, waistCm, chestCm, armCm, thighCm, hipCm, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BodyMeasurementRow &&
+          other.date == this.date &&
+          other.waistCm == this.waistCm &&
+          other.chestCm == this.chestCm &&
+          other.armCm == this.armCm &&
+          other.thighCm == this.thighCm &&
+          other.hipCm == this.hipCm &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class BodyMeasurementsCompanion extends UpdateCompanion<BodyMeasurementRow> {
+  final Value<String> date;
+  final Value<double?> waistCm;
+  final Value<double?> chestCm;
+  final Value<double?> armCm;
+  final Value<double?> thighCm;
+  final Value<double?> hipCm;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const BodyMeasurementsCompanion({
+    this.date = const Value.absent(),
+    this.waistCm = const Value.absent(),
+    this.chestCm = const Value.absent(),
+    this.armCm = const Value.absent(),
+    this.thighCm = const Value.absent(),
+    this.hipCm = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  BodyMeasurementsCompanion.insert({
+    required String date,
+    this.waistCm = const Value.absent(),
+    this.chestCm = const Value.absent(),
+    this.armCm = const Value.absent(),
+    this.thighCm = const Value.absent(),
+    this.hipCm = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : date = Value(date),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<BodyMeasurementRow> custom({
+    Expression<String>? date,
+    Expression<double>? waistCm,
+    Expression<double>? chestCm,
+    Expression<double>? armCm,
+    Expression<double>? thighCm,
+    Expression<double>? hipCm,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (date != null) 'date': date,
+      if (waistCm != null) 'waist_cm': waistCm,
+      if (chestCm != null) 'chest_cm': chestCm,
+      if (armCm != null) 'arm_cm': armCm,
+      if (thighCm != null) 'thigh_cm': thighCm,
+      if (hipCm != null) 'hip_cm': hipCm,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  BodyMeasurementsCompanion copyWith({
+    Value<String>? date,
+    Value<double?>? waistCm,
+    Value<double?>? chestCm,
+    Value<double?>? armCm,
+    Value<double?>? thighCm,
+    Value<double?>? hipCm,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return BodyMeasurementsCompanion(
+      date: date ?? this.date,
+      waistCm: waistCm ?? this.waistCm,
+      chestCm: chestCm ?? this.chestCm,
+      armCm: armCm ?? this.armCm,
+      thighCm: thighCm ?? this.thighCm,
+      hipCm: hipCm ?? this.hipCm,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (waistCm.present) {
+      map['waist_cm'] = Variable<double>(waistCm.value);
+    }
+    if (chestCm.present) {
+      map['chest_cm'] = Variable<double>(chestCm.value);
+    }
+    if (armCm.present) {
+      map['arm_cm'] = Variable<double>(armCm.value);
+    }
+    if (thighCm.present) {
+      map['thigh_cm'] = Variable<double>(thighCm.value);
+    }
+    if (hipCm.present) {
+      map['hip_cm'] = Variable<double>(hipCm.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BodyMeasurementsCompanion(')
+          ..write('date: $date, ')
+          ..write('waistCm: $waistCm, ')
+          ..write('chestCm: $chestCm, ')
+          ..write('armCm: $armCm, ')
+          ..write('thighCm: $thighCm, ')
+          ..write('hipCm: $hipCm, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ProgressPhotosTable extends ProgressPhotos
+    with TableInfo<$ProgressPhotosTable, ProgressPhotoRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ProgressPhotosTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _poseMeta = const VerificationMeta('pose');
+  @override
+  late final GeneratedColumn<String> pose = GeneratedColumn<String>(
+    'pose',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fileNameMeta = const VerificationMeta('fileName');
+  @override
+  late final GeneratedColumn<String> fileName = GeneratedColumn<String>(
+    'file_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, date, pose, fileName, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'progress_photos';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ProgressPhotoRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('date')) {
+      context.handle(_dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('pose')) {
+      context.handle(_poseMeta, pose.isAcceptableOrUnknown(data['pose']!, _poseMeta));
+    } else if (isInserting) {
+      context.missing(_poseMeta);
+    }
+    if (data.containsKey('file_name')) {
+      context.handle(
+        _fileNameMeta,
+        fileName.isAcceptableOrUnknown(data['file_name']!, _fileNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fileNameMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ProgressPhotoRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ProgressPhotoRow(
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      date: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}date'])!,
+      pose: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}pose'])!,
+      fileName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_name'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ProgressPhotosTable createAlias(String alias) {
+    return $ProgressPhotosTable(attachedDatabase, alias);
+  }
+}
+
+class ProgressPhotoRow extends DataClass implements Insertable<ProgressPhotoRow> {
+  final String id;
+  final String date;
+
+  /// front | side | back
+  final String pose;
+
+  /// Nama berkas di folder foto (bukan path absolut).
+  final String fileName;
+  final DateTime createdAt;
+  const ProgressPhotoRow({
+    required this.id,
+    required this.date,
+    required this.pose,
+    required this.fileName,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['date'] = Variable<String>(date);
+    map['pose'] = Variable<String>(pose);
+    map['file_name'] = Variable<String>(fileName);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ProgressPhotosCompanion toCompanion(bool nullToAbsent) {
+    return ProgressPhotosCompanion(
+      id: Value(id),
+      date: Value(date),
+      pose: Value(pose),
+      fileName: Value(fileName),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ProgressPhotoRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ProgressPhotoRow(
+      id: serializer.fromJson<String>(json['id']),
+      date: serializer.fromJson<String>(json['date']),
+      pose: serializer.fromJson<String>(json['pose']),
+      fileName: serializer.fromJson<String>(json['fileName']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'date': serializer.toJson<String>(date),
+      'pose': serializer.toJson<String>(pose),
+      'fileName': serializer.toJson<String>(fileName),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ProgressPhotoRow copyWith({
+    String? id,
+    String? date,
+    String? pose,
+    String? fileName,
+    DateTime? createdAt,
+  }) => ProgressPhotoRow(
+    id: id ?? this.id,
+    date: date ?? this.date,
+    pose: pose ?? this.pose,
+    fileName: fileName ?? this.fileName,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ProgressPhotoRow copyWithCompanion(ProgressPhotosCompanion data) {
+    return ProgressPhotoRow(
+      id: data.id.present ? data.id.value : this.id,
+      date: data.date.present ? data.date.value : this.date,
+      pose: data.pose.present ? data.pose.value : this.pose,
+      fileName: data.fileName.present ? data.fileName.value : this.fileName,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProgressPhotoRow(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('pose: $pose, ')
+          ..write('fileName: $fileName, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, date, pose, fileName, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ProgressPhotoRow &&
+          other.id == this.id &&
+          other.date == this.date &&
+          other.pose == this.pose &&
+          other.fileName == this.fileName &&
+          other.createdAt == this.createdAt);
+}
+
+class ProgressPhotosCompanion extends UpdateCompanion<ProgressPhotoRow> {
+  final Value<String> id;
+  final Value<String> date;
+  final Value<String> pose;
+  final Value<String> fileName;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const ProgressPhotosCompanion({
+    this.id = const Value.absent(),
+    this.date = const Value.absent(),
+    this.pose = const Value.absent(),
+    this.fileName = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ProgressPhotosCompanion.insert({
+    required String id,
+    required String date,
+    required String pose,
+    required String fileName,
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       date = Value(date),
+       pose = Value(pose),
+       fileName = Value(fileName),
+       createdAt = Value(createdAt);
+  static Insertable<ProgressPhotoRow> custom({
+    Expression<String>? id,
+    Expression<String>? date,
+    Expression<String>? pose,
+    Expression<String>? fileName,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (date != null) 'date': date,
+      if (pose != null) 'pose': pose,
+      if (fileName != null) 'file_name': fileName,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ProgressPhotosCompanion copyWith({
+    Value<String>? id,
+    Value<String>? date,
+    Value<String>? pose,
+    Value<String>? fileName,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return ProgressPhotosCompanion(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      pose: pose ?? this.pose,
+      fileName: fileName ?? this.fileName,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (pose.present) {
+      map['pose'] = Variable<String>(pose.value);
+    }
+    if (fileName.present) {
+      map['file_name'] = Variable<String>(fileName.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProgressPhotosCompanion(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('pose: $pose, ')
+          ..write('fileName: $fileName, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8872,6 +9670,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $BodyMetricsTable bodyMetrics = $BodyMetricsTable(this);
   late final $DailyCheckInsTable dailyCheckIns = $DailyCheckInsTable(this);
   late final $WeeklyReviewsTable weeklyReviews = $WeeklyReviewsTable(this);
+  late final $BodyMeasurementsTable bodyMeasurements = $BodyMeasurementsTable(this);
+  late final $ProgressPhotosTable progressPhotos = $ProgressPhotosTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8894,6 +9694,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     bodyMetrics,
     dailyCheckIns,
     weeklyReviews,
+    bodyMeasurements,
+    progressPhotos,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -13279,6 +14081,417 @@ typedef $$WeeklyReviewsTableProcessedTableManager =
       WeeklyReviewRow,
       PrefetchHooks Function()
     >;
+typedef $$BodyMeasurementsTableCreateCompanionBuilder = BodyMeasurementsCompanion Function({
+  required String date,
+  Value<double?> waistCm,
+  Value<double?> chestCm,
+  Value<double?> armCm,
+  Value<double?> thighCm,
+  Value<double?> hipCm,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$BodyMeasurementsTableUpdateCompanionBuilder = BodyMeasurementsCompanion Function({
+  Value<String> date,
+  Value<double?> waistCm,
+  Value<double?> chestCm,
+  Value<double?> armCm,
+  Value<double?> thighCm,
+  Value<double?> hipCm,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$BodyMeasurementsTableFilterComposer
+    extends Composer<_$AppDatabase, $BodyMeasurementsTable> {
+  $$BodyMeasurementsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get waistCm =>
+      $composableBuilder(column: $table.waistCm, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get chestCm =>
+      $composableBuilder(column: $table.chestCm, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get armCm =>
+      $composableBuilder(column: $table.armCm, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get thighCm =>
+      $composableBuilder(column: $table.thighCm, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get hipCm =>
+      $composableBuilder(column: $table.hipCm, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$BodyMeasurementsTableOrderingComposer
+    extends Composer<_$AppDatabase, $BodyMeasurementsTable> {
+  $$BodyMeasurementsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get waistCm =>
+      $composableBuilder(column: $table.waistCm, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get chestCm =>
+      $composableBuilder(column: $table.chestCm, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get armCm =>
+      $composableBuilder(column: $table.armCm, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get thighCm =>
+      $composableBuilder(column: $table.thighCm, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get hipCm =>
+      $composableBuilder(column: $table.hipCm, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BodyMeasurementsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BodyMeasurementsTable> {
+  $$BodyMeasurementsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<double> get waistCm =>
+      $composableBuilder(column: $table.waistCm, builder: (column) => column);
+
+  GeneratedColumn<double> get chestCm =>
+      $composableBuilder(column: $table.chestCm, builder: (column) => column);
+
+  GeneratedColumn<double> get armCm =>
+      $composableBuilder(column: $table.armCm, builder: (column) => column);
+
+  GeneratedColumn<double> get thighCm =>
+      $composableBuilder(column: $table.thighCm, builder: (column) => column);
+
+  GeneratedColumn<double> get hipCm =>
+      $composableBuilder(column: $table.hipCm, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$BodyMeasurementsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BodyMeasurementsTable,
+          BodyMeasurementRow,
+          $$BodyMeasurementsTableFilterComposer,
+          $$BodyMeasurementsTableOrderingComposer,
+          $$BodyMeasurementsTableAnnotationComposer,
+          $$BodyMeasurementsTableCreateCompanionBuilder,
+          $$BodyMeasurementsTableUpdateCompanionBuilder,
+          (
+            BodyMeasurementRow,
+            BaseReferences<_$AppDatabase, $BodyMeasurementsTable, BodyMeasurementRow>,
+          ),
+          BodyMeasurementRow,
+          PrefetchHooks Function()
+        > {
+  $$BodyMeasurementsTableTableManager(_$AppDatabase db, $BodyMeasurementsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BodyMeasurementsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BodyMeasurementsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BodyMeasurementsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> date = const Value.absent(),
+                Value<double?> waistCm = const Value.absent(),
+                Value<double?> chestCm = const Value.absent(),
+                Value<double?> armCm = const Value.absent(),
+                Value<double?> thighCm = const Value.absent(),
+                Value<double?> hipCm = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BodyMeasurementsCompanion(
+                date: date,
+                waistCm: waistCm,
+                chestCm: chestCm,
+                armCm: armCm,
+                thighCm: thighCm,
+                hipCm: hipCm,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String date,
+                Value<double?> waistCm = const Value.absent(),
+                Value<double?> chestCm = const Value.absent(),
+                Value<double?> armCm = const Value.absent(),
+                Value<double?> thighCm = const Value.absent(),
+                Value<double?> hipCm = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => BodyMeasurementsCompanion.insert(
+                date: date,
+                waistCm: waistCm,
+                chestCm: chestCm,
+                armCm: armCm,
+                thighCm: thighCm,
+                hipCm: hipCm,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$BodyMeasurementsTable, BodyMeasurementRow>(table),
+                  BaseReferences<_$AppDatabase, $BodyMeasurementsTable, BodyMeasurementRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$BodyMeasurementsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BodyMeasurementsTable,
+      BodyMeasurementRow,
+      $$BodyMeasurementsTableFilterComposer,
+      $$BodyMeasurementsTableOrderingComposer,
+      $$BodyMeasurementsTableAnnotationComposer,
+      $$BodyMeasurementsTableCreateCompanionBuilder,
+      $$BodyMeasurementsTableUpdateCompanionBuilder,
+      (
+        BodyMeasurementRow,
+        BaseReferences<_$AppDatabase, $BodyMeasurementsTable, BodyMeasurementRow>,
+      ),
+      BodyMeasurementRow,
+      PrefetchHooks Function()
+    >;
+typedef $$ProgressPhotosTableCreateCompanionBuilder = ProgressPhotosCompanion Function({
+  required String id,
+  required String date,
+  required String pose,
+  required String fileName,
+  required DateTime createdAt,
+  Value<int> rowid,
+});
+typedef $$ProgressPhotosTableUpdateCompanionBuilder = ProgressPhotosCompanion Function({
+  Value<String> id,
+  Value<String> date,
+  Value<String> pose,
+  Value<String> fileName,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+
+class $$ProgressPhotosTableFilterComposer extends Composer<_$AppDatabase, $ProgressPhotosTable> {
+  $$ProgressPhotosTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get pose =>
+      $composableBuilder(column: $table.pose, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get fileName =>
+      $composableBuilder(column: $table.fileName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$ProgressPhotosTableOrderingComposer extends Composer<_$AppDatabase, $ProgressPhotosTable> {
+  $$ProgressPhotosTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get pose =>
+      $composableBuilder(column: $table.pose, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fileName =>
+      $composableBuilder(column: $table.fileName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ProgressPhotosTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ProgressPhotosTable> {
+  $$ProgressPhotosTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<String> get pose =>
+      $composableBuilder(column: $table.pose, builder: (column) => column);
+
+  GeneratedColumn<String> get fileName =>
+      $composableBuilder(column: $table.fileName, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$ProgressPhotosTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ProgressPhotosTable,
+          ProgressPhotoRow,
+          $$ProgressPhotosTableFilterComposer,
+          $$ProgressPhotosTableOrderingComposer,
+          $$ProgressPhotosTableAnnotationComposer,
+          $$ProgressPhotosTableCreateCompanionBuilder,
+          $$ProgressPhotosTableUpdateCompanionBuilder,
+          (ProgressPhotoRow, BaseReferences<_$AppDatabase, $ProgressPhotosTable, ProgressPhotoRow>),
+          ProgressPhotoRow,
+          PrefetchHooks Function()
+        > {
+  $$ProgressPhotosTableTableManager(_$AppDatabase db, $ProgressPhotosTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ProgressPhotosTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProgressPhotosTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProgressPhotosTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> date = const Value.absent(),
+                Value<String> pose = const Value.absent(),
+                Value<String> fileName = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ProgressPhotosCompanion(
+                id: id,
+                date: date,
+                pose: pose,
+                fileName: fileName,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String date,
+                required String pose,
+                required String fileName,
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ProgressPhotosCompanion.insert(
+                id: id,
+                date: date,
+                pose: pose,
+                fileName: fileName,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ProgressPhotosTable, ProgressPhotoRow>(table),
+                  BaseReferences<_$AppDatabase, $ProgressPhotosTable, ProgressPhotoRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ProgressPhotosTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ProgressPhotosTable,
+      ProgressPhotoRow,
+      $$ProgressPhotosTableFilterComposer,
+      $$ProgressPhotosTableOrderingComposer,
+      $$ProgressPhotosTableAnnotationComposer,
+      $$ProgressPhotosTableCreateCompanionBuilder,
+      $$ProgressPhotosTableUpdateCompanionBuilder,
+      (ProgressPhotoRow, BaseReferences<_$AppDatabase, $ProgressPhotosTable, ProgressPhotoRow>),
+      ProgressPhotoRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -13311,4 +14524,8 @@ class $AppDatabaseManager {
       $$DailyCheckInsTableTableManager(_db, _db.dailyCheckIns);
   $$WeeklyReviewsTableTableManager get weeklyReviews =>
       $$WeeklyReviewsTableTableManager(_db, _db.weeklyReviews);
+  $$BodyMeasurementsTableTableManager get bodyMeasurements =>
+      $$BodyMeasurementsTableTableManager(_db, _db.bodyMeasurements);
+  $$ProgressPhotosTableTableManager get progressPhotos =>
+      $$ProgressPhotosTableTableManager(_db, _db.progressPhotos);
 }

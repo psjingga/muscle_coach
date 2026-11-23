@@ -2018,6 +2018,150 @@ class AppLocalizationsId extends AppLocalizations {
   String get checkInToday => 'Check-in hari ini';
 
   @override
+  String get checkInMarkedDone => 'Ditandai selesai dari notifikasi. Tambahkan detail bila sempat.';
+
+  @override
+  String get measurementsTitle => 'Lingkar badan';
+
+  @override
+  String get measurementsLog => 'Catat ukuran';
+
+  @override
+  String get measurementsEmpty =>
+      'Belum ada ukuran. Lingkar badan membantu melihat perubahan bentuk tubuh yang tidak tampak dari berat saja.';
+
+  @override
+  String get measurementsNote =>
+      'Ukur di titik yang sama, pagi hari sebelum makan, dengan pita ukur tidak ditarik kencang. Lingkar badan tidak mengukur massa otot secara langsung.';
+
+  @override
+  String get siteWaist => 'Pinggang';
+
+  @override
+  String get siteChest => 'Dada';
+
+  @override
+  String get siteArm => 'Lengan atas';
+
+  @override
+  String get siteThigh => 'Paha';
+
+  @override
+  String get siteHip => 'Pinggul';
+
+  @override
+  String measurementLatest(Object value, Object date) {
+    return '$value cm · $date';
+  }
+
+  @override
+  String measurementChange(Object delta, Object date) {
+    return '$delta cm sejak $date';
+  }
+
+  @override
+  String get measurementSheetTitle => 'Catat lingkar badan';
+
+  @override
+  String get measurementSheetHint => 'Isi ukuran yang Anda ukur saja; yang kosong tidak disimpan.';
+
+  @override
+  String get measurementDate => 'Tanggal pengukuran';
+
+  @override
+  String get measurementRangeError => 'Antara 10–250 cm';
+
+  @override
+  String get measurementSaved => 'Ukuran tersimpan.';
+
+  @override
+  String measurementChartLabel(Object site) {
+    return 'Grafik lingkar $site';
+  }
+
+  @override
+  String get photosTitle => 'Foto progres';
+
+  @override
+  String get photosAdd => 'Tambah foto';
+
+  @override
+  String get photosEmpty =>
+      'Belum ada foto. Foto dengan pose, tempat, dan cahaya yang sama tiap 2–4 minggu memudahkan melihat perubahan.';
+
+  @override
+  String get photosPrivacy =>
+      'Foto hanya disimpan di HP ini, tidak dikirim ke AI, dan ikut terhapus saat \"Hapus semua data\".';
+
+  @override
+  String get poseFront => 'Depan';
+
+  @override
+  String get poseSide => 'Samping';
+
+  @override
+  String get poseBack => 'Belakang';
+
+  @override
+  String get photoSheetTitle => 'Tambah foto progres';
+
+  @override
+  String get photoPose => 'Pose';
+
+  @override
+  String get photoDate => 'Tanggal foto';
+
+  @override
+  String get photoCamera => 'Kamera';
+
+  @override
+  String get photoGallery => 'Galeri';
+
+  @override
+  String get photoSaved => 'Foto tersimpan.';
+
+  @override
+  String get photoFailed =>
+      'Foto tidak bisa diambil atau disimpan. Periksa izin kamera/galeri di pengaturan.';
+
+  @override
+  String get photoDeleteTitle => 'Hapus foto ini?';
+
+  @override
+  String get photoDeleteMessage => 'Foto dihapus dari HP ini dan tidak bisa dikembalikan.';
+
+  @override
+  String get photoDeleted => 'Foto dihapus.';
+
+  @override
+  String get photoCompare => 'Bandingkan';
+
+  @override
+  String get photoCompareTitle => 'Bandingkan foto';
+
+  @override
+  String get photoCompareNeedTwo => 'Butuh minimal dua tanggal dengan pose yang sama.';
+
+  @override
+  String get photoBefore => 'Sebelum';
+
+  @override
+  String get photoAfter => 'Sesudah';
+
+  @override
+  String photoWeightOn(Object kg) {
+    return 'Berat $kg kg';
+  }
+
+  @override
+  String get photoMissing => 'Berkas foto tidak ditemukan';
+
+  @override
+  String photoOpenLabel(Object pose, Object date) {
+    return 'Foto $pose $date';
+  }
+
+  @override
   String get checkInDone => 'Check-in hari ini sudah diisi';
 
   @override

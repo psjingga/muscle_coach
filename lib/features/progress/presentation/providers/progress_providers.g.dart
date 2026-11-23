@@ -126,6 +126,238 @@ final class CheckInsProvider
 
 String _$checkInsHash() => r'7e8cca4c91ee6c0aac5049890c667cc07ffb1d3f';
 
+@ProviderFor(photoStore)
+final photoStoreProvider = PhotoStoreProvider._();
+
+final class PhotoStoreProvider extends $FunctionalProvider<PhotoStore, PhotoStore, PhotoStore>
+    with $Provider<PhotoStore> {
+  PhotoStoreProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'photoStoreProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$photoStoreHash();
+
+  @$internal
+  @override
+  $ProviderElement<PhotoStore> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  PhotoStore create(Ref ref) {
+    return photoStore(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(PhotoStore value) {
+    return $ProviderOverride(origin: this, providerOverride: $SyncValueProvider<PhotoStore>(value));
+  }
+}
+
+String _$photoStoreHash() => r'a1a51ecbd0eb95af5ca24037fd289fc48fe79cc3';
+
+@ProviderFor(photoPicker)
+final photoPickerProvider = PhotoPickerProvider._();
+
+final class PhotoPickerProvider extends $FunctionalProvider<PhotoPicker, PhotoPicker, PhotoPicker>
+    with $Provider<PhotoPicker> {
+  PhotoPickerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'photoPickerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$photoPickerHash();
+
+  @$internal
+  @override
+  $ProviderElement<PhotoPicker> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  PhotoPicker create(Ref ref) {
+    return photoPicker(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(PhotoPicker value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<PhotoPicker>(value),
+    );
+  }
+}
+
+String _$photoPickerHash() => r'b71d30bec047cf99e031ecba15124a094c433ac0';
+
+/// Folder foto progres (untuk menampilkan berkas).
+
+@ProviderFor(photoDirectory)
+final photoDirectoryProvider = PhotoDirectoryProvider._();
+
+/// Folder foto progres (untuk menampilkan berkas).
+
+final class PhotoDirectoryProvider
+    extends $FunctionalProvider<AsyncValue<Directory>, Directory, FutureOr<Directory>>
+    with $FutureModifier<Directory>, $FutureProvider<Directory> {
+  /// Folder foto progres (untuk menampilkan berkas).
+  PhotoDirectoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'photoDirectoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$photoDirectoryHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<Directory> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Directory> create(Ref ref) {
+    return photoDirectory(ref);
+  }
+}
+
+String _$photoDirectoryHash() => r'45ea5eb97f7fd38e6cdfc9a9df8c47471c6449b6';
+
+@ProviderFor(bodyRepository)
+final bodyRepositoryProvider = BodyRepositoryProvider._();
+
+final class BodyRepositoryProvider
+    extends $FunctionalProvider<BodyRepository, BodyRepository, BodyRepository>
+    with $Provider<BodyRepository> {
+  BodyRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'bodyRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$bodyRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<BodyRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  BodyRepository create(Ref ref) {
+    return bodyRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(BodyRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<BodyRepository>(value),
+    );
+  }
+}
+
+String _$bodyRepositoryHash() => r'ad36d29ffaf2bc7a40e81ea4d883cedd775f21f9';
+
+@ProviderFor(measurements)
+final measurementsProvider = MeasurementsProvider._();
+
+final class MeasurementsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<BodyMeasurement>>,
+          List<BodyMeasurement>,
+          Stream<List<BodyMeasurement>>
+        >
+    with $FutureModifier<List<BodyMeasurement>>, $StreamProvider<List<BodyMeasurement>> {
+  MeasurementsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'measurementsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$measurementsHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<BodyMeasurement>> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<BodyMeasurement>> create(Ref ref) {
+    return measurements(ref);
+  }
+}
+
+String _$measurementsHash() => r'cf4272c3cd72459d58c685421494b834c3b460c6';
+
+@ProviderFor(progressPhotos)
+final progressPhotosProvider = ProgressPhotosProvider._();
+
+final class ProgressPhotosProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ProgressPhoto>>,
+          List<ProgressPhoto>,
+          Stream<List<ProgressPhoto>>
+        >
+    with $FutureModifier<List<ProgressPhoto>>, $StreamProvider<List<ProgressPhoto>> {
+  ProgressPhotosProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'progressPhotosProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$progressPhotosHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<ProgressPhoto>> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<ProgressPhoto>> create(Ref ref) {
+    return progressPhotos(ref);
+  }
+}
+
+String _$progressPhotosHash() => r'9a83ad88d6c234a624594f2f8022215f2fa522db';
+
 @ProviderFor(intakeByDay)
 final intakeByDayProvider = IntakeByDayProvider._();
 
@@ -677,7 +909,7 @@ final class ProgressActionsProvider extends $AsyncNotifierProvider<ProgressActio
   ProgressActions create() => ProgressActions();
 }
 
-String _$progressActionsHash() => r'5122639a20f74738a9679864e57b8fa800783a1b';
+String _$progressActionsHash() => r'5003d5e0678065736c5efab81d71c04f6a5b63d2';
 
 /// Aksi progres (berat, check-in, keputusan penyesuaian, ringkasan AI).
 /// keepAlive: dipanggil dari callback yang tidak mendengarkan provider ini.

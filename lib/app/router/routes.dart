@@ -18,6 +18,7 @@ abstract final class Routes {
   static const mealPlan = '/meal-plan';
   static const checkIn = '/check-in';
   static const weeklyReview = '/weekly-review';
+  static const photoCompare = '/progress-photos/compare';
 
   static const home = '/home';
   static const workout = '/workout';

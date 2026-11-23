@@ -114,6 +114,7 @@ class LocalWorkoutRepository implements WorkoutRepository {
     notes: r.notes,
     energy: r.energy,
     discomfort: r.discomfort,
+    startedAt: r.startedAt,
   );
 
   static SetLog _set(SetLogRow r) => SetLog(

@@ -20,27 +20,27 @@ class AppShell extends StatelessWidget {
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
+            selectedIcon: const Icon(Icons.home_rounded),
             label: l.tabHome,
           ),
           NavigationDestination(
             icon: const Icon(Icons.fitness_center_outlined),
-            selectedIcon: const Icon(Icons.fitness_center),
+            selectedIcon: const Icon(Icons.fitness_center_rounded),
             label: l.tabWorkout,
           ),
           NavigationDestination(
             icon: const Icon(Icons.restaurant_outlined),
-            selectedIcon: const Icon(Icons.restaurant),
+            selectedIcon: const Icon(Icons.restaurant_rounded),
             label: l.tabNutrition,
           ),
           NavigationDestination(
             icon: const Icon(Icons.insights_outlined),
-            selectedIcon: const Icon(Icons.insights),
+            selectedIcon: const Icon(Icons.insights_rounded),
             label: l.tabProgress,
           ),
           NavigationDestination(
             icon: const Icon(Icons.person_outline),
-            selectedIcon: const Icon(Icons.person),
+            selectedIcon: const Icon(Icons.person_rounded),
             label: l.tabProfile,
           ),
         ],

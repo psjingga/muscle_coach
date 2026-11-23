@@ -56,3 +56,7 @@ emulator-data/
 .secret.local
 functions/.secret.local
 functions/.env*
+
+# Superdesign: hanya design system yang disimpan di repo (init/resume/tmp lokal)
+.superdesign/*
+!.superdesign/design-system.md

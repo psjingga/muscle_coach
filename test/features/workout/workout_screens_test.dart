@@ -214,12 +214,12 @@ void main() {
     testWidgets('target, riwayat sesi lalu, saran naik beban, dan prefill', (tester) async {
       await pump(tester, initial: '/session/s1');
       expect(find.text('1. Goblet Squat'), findsOneWidget);
-      expect(
-        find.text('Terakhir: 16 kg × 12 · RIR 2, 16 kg × 12 · RIR 2, 16 kg × 12 · RIR 2'),
-        findsOneWidget,
-      );
+      // Kolom "Sebelumnya": set aktif + 2 set rencana berikutnya.
+      expect(find.text('16 × 12'), findsNWidgets(3));
       expect(find.textContaining('coba naikkan beban'), findsOneWidget);
-      expect(find.text('0/8 set · volume 0 kg'), findsOneWidget);
+      expect(find.text('0/8 set'), findsOneWidget);
+      // Hanya gerakan aktif yang terbuka; gerakan lain ringkas.
+      expect(find.byKey(const ValueKey('ex-collapsed-1')), findsOneWidget);
       final weight = tester.widget<TextField>(find.byKey(const ValueKey('weight-0')));
       expect(weight.controller!.text, '16');
     });
@@ -235,27 +235,48 @@ void main() {
       final saved = verify(() => repo.logSet('s1', captureAny())).captured.single as SetLog;
       expect(saved.weightKg, 17.5);
       expect(saved.reps, 10);
-      expect(find.text('Set 1 · 17,5 kg × 10'), findsOneWidget);
-      expect(find.text('Istirahat 2:00'), findsOneWidget);
-      expect(find.text('1/3 set'), findsOneWidget);
-      expect(find.text('Set 2'), findsOneWidget);
+      final row = find.byKey(const ValueKey('set-0-1'));
+      expect(row, findsOneWidget);
+      expect(find.descendant(of: row, matching: find.text('17,5')), findsOneWidget);
+      expect(find.descendant(of: row, matching: find.text('10')), findsOneWidget);
+      expect(find.text('1/8 set'), findsOneWidget);
+      final rest = find.byKey(const Key('rest-remaining'));
+      expect(tester.widget<Text>(rest).data, '2:00');
 
       await tester.tap(find.text('+15 dtk'));
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Istirahat 2:15'), findsOneWidget);
+      expect(tester.widget<Text>(rest).data, '2:15');
       await tester.tap(find.text('Selesai'));
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Istirahat 2:15'), findsNothing);
-      expect(find.text('Istirahat 2:14'), findsNothing);
+      expect(rest, findsNothing);
     });
 
     testWidgets('repetisi kosong → pesan error, tidak tersimpan', (tester) async {
       await pump(tester, initial: '/session/s1');
+      await tester.tap(find.byKey(const ValueKey('ex-collapsed-1')));
+      await tester.pump();
       await tester.enterText(find.byKey(const ValueKey('reps-1')), '');
       await tester.tap(find.byKey(const ValueKey('log-1')));
       await tester.pump();
       expect(find.text('Isi repetisi.'), findsOneWidget);
       verifyNever(() => repo.logSet(any(), any()));
+    });
+
+    testWidgets('lewati gerakan → semua set tersisa dilewati, gerakan berikutnya terbuka', (
+      tester,
+    ) async {
+      await pump(tester, initial: '/session/s1');
+      await tester.tap(find.byKey(const ValueKey('skip-0')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+      final saved = verify(() => repo.logSet('s1', captureAny())).captured.cast<SetLog>();
+      expect(saved.map((s) => (s.exerciseIndex, s.setNumber, s.status)), [
+        (0, 1, SetStatus.skipped),
+        (0, 2, SetStatus.skipped),
+        (0, 3, SetStatus.skipped),
+      ]);
+      expect(find.byKey(const ValueKey('ex-collapsed-0')), findsOneWidget);
+      expect(find.byKey(const ValueKey('weight-1')), findsOneWidget);
     });
 
     testWidgets('selesaikan sesi dengan energi & catatan', (tester) async {

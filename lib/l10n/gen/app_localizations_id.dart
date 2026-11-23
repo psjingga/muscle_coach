@@ -1055,6 +1055,52 @@ class AppLocalizationsId extends AppLocalizations {
   String get sessionTitle => 'Sesi latihan';
 
   @override
+  String sessionElapsed(Object time) {
+    return 'Sesi latihan · $time';
+  }
+
+  @override
+  String exerciseOfTotal(Object current, Object total) {
+    return 'Gerakan $current dari $total';
+  }
+
+  @override
+  String get colSet => 'Set';
+
+  @override
+  String get colPrevious => 'Sebelumnya';
+
+  @override
+  String get colKg => 'Kg';
+
+  @override
+  String get colReps => 'Reps';
+
+  @override
+  String get colSeconds => 'Dtk';
+
+  @override
+  String get colRir => 'RIR';
+
+  @override
+  String get seeTechnique => 'Lihat teknik';
+
+  @override
+  String get addSet => 'Tambah set';
+
+  @override
+  String get skipExercise => 'Lewati gerakan';
+
+  @override
+  String get rirNone => '–';
+
+  @override
+  String get setSkippedShort => 'Dilewati';
+
+  @override
+  String get deleteSetHint => 'Tekan lama untuk menghapus set';
+
+  @override
   String lastTime(Object value) {
     return 'Terakhir: $value';
   }
@@ -1245,6 +1291,52 @@ class AppLocalizationsId extends AppLocalizations {
   String homeNextWorkout(Object day) {
     return 'Latihan berikutnya · $day';
   }
+
+  @override
+  String get homeKcalLeft => 'kkal tersisa';
+
+  @override
+  String get homeKcalOver => 'kkal berlebih';
+
+  @override
+  String get homeEstimate => 'Estimasi';
+
+  @override
+  String homeMoreExercises(Object count) {
+    return '+$count gerakan lagi';
+  }
+
+  @override
+  String get homeStartWorkout => 'Mulai latihan';
+
+  @override
+  String get homeViewWorkout => 'Lihat latihan';
+
+  @override
+  String get homeAvgWeight7 => 'Berat rata-rata 7 hari';
+
+  @override
+  String get homeSessionsWeek => 'Latihan minggu ini';
+
+  @override
+  String get homeCheckInFill => 'Isi';
+
+  @override
+  String get homeCheckInDoneShort => 'Check-in sudah diisi';
+
+  @override
+  String get homeEdit => 'Ubah';
+
+  @override
+  String homeMacroValue(Object got, Object target) {
+    return '$got/$target';
+  }
+
+  @override
+  String get homeNoNutritionTarget => 'Target nutrisi muncul setelah target dikonfirmasi.';
+
+  @override
+  String get homeWeekLabel => 'Minggu ini';
 
   @override
   String get homeNoPlan => 'Belum ada program latihan. Buat program awal di tab Latihan.';

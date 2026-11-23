@@ -1940,6 +1940,90 @@ abstract class AppLocalizations {
   /// **'Sesi latihan'**
   String get sessionTitle;
 
+  /// No description provided for @sessionElapsed.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesi latihan · {time}'**
+  String sessionElapsed(Object time);
+
+  /// No description provided for @exerciseOfTotal.
+  ///
+  /// In id, this message translates to:
+  /// **'Gerakan {current} dari {total}'**
+  String exerciseOfTotal(Object current, Object total);
+
+  /// No description provided for @colSet.
+  ///
+  /// In id, this message translates to:
+  /// **'Set'**
+  String get colSet;
+
+  /// No description provided for @colPrevious.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebelumnya'**
+  String get colPrevious;
+
+  /// No description provided for @colKg.
+  ///
+  /// In id, this message translates to:
+  /// **'Kg'**
+  String get colKg;
+
+  /// No description provided for @colReps.
+  ///
+  /// In id, this message translates to:
+  /// **'Reps'**
+  String get colReps;
+
+  /// No description provided for @colSeconds.
+  ///
+  /// In id, this message translates to:
+  /// **'Dtk'**
+  String get colSeconds;
+
+  /// No description provided for @colRir.
+  ///
+  /// In id, this message translates to:
+  /// **'RIR'**
+  String get colRir;
+
+  /// No description provided for @seeTechnique.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat teknik'**
+  String get seeTechnique;
+
+  /// No description provided for @addSet.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah set'**
+  String get addSet;
+
+  /// No description provided for @skipExercise.
+  ///
+  /// In id, this message translates to:
+  /// **'Lewati gerakan'**
+  String get skipExercise;
+
+  /// No description provided for @rirNone.
+  ///
+  /// In id, this message translates to:
+  /// **'–'**
+  String get rirNone;
+
+  /// No description provided for @setSkippedShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Dilewati'**
+  String get setSkippedShort;
+
+  /// No description provided for @deleteSetHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Tekan lama untuk menghapus set'**
+  String get deleteSetHint;
+
   /// No description provided for @lastTime.
   ///
   /// In id, this message translates to:
@@ -2299,6 +2383,90 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Latihan berikutnya · {day}'**
   String homeNextWorkout(Object day);
+
+  /// No description provided for @homeKcalLeft.
+  ///
+  /// In id, this message translates to:
+  /// **'kkal tersisa'**
+  String get homeKcalLeft;
+
+  /// No description provided for @homeKcalOver.
+  ///
+  /// In id, this message translates to:
+  /// **'kkal berlebih'**
+  String get homeKcalOver;
+
+  /// No description provided for @homeEstimate.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi'**
+  String get homeEstimate;
+
+  /// No description provided for @homeMoreExercises.
+  ///
+  /// In id, this message translates to:
+  /// **'+{count} gerakan lagi'**
+  String homeMoreExercises(Object count);
+
+  /// No description provided for @homeStartWorkout.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai latihan'**
+  String get homeStartWorkout;
+
+  /// No description provided for @homeViewWorkout.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat latihan'**
+  String get homeViewWorkout;
+
+  /// No description provided for @homeAvgWeight7.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat rata-rata 7 hari'**
+  String get homeAvgWeight7;
+
+  /// No description provided for @homeSessionsWeek.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan minggu ini'**
+  String get homeSessionsWeek;
+
+  /// No description provided for @homeCheckInFill.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi'**
+  String get homeCheckInFill;
+
+  /// No description provided for @homeCheckInDoneShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Check-in sudah diisi'**
+  String get homeCheckInDoneShort;
+
+  /// No description provided for @homeEdit.
+  ///
+  /// In id, this message translates to:
+  /// **'Ubah'**
+  String get homeEdit;
+
+  /// No description provided for @homeMacroValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{got}/{target}'**
+  String homeMacroValue(Object got, Object target);
+
+  /// No description provided for @homeNoNutritionTarget.
+  ///
+  /// In id, this message translates to:
+  /// **'Target nutrisi muncul setelah target dikonfirmasi.'**
+  String get homeNoNutritionTarget;
+
+  /// No description provided for @homeWeekLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Minggu ini'**
+  String get homeWeekLabel;
 
   /// No description provided for @homeNoPlan.
   ///

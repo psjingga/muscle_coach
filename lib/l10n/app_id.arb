@@ -523,6 +523,31 @@
   "historyEmpty": "Belum ada sesi yang selesai.",
   "exerciseLibrary": "Katalog latihan",
   "sessionTitle": "Sesi latihan",
+  "sessionElapsed": "Sesi latihan · {time}",
+  "@sessionElapsed": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "exerciseOfTotal": "Gerakan {current} dari {total}",
+  "@exerciseOfTotal": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "colSet": "Set",
+  "colPrevious": "Sebelumnya",
+  "colKg": "Kg",
+  "colReps": "Reps",
+  "colSeconds": "Dtk",
+  "colRir": "RIR",
+  "seeTechnique": "Lihat teknik",
+  "addSet": "Tambah set",
+  "skipExercise": "Lewati gerakan",
+  "rirNone": "–",
+  "setSkippedShort": "Dilewati",
+  "deleteSetHint": "Tekan lama untuk menghapus set",
   "lastTime": "Terakhir: {value}",
   "@lastTime": {
     "placeholders": {
@@ -611,6 +636,31 @@
       "day": {}
     }
   },
+  "homeKcalLeft": "kkal tersisa",
+  "homeKcalOver": "kkal berlebih",
+  "homeEstimate": "Estimasi",
+  "homeMoreExercises": "+{count} gerakan lagi",
+  "@homeMoreExercises": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "homeStartWorkout": "Mulai latihan",
+  "homeViewWorkout": "Lihat latihan",
+  "homeAvgWeight7": "Berat rata-rata 7 hari",
+  "homeSessionsWeek": "Latihan minggu ini",
+  "homeCheckInFill": "Isi",
+  "homeCheckInDoneShort": "Check-in sudah diisi",
+  "homeEdit": "Ubah",
+  "homeMacroValue": "{got}/{target}",
+  "@homeMacroValue": {
+    "placeholders": {
+      "got": {},
+      "target": {}
+    }
+  },
+  "homeNoNutritionTarget": "Target nutrisi muncul setelah target dikonfirmasi.",
+  "homeWeekLabel": "Minggu ini",
   "homeNoPlan": "Belum ada program latihan. Buat program awal di tab Latihan.",
   "openWorkout": "Buka",
   "dataPrivacySection": "Data & privasi",

@@ -17,7 +17,8 @@ class MuscleCoachApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
+      // Desain "gelap dulu" (lihat .superdesign/design-system.md).
+      themeMode: ThemeMode.dark,
       locale: const Locale('id'),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

@@ -6,11 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_palette.dart';
 import '../../../../app/theme/app_theme.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/empty_state.dart';
+import '../../../../core/widgets/progress_ring.dart';
 import '../../../../core/database/database_providers.dart';
 import '../../../exercise_library/presentation/providers/exercise_providers.dart';
 import '../../../exercise_library/presentation/widgets/exercise_media.dart';
@@ -20,7 +22,8 @@ import '../providers/workout_providers.dart';
 import '../widgets/workout_labels.dart';
 import '../widgets/workout_widgets.dart';
 
-/// Sesi latihan: catat set aktual per latihan, timer istirahat, selesaikan.
+/// Sesi latihan (desain Superdesign): tabel set per gerakan dengan tombol ✓
+/// besar, gerakan aktif terbuka & lainnya ringkas, timer istirahat melayang.
 /// Sesi yang sudah selesai ditampilkan sebagai ringkasan target vs aktual.
 class SessionScreen extends ConsumerWidget {
   const SessionScreen({super.key, required this.sessionId});
@@ -50,6 +53,7 @@ class SessionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
+    final theme = Theme.of(context);
     final sessionAsync = ref.watch(workoutSessionProvider(sessionId));
     final sets = ref.watch(sessionSetsProvider(sessionId)).value ?? const <SetLog>[];
     final session = sessionAsync.value;
@@ -57,22 +61,41 @@ class SessionScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(session == null ? l.sessionTitle : l.focus(session.focus)),
+        titleSpacing: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(session == null ? l.sessionTitle : l.focus(session.focus)),
+            if (session != null && inProgress && session.startedAt != null)
+              _ElapsedText(startedAt: session.startedAt!),
+          ],
+        ),
         actions: [
           if (session != null)
             PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert_rounded),
               onSelected: (_) => _delete(context, ref),
               itemBuilder: (_) => [PopupMenuItem(value: 'delete', child: Text(l.deleteSession))],
             ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(height: 1, color: theme.colorScheme.outlineVariant),
+        ),
       ),
       body: switch (sessionAsync) {
-        AsyncValue(:final value?) => Column(
+        AsyncValue(:final value?) => Stack(
           children: [
-            if (inProgress) _RestTimerBanner(sessionId: sessionId),
-            Expanded(
+            Positioned.fill(
               child: _SessionBody(session: value, sets: sets),
             ),
+            if (inProgress)
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 12,
+                child: Center(child: _RestTimerPill(sessionId: sessionId)),
+              ),
           ],
         ),
         AsyncData() => EmptyState(icon: Icons.search_off, title: l.errorNotFound),
@@ -83,13 +106,19 @@ class SessionScreen extends ConsumerWidget {
         _ => const Center(child: CircularProgressIndicator()),
       },
       bottomNavigationBar: inProgress
-          ? SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                child: FilledButton.icon(
-                  icon: const Icon(Icons.flag),
-                  label: Text(l.finishSession),
-                  onPressed: () => _FinishSheet.show(context, sessionId),
+          ? DecoratedBox(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerLow,
+                border: Border(top: BorderSide(color: theme.colorScheme.outlineVariant)),
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.flag_rounded),
+                    label: Text(l.finishSession),
+                    onPressed: () => _FinishSheet.show(context, sessionId),
+                  ),
                 ),
               ),
             )
@@ -98,16 +127,74 @@ class SessionScreen extends ConsumerWidget {
   }
 }
 
-class _SessionBody extends ConsumerWidget {
+/// "Sesi latihan · 18:42" — durasi sejak sesi dimulai.
+class _ElapsedText extends StatefulWidget {
+  const _ElapsedText({required this.startedAt});
+
+  final DateTime startedAt;
+
+  @override
+  State<_ElapsedText> createState() => _ElapsedTextState();
+}
+
+class _ElapsedTextState extends State<_ElapsedText> {
+  Timer? _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final d = DateTime.now().difference(widget.startedAt);
+    final secs = d.isNegative ? 0 : d.inSeconds;
+    final h = secs ~/ 3600;
+    final m = (secs % 3600) ~/ 60;
+    final s = (secs % 60).toString().padLeft(2, '0');
+    final time = h > 0 ? '$h:${m.toString().padLeft(2, '0')}:$s' : '$m:$s';
+    return Text(
+      context.l10n.sessionElapsed(time),
+      style: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
+        fontFeatures: tabular,
+        color: context.palette.muted,
+      ),
+    );
+  }
+}
+
+class _SessionBody extends ConsumerStatefulWidget {
   const _SessionBody({required this.session, required this.sets});
 
   final WorkoutSession session;
   final List<SetLog> sets;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_SessionBody> createState() => _SessionBodyState();
+}
+
+class _SessionBodyState extends ConsumerState<_SessionBody> {
+  /// Kartu yang dibuka pengguna; `null` = gerakan aktif.
+  int? _expanded;
+
+  @override
+  Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
+    final session = widget.session;
+    final sets = widget.sets;
     final readOnly = session.status != SessionStatus.inProgress;
     final last = ref.watch(lastPerformanceProvider(session.planId, session.dayId)).value;
     // Sesi selesai tidak dibandingkan dengan dirinya sendiri.
@@ -116,38 +203,168 @@ class _SessionBody extends ConsumerWidget {
     final planned = WorkoutMath.plannedSets(session.planned);
     final volume = WorkoutMath.volumeKg(sets, session.planned);
 
+    bool finished(int i) => WorkoutMath.setsFor(sets, i).length >= session.planned[i].sets;
+    final active = [
+      for (var i = 0; i < session.planned.length; i++)
+        if (!finished(i)) i,
+    ].firstOrNull;
+    final expanded = _expanded ?? active;
+    final total = session.planned.length;
+
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      padding: EdgeInsets.fromLTRB(16, 12, 16, readOnly ? 24 : 120),
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                '${l.weekdayLong(session.weekday)} · ${Fmt.isoDate(session.date)}',
-                style: theme.textTheme.titleMedium,
+        if (readOnly) ...[
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '${l.weekdayLong(session.weekday)} · ${Fmt.isoDate(session.date)}',
+                  style: theme.textTheme.titleMedium,
+                ),
               ),
-            ),
-            if (readOnly) Chip(label: Text(l.completedBadge), visualDensity: VisualDensity.compact),
-          ],
-        ),
-        Text(l.sessionSummary(done, planned, Fmt.integer(volume))),
-        if (readOnly && session.energy != null) Text('${l.energyLabel}: ${session.energy}/5'),
-        if (readOnly && session.discomfort != null)
-          Text('${l.discomfortLabel}: ${session.discomfort}'),
-        if (readOnly && session.notes != null) Text('${l.sessionNotesLabel}: ${session.notes}'),
-        if (!readOnly) MutedNote(l.painWarning),
-        const SizedBox(height: 8),
-        for (final (i, p) in session.planned.indexed)
-          _ExerciseLogCard(
-            key: ValueKey('ex-$i'),
-            sessionId: session.id,
-            index: i,
-            planned: p,
-            sets: WorkoutMath.setsFor(sets, i),
-            previous: previous == null ? const [] : WorkoutMath.setsFor(previous.sets, i),
-            readOnly: readOnly,
+              Chip(label: Text(l.completedBadge), visualDensity: VisualDensity.compact),
+            ],
           ),
+          Text(l.sessionSummary(done, planned, Fmt.integer(volume))),
+          if (session.energy != null) Text('${l.energyLabel}: ${session.energy}/5'),
+          if (session.discomfort != null) Text('${l.discomfortLabel}: ${session.discomfort}'),
+          if (session.notes != null) Text('${l.sessionNotesLabel}: ${session.notes}'),
+          const SizedBox(height: 12),
+        ] else ...[
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.exerciseOfTotal((active ?? total - 1) + 1, total),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 4),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(99),
+                      child: LinearProgressIndicator(
+                        value: total == 0 ? 0 : ((active ?? total - 1) + 1) / total,
+                        minHeight: 6,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: palette.surface2,
+                  borderRadius: BorderRadius.circular(99),
+                  border: Border.all(color: theme.colorScheme.outlineVariant),
+                ),
+                child: Text(
+                  l.setsProgress(done, planned),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    fontFeatures: tabular,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+        ],
+        for (final (i, p) in session.planned.indexed) ...[
+          if (readOnly || i == expanded)
+            _ExerciseLogCard(
+              key: ValueKey('ex-$i'),
+              sessionId: session.id,
+              index: i,
+              planned: p,
+              sets: WorkoutMath.setsFor(sets, i),
+              previous: previous == null ? const [] : WorkoutMath.setsFor(previous.sets, i),
+              readOnly: readOnly,
+            )
+          else
+            _CollapsedExercise(
+              key: ValueKey('ex-collapsed-$i'),
+              planned: p,
+              logged: WorkoutMath.setsFor(sets, i),
+              finished: finished(i),
+              onTap: () => setState(() => _expanded = i),
+            ),
+          const SizedBox(height: 12),
+        ],
+        if (!readOnly) MutedNote(l.painWarning),
       ],
+    );
+  }
+}
+
+/// Gerakan yang tidak sedang dikerjakan: nama + "2/3 set".
+class _CollapsedExercise extends StatelessWidget {
+  const _CollapsedExercise({
+    super.key,
+    required this.planned,
+    required this.logged,
+    required this.finished,
+    required this.onTap,
+  });
+
+  final PlannedExercise planned;
+  final List<SetLog> logged;
+  final bool finished;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final palette = context.palette;
+    final done = logged.where((s) => s.status == SetStatus.done).length;
+    return Opacity(
+      opacity: finished ? 0.6 : 0.85,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        planned.name,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          decoration: finished ? TextDecoration.lineThrough : null,
+                          decorationColor: palette.muted,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        l.setsProgress(done, planned.sets),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          fontFeatures: tabular,
+                          color: palette.muted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  finished ? Icons.check_circle_rounded : Icons.expand_more_rounded,
+                  color: finished ? theme.colorScheme.primary : palette.muted,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -180,6 +397,9 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
   int? _rir;
   SetInputError? _error;
 
+  /// Pengguna menekan "Tambah set" setelah semua set rencana tercatat.
+  bool _extra = false;
+
   @override
   void initState() {
     super.initState();
@@ -189,6 +409,7 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
   @override
   void didUpdateWidget(covariant _ExerciseLogCard oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.sets.length != oldWidget.sets.length) _extra = false;
     _prefill();
   }
 
@@ -227,9 +448,14 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
     if (error == null) unawaited(HapticFeedback.lightImpact());
   }
 
-  Future<void> _skip() => ref
-      .read(sessionLoggerProvider(widget.sessionId).notifier)
-      .skipSet(exerciseIndex: widget.index, planned: widget.planned, setNumber: _nextSet);
+  /// Lewati semua set rencana yang tersisa untuk gerakan ini.
+  Future<void> _skipExercise() async {
+    final logger = ref.read(sessionLoggerProvider(widget.sessionId).notifier);
+    final from = _nextSet;
+    for (var n = from; n <= widget.planned.sets; n++) {
+      await logger.skipSet(exerciseIndex: widget.index, planned: widget.planned, setNumber: n);
+    }
+  }
 
   Future<void> _deleteSet(SetLog s) async {
     final l = context.l10n;
@@ -259,166 +485,426 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
     };
   }
 
+  /// "40 × 10" (atau "45 dtk") dari set sesi sebelumnya dengan nomor sama.
+  String _prevText(int setNumber) {
+    final s = widget.previous
+        .where((x) => x.setNumber == setNumber && x.status == SetStatus.done)
+        .firstOrNull;
+    if (s == null) return '–';
+    final reps = widget.planned.isTimed ? '${s.reps} dtk' : '${s.reps}';
+    return s.weightKg == null ? reps : '${Fmt.one(s.weightKg!)} × $reps';
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final p = widget.planned;
-    final done = widget.sets.where((s) => s.status == SetStatus.done).length;
     final previousDone = widget.previous.where((s) => s.status == SetStatus.done).toList();
     final canAddSet = _nextSet <= WorkoutMath.maxSetsPerExercise;
+    final plannedLeft = _nextSet <= p.sets;
+    final showInput = !widget.readOnly && canAddSet && (plannedLeft || _extra);
     final exercise = ref.watch(exerciseCatalogProvider).value?[p.exerciseId];
+    final muscles = exercise?.primaryMuscles ?? const <String>[];
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final head = TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 1,
+      color: palette.muted,
+    );
+    const numStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFeatures: tabular);
+
+    Widget row({
+      required int number,
+      required String prev,
+      required Widget kg,
+      required Widget reps,
+      required Widget rir,
+      required Widget check,
+      Color? color,
+      VoidCallback? onLongPress,
+      Key? key,
+    }) => GestureDetector(
+      key: key,
+      onLongPress: onLongPress,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(AppTheme.radius),
+        ),
+        child: Row(
           children: [
-            Row(
-              children: [
-                if (exercise != null) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 4),
-                    child: ExerciseThumbnail(exercise: exercise),
-                  ),
-                  const SizedBox(width: 12),
-                ],
-                Expanded(
-                  child: InkWell(
-                    onTap: () => context.push(Routes.exercisePath(p.exerciseId)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        '${widget.index + 1}. ${p.name}',
-                        style: theme.textTheme.titleMedium,
-                      ),
+            SizedBox(
+              width: 32,
+              child: Center(
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: palette.surface2, shape: BoxShape.circle),
+                  child: Text(
+                    '$number',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      fontFeatures: tabular,
                     ),
                   ),
                 ),
-                Text(l.setsProgress(done, p.sets), style: theme.textTheme.labelLarge),
-              ],
+              ),
             ),
-            Text('${l.targetLabel}: ${l.prescriptionOf(p)} · ${l.restRirOf(p)}'),
-            if (previousDone.isNotEmpty) ...[
-              MutedNote(l.lastTime(previousDone.map((s) => l.setSummary(s, p)).join(', '))),
-              if (!widget.readOnly && WorkoutMath.shouldIncreaseLoad(p, previousDone))
+            Expanded(
+              child: Text(
+                prev,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  fontFeatures: tabular,
+                  color: palette.muted,
+                ),
+              ),
+            ),
+            SizedBox(width: 64, child: Center(child: kg)),
+            SizedBox(width: 54, child: Center(child: reps)),
+            SizedBox(width: 40, child: Center(child: rir)),
+            SizedBox(width: 48, child: Center(child: check)),
+          ],
+        ),
+      ),
+    );
+
+    InputDecoration cell(String hint) => InputDecoration(
+      hintText: hint,
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+      hintStyle: TextStyle(color: palette.muted, fontWeight: FontWeight.w500),
+    );
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.trending_up, size: 18, color: theme.colorScheme.primary),
-                    const SizedBox(width: 6),
+                    if (exercise != null) ...[
+                      ExerciseThumbnail(exercise: exercise),
+                      const SizedBox(width: 12),
+                    ],
                     Expanded(
                       child: Text(
-                        l.increaseLoadHint,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.primary,
+                        '${widget.index + 1}. ${p.name}',
+                        style: theme.textTheme.titleLarge,
+                      ),
+                    ),
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        textStyle: const TextStyle(
+                          fontFamily: AppTheme.fontFamily,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
                         ),
+                      ),
+                      onPressed: () => context.push(Routes.exercisePath(p.exerciseId)),
+                      icon: const Icon(Icons.smart_display_rounded, size: 16),
+                      label: Text(l.seeTechnique),
+                    ),
+                  ],
+                ),
+                if (muscles.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      for (final m in muscles)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: palette.surface2,
+                            borderRadius: BorderRadius.circular(99),
+                          ),
+                          child: Text(
+                            l.muscleCode(m).toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.6,
+                              color: palette.muted,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Icon(Icons.track_changes_rounded, size: 18, color: palette.muted),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        '${l.targetLabel}: ${l.prescriptionOf(p)} · ${l.restRirOf(p)}',
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
                 ),
-            ],
-            for (final s in widget.sets)
-              ListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                leading: Icon(
-                  s.status == SetStatus.done ? Icons.check_circle : Icons.remove_circle_outline,
-                  color: s.status == SetStatus.done
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.outline,
-                ),
-                title: Text('${l.setLabel(s.setNumber)} · ${l.setSummary(s, p)}'),
-                trailing: widget.readOnly
-                    ? null
-                    : IconButton(
-                        tooltip: l.delete,
-                        icon: const Icon(Icons.delete_outline),
-                        onPressed: () => _deleteSet(s),
+                if (!widget.readOnly && WorkoutMath.shouldIncreaseLoad(p, previousDone)) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.trending_up_rounded, size: 18, color: theme.colorScheme.primary),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          l.increaseLoadHint,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
                       ),
-              ),
-            if (!widget.readOnly && canAddSet) ...[
-              const SizedBox(height: 8),
-              Text(l.setLabel(_nextSet), style: theme.textTheme.labelLarge),
-              const SizedBox(height: 6),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      key: ValueKey('weight-${widget.index}'),
-                      controller: _weight,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-                      decoration: InputDecoration(labelText: l.weightLabel(p), isDense: true),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      key: ValueKey('reps-${widget.index}'),
-                      controller: _reps,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: InputDecoration(
-                        labelText: p.isTimed ? l.secondsLabel : l.repsLabel,
-                        hintText: '${p.repMin}–${p.repMax}',
-                        isDense: true,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  DropdownButton<int?>(
-                    value: _rir,
-                    hint: Text(l.rirLabel),
-                    items: [
-                      DropdownMenuItem(value: null, child: Text(l.rirLabel)),
-                      for (var r = 0; r <= 5; r++)
-                        DropdownMenuItem(value: r, child: Text('${l.rirLabel} $r')),
                     ],
-                    onChanged: (v) => setState(() => _rir = v),
                   ),
                 ],
-              ),
-              if (_errorText() case final e?)
+              ],
+            ),
+          ),
+          Divider(height: 1, color: theme.colorScheme.outlineVariant),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(e, style: TextStyle(color: theme.colorScheme.error)),
-                ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  TextButton(onPressed: _skip, child: Text(l.skipSet)),
-                  const Spacer(),
-                  FilledButton.icon(
-                    key: ValueKey('log-${widget.index}'),
-                    style: FilledButton.styleFrom(minimumSize: AppTheme.compactButtonSize),
-                    onPressed: _log,
-                    icon: const Icon(Icons.check),
-                    label: Text(l.logSet),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 32, child: Text(l.colSet.toUpperCase(), style: head)),
+                      Expanded(
+                        child: Text(
+                          l.colPrevious.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: head,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 64,
+                        child: Text(
+                          l.colKg.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: head,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 54,
+                        child: Text(
+                          (p.isTimed ? l.colSeconds : l.colReps).toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: head,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                        child: Text(l.colRir, textAlign: TextAlign.center, style: head),
+                      ),
+                      SizedBox(
+                        width: 48,
+                        child: Text('✓', textAlign: TextAlign.center, style: head),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
-          ],
-        ),
+                ),
+                for (final s in widget.sets)
+                  row(
+                    key: ValueKey('set-${widget.index}-${s.setNumber}'),
+                    number: s.setNumber,
+                    prev: _prevText(s.setNumber),
+                    color: s.status == SetStatus.done ? palette.accentSoft : null,
+                    onLongPress: widget.readOnly ? null : () => _deleteSet(s),
+                    kg: Text(
+                      s.status == SetStatus.done && s.weightKg != null ? Fmt.one(s.weightKg!) : '–',
+                      style: numStyle,
+                    ),
+                    reps: Text(s.status == SetStatus.done ? '${s.reps}' : '–', style: numStyle),
+                    rir: Text(
+                      s.rir == null ? l.rirNone : '${s.rir}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFeatures: tabular,
+                        color: palette.muted,
+                      ),
+                    ),
+                    check: s.status == SetStatus.done
+                        ? Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.check_rounded,
+                              color: theme.colorScheme.onPrimary,
+                              semanticLabel: l.setLabel(s.setNumber),
+                            ),
+                          )
+                        : Tooltip(
+                            message: l.setSkippedShort,
+                            child: Icon(Icons.remove_circle_outline_rounded, color: palette.muted),
+                          ),
+                  ),
+                if (showInput)
+                  row(
+                    number: _nextSet,
+                    prev: _prevText(_nextSet),
+                    kg: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: TextField(
+                        key: ValueKey('weight-${widget.index}'),
+                        controller: _weight,
+                        textAlign: TextAlign.center,
+                        style: numStyle.copyWith(fontWeight: FontWeight.w800),
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+                        decoration: cell('–'),
+                      ),
+                    ),
+                    reps: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: TextField(
+                        key: ValueKey('reps-${widget.index}'),
+                        controller: _reps,
+                        textAlign: TextAlign.center,
+                        style: numStyle.copyWith(fontWeight: FontWeight.w800),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        decoration: cell('${p.repMin}–${p.repMax}'),
+                      ),
+                    ),
+                    rir: PopupMenuButton<int?>(
+                      key: ValueKey('rir-${widget.index}'),
+                      tooltip: l.rirLabel,
+                      initialValue: _rir,
+                      onSelected: (v) => setState(() => _rir = v),
+                      itemBuilder: (_) => [
+                        PopupMenuItem(value: null, child: Text('${l.rirLabel} ${l.rirNone}')),
+                        for (var r = 0; r <= 5; r++)
+                          PopupMenuItem(value: r, child: Text('${l.rirLabel} $r')),
+                      ],
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(color: palette.surface2, shape: BoxShape.circle),
+                        child: Text(
+                          _rir == null ? l.rirNone : '$_rir',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontFeatures: tabular,
+                            color: _rir == null ? palette.muted : theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ),
+                    check: SizedBox.square(
+                      dimension: 44,
+                      child: OutlinedButton(
+                        key: ValueKey('log-${widget.index}'),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size.square(44),
+                          padding: EdgeInsets.zero,
+                          shape: const CircleBorder(),
+                          side: BorderSide(color: theme.colorScheme.outline, width: 2),
+                        ),
+                        onPressed: _log,
+                        child: Icon(Icons.check_rounded, semanticLabel: l.logSet),
+                      ),
+                    ),
+                  ),
+                if (!widget.readOnly)
+                  for (var n = _nextSet + (showInput ? 1 : 0); n <= p.sets; n++)
+                    Opacity(
+                      opacity: 0.5,
+                      child: row(
+                        number: n,
+                        prev: _prevText(n),
+                        kg: Text('–', style: numStyle),
+                        reps: Text('–', style: numStyle),
+                        rir: Text(l.rirNone, style: TextStyle(color: palette.muted)),
+                        check: const SizedBox(),
+                      ),
+                    ),
+                if (_errorText() case final e?)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
+                    child: Text(e, style: TextStyle(color: theme.colorScheme.error)),
+                  ),
+                if (!widget.readOnly)
+                  Row(
+                    children: [
+                      if (canAddSet && !showInput)
+                        TextButton.icon(
+                          key: ValueKey('add-set-${widget.index}'),
+                          onPressed: () => setState(() => _extra = true),
+                          icon: const Icon(Icons.add_rounded, size: 18),
+                          label: Text(l.addSet),
+                        ),
+                      const Spacer(),
+                      if (plannedLeft)
+                        TextButton.icon(
+                          key: ValueKey('skip-${widget.index}'),
+                          style: TextButton.styleFrom(foregroundColor: palette.muted),
+                          onPressed: _skipExercise,
+                          iconAlignment: IconAlignment.end,
+                          icon: const Icon(Icons.skip_next_rounded, size: 18),
+                          label: Text(l.skipExercise),
+                        ),
+                    ],
+                  ),
+                if (!widget.readOnly && widget.sets.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      l.deleteSetHint,
+                      style: TextStyle(fontSize: 12, color: palette.muted),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-/// Timer istirahat setelah mencatat set. Berbasis waktu akhir sehingga
-/// tetap benar walau aplikasi sempat di background.
-class _RestTimerBanner extends ConsumerStatefulWidget {
-  const _RestTimerBanner({required this.sessionId});
+/// Timer istirahat melayang setelah mencatat set. Berbasis waktu akhir
+/// sehingga tetap benar walau aplikasi sempat di background.
+class _RestTimerPill extends ConsumerStatefulWidget {
+  const _RestTimerPill({required this.sessionId});
 
   final String sessionId;
 
   @override
-  ConsumerState<_RestTimerBanner> createState() => _RestTimerBannerState();
+  ConsumerState<_RestTimerPill> createState() => _RestTimerPillState();
 }
 
-class _RestTimerBannerState extends ConsumerState<_RestTimerBanner> {
+class _RestTimerPillState extends ConsumerState<_RestTimerPill> {
   Timer? _ticker;
   bool _alerted = false;
 
@@ -445,6 +931,7 @@ class _RestTimerBannerState extends ConsumerState<_RestTimerBanner> {
     }
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final now = ref.read(clockProvider)();
     final remaining = timer.remainingSeconds(now);
     if (remaining == 0 && !_alerted) {
@@ -456,31 +943,75 @@ class _RestTimerBannerState extends ConsumerState<_RestTimerBanner> {
     final notifier = ref.read(sessionLoggerProvider(widget.sessionId).notifier);
     final mm = (remaining ~/ 60).toString();
     final ss = (remaining % 60).toString().padLeft(2, '0');
-    return Material(
-      color: theme.colorScheme.primaryContainer,
-      child: Column(
-        children: [
-          LinearProgressIndicator(value: timer.progress(now)),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Icon(Icons.timer_outlined, color: theme.colorScheme.onPrimaryContainer),
-                const SizedBox(width: 8),
-                Text(
-                  '${l.restTimerLabel} $mm:$ss',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
+    final pill = TextButton.styleFrom(
+      minimumSize: const Size(48, 40),
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      shape: const StadiumBorder(),
+      textStyle: const TextStyle(
+        fontFamily: AppTheme.fontFamily,
+        fontWeight: FontWeight.w700,
+        fontFeatures: tabular,
+      ),
+    );
+    return Semantics(
+      liveRegion: true,
+      label: '${l.restTimerLabel} $mm:$ss',
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(6, 6, 8, 6),
+        decoration: BoxDecoration(
+          color: palette.surface2,
+          borderRadius: BorderRadius.circular(99),
+          border: Border.all(color: theme.colorScheme.outlineVariant),
+          boxShadow: const [
+            BoxShadow(color: Color(0x80000000), blurRadius: 32, offset: Offset(0, 8)),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ProgressRing(
+              value: 1 - timer.progress(now),
+              size: 52,
+              stroke: 4,
+              color: theme.colorScheme.primary,
+              track: theme.colorScheme.outlineVariant,
+              child: Text(
+                '$mm:$ss',
+                key: const Key('rest-remaining'),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  fontFeatures: tabular,
                 ),
-                const Spacer(),
-                TextButton(onPressed: () => notifier.adjustRest(15), child: Text(l.restAdd)),
-                TextButton(onPressed: notifier.stopRest, child: Text(l.restSkip)),
-              ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Text(
+              l.restTimerLabel.toUpperCase(),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.8,
+                color: palette.muted,
+              ),
+            ),
+            const SizedBox(width: 12),
+            TextButton(
+              style: pill.copyWith(
+                backgroundColor: WidgetStatePropertyAll(theme.colorScheme.surfaceContainerLow),
+                foregroundColor: WidgetStatePropertyAll(theme.colorScheme.onSurface),
+              ),
+              onPressed: () => notifier.adjustRest(15),
+              child: Text(l.restAdd),
+            ),
+            const SizedBox(width: 4),
+            TextButton(
+              style: pill.copyWith(backgroundColor: WidgetStatePropertyAll(palette.accentSoft)),
+              onPressed: notifier.stopRest,
+              child: Text(l.restSkip),
+            ),
+          ],
+        ),
       ),
     );
   }

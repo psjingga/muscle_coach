@@ -923,7 +923,8 @@ as String?,
 mixin _$WorkoutSession {
 
 @JsonKey(includeFromJson: false, includeToJson: false) String get id; String get planId; String get dayId;/// Tanggal lokal pengguna `YYYY-MM-DD`.
- String get date; int get weekday; String get focus; SessionStatus get status; List<PlannedExercise> get planned; String? get notes; int? get energy; String? get discomfort;
+ String get date; int get weekday; String get focus; SessionStatus get status; List<PlannedExercise> get planned; String? get notes; int? get energy; String? get discomfort;/// Waktu mulai (untuk durasi sesi berjalan).
+@JsonKey(includeFromJson: false, includeToJson: false) DateTime? get startedAt;
 /// Create a copy of WorkoutSession
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -937,20 +938,20 @@ $WorkoutSessionCopyWith<WorkoutSession> get copyWith => _$WorkoutSessionCopyWith
 @override
 bool operator ==(Object other) {
   final _this = this as WorkoutSession;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkoutSession&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.planId, _this.planId) || other.planId == _this.planId)&&(identical(other.dayId, _this.dayId) || other.dayId == _this.dayId)&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.weekday, _this.weekday) || other.weekday == _this.weekday)&&(identical(other.focus, _this.focus) || other.focus == _this.focus)&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.planned, _this.planned)&&(identical(other.notes, _this.notes) || other.notes == _this.notes)&&(identical(other.energy, _this.energy) || other.energy == _this.energy)&&(identical(other.discomfort, _this.discomfort) || other.discomfort == _this.discomfort));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkoutSession&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.planId, _this.planId) || other.planId == _this.planId)&&(identical(other.dayId, _this.dayId) || other.dayId == _this.dayId)&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.weekday, _this.weekday) || other.weekday == _this.weekday)&&(identical(other.focus, _this.focus) || other.focus == _this.focus)&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.planned, _this.planned)&&(identical(other.notes, _this.notes) || other.notes == _this.notes)&&(identical(other.energy, _this.energy) || other.energy == _this.energy)&&(identical(other.discomfort, _this.discomfort) || other.discomfort == _this.discomfort)&&(identical(other.startedAt, _this.startedAt) || other.startedAt == _this.startedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as WorkoutSession;
-  return Object.hash(runtimeType,_this.id,_this.planId,_this.dayId,_this.date,_this.weekday,_this.focus,_this.status,const DeepCollectionEquality().hash(_this.planned),_this.notes,_this.energy,_this.discomfort);
+  return Object.hash(runtimeType,_this.id,_this.planId,_this.dayId,_this.date,_this.weekday,_this.focus,_this.status,const DeepCollectionEquality().hash(_this.planned),_this.notes,_this.energy,_this.discomfort,_this.startedAt);
 }
 
 @override
 String toString() {
   final _this = this as WorkoutSession;
-  return 'WorkoutSession(id: ${_this.id}, planId: ${_this.planId}, dayId: ${_this.dayId}, date: ${_this.date}, weekday: ${_this.weekday}, focus: ${_this.focus}, status: ${_this.status}, planned: ${_this.planned}, notes: ${_this.notes}, energy: ${_this.energy}, discomfort: ${_this.discomfort})';
+  return 'WorkoutSession(id: ${_this.id}, planId: ${_this.planId}, dayId: ${_this.dayId}, date: ${_this.date}, weekday: ${_this.weekday}, focus: ${_this.focus}, status: ${_this.status}, planned: ${_this.planned}, notes: ${_this.notes}, energy: ${_this.energy}, discomfort: ${_this.discomfort}, startedAt: ${_this.startedAt})';
 }
 
 
@@ -961,7 +962,7 @@ abstract mixin class $WorkoutSessionCopyWith<$Res>  {
   factory $WorkoutSessionCopyWith(WorkoutSession value, $Res Function(WorkoutSession) _then) = _$WorkoutSessionCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeFromJson: false, includeToJson: false) String id, String planId, String dayId, String date, int weekday, String focus, SessionStatus status, List<PlannedExercise> planned, String? notes, int? energy, String? discomfort
+@JsonKey(includeFromJson: false, includeToJson: false) String id, String planId, String dayId, String date, int weekday, String focus, SessionStatus status, List<PlannedExercise> planned, String? notes, int? energy, String? discomfort,@JsonKey(includeFromJson: false, includeToJson: false) DateTime? startedAt
 });
 
 
@@ -978,7 +979,7 @@ class _$WorkoutSessionCopyWithImpl<$Res>
 
 /// Create a copy of WorkoutSession
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? planId = null,Object? dayId = null,Object? date = null,Object? weekday = null,Object? focus = null,Object? status = null,Object? planned = null,Object? notes = freezed,Object? energy = freezed,Object? discomfort = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? planId = null,Object? dayId = null,Object? date = null,Object? weekday = null,Object? focus = null,Object? status = null,Object? planned = null,Object? notes = freezed,Object? energy = freezed,Object? discomfort = freezed,Object? startedAt = freezed,}) {
   return _then(WorkoutSession(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,planId: null == planId ? _self.planId : planId // ignore: cast_nullable_to_non_nullable
@@ -991,7 +992,8 @@ as SessionStatus,planned: null == planned ? _self.planned : planned // ignore: c
 as List<PlannedExercise>,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String?,energy: freezed == energy ? _self.energy : energy // ignore: cast_nullable_to_non_nullable
 as int?,discomfort: freezed == discomfort ? _self.discomfort : discomfort // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,startedAt: freezed == startedAt ? _self.startedAt : startedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -1076,10 +1078,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  String planId,  String dayId,  String date,  int weekday,  String focus,  SessionStatus status,  List<PlannedExercise> planned,  String? notes,  int? energy,  String? discomfort)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  String planId,  String dayId,  String date,  int weekday,  String focus,  SessionStatus status,  List<PlannedExercise> planned,  String? notes,  int? energy,  String? discomfort, @JsonKey(includeFromJson: false, includeToJson: false)  DateTime? startedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WorkoutSession() when $default != null:
-return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that.focus,_that.status,_that.planned,_that.notes,_that.energy,_that.discomfort);case _:
+return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that.focus,_that.status,_that.planned,_that.notes,_that.energy,_that.discomfort,_that.startedAt);case _:
   return orElse();
 
 }
@@ -1097,10 +1099,10 @@ return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  String planId,  String dayId,  String date,  int weekday,  String focus,  SessionStatus status,  List<PlannedExercise> planned,  String? notes,  int? energy,  String? discomfort)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  String planId,  String dayId,  String date,  int weekday,  String focus,  SessionStatus status,  List<PlannedExercise> planned,  String? notes,  int? energy,  String? discomfort, @JsonKey(includeFromJson: false, includeToJson: false)  DateTime? startedAt)  $default,) {final _that = this;
 switch (_that) {
 case _WorkoutSession():
-return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that.focus,_that.status,_that.planned,_that.notes,_that.energy,_that.discomfort);case _:
+return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that.focus,_that.status,_that.planned,_that.notes,_that.energy,_that.discomfort,_that.startedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1117,10 +1119,10 @@ return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  String planId,  String dayId,  String date,  int weekday,  String focus,  SessionStatus status,  List<PlannedExercise> planned,  String? notes,  int? energy,  String? discomfort)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeFromJson: false, includeToJson: false)  String id,  String planId,  String dayId,  String date,  int weekday,  String focus,  SessionStatus status,  List<PlannedExercise> planned,  String? notes,  int? energy,  String? discomfort, @JsonKey(includeFromJson: false, includeToJson: false)  DateTime? startedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _WorkoutSession() when $default != null:
-return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that.focus,_that.status,_that.planned,_that.notes,_that.energy,_that.discomfort);case _:
+return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that.focus,_that.status,_that.planned,_that.notes,_that.energy,_that.discomfort,_that.startedAt);case _:
   return null;
 
 }
@@ -1132,7 +1134,7 @@ return $default(_that.id,_that.planId,_that.dayId,_that.date,_that.weekday,_that
 @JsonSerializable()
 
 class _WorkoutSession implements WorkoutSession {
-  const _WorkoutSession({@JsonKey(includeFromJson: false, includeToJson: false) this.id = '', required this.planId, required this.dayId, required this.date, required this.weekday, required this.focus, required this.status, required  List<PlannedExercise> planned, this.notes, this.energy, this.discomfort}): _planned = planned;
+  const _WorkoutSession({@JsonKey(includeFromJson: false, includeToJson: false) this.id = '', required this.planId, required this.dayId, required this.date, required this.weekday, required this.focus, required this.status, required  List<PlannedExercise> planned, this.notes, this.energy, this.discomfort, @JsonKey(includeFromJson: false, includeToJson: false) this.startedAt}): _planned = planned;
   factory _WorkoutSession.fromJson(Map<String, dynamic> json) => _$WorkoutSessionFromJson(json);
 
 @override@JsonKey(includeFromJson: false, includeToJson: false) final  String id;
@@ -1153,6 +1155,8 @@ class _WorkoutSession implements WorkoutSession {
 @override final  String? notes;
 @override final  int? energy;
 @override final  String? discomfort;
+/// Waktu mulai (untuk durasi sesi berjalan).
+@override@JsonKey(includeFromJson: false, includeToJson: false) final  DateTime? startedAt;
 
 /// Create a copy of WorkoutSession
 /// with the given fields replaced by the non-null parameter values.
@@ -1167,18 +1171,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkoutSession&&(identical(other.id, id) || other.id == id)&&(identical(other.planId, planId) || other.planId == planId)&&(identical(other.dayId, dayId) || other.dayId == dayId)&&(identical(other.date, date) || other.date == date)&&(identical(other.weekday, weekday) || other.weekday == weekday)&&(identical(other.focus, focus) || other.focus == focus)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.planned, _planned)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.energy, energy) || other.energy == energy)&&(identical(other.discomfort, discomfort) || other.discomfort == discomfort));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkoutSession&&(identical(other.id, id) || other.id == id)&&(identical(other.planId, planId) || other.planId == planId)&&(identical(other.dayId, dayId) || other.dayId == dayId)&&(identical(other.date, date) || other.date == date)&&(identical(other.weekday, weekday) || other.weekday == weekday)&&(identical(other.focus, focus) || other.focus == focus)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.planned, _planned)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.energy, energy) || other.energy == energy)&&(identical(other.discomfort, discomfort) || other.discomfort == discomfort)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,planId,dayId,date,weekday,focus,status,const DeepCollectionEquality().hash(_planned),notes,energy,discomfort);
+    return Object.hash(runtimeType,id,planId,dayId,date,weekday,focus,status,const DeepCollectionEquality().hash(_planned),notes,energy,discomfort,startedAt);
 }
 
 @override
 String toString() {
-    return 'WorkoutSession(id: $id, planId: $planId, dayId: $dayId, date: $date, weekday: $weekday, focus: $focus, status: $status, planned: $planned, notes: $notes, energy: $energy, discomfort: $discomfort)';
+    return 'WorkoutSession(id: $id, planId: $planId, dayId: $dayId, date: $date, weekday: $weekday, focus: $focus, status: $status, planned: $planned, notes: $notes, energy: $energy, discomfort: $discomfort, startedAt: $startedAt)';
 }
 
 
@@ -1189,7 +1193,7 @@ abstract mixin class _$WorkoutSessionCopyWith<$Res> implements $WorkoutSessionCo
   factory _$WorkoutSessionCopyWith(_WorkoutSession value, $Res Function(_WorkoutSession) _then) = __$WorkoutSessionCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeFromJson: false, includeToJson: false) String id, String planId, String dayId, String date, int weekday, String focus, SessionStatus status, List<PlannedExercise> planned, String? notes, int? energy, String? discomfort
+@JsonKey(includeFromJson: false, includeToJson: false) String id, String planId, String dayId, String date, int weekday, String focus, SessionStatus status, List<PlannedExercise> planned, String? notes, int? energy, String? discomfort,@JsonKey(includeFromJson: false, includeToJson: false) DateTime? startedAt
 });
 
 
@@ -1206,7 +1210,7 @@ class __$WorkoutSessionCopyWithImpl<$Res>
 
 /// Create a copy of WorkoutSession
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? planId = null,Object? dayId = null,Object? date = null,Object? weekday = null,Object? focus = null,Object? status = null,Object? planned = null,Object? notes = freezed,Object? energy = freezed,Object? discomfort = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? planId = null,Object? dayId = null,Object? date = null,Object? weekday = null,Object? focus = null,Object? status = null,Object? planned = null,Object? notes = freezed,Object? energy = freezed,Object? discomfort = freezed,Object? startedAt = freezed,}) {
   return _then(_WorkoutSession(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,planId: null == planId ? _self.planId : planId // ignore: cast_nullable_to_non_nullable
@@ -1219,7 +1223,8 @@ as SessionStatus,planned: null == planned ? _self._planned : planned // ignore: 
 as List<PlannedExercise>,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String?,energy: freezed == energy ? _self.energy : energy // ignore: cast_nullable_to_non_nullable
 as int?,discomfort: freezed == discomfort ? _self.discomfort : discomfort // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,startedAt: freezed == startedAt ? _self.startedAt : startedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

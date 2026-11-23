@@ -48,6 +48,9 @@ abstract interface class NutritionRepository {
     required MealSlot meal,
     required String name,
     required Nutrients nutrients,
+
+    /// `manual` (default) atau `aiEstimate` (hasil scan foto).
+    NutritionQuality quality = NutritionQuality.manual,
   });
 
   /// Ubah porsi / waktu makan. Gizi dihitung ulang dari katalog bila ada.
@@ -94,6 +97,7 @@ class LocalNutritionRepository implements NutritionRepository {
     NutritionQuality.inconsistent: 'inconsistent',
     NutritionQuality.userLabel: 'user_label',
     NutritionQuality.manual: 'manual',
+    NutritionQuality.aiEstimate: 'ai_estimate',
   };
   static final _qualityByCode = {for (final e in _qualityCodes.entries) e.value: e.key};
 
@@ -238,6 +242,7 @@ class LocalNutritionRepository implements NutritionRepository {
     required MealSlot meal,
     required String name,
     required Nutrients nutrients,
+    NutritionQuality quality = NutritionQuality.manual,
   }) async {
     _checkManual(nutrients);
     return _insert(
@@ -245,7 +250,7 @@ class LocalNutritionRepository implements NutritionRepository {
       meal: meal,
       name: name.trim(),
       nutrients: nutrients,
-      quality: NutritionQuality.manual,
+      quality: quality,
     );
   }
 

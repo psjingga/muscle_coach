@@ -13,6 +13,7 @@ import '../../../../core/widgets/tab_app_bar.dart';
 import '../../data/nutrition_repository.dart';
 import '../../domain/food_log.dart';
 import '../../domain/meal_plan.dart';
+import '../food_scan_flow.dart';
 import '../meal_plan_flow.dart';
 import '../providers/nutrition_providers.dart';
 import '../widgets/day_summary_card.dart';
@@ -71,6 +72,47 @@ class _NutritionScreenState extends ConsumerState<NutritionScreen> {
             ),
             const SizedBox(height: 12),
             DaySummaryCard(day: d),
+            const SizedBox(height: 12),
+            Card(
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                key: const Key('scan-food'),
+                onTap: () => scanFood(context, ref, date: date),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: palette.accentSoft,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.photo_camera_outlined,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(l.scanFood, style: Theme.of(context).textTheme.titleMedium),
+                            Text(
+                              l.scanFoodSubtitle,
+                              style: TextStyle(fontSize: 12, color: palette.muted),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(Icons.chevron_right_rounded, color: palette.muted),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             for (final slot in MealSlot.values) ...[
               const SizedBox(height: 12),
               _MealSection(date: date, slot: slot, entries: d.forMeal(slot)),

@@ -22,8 +22,9 @@ abstract final class AiConfig {
   /// Kuota lokal untuk menahan biaya.
   static const dailyGenerationLimit = 10;
 
-  /// Versi teks persetujuan pemrosesan data oleh AI. v2 (20 Nov 2026): mencakup
-  /// menu harian & ringkasan mingguan → pengguna diminta menyetujui ulang.
-  static const consentVersion = '2026-11-v2';
+  /// Versi teks persetujuan pemrosesan data oleh AI. v2 (20 Nov 2026): menu
+  /// harian & ringkasan mingguan. v3 (23 Nov 2026): foto makanan untuk scan →
+  /// pengguna diminta menyetujui ulang.
+  static const consentVersion = '2026-11-v3';
   static const consentId = 'ai_processing';
 }

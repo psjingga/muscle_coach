@@ -325,6 +325,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get trainingAgeOver5y => '> 5 tahun';
 
   @override
+  String get optionalSuffix => '(opsional)';
+
+  @override
+  String get currentSessionsOptionalHelp =>
+      'Boleh dikosongkan karena Anda belum pernah latihan beban (dianggap 0×/minggu).';
+
+  @override
   String get fieldCurrentSessions => 'Frekuensi latihan saat ini';
 
   @override
@@ -1517,7 +1524,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get aiConsentBody =>
-      'Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.';
+      'Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Scan makanan: foto makanan yang kamu ambil/pilih dan daftar nama bahan TKPI. Foto tidak disimpan aplikasi dan langsung dihapus setelah dianalisis.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.';
 
   @override
   String get aiFreeTierNote =>
@@ -2004,6 +2011,85 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get mealPlanErrorTitle => 'Menu AI belum bisa disusun';
+
+  @override
+  String get entryAiEstimate => 'Estimasi AI';
+
+  @override
+  String get scanFood => 'Scan makanan';
+
+  @override
+  String get scanFoodSubtitle => 'Foto makanan, AI memperkirakan isinya';
+
+  @override
+  String get scanSheetTitle => 'Scan makanan dengan AI';
+
+  @override
+  String get scanSheetBody =>
+      'Foto dikirim ke Google Gemini untuk dianalisis, lalu langsung dihapus dari HP. Hasilnya perkiraan — periksa sebelum dicatat.';
+
+  @override
+  String get scanMealLabel => 'Catat ke';
+
+  @override
+  String get scanAnalyzing => 'Menganalisis foto…';
+
+  @override
+  String get scanErrorTitle => 'Scan makanan gagal';
+
+  @override
+  String get scanErrorInvalid =>
+      'AI tidak memberi hasil yang valid (dicoba 2 kali). Coba foto lain yang lebih jelas.';
+
+  @override
+  String get scanErrorQuota => 'Batas pemakaian AI hari ini tercapai. Coba lagi besok.';
+
+  @override
+  String get scanNotFoodTitle => 'Makanan tidak terdeteksi';
+
+  @override
+  String get scanNotFoodBody =>
+      'Foto ini tidak tampak berisi makanan. Coba foto lain dengan makanan terlihat jelas dari atas.';
+
+  @override
+  String get scanReviewTitle => 'Hasil scan';
+
+  @override
+  String get scanReviewHint =>
+      'Periksa item dan perkiraan gram. Gizi item TKPI dihitung dari katalog; item lain adalah perkiraan AI.';
+
+  @override
+  String get scanGramsLabel => 'Gram';
+
+  @override
+  String get scanTotal => 'Total perkiraan';
+
+  @override
+  String scanSave(Object count) {
+    return 'Catat $count item';
+  }
+
+  @override
+  String scanSaved(Object count, Object meal) {
+    return '$count item tercatat di $meal.';
+  }
+
+  @override
+  String get scanEmpty => 'Semua item dihapus. Batalkan atau scan ulang.';
+
+  @override
+  String get scanDiscard => 'Batal';
+
+  @override
+  String get scanSourceTkpi => 'TKPI';
+
+  @override
+  String scanMatchedAs(Object name) {
+    return 'Dicatat sebagai: $name';
+  }
+
+  @override
+  String get scanRemove => 'Hapus item';
 
   @override
   String get mealPlanErrorInvalid =>

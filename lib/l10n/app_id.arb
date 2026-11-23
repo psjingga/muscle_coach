@@ -116,6 +116,8 @@
   "trainingAge6mTo2y": "6 bulan – 2 tahun",
   "trainingAge2To5y": "2–5 tahun",
   "trainingAgeOver5y": "> 5 tahun",
+  "optionalSuffix": "(opsional)",
+  "currentSessionsOptionalHelp": "Boleh dikosongkan karena Anda belum pernah latihan beban (dianggap 0×/minggu).",
   "fieldCurrentSessions": "Frekuensi latihan saat ini",
   "fieldKnownExercises": "Gerakan yang sudah dikuasai (opsional)",
   "knownExercisesHint": "mis. squat, bench press, dumbbell row",
@@ -764,7 +766,7 @@
   "aiKeyDeleted": "API key dihapus dari perangkat.",
   "aiModelLabel": "Model",
   "aiConsentTitle": "Persetujuan pemrosesan data oleh AI",
-  "aiConsentBody": "Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.",
+  "aiConsentBody": "Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Scan makanan: foto makanan yang kamu ambil/pilih dan daftar nama bahan TKPI. Foto tidak disimpan aplikasi dan langsung dihapus setelah dianalisis.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.",
   "aiFreeTierNote": "Di tier gratis Google AI Studio, Google dapat memakai isi permintaan untuk meningkatkan produknya. Gunakan tier berbayar bila Anda tidak menginginkannya.",
   "aiConsentCheckbox": "Saya setuju data di atas dikirim ke Google Gemini untuk fitur AI.",
   "aiQuotaNote": "Batas {limit} kali penyusunan AI per hari (menahan biaya).",
@@ -1035,6 +1037,45 @@
   "mealPlanRegenerate": "Susun ulang",
   "mealPlanGenerating": "Menyusun menu dengan AI…",
   "mealPlanErrorTitle": "Menu AI belum bisa disusun",
+  "entryAiEstimate": "Estimasi AI",
+  "scanFood": "Scan makanan",
+  "scanFoodSubtitle": "Foto makanan, AI memperkirakan isinya",
+  "scanSheetTitle": "Scan makanan dengan AI",
+  "scanSheetBody": "Foto dikirim ke Google Gemini untuk dianalisis, lalu langsung dihapus dari HP. Hasilnya perkiraan — periksa sebelum dicatat.",
+  "scanMealLabel": "Catat ke",
+  "scanAnalyzing": "Menganalisis foto…",
+  "scanErrorTitle": "Scan makanan gagal",
+  "scanErrorInvalid": "AI tidak memberi hasil yang valid (dicoba 2 kali). Coba foto lain yang lebih jelas.",
+  "scanErrorQuota": "Batas pemakaian AI hari ini tercapai. Coba lagi besok.",
+  "scanNotFoodTitle": "Makanan tidak terdeteksi",
+  "scanNotFoodBody": "Foto ini tidak tampak berisi makanan. Coba foto lain dengan makanan terlihat jelas dari atas.",
+  "scanReviewTitle": "Hasil scan",
+  "scanReviewHint": "Periksa item dan perkiraan gram. Gizi item TKPI dihitung dari katalog; item lain adalah perkiraan AI.",
+  "scanGramsLabel": "Gram",
+  "scanTotal": "Total perkiraan",
+  "scanSave": "Catat {count} item",
+  "@scanSave": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "scanSaved": "{count} item tercatat di {meal}.",
+  "@scanSaved": {
+    "placeholders": {
+      "count": {},
+      "meal": {}
+    }
+  },
+  "scanEmpty": "Semua item dihapus. Batalkan atau scan ulang.",
+  "scanDiscard": "Batal",
+  "scanSourceTkpi": "TKPI",
+  "scanMatchedAs": "Dicatat sebagai: {name}",
+  "@scanMatchedAs": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "scanRemove": "Hapus item",
   "mealPlanErrorInvalid": "Hasil AI tidak memenuhi target atau aturan aplikasi (dicoba 2 kali). Coba lagi.",
   "mealPlanErrorQuota": "Batas penyusunan AI hari ini tercapai. Coba lagi besok.",
   "mealPlanAiLabel": "Estimasi AI",

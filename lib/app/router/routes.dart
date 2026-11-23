@@ -15,6 +15,7 @@ abstract final class Routes {
   static const aiSettings = '/settings/ai';
   static const reminders = '/settings/reminders';
   static const addFood = '/food/add';
+  static const foodScan = '/food/scan';
   static const mealPlan = '/meal-plan';
   static const checkIn = '/check-in';
   static const weeklyReview = '/weekly-review';

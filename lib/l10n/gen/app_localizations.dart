@@ -692,6 +692,18 @@ abstract class AppLocalizations {
   /// **'> 5 tahun'**
   String get trainingAgeOver5y;
 
+  /// No description provided for @optionalSuffix.
+  ///
+  /// In id, this message translates to:
+  /// **'(opsional)'**
+  String get optionalSuffix;
+
+  /// No description provided for @currentSessionsOptionalHelp.
+  ///
+  /// In id, this message translates to:
+  /// **'Boleh dikosongkan karena Anda belum pernah latihan beban (dianggap 0×/minggu).'**
+  String get currentSessionsOptionalHelp;
+
   /// No description provided for @fieldCurrentSessions.
   ///
   /// In id, this message translates to:
@@ -2783,7 +2795,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiConsentBody.
   ///
   /// In id, this message translates to:
-  /// **'Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.'**
+  /// **'Aplikasi hanya mengirim data ke Google Gemini saat kamu menekan tombol \"… dengan AI\":\n• Program latihan: tujuan, level & pengalaman, hari & durasi latihan, alat dan beban maksimal, otot prioritas, preferensi latihan, catatan cedera/gerakan yang dihindari, daftar gerakan katalog.\n• Menu harian: target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan yang tidak disukai, preferensi, anggaran, akses memasak, daftar bahan TKPI.\n• Scan makanan: foto makanan yang kamu ambil/pilih dan daftar nama bahan TKPI. Foto tidak disimpan aplikasi dan langsung dihapus setelah dianalisis.\n• Ringkasan mingguan: perubahan rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri.\nTidak pernah dikirim: nama, umur, tanggal lahir, tinggi, berat badan absolut, jenis kondisi medis, atau isi catatan pribadi.'**
   String get aiConsentBody;
 
   /// No description provided for @aiFreeTierNote.
@@ -3631,6 +3643,144 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Menu AI belum bisa disusun'**
   String get mealPlanErrorTitle;
+
+  /// No description provided for @entryAiEstimate.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi AI'**
+  String get entryAiEstimate;
+
+  /// No description provided for @scanFood.
+  ///
+  /// In id, this message translates to:
+  /// **'Scan makanan'**
+  String get scanFood;
+
+  /// No description provided for @scanFoodSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto makanan, AI memperkirakan isinya'**
+  String get scanFoodSubtitle;
+
+  /// No description provided for @scanSheetTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Scan makanan dengan AI'**
+  String get scanSheetTitle;
+
+  /// No description provided for @scanSheetBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto dikirim ke Google Gemini untuk dianalisis, lalu langsung dihapus dari HP. Hasilnya perkiraan — periksa sebelum dicatat.'**
+  String get scanSheetBody;
+
+  /// No description provided for @scanMealLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat ke'**
+  String get scanMealLabel;
+
+  /// No description provided for @scanAnalyzing.
+  ///
+  /// In id, this message translates to:
+  /// **'Menganalisis foto…'**
+  String get scanAnalyzing;
+
+  /// No description provided for @scanErrorTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Scan makanan gagal'**
+  String get scanErrorTitle;
+
+  /// No description provided for @scanErrorInvalid.
+  ///
+  /// In id, this message translates to:
+  /// **'AI tidak memberi hasil yang valid (dicoba 2 kali). Coba foto lain yang lebih jelas.'**
+  String get scanErrorInvalid;
+
+  /// No description provided for @scanErrorQuota.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas pemakaian AI hari ini tercapai. Coba lagi besok.'**
+  String get scanErrorQuota;
+
+  /// No description provided for @scanNotFoodTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Makanan tidak terdeteksi'**
+  String get scanNotFoodTitle;
+
+  /// No description provided for @scanNotFoodBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Foto ini tidak tampak berisi makanan. Coba foto lain dengan makanan terlihat jelas dari atas.'**
+  String get scanNotFoodBody;
+
+  /// No description provided for @scanReviewTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil scan'**
+  String get scanReviewTitle;
+
+  /// No description provided for @scanReviewHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Periksa item dan perkiraan gram. Gizi item TKPI dihitung dari katalog; item lain adalah perkiraan AI.'**
+  String get scanReviewHint;
+
+  /// No description provided for @scanGramsLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Gram'**
+  String get scanGramsLabel;
+
+  /// No description provided for @scanTotal.
+  ///
+  /// In id, this message translates to:
+  /// **'Total perkiraan'**
+  String get scanTotal;
+
+  /// No description provided for @scanSave.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat {count} item'**
+  String scanSave(Object count);
+
+  /// No description provided for @scanSaved.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} item tercatat di {meal}.'**
+  String scanSaved(Object count, Object meal);
+
+  /// No description provided for @scanEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua item dihapus. Batalkan atau scan ulang.'**
+  String get scanEmpty;
+
+  /// No description provided for @scanDiscard.
+  ///
+  /// In id, this message translates to:
+  /// **'Batal'**
+  String get scanDiscard;
+
+  /// No description provided for @scanSourceTkpi.
+  ///
+  /// In id, this message translates to:
+  /// **'TKPI'**
+  String get scanSourceTkpi;
+
+  /// No description provided for @scanMatchedAs.
+  ///
+  /// In id, this message translates to:
+  /// **'Dicatat sebagai: {name}'**
+  String scanMatchedAs(Object name);
+
+  /// No description provided for @scanRemove.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus item'**
+  String get scanRemove;
 
   /// No description provided for @mealPlanErrorInvalid.
   ///

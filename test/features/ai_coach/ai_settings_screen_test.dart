@@ -27,6 +27,7 @@ class _VerifyingClient implements AiClient {
     required String systemInstruction,
     required String userContent,
     required Map<String, Object?> responseSchema,
+    List<AiImage> images = const [],
   }) => throw UnimplementedError();
 }
 

@@ -5,7 +5,7 @@ Dokumen ini menjelaskan data apa yang disimpan aplikasi, ke mana data dikirim, d
 ## Ringkasan
 
 - **Semua data tersimpan di perangkat** dalam basis data SQLite di folder privat aplikasi. Tidak ada akun, server, analitik, atau pelacakan.
-- **Satu-satunya data yang keluar dari perangkat** adalah permintaan ke Google Gemini, dan hanya bila pengguna sendiri memasukkan API key, menyetujui pemrosesan data, lalu menekan tombol "… dengan AI".
+- **Satu-satunya data yang keluar dari perangkat** adalah permintaan ke Google Gemini (termasuk foto makanan saat memakai *Scan makanan*), dan hanya bila pengguna sendiri memasukkan API key, menyetujui pemrosesan data, lalu menekan tombol "… dengan AI".
 - Data **tidak ikut cadangan cloud** (Google Drive/iCloud). Akibatnya, data hilang bila aplikasi dihapus atau perangkat hilang.
 
 ## Data yang disimpan di perangkat
@@ -33,11 +33,12 @@ Dikirim lewat HTTPS dengan API key di header (bukan di URL). Isi permintaan diba
 |---|---|---|
 | Program latihan (`workout_plan.v1`) | tujuan, level, pengalaman, hari & durasi, alat & beban maks., otot prioritas, preferensi latihan, catatan cedera/gerakan dihindari, flag mode konservatif, katalog gerakan | nama, umur/tanggal lahir, tinggi, berat, jenis kelamin, jenis kondisi medis |
 | Menu harian (`meal_plan.v2`) | target kalori & makro, jumlah waktu makan, pola makan, alergi, makanan tidak disukai, preferensi, anggaran, akses memasak, catatan pola makan, daftar bahan TKPI | nama, umur, tinggi, berat, jenis kelamin, kondisi medis |
+| Scan makanan (`food_scan.v1`) | foto makanan yang diambil/dipilih pengguna (diperkecil, tanpa metadata lengkap), daftar kode & nama bahan TKPI | nama, umur, berat, data kesehatan lain. Foto **tidak disimpan** aplikasi: berkas sementara dihapus setelah dicatat/dibatalkan/gagal |
 | Ringkasan mingguan (`weekly_review.v1`) | tujuan, level, status target, **perubahan** rata-rata berat, kepatuhan latihan & makan (persen), rata-rata tidur & energi, jumlah hari ada keluhan nyeri | berat absolut, isi catatan/keluhan, nama, umur |
 
 Catatan: pada tier gratis Gemini, Google dapat memakai isi permintaan untuk meningkatkan produknya (lihat ketentuan Google AI Studio). Persetujuan di Pengaturan AI menjelaskan hal ini, dan bisa dicabut kapan saja.
 
-Hasil AI selalu divalidasi aplikasi sebelum disimpan sebagai **draft**, lalu baru dipakai setelah pengguna menyetujuinya. AI tidak pernah mengubah target, program aktif, atau jadwal notifikasi secara otomatis.
+Hasil AI selalu divalidasi aplikasi sebelum disimpan sebagai **draft**, lalu baru dipakai setelah pengguna menyetujuinya. Hasil scan makanan ditinjau dulu (gram bisa diubah, item bisa dihapus); gizi item yang cocok dengan TKPI dihitung dari katalog, sisanya dicatat dengan label *Estimasi AI*. AI tidak pernah mengubah target, program aktif, atau jadwal notifikasi secara otomatis.
 
 ## Perlindungan
 

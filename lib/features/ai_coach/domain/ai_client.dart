@@ -15,6 +15,16 @@ class AiResponse {
   final String? finishReason;
 }
 
+/// Gambar yang ikut dikirim ke model (mis. foto makanan).
+class AiImage {
+  const AiImage({required this.bytes, required this.mimeType});
+
+  final List<int> bytes;
+
+  /// `image/jpeg`, `image/png`, …
+  final String mimeType;
+}
+
 /// Abstraksi model generatif (diganti fake di test).
 abstract interface class AiClient {
   /// Minta output JSON sesuai [responseSchema]. Melempar `AppFailure`.
@@ -24,6 +34,9 @@ abstract interface class AiClient {
     required String systemInstruction,
     required String userContent,
     required Map<String, Object?> responseSchema,
+
+    /// Gambar pendukung (opsional), dikirim sebelum teks.
+    List<AiImage> images = const [],
   });
 
   /// Cek API key (daftar model). Melempar `AppFailure` bila tidak valid.

@@ -22,6 +22,7 @@ extension NutritionLabels on AppLocalizations {
     NutritionQuality.inconsistent => foodInconsistentBadge,
     NutritionQuality.userLabel => entryLabel,
     NutritionQuality.manual => entryManual,
+    NutritionQuality.aiEstimate => entryAiEstimate,
   };
 }
 

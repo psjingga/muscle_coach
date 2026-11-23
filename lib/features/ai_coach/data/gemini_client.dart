@@ -34,6 +34,7 @@ class GeminiClient implements AiClient {
     required String systemInstruction,
     required String userContent,
     required Map<String, Object?> responseSchema,
+    List<AiImage> images = const [],
   }) async {
     final Response<Map<String, dynamic>> res;
     try {
@@ -50,6 +51,10 @@ class GeminiClient implements AiClient {
             {
               'role': 'user',
               'parts': [
+                for (final img in images)
+                  {
+                    'inlineData': {'mimeType': img.mimeType, 'data': base64Encode(img.bytes)},
+                  },
                 {'text': userContent},
               ],
             },

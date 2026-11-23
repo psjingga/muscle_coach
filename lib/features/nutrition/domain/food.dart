@@ -83,6 +83,9 @@ enum NutritionQuality {
 
   /// Angka kalori/makro dicatat langsung oleh pengguna.
   manual,
+
+  /// Perkiraan Gemini dari foto (tidak ada padanan TKPI) — kasar.
+  aiEstimate,
 }
 
 /// Makanan dari katalog. Nilai gizi selalu **per 100 g bagian yang dapat

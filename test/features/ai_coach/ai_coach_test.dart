@@ -69,6 +69,7 @@ class FakeAiClient implements AiClient {
   /// Tiap elemen: String (teks JSON) atau Object (dilempar).
   final List<Object> responses;
   final requests = <String>[];
+  final imageCounts = <int>[];
 
   @override
   Future<AiResponse> generateJson({
@@ -77,8 +78,10 @@ class FakeAiClient implements AiClient {
     required String systemInstruction,
     required String userContent,
     required Map<String, Object?> responseSchema,
+    List<AiImage> images = const [],
   }) async {
     requests.add(userContent);
+    imageCounts.add(images.length);
     final next = responses.removeAt(0);
     if (next is String) {
       return AiResponse(

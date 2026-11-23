@@ -636,8 +636,8 @@
       "day": {}
     }
   },
-  "homeKcalLeft": "kkal tersisa",
-  "homeKcalOver": "kkal berlebih",
+  "homeKcalLeft": "kcal tersisa",
+  "homeKcalOver": "kcal berlebih",
   "homeEstimate": "Estimasi",
   "homeMoreExercises": "+{count} gerakan lagi",
   "@homeMoreExercises": {
@@ -1210,6 +1210,16 @@
   "checkInSleepError": "Isi 0–24 jam",
   "checkInDiscomfortWarning": "Bila nyeri tajam, bengkak, atau tidak membaik, hentikan gerakan pemicunya dan konsultasikan ke tenaga kesehatan.",
   "weeklyTitle": "Ringkasan mingguan",
+  "weeklyStatTraining": "Latihan",
+  "weeklyStatIntake": "Asupan",
+  "weeklyStatWeight": "Berat",
+  "weeklyOpenShort": "Buka ringkasan",
+  "weightLatestDate": "kg · {date}",
+  "@weightLatestDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
   "weeklyOpen": "Lihat ringkasan minggu lalu",
   "weeklyThisWeek": "Minggu ini (berjalan)",
   "weeklyRange": "{start} – {end}",

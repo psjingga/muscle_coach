@@ -2387,13 +2387,13 @@ abstract class AppLocalizations {
   /// No description provided for @homeKcalLeft.
   ///
   /// In id, this message translates to:
-  /// **'kkal tersisa'**
+  /// **'kcal tersisa'**
   String get homeKcalLeft;
 
   /// No description provided for @homeKcalOver.
   ///
   /// In id, this message translates to:
-  /// **'kkal berlebih'**
+  /// **'kcal berlebih'**
   String get homeKcalOver;
 
   /// No description provided for @homeEstimate.
@@ -4159,6 +4159,36 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Ringkasan mingguan'**
   String get weeklyTitle;
+
+  /// No description provided for @weeklyStatTraining.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan'**
+  String get weeklyStatTraining;
+
+  /// No description provided for @weeklyStatIntake.
+  ///
+  /// In id, this message translates to:
+  /// **'Asupan'**
+  String get weeklyStatIntake;
+
+  /// No description provided for @weeklyStatWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat'**
+  String get weeklyStatWeight;
+
+  /// No description provided for @weeklyOpenShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka ringkasan'**
+  String get weeklyOpenShort;
+
+  /// No description provided for @weightLatestDate.
+  ///
+  /// In id, this message translates to:
+  /// **'kg · {date}'**
+  String weightLatestDate(Object date);
 
   /// No description provided for @weeklyOpen.
   ///

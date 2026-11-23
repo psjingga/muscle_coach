@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
-import '../../../../app/theme/app_theme.dart';
+import '../../../../app/theme/app_palette.dart';
 import '../../../../core/database/database_providers.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
@@ -82,7 +82,7 @@ class _MeasurementsCardState extends ConsumerState<MeasurementsCard> {
       title: l.measurementsTitle,
       trailing: FilledButton.tonalIcon(
         key: const Key('measurement-log'),
-        style: FilledButton.styleFrom(minimumSize: AppTheme.compactButtonSize),
+        style: sectionActionStyle(),
         onPressed: log,
         icon: const Icon(Icons.add),
         label: Text(l.measurementsLog),
@@ -104,10 +104,30 @@ class _MeasurementsCardState extends ConsumerState<MeasurementsCard> {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            l.measurementLatest(Fmt.one(points.last.kg), Fmt.isoDate(points.last.date)),
-            key: const Key('measurement-latest'),
-            style: theme.textTheme.titleSmall,
+          Semantics(
+            label: l.measurementLatest(Fmt.one(points.last.kg), Fmt.isoDate(points.last.date)),
+            child: ExcludeSemantics(
+              child: Text.rich(
+                key: const Key('measurement-latest'),
+                TextSpan(
+                  text: Fmt.one(points.last.kg),
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    fontFeatures: tabular,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' cm · ${Fmt.isoDate(points.last.date)}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: context.palette.muted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           if (points.length >= 2)
             Text(
@@ -305,7 +325,7 @@ class PhotosCard extends ConsumerWidget {
       title: l.photosTitle,
       trailing: FilledButton.tonalIcon(
         key: const Key('photo-add'),
-        style: FilledButton.styleFrom(minimumSize: AppTheme.compactButtonSize),
+        style: sectionActionStyle(),
         onPressed: add,
         icon: const Icon(Icons.add_a_photo_outlined),
         label: Text(l.photosAdd),

@@ -126,7 +126,8 @@ void main() {
     await tester.pump();
     await tester.tap(find.byKey(const Key('weight-save')));
     await settle(tester);
-    expect(find.text('Terakhir 70,5 kg · 19 November 2026'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('weight-latest'))).data, '70,5');
+    expect(find.text('kg · 19 November 2026'), findsOneWidget);
     expect(find.text('Berat bukan massa otot'), findsNothing);
     expect(find.textContaining('Berat badan bukan massa otot'), findsOneWidget);
   });

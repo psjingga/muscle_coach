@@ -1,121 +1,139 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_palette.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/progress_ring.dart';
 import '../../domain/food_log.dart';
 import 'nutrition_labels.dart';
 
-/// Ringkasan asupan hari ini vs target: kalori + 3 makro.
+/// Ringkasan asupan vs target: cincin kalori, sisa, dan 3 bar makro.
 class DaySummaryCard extends StatelessWidget {
-  const DaySummaryCard({super.key, required this.day, this.compact = false, this.footer});
+  const DaySummaryCard({super.key, required this.day});
 
   final DayNutrition day;
-  final bool compact;
-  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final target = day.target;
     final got = day.consumed;
     final left = day.remaining;
+    final numStyle = theme.textTheme.headlineSmall?.copyWith(
+      fontWeight: FontWeight.w800,
+      fontFeatures: tabular,
+      height: 1.1,
+    );
+    final over = left != null && left.kcal < 0;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Expanded(
+                ProgressRing(
+                  value: target == null || target.kcal <= 0 ? 0 : got.kcal / target.kcal,
+                  size: 128,
+                  stroke: 10,
+                  color: over ? palette.warning : theme.colorScheme.primary,
+                  track: palette.surface2,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(l.nutritionConsumed, style: theme.textTheme.labelLarge),
                       Text(
-                        l.kcal(got.kcal),
+                        Fmt.integer(got.kcal),
                         key: const Key('day-kcal'),
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.primary,
+                        style: numStyle?.copyWith(fontSize: 28),
+                      ),
+                      Text(
+                        target == null
+                            ? l.nutritionConsumed
+                            : l.nutritionOfTarget(l.kcal(target.kcal)),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: palette.muted,
                         ),
                       ),
-                      if (target != null)
-                        Text(
-                          l.nutritionOfTarget(l.kcal(target.kcal)),
-                          style: theme.textTheme.bodyMedium,
-                        ),
                     ],
                   ),
                 ),
+                const SizedBox(width: 16),
                 if (left != null)
-                  Text(
-                    left.kcal >= 0
-                        ? l.nutritionKcalLeft(Fmt.integer(left.kcal))
-                        : l.nutritionKcalOver(Fmt.integer(-left.kcal)),
-                    key: const Key('day-kcal-left'),
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: left.kcal >= 0 ? null : theme.colorScheme.error,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          Fmt.integer(left.kcal.abs()),
+                          key: const Key('day-kcal-left'),
+                          style: numStyle?.copyWith(
+                            fontSize: 32,
+                            color: over ? palette.warning : null,
+                          ),
+                        ),
+                        Text(
+                          over ? l.homeKcalOver : l.homeKcalLeft,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: palette.muted,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: palette.accentSoft,
+                            borderRadius: BorderRadius.circular(99),
+                          ),
+                          child: Text(
+                            l.homeEstimate,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
               ],
             ),
             if (target != null) ...[
-              const SizedBox(height: 8),
-              _bar(context, got.kcal, target.kcal, theme.colorScheme.primary),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               _Macro(
                 label: l.macroProtein,
                 got: got.protein,
                 target: target.protein,
-                color: theme.colorScheme.primary,
+                color: palette.protein,
               ),
               _Macro(
                 label: l.macroCarbs,
                 got: got.carbs,
                 target: target.carbs,
-                color: theme.colorScheme.tertiary,
+                color: palette.carbs,
               ),
-              _Macro(
-                label: l.macroFat,
-                got: got.fat,
-                target: target.fat,
-                color: theme.colorScheme.secondary,
-              ),
+              _Macro(label: l.macroFat, got: got.fat, target: target.fat, color: palette.fat),
             ],
-            if (!compact) ...[
-              const SizedBox(height: 4),
-              Text(
-                day.hasEstimates
-                    ? '${l.nutritionEstimateNote} ${l.nutritionHasEstimates}'
-                    : l.nutritionEstimateNote,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
-            ?footer,
+            const SizedBox(height: 4),
+            Text(
+              day.hasEstimates
+                  ? '${l.nutritionEstimateNote} ${l.nutritionHasEstimates}'
+                  : l.nutritionEstimateNote,
+              style: TextStyle(fontSize: 12, color: palette.muted),
+            ),
           ],
         ),
       ),
     );
   }
-}
-
-Widget _bar(BuildContext context, double got, double target, Color color) {
-  final over = target > 0 && got > target * 1.1;
-  final c = over ? Theme.of(context).colorScheme.error : color;
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(4),
-    child: LinearProgressIndicator(
-      value: target <= 0 ? 0 : (got / target).clamp(0, 1),
-      minHeight: 8,
-      color: c,
-      backgroundColor: color.withValues(alpha: 0.15),
-    ),
-  );
 }
 
 class _Macro extends StatelessWidget {
@@ -129,30 +147,53 @@ class _Macro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final theme = Theme.of(context);
+    final palette = context.palette;
+    final over = target > 0 && got > target * 1.1;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              Expanded(child: Text(label, style: theme.textTheme.titleSmall)),
+              Expanded(
+                child: Text(
+                  label.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.6,
+                    color: palette.muted,
+                  ),
+                ),
+              ),
               Text(
                 l.nutritionMacroProgress(Fmt.integer(got), Fmt.integer(target)),
-                style: theme.textTheme.bodyMedium,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  fontFeatures: tabular,
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 4),
-          _bar(context, got, target, color),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(99),
+            child: LinearProgressIndicator(
+              value: target <= 0 ? 0 : (got / target).clamp(0, 1).toDouble(),
+              minHeight: 8,
+              color: over ? palette.warning : color,
+              backgroundColor: palette.surface2,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-/// Satu baris catatan makanan.
+/// Satu baris catatan makanan: nama + label sumber, gram & makro, kcal.
 class FoodEntryTile extends StatelessWidget {
   const FoodEntryTile({super.key, required this.entry, required this.onTap});
 
@@ -163,21 +204,71 @@ class FoodEntryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final badge = l.qualityBadge(entry.quality);
     final grams = entry.grams;
-    return ListTile(
+    return InkWell(
       key: Key('entry-${entry.id}'),
-      contentPadding: EdgeInsets.zero,
-      title: Text(entry.name, maxLines: 2, overflow: TextOverflow.ellipsis),
-      subtitle: Text(
-        [
-          if (grams != null) l.entryGrams(gramsText(grams)),
-          l.macros(entry.nutrients),
-          ?badge,
-        ].join(' · '),
-      ),
-      trailing: Text(l.kcal(entry.nutrients.kcal), style: theme.textTheme.titleSmall),
       onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          entry.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: badge == null ? palette.surface2 : palette.accentSoft,
+                          borderRadius: BorderRadius.circular(99),
+                        ),
+                        child: Text(
+                          badge ?? 'TKPI',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: badge == null ? palette.muted : theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    [
+                      if (grams != null) l.entryGrams(gramsText(grams)),
+                      l.macros(entry.nutrients),
+                    ].join(' · '),
+                    style: TextStyle(fontSize: 12, fontFeatures: tabular, color: palette.muted),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              l.kcal(entry.nutrients.kcal),
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                fontFeatures: tabular,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -129,8 +129,9 @@ void main() {
     expect(find.text('Hari ini'), findsOneWidget);
     expect(find.byKey(const Key('day-kcal')), findsOneWidget);
     expect(find.text('450 kcal'), findsWidgets);
-    expect(find.text('Sisa 2.050 kcal'), findsOneWidget);
-    expect(find.text('Makan siang · 450 kcal'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('day-kcal-left'))).data, '2.050');
+    expect(find.text('Makan siang'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('meal-kcal-lunch'))).data, '450 kcal');
     expect(find.text('Nasi'), findsOneWidget);
     expect(find.text('8 / 130 g'), findsOneWidget); // protein 7,5 g dibulatkan
     expect(find.text('Minum air'), findsOneWidget);
@@ -140,7 +141,7 @@ void main() {
     await tester.tap(find.byTooltip('Hari sebelumnya'));
     await settle(tester);
     expect(find.text('18 November 2026'), findsOneWidget);
-    expect(find.text('Sisa 2.500 kcal'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('day-kcal-left'))).data, '2.500');
     await tester.tap(find.byTooltip('Hari berikutnya'));
     await settle(tester);
     expect(find.text('Hari ini'), findsOneWidget);
@@ -173,7 +174,7 @@ void main() {
     await tester.tap(find.byKey(const Key('portion-save')));
     await settle(tester);
 
-    expect(find.text('Sarapan · 185 kcal'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('meal-kcal-breakfast'))).data, '185 kcal');
     final day = (await tester.runAsync(() => repo.watchDay(today).first))!;
     expect(day.single.grams, 120);
     expect(day.single.meal, MealSlot.breakfast);
@@ -189,7 +190,7 @@ void main() {
     await tester.pump();
     await tester.tap(find.byKey(const Key('portion-save')));
     await settle(tester);
-    expect(find.text('Sarapan · 92 kcal'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('meal-kcal-breakfast'))).data, '92 kcal');
     await tester.tap(find.byKey(Key('entry-${day.single.id}')));
     await settle(tester);
     await tester.tap(find.byKey(const Key('portion-delete')));
@@ -302,7 +303,7 @@ void main() {
     await settle(tester);
     expect(find.text('Sarapan dicatat ke hari ini'), findsOneWidget);
     expect(find.byKey(const Key('plan-unlog-0')), findsOneWidget);
-    expect(find.text('Sarapan · 511 kcal'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const Key('meal-kcal-breakfast'))).data, '511 kcal');
     await tester.tap(find.byKey(const Key('plan-unlog-0')));
     await settle(tester);
     expect(find.byKey(const Key('plan-log-0')), findsOneWidget);

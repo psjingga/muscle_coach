@@ -6,7 +6,10 @@ import '../../../../app/router/routes.dart';
 import '../../../../core/database/database_providers.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/widgets/empty_state.dart';
+import '../../../../core/widgets/tab_app_bar.dart';
 import '../../data/nutrition_repository.dart';
 import '../../domain/food_log.dart';
 import '../../domain/meal_plan.dart';
@@ -40,7 +43,7 @@ class _NutritionScreenState extends ConsumerState<NutritionScreen> {
     final target = ref.watch(nutritionTargetNutrientsProvider);
     if (target == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(l.tabNutrition)),
+        appBar: TabAppBar(title: l.tabNutrition),
         body: EmptyState(
           icon: Icons.restaurant_outlined,
           title: l.emptyNutritionTitle,
@@ -52,9 +55,9 @@ class _NutritionScreenState extends ConsumerState<NutritionScreen> {
     final day = ref.watch(dayNutritionProvider(date));
     final plan = ref.watch(activeMealPlanProvider).value;
     final info = ref.watch(foodSourceInfoProvider).value;
-    final theme = Theme.of(context);
+    final palette = context.palette;
     return Scaffold(
-      appBar: AppBar(title: Text(l.tabNutrition)),
+      appBar: TabAppBar(title: l.tabNutrition),
       body: day.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => Center(child: Text(l.errorUnknown)),
@@ -66,28 +69,53 @@ class _NutritionScreenState extends ConsumerState<NutritionScreen> {
               onPrev: () => setState(() => _offset--),
               onNext: _offset < 0 ? () => setState(() => _offset++) : null,
             ),
+            const SizedBox(height: 12),
             DaySummaryCard(day: d),
-            const SizedBox(height: 8),
-            for (final slot in MealSlot.values)
+            for (final slot in MealSlot.values) ...[
+              const SizedBox(height: 12),
               _MealSection(date: date, slot: slot, entries: d.forMeal(slot)),
-            const SizedBox(height: 8),
+            ],
+            const SizedBox(height: 12),
             _MealPlanCard(plan: plan, date: date, entries: d.entries),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Card(
-              child: ListTile(
-                leading: const Icon(Icons.water_drop_outlined),
-                title: Text(l.nutritionWaterTitle),
-                subtitle: Text(l.nutritionWaterBody),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(color: palette.surface2, shape: BoxShape.circle),
+                      child: Icon(Icons.water_drop_outlined, size: 20, color: palette.protein),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l.nutritionWaterTitle,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Text(
+                            l.nutritionWaterBody,
+                            style: TextStyle(fontSize: 12, color: palette.muted),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             if (info != null)
               Padding(
-                padding: const EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 16),
                 child: Text(
                   l.foodSourceAttribution(info.name, info.publisher, Fmt.isoDate(info.retrieved)),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, color: palette.muted),
                 ),
               ),
           ],
@@ -107,27 +135,37 @@ class _DateBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    return Row(
-      children: [
-        IconButton(
-          tooltip: l.nutritionPrevDay,
-          onPressed: onPrev,
-          icon: const Icon(Icons.chevron_left),
-        ),
-        Expanded(
-          child: Text(
-            label,
-            key: const Key('nutrition-date'),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+    final theme = Theme.of(context);
+    return Container(
+      height: 48,
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(99),
+        border: Border.all(color: theme.colorScheme.outlineVariant),
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            tooltip: l.nutritionPrevDay,
+            onPressed: onPrev,
+            icon: const Icon(Icons.chevron_left_rounded),
           ),
-        ),
-        IconButton(
-          tooltip: l.nutritionNextDay,
-          onPressed: onNext,
-          icon: const Icon(Icons.chevron_right),
-        ),
-      ],
+          Expanded(
+            child: Text(
+              label,
+              key: const Key('nutrition-date'),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium,
+            ),
+          ),
+          IconButton(
+            tooltip: l.nutritionNextDay,
+            onPressed: onNext,
+            icon: const Icon(Icons.chevron_right_rounded),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -173,50 +211,106 @@ class _MealSection extends ConsumerWidget {
     if (context.mounted) context.showSnack(context.l10n.entrySaved);
   }
 
+  static IconData _icon(MealSlot slot) => switch (slot) {
+    MealSlot.breakfast => Icons.wb_twilight_rounded,
+    MealSlot.lunch => Icons.wb_sunny_outlined,
+    MealSlot.dinner => Icons.dark_mode_outlined,
+    MealSlot.snack => Icons.bakery_dining_outlined,
+  };
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final total = entries.fold(0.0, (s, e) => s + e.nutrients.kcal);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+    void add() => context.push(Routes.addFoodPath(date, slot.name));
+    final title = Row(
+      children: [
+        Icon(_icon(slot), size: 20, color: palette.muted),
+        const SizedBox(width: 8),
+        Text(l.meal(slot), style: theme.textTheme.titleMedium),
+      ],
+    );
+    if (entries.isEmpty) {
+      return Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: add,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+            child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    entries.isEmpty ? l.meal(slot) : '${l.meal(slot)} · ${l.kcal(total)}',
-                    style: theme.textTheme.titleMedium,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 28),
+                        child: Text(
+                          l.nutritionEmptyMeal,
+                          style: TextStyle(fontSize: 12, color: palette.muted),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 TextButton.icon(
                   key: Key('add-${slot.name}'),
-                  onPressed: () => context.push(Routes.addFoodPath(date, slot.name)),
-                  icon: const Icon(Icons.add),
+                  onPressed: add,
+                  icon: const Icon(Icons.add_rounded, size: 18),
                   label: Text(l.nutritionAddFood),
                 ),
               ],
             ),
-            if (entries.isEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  l.nutritionEmptyMeal,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+      );
+    }
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              children: [
+                Expanded(child: title),
+                Text(
+                  l.kcal(total),
+                  key: Key('meal-kcal-${slot.name}'),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    fontFeatures: tabular,
                   ),
                 ),
-              ),
-            for (final e in entries)
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: FoodEntryTile(entry: e, onTap: () => _edit(context, ref, e)),
-              ),
+              ],
+            ),
+          ),
+          for (final e in entries) ...[
+            Divider(height: 1, indent: 16, endIndent: 16, color: theme.colorScheme.outlineVariant),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: FoodEntryTile(entry: e, onTap: () => _edit(context, ref, e)),
+            ),
           ],
-        ),
+          Divider(height: 1, color: theme.colorScheme.outlineVariant),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: TextButton.icon(
+                key: Key('add-${slot.name}'),
+                onPressed: add,
+                icon: const Icon(Icons.add_rounded, size: 18),
+                label: Text(l.nutritionAddFood),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -233,29 +327,42 @@ class _MealPlanCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final p = plan;
     final logged = {for (final e in entries) ?e.planRef};
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
+                Icon(Icons.auto_awesome_rounded, size: 20, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
                 Expanded(child: Text(l.mealPlanTitle, style: theme.textTheme.titleMedium)),
                 if (p != null)
-                  Chip(
-                    label: Text(l.mealPlanAiLabel),
-                    visualDensity: VisualDensity.compact,
-                    avatar: const Icon(Icons.auto_awesome, size: 16),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: palette.accentSoft,
+                      borderRadius: BorderRadius.circular(99),
+                    ),
+                    child: Text(
+                      l.mealPlanAiLabel,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
                   ),
               ],
             ),
-            if (p == null) ...[
-              const SizedBox(height: 4),
-              Text(l.mealPlanEmpty),
-            ] else ...[
+            const SizedBox(height: 12),
+            if (p == null)
+              Text(l.mealPlanEmpty, style: TextStyle(color: palette.muted))
+            else ...[
               for (var i = 0; i < p.meals.length; i++)
                 _PlanMealRow(
                   plan: p,
@@ -263,6 +370,7 @@ class _MealPlanCard extends ConsumerWidget {
                   date: date,
                   eaten: logged.contains(LocalNutritionRepository.planRef(p.id, i)),
                 ),
+              const SizedBox(height: 4),
               Text(
                 l.mealPlanTotals(
                   l.kcal(p.totals.kcal),
@@ -270,24 +378,44 @@ class _MealPlanCard extends ConsumerWidget {
                   Fmt.integer(p.totals.carbs),
                   Fmt.integer(p.totals.fat),
                 ),
-                style: theme.textTheme.bodySmall,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  fontFeatures: tabular,
+                  color: palette.muted,
+                ),
               ),
             ],
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
+            const SizedBox(height: 16),
+            Row(
               children: [
-                if (p != null)
-                  OutlinedButton(
-                    onPressed: () => context.push(Routes.mealPlanPath(p.id)),
-                    child: Text(l.mealPlanOpen),
+                if (p != null) ...[
+                  Expanded(
+                    child: FilledButton.tonal(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: palette.surface2,
+                        foregroundColor: theme.colorScheme.onSurface,
+                      ),
+                      onPressed: () => context.push(Routes.mealPlanPath(p.id)),
+                      child: Text(l.mealPlanOpen),
+                    ),
                   ),
-                FilledButton.tonalIcon(
-                  key: const Key('meal-plan-generate'),
-                  onPressed: () => generateMealPlan(context, ref),
-                  icon: const Icon(Icons.auto_awesome),
-                  label: Text(p == null ? l.mealPlanGenerate : l.mealPlanRegenerate),
+                  const SizedBox(width: 12),
+                ],
+                Expanded(
+                  child: FilledButton.tonalIcon(
+                    key: const Key('meal-plan-generate'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: palette.accentSoft,
+                      foregroundColor: theme.colorScheme.primary,
+                    ),
+                    onPressed: () => generateMealPlan(context, ref),
+                    icon: Icon(p == null ? Icons.auto_awesome_rounded : Icons.refresh_rounded),
+                    label: Text(
+                      p == null ? l.mealPlanGenerate : l.mealPlanRegenerate,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -316,31 +444,69 @@ class _PlanMealRow extends ConsumerWidget {
     final l = context.l10n;
     final m = plan.meals[index];
     final actions = ref.read(nutritionActionsProvider.notifier);
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text('${l.meal(m.slot)} · ${m.title}'),
-      subtitle: Text(
-        '${m.items.map((i) => '${i.name} ${l.gramValue(gramsText(i.grams))}').join(', ')}\n'
-        '${l.kcal(m.totals.kcal)} · ${l.macros(m.totals)}',
+    final theme = Theme.of(context);
+    final palette = context.palette;
+    final pill = TextButton.styleFrom(
+      minimumSize: const Size(48, 36),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      shape: const StadiumBorder(),
+      textStyle: const TextStyle(
+        fontFamily: AppTheme.fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
       ),
-      isThreeLine: true,
-      trailing: eaten
-          ? TextButton.icon(
-              key: Key('plan-unlog-$index'),
-              onPressed: () => actions.unlogPlannedMeal(date, plan, index),
-              icon: const Icon(Icons.check_circle),
-              label: Text(l.mealPlanUndoEaten),
-            )
-          : TextButton(
-              key: Key('plan-log-$index'),
-              onPressed: () async {
-                final ok = await actions.logPlannedMeal(date, plan, index);
-                if (ok && context.mounted) {
-                  context.showSnack(l.mealPlanEatenSnack(l.meal(m.slot)));
-                }
-              },
-              child: Text(l.mealPlanMarkEaten),
+    );
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: palette.surface2,
+        borderRadius: BorderRadius.circular(AppTheme.radius),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${l.meal(m.slot)} · ${m.title}',
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${m.items.map((i) => '${i.name} ${l.gramValue(gramsText(i.grams))}').join(', ')}'
+                  ' · ${l.kcal(m.totals.kcal)}',
+                  style: TextStyle(fontSize: 12, fontFeatures: tabular, color: palette.muted),
+                ),
+              ],
             ),
+          ),
+          const SizedBox(width: 8),
+          eaten
+              ? TextButton.icon(
+                  key: Key('plan-unlog-$index'),
+                  style: pill.copyWith(
+                    backgroundColor: WidgetStatePropertyAll(theme.colorScheme.primary),
+                    foregroundColor: WidgetStatePropertyAll(theme.colorScheme.onPrimary),
+                  ),
+                  onPressed: () => actions.unlogPlannedMeal(date, plan, index),
+                  icon: const Icon(Icons.check_rounded, size: 16),
+                  label: Text(l.mealPlanUndoEaten),
+                )
+              : TextButton(
+                  key: Key('plan-log-$index'),
+                  style: pill.copyWith(backgroundColor: WidgetStatePropertyAll(palette.accentSoft)),
+                  onPressed: () async {
+                    final ok = await actions.logPlannedMeal(date, plan, index);
+                    if (ok && context.mounted) {
+                      context.showSnack(l.mealPlanEatenSnack(l.meal(m.slot)));
+                    }
+                  },
+                  child: Text(l.mealPlanMarkEaten),
+                ),
+        ],
+      ),
     );
   }
 }

@@ -1293,10 +1293,10 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get homeKcalLeft => 'kkal tersisa';
+  String get homeKcalLeft => 'kcal tersisa';
 
   @override
-  String get homeKcalOver => 'kkal berlebih';
+  String get homeKcalOver => 'kcal berlebih';
 
   @override
   String get homeEstimate => 'Estimasi';
@@ -2312,6 +2312,23 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get weeklyTitle => 'Ringkasan mingguan';
+
+  @override
+  String get weeklyStatTraining => 'Latihan';
+
+  @override
+  String get weeklyStatIntake => 'Asupan';
+
+  @override
+  String get weeklyStatWeight => 'Berat';
+
+  @override
+  String get weeklyOpenShort => 'Buka ringkasan';
+
+  @override
+  String weightLatestDate(Object date) {
+    return 'kg · $date';
+  }
 
   @override
   String get weeklyOpen => 'Lihat ringkasan minggu lalu';

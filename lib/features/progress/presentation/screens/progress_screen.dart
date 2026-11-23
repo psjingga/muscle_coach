@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_palette.dart';
 import '../../../../app/theme/app_theme.dart';
+import '../../../../core/widgets/tab_app_bar.dart';
 import '../../../../core/database/database_providers.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
@@ -28,26 +31,26 @@ class ProgressScreen extends ConsumerWidget {
     final l = context.l10n;
     final today = ref.watch(progressTodayProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(l.tabProgress)),
+      appBar: TabAppBar(title: l.tabProgress),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
         children: [
           CheckInCard(date: today),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const _WeightCard(),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const MeasurementsCard(),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const PhotosCard(),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           _WeeklyCard(today: today),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           _IntakeCard(today: today),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           _VolumeCard(today: today),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const _ExerciseCard(),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           _MilestonesCard(today: today),
         ],
       ),
@@ -67,18 +70,51 @@ class CheckInCard extends ConsumerWidget {
     final checkIn = ref.watch(checkInsProvider).value?.where((c) => c.date == date).firstOrNull;
     final done = checkIn != null;
     final theme = Theme.of(context);
+    final palette = context.palette;
+    void open() => context.push(Routes.checkInPath(date));
+    final subtitle = !done ? l.checkInPrompt : (checkIn.isEmpty ? l.checkInMarkedDone : null);
     return Card(
-      color: done ? null : theme.colorScheme.tertiaryContainer,
-      child: ListTile(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
         key: const Key('checkin-card'),
-        leading: Icon(done ? Icons.task_alt : Icons.edit_calendar_outlined),
-        title: Text(done ? l.checkInDone : l.checkInToday),
-        subtitle: !done
-            ? Text(l.checkInPrompt)
-            : (checkIn.isEmpty ? Text(l.checkInMarkedDone) : null),
-        trailing: TextButton(
-          onPressed: () => context.push(Routes.checkInPath(date)),
-          child: Text(done ? l.checkInEdit : l.checkInOpen),
+        onTap: open,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(color: palette.surface2, shape: BoxShape.circle),
+                child: Icon(
+                  done ? Icons.task_alt_rounded : Icons.edit_calendar_rounded,
+                  size: 20,
+                  color: done ? theme.colorScheme.primary : null,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(done ? l.checkInDone : l.checkInToday, style: theme.textTheme.titleMedium),
+                    if (subtitle != null)
+                      Text(subtitle, style: TextStyle(fontSize: 12, color: palette.muted)),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: done ? null : palette.accentSoft,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+                onPressed: open,
+                child: Text(done ? l.checkInEdit : l.checkInOpen),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -118,7 +154,7 @@ class _WeightCard extends ConsumerWidget {
       title: l.weightTitle,
       trailing: FilledButton.tonalIcon(
         key: const Key('weight-log'),
-        style: FilledButton.styleFrom(minimumSize: AppTheme.compactButtonSize),
+        style: sectionActionStyle(),
         onPressed: log,
         icon: const Icon(Icons.add),
         label: Text(l.weightLog),
@@ -127,12 +163,42 @@ class _WeightCard extends ConsumerWidget {
         if (latest == null)
           Text(l.weightEmpty)
         else ...[
-          Text(
-            l.weightLatest(Fmt.one(latest.kg), Fmt.isoDate(latest.date)),
-            key: const Key('weight-latest'),
-            style: theme.textTheme.titleSmall,
+          Semantics(
+            label: l.weightLatest(Fmt.one(latest.kg), Fmt.isoDate(latest.date)),
+            child: ExcludeSemantics(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    Fmt.one(latest.kg),
+                    key: const Key('weight-latest'),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontSize: 40,
+                      height: 1.1,
+                      fontWeight: FontWeight.w800,
+                      fontFeatures: tabular,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      l.weightLatestDate(Fmt.isoDate(latest.date)),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: context.palette.muted,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          Text(l.weightAvg7(Fmt.one(avg.last.kg))),
+          Text(
+            l.weightAvg7(Fmt.one(avg.last.kg)),
+            style: TextStyle(fontSize: 13, fontFeatures: tabular, color: context.palette.muted),
+          ),
           const SizedBox(height: 12),
           if (recent.length >= 2)
             WeightChart(
@@ -161,30 +227,77 @@ class _WeeklyCard extends ConsumerWidget {
     final current = ProgressMath.weekStartOf(today);
     final last = ProgressMath.addDays(current, -7);
     final reviews = ref.watch(storedReviewsProvider).value ?? const [];
+    final w = ref.watch(weekSummaryProvider(last));
+    final palette = context.palette;
+    final theme = Theme.of(context);
+    Widget tile(String label, String value) => Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: palette.surface2,
+          borderRadius: BorderRadius.circular(AppTheme.radius),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: palette.muted),
+            ),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                fontFeatures: tabular,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    final training = w == null
+        ? '–'
+        : (w.sessionsPlanned == null
+              ? '${w.sessionsCompleted}'
+              : '${w.sessionsCompleted}/${w.sessionsPlanned}');
+    final intake = w?.intakeRatio == null ? '–' : '${(w!.intakeRatio! * 100).round()}%';
+    final weight = w?.weightChangeKg == null ? '–' : signedKg(w!.weightChangeKg!);
     return ProgressSection(
       title: l.weeklyTitle,
+      trailing: Text(
+        l.weeklyRange(_short(last), _short(ProgressMath.addDays(last, 6))),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: palette.muted),
+      ),
       children: [
-        ListTile(
-          key: const Key('weekly-open'),
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.summarize_outlined),
-          title: Text(l.weeklyOpen),
-          subtitle: Text(
-            l.weeklyRange(Fmt.isoDate(last), Fmt.isoDate(ProgressMath.addDays(last, 6))),
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => context.push(Routes.weeklyReviewPath(last)),
+        Row(
+          children: [
+            tile(l.weeklyStatTraining, training),
+            const SizedBox(width: 8),
+            tile(l.weeklyStatIntake, intake),
+            const SizedBox(width: 8),
+            tile(l.weeklyStatWeight, weight),
+          ],
         ),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.today_outlined),
-          title: Text(l.weeklyThisWeek),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => context.push(Routes.weeklyReviewPath(current)),
+        const SizedBox(height: 12),
+        FilledButton.tonal(
+          key: const Key('weekly-open'),
+          style: FilledButton.styleFrom(
+            backgroundColor: palette.surface2,
+            foregroundColor: theme.colorScheme.onSurface,
+          ),
+          onPressed: () => context.push(Routes.weeklyReviewPath(last)),
+          child: Text(l.weeklyOpenShort),
+        ),
+        TextButton.icon(
+          onPressed: () => context.push(Routes.weeklyReviewPath(current)),
+          icon: const Icon(Icons.today_rounded, size: 18),
+          label: Text(l.weeklyThisWeek),
         ),
         if (reviews.isNotEmpty) ...[
           const Divider(),
-          Text(l.weeklyHistory, style: Theme.of(context).textTheme.titleSmall),
+          const SizedBox(height: 4),
+          Text(l.weeklyHistory, style: theme.textTheme.titleSmall),
           for (final r in reviews.take(6))
             ListTile(
               dense: true,
@@ -195,7 +308,9 @@ class _WeeklyCard extends ConsumerWidget {
                   Fmt.isoDate(ProgressMath.addDays(r.weekStart, 6)),
                 ),
               ),
-              trailing: r.aiSummary == null ? null : const Icon(Icons.auto_awesome, size: 18),
+              trailing: r.aiSummary == null
+                  ? const Icon(Icons.chevron_right_rounded)
+                  : Icon(Icons.auto_awesome_rounded, size: 18, color: theme.colorScheme.primary),
               onTap: () => context.push(Routes.weeklyReviewPath(r.weekStart)),
             ),
         ],
@@ -203,6 +318,9 @@ class _WeeklyCard extends ConsumerWidget {
     );
   }
 }
+
+/// "9 Nov" dari `YYYY-MM-DD`.
+String _short(String iso) => DateFormat('d MMM', 'id').format(DateTime.parse(iso));
 
 class _IntakeCard extends ConsumerWidget {
   const _IntakeCard({required this.today});
@@ -346,14 +464,69 @@ class _MilestonesCard extends ConsumerWidget {
     return ProgressSection(
       title: l.milestonesTitle,
       children: [
-        if (training.isNotEmpty) ...[
-          Text('• ${l.milestoneSessions(training.length)}'),
-          Text('• ${l.milestoneSets(sets)}'),
-          if (streak > 0) Text('• ${l.milestoneStreak(streak)}'),
-        ],
-        if (weekly.length >= 2)
-          Text('• ${l.milestoneWeight(signedKg(weekly.last.avgKg - weekly.first.avgKg))}'),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            if (training.isNotEmpty) ...[
+              if (streak > 0)
+                _MilestoneChip(
+                  icon: Icons.local_fire_department_rounded,
+                  text: l.milestoneStreak(streak),
+                  highlight: true,
+                ),
+              _MilestoneChip(
+                icon: Icons.event_available_rounded,
+                text: l.milestoneSessions(training.length),
+              ),
+              _MilestoneChip(icon: Icons.fitness_center_rounded, text: l.milestoneSets(sets)),
+            ],
+            if (weekly.length >= 2)
+              _MilestoneChip(
+                icon: Icons.monitor_weight_outlined,
+                text: l.milestoneWeight(signedKg(weekly.last.avgKg - weekly.first.avgKg)),
+              ),
+          ],
+        ),
       ],
+    );
+  }
+}
+
+class _MilestoneChip extends StatelessWidget {
+  const _MilestoneChip({required this.icon, required this.text, this.highlight = false});
+
+  final IconData icon;
+  final String text;
+  final bool highlight;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    final accent = Theme.of(context).colorScheme.primary;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: highlight ? palette.accentSoft : palette.surface2,
+        borderRadius: BorderRadius.circular(99),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 18, color: accent),
+          const SizedBox(width: 6),
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: highlight ? accent : null,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

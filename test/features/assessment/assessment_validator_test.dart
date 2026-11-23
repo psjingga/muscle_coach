@@ -89,6 +89,27 @@ void main() {
     expect(issues(3, withEq(const EquipmentSelection(dumbbell: true), bb: 1)), isEmpty);
   });
 
+  test('belum pernah latihan beban: frekuensi saat ini boleh kosong (dianggap 0)', () {
+    final never = completeAssessment.copyWith(
+      experience: completeAssessment.experience.copyWith(
+        trainingAge: TrainingAge.none,
+        currentSessionsPerWeek: null,
+      ),
+    );
+    expect(issues(2, never), isEmpty);
+    expect(normalizeAssessment(never).experience.currentSessionsPerWeek, 0);
+    // Tetap divalidasi bila diisi.
+    expect(
+      issues(2, never.copyWith(experience: never.experience.copyWith(currentSessionsPerWeek: 99))),
+      {I.sessionsOutOfRange},
+    );
+    // Sudah pernah latihan → tetap wajib.
+    final trained = never.copyWith(
+      experience: never.experience.copyWith(trainingAge: TrainingAge.under6Months),
+    );
+    expect(issues(2, trained), {I.sessionsRequired});
+  });
+
   test('normalizeAssessment membuang beban alat yang tidak dimiliki', () {
     final n = normalizeAssessment(completeAssessment);
     expect(n.availability.dumbbellMaxKg, 24);

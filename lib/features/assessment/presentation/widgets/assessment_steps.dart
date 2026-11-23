@@ -197,9 +197,12 @@ class _ExperienceStep extends StatelessWidget {
           onSelected: (v) => set((s) => s.copyWith(trainingAge: v)),
         ),
         NumberInput(
-          label: l.fieldCurrentSessions,
+          label: AssessmentValidator.sessionsOptional(e)
+              ? '${l.fieldCurrentSessions} ${l.optionalSuffix}'
+              : l.fieldCurrentSessions,
           unit: l.unitPerWeek,
           decimal: false,
+          helper: AssessmentValidator.sessionsOptional(e) ? l.currentSessionsOptionalHelp : null,
           value: e.currentSessionsPerWeek,
           error: l.issueFor(a.issues, [_I.sessionsRequired, _I.sessionsOutOfRange]),
           onChanged: (v) => set((s) => s.copyWith(currentSessionsPerWeek: v?.toInt())),

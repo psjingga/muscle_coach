@@ -60,3 +60,6 @@ functions/.env*
 # Superdesign: hanya design system yang disimpan di repo (init/resume/tmp lokal)
 .superdesign/*
 !.superdesign/design-system.md
+
+# Worktree subagent Claude Code
+.claude/worktrees/

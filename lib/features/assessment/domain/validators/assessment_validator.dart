@@ -130,11 +130,14 @@ abstract final class AssessmentValidator {
   static Set<AssessmentIssue> _experience(ExperienceSection e) => {
     if (e.level == null) AssessmentIssue.levelRequired,
     if (e.trainingAge == null) AssessmentIssue.trainingAgeRequired,
-    if (e.currentSessionsPerWeek == null)
-      AssessmentIssue.sessionsRequired
-    else if (_outside(e.currentSessionsPerWeek!, sessionsRange))
+    if (e.currentSessionsPerWeek == null) ...[
+      if (!sessionsOptional(e)) AssessmentIssue.sessionsRequired,
+    ] else if (_outside(e.currentSessionsPerWeek!, sessionsRange))
       AssessmentIssue.sessionsOutOfRange,
   };
+
+  /// Belum pernah latihan beban → frekuensi saat ini boleh kosong (dianggap 0).
+  static bool sessionsOptional(ExperienceSection e) => e.trainingAge == TrainingAge.none;
 
   static Set<AssessmentIssue> _availability(AvailabilitySection a) => {
     if (a.trainingDays.isEmpty) AssessmentIssue.trainingDaysRequired,
@@ -171,6 +174,9 @@ abstract final class AssessmentValidator {
 /// Bersihkan data yang tidak relevan sebelum dikirim (mis. beban maks.
 /// dumbbell padahal tidak punya dumbbell).
 AssessmentData normalizeAssessment(AssessmentData d) => d.copyWith(
+  experience: AssessmentValidator.sessionsOptional(d.experience)
+      ? d.experience.copyWith(currentSessionsPerWeek: d.experience.currentSessionsPerWeek ?? 0)
+      : d.experience,
   availability: d.availability.copyWith(
     dumbbellMaxKg: d.availability.equipment.dumbbell ? d.availability.dumbbellMaxKg : null,
     barbellMaxKg: d.availability.equipment.barbell ? d.availability.barbellMaxKg : null,

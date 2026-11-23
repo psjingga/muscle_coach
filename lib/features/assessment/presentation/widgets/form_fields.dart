@@ -387,14 +387,18 @@ class DateInput extends StatelessWidget {
           if (picked != null) onChanged(picked);
         },
         child: InputDecorator(
+          // Label selalu di atas & petunjuk sebagai hint: saat kosong, label
+          // dan teks petunjuk tidak saling menimpa.
           decoration: InputDecoration(
             labelText: label,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintText: hint,
             helperText: helper,
             errorText: error,
             suffixIcon: const Icon(Icons.calendar_month_outlined),
           ),
           isEmpty: v == null,
-          child: Text(v == null ? (hint ?? '') : Fmt.date(v)),
+          child: v == null ? null : Text(Fmt.date(v)),
         ),
       ),
     );

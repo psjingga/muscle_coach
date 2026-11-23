@@ -1646,6 +1646,72 @@ abstract class AppLocalizations {
   /// **'Draft program'**
   String get planDraftTitle;
 
+  /// No description provided for @workoutWeekProgress.
+  ///
+  /// In id, this message translates to:
+  /// **'Minggu ini'**
+  String get workoutWeekProgress;
+
+  /// No description provided for @workoutSessionsCount.
+  ///
+  /// In id, this message translates to:
+  /// **'{done}/{total} sesi'**
+  String workoutSessionsCount(Object done, Object total);
+
+  /// No description provided for @workoutViewPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat program'**
+  String get workoutViewPlan;
+
+  /// No description provided for @workoutSchedule.
+  ///
+  /// In id, this message translates to:
+  /// **'Jadwal minggu ini'**
+  String get workoutSchedule;
+
+  /// No description provided for @workoutDayDone.
+  ///
+  /// In id, this message translates to:
+  /// **'{day} · Selesai'**
+  String workoutDayDone(Object day);
+
+  /// No description provided for @workoutDayMissed.
+  ///
+  /// In id, this message translates to:
+  /// **'{day} · Terlewat'**
+  String workoutDayMissed(Object day);
+
+  /// No description provided for @workoutRecent.
+  ///
+  /// In id, this message translates to:
+  /// **'Riwayat terakhir'**
+  String get workoutRecent;
+
+  /// No description provided for @workoutSeeAll.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat semua'**
+  String get workoutSeeAll;
+
+  /// No description provided for @workoutEnergy.
+  ///
+  /// In id, this message translates to:
+  /// **'Energi {value}/5'**
+  String workoutEnergy(Object value);
+
+  /// No description provided for @workoutSetsVolume.
+  ///
+  /// In id, this message translates to:
+  /// **'{sets} set · {volume} kg'**
+  String workoutSetsVolume(Object sets, Object volume);
+
+  /// No description provided for @workoutMore.
+  ///
+  /// In id, this message translates to:
+  /// **'+{count}'**
+  String workoutMore(Object count);
+
   /// No description provided for @planActiveTitle.
   ///
   /// In id, this message translates to:

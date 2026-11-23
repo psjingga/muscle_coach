@@ -426,6 +426,49 @@
   "workoutNoPlanMessage": "Buat program awal dari jawaban assessment Anda. Program disusun dengan aturan terdokumentasi (bukan AI) dan baru aktif setelah Anda setujui.",
   "createStarterPlan": "Buat program awal",
   "planDraftTitle": "Draft program",
+  "workoutWeekProgress": "Minggu ini",
+  "workoutSessionsCount": "{done}/{total} sesi",
+  "@workoutSessionsCount": {
+    "placeholders": {
+      "done": {},
+      "total": {}
+    }
+  },
+  "workoutViewPlan": "Lihat program",
+  "workoutSchedule": "Jadwal minggu ini",
+  "workoutDayDone": "{day} · Selesai",
+  "@workoutDayDone": {
+    "placeholders": {
+      "day": {}
+    }
+  },
+  "workoutDayMissed": "{day} · Terlewat",
+  "@workoutDayMissed": {
+    "placeholders": {
+      "day": {}
+    }
+  },
+  "workoutRecent": "Riwayat terakhir",
+  "workoutSeeAll": "Lihat semua",
+  "workoutEnergy": "Energi {value}/5",
+  "@workoutEnergy": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "workoutSetsVolume": "{sets} set · {volume} kg",
+  "@workoutSetsVolume": {
+    "placeholders": {
+      "sets": {},
+      "volume": {}
+    }
+  },
+  "workoutMore": "+{count}",
+  "@workoutMore": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "planActiveTitle": "Program aktif",
   "planSummary": "{days} hari/minggu · ± {minutes} menit/sesi",
   "@planSummary": {

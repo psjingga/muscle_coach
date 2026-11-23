@@ -883,6 +883,51 @@ class AppLocalizationsId extends AppLocalizations {
   String get planDraftTitle => 'Draft program';
 
   @override
+  String get workoutWeekProgress => 'Minggu ini';
+
+  @override
+  String workoutSessionsCount(Object done, Object total) {
+    return '$done/$total sesi';
+  }
+
+  @override
+  String get workoutViewPlan => 'Lihat program';
+
+  @override
+  String get workoutSchedule => 'Jadwal minggu ini';
+
+  @override
+  String workoutDayDone(Object day) {
+    return '$day · Selesai';
+  }
+
+  @override
+  String workoutDayMissed(Object day) {
+    return '$day · Terlewat';
+  }
+
+  @override
+  String get workoutRecent => 'Riwayat terakhir';
+
+  @override
+  String get workoutSeeAll => 'Lihat semua';
+
+  @override
+  String workoutEnergy(Object value) {
+    return 'Energi $value/5';
+  }
+
+  @override
+  String workoutSetsVolume(Object sets, Object volume) {
+    return '$sets set · $volume kg';
+  }
+
+  @override
+  String workoutMore(Object count) {
+    return '+$count';
+  }
+
+  @override
   String get planActiveTitle => 'Program aktif';
 
   @override

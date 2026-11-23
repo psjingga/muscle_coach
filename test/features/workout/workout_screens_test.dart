@@ -108,17 +108,43 @@ void main() {
     testWidgets('program aktif: jadwal mingguan dengan penanda hari ini', (tester) async {
       when(() => repo.watchPlan('p1')).thenAnswer((_) => Stream.value(activePlan));
       when(() => repo.watchDays('p1')).thenAnswer((_) => Stream.value([dayA, dayB]));
+      when(() => repo.watchHistory()).thenAnswer((_) => Stream.value(const []));
       await pump(
         tester,
         initial: '/workout',
         profile: const UserProfile(activeWorkoutPlanId: 'p1'),
       );
-      expect(find.text('Kamis · Seluruh tubuh A'), findsOneWidget);
-      expect(find.text('Sabtu · Seluruh tubuh B'), findsOneWidget);
+      expect(find.text('Seluruh tubuh A'), findsOneWidget);
+      expect(find.text('Seluruh tubuh B'), findsOneWidget);
+      expect(find.text('Sabtu'), findsOneWidget);
       expect(find.text('Hari ini'), findsOneWidget);
-      await tester.tap(find.text('Kamis · Seluruh tubuh A'));
+      expect(find.text('0/2 sesi'), findsOneWidget);
+      expect(find.byKey(const Key('workout-start-today')), findsOneWidget);
+      await tester.tap(find.text('Seluruh tubuh A'));
       await tester.pumpAndSettle();
       expect(find.text('day d1'), findsOneWidget);
+    });
+  });
+
+  group('Tab Latihan — minggu ini', () {
+    testWidgets('sesi selesai hari ini: centang, progres minggu, riwayat terakhir', (tester) async {
+      when(() => repo.watchPlan('p1')).thenAnswer((_) => Stream.value(activePlan));
+      when(() => repo.watchDays('p1')).thenAnswer((_) => Stream.value([dayA, dayB]));
+      final done = session.copyWith(status: SessionStatus.completed, energy: 4);
+      when(() => repo.watchHistory()).thenAnswer((_) => Stream.value([done]));
+      when(() => repo.watchSets('s1'))
+          .thenAnswer((_) => Stream.value([doneSet(0, 1, kg: 16), doneSet(0, 2, kg: 16)]));
+      await pump(
+        tester,
+        initial: '/workout',
+        profile: const UserProfile(activeWorkoutPlanId: 'p1'),
+      );
+      expect(find.text('Kamis · Selesai'), findsOneWidget);
+      expect(find.text('1/2 sesi'), findsOneWidget);
+      expect(find.byKey(const Key('workout-start-today')), findsNothing);
+      expect(find.text('Riwayat terakhir'), findsOneWidget);
+      expect(find.textContaining('2 set · 320 kg'), findsOneWidget);
+      expect(find.text('Energi 4/5'), findsOneWidget);
     });
   });
 

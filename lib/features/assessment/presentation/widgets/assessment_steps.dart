@@ -276,9 +276,7 @@ class _AvailabilityStep extends StatelessWidget {
           child: Column(
             children: [
               for (final (label, value, change) in equipmentOptions)
-                CheckboxListTile(
-                  contentPadding: EdgeInsets.zero,
-                  controlAffinity: ListTileControlAffinity.leading,
+                CheckTile(
                   title: Text(label),
                   value: value,
                   onChanged: (v) => setEq((_) => change(v ?? false)),
@@ -488,16 +486,12 @@ class _SafetyStep extends StatelessWidget {
           error: l.issueFor(a.issues, [_I.consentRequired]),
           child: Column(
             children: [
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                controlAffinity: ListTileControlAffinity.leading,
+              CheckTile(
                 title: Text(l.consentDisclaimer, style: theme.textTheme.bodyMedium),
                 value: state.consentDisclaimer,
                 onChanged: (v) => a.c.setConsent(disclaimer: v ?? false),
               ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                controlAffinity: ListTileControlAffinity.leading,
+              CheckTile(
                 title: Text(l.consentHealthData, style: theme.textTheme.bodyMedium),
                 value: state.consentHealthData,
                 onChanged: (v) => a.c.setConsent(healthData: v ?? false),

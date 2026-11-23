@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
@@ -116,6 +118,8 @@ class _GoalReviewScreenState extends ConsumerState<GoalReviewScreen> {
 
   Widget _content(Goal goal) {
     final l = context.l10n;
+    final theme = Theme.of(context);
+    final palette = context.palette;
     final busy = ref.watch(goalConfirmControllerProvider).isLoading;
     final proposed = goal.status == GoalStatus.proposed;
     final canSubmit = goal.canConfirm && (!goal.requiresAcknowledgement || _acknowledged) && !busy;
@@ -137,75 +141,92 @@ class _GoalReviewScreenState extends ConsumerState<GoalReviewScreen> {
               if (goal.safety.warnings.any((w) => w != SafetyWarning.redFlagSymptoms)) ...[
                 const SizedBox(height: 12),
                 _WarningsCard(goal: goal),
-                if (proposed && goal.canConfirm)
+                if (proposed && goal.canConfirm) ...[
+                  const SizedBox(height: 12),
                   CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    tileColor: palette.surface2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radius),
+                    ),
                     value: _acknowledged,
-                    title: Text(l.acknowledgeWarnings),
+                    title: Text(l.acknowledgeWarnings, style: theme.textTheme.bodyMedium),
                     onChanged: (v) => setState(() => _acknowledged = v ?? false),
                   ),
+                ],
               ],
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               Text(
                 l.disclaimerShort,
-                style: Theme.of(context).textTheme.bodySmall,
+                style: TextStyle(fontSize: 12, height: 17 / 12, color: palette.muted),
                 textAlign: TextAlign.center,
               ),
             ],
           ),
         ),
         if (proposed)
-          SafeArea(
-            top: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: busy
-                          ? null
-                          : () => _adjust(
-                              step: goal.safety.stop
-                                  ? _safetyStep
-                                  : (goal.canConfirm ? null : _goalStep),
-                            ),
-                      child: Text(goal.canConfirm ? l.editAnswers : l.adjustTarget),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              border: Border(top: BorderSide(color: theme.colorScheme.outlineVariant)),
+            ),
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: palette.surface2,
+                          foregroundColor: theme.colorScheme.onSurface,
+                          side: BorderSide.none,
+                        ),
+                        onPressed: busy
+                            ? null
+                            : () => _adjust(
+                                step: goal.safety.stop
+                                    ? _safetyStep
+                                    : (goal.canConfirm ? null : _goalStep),
+                              ),
+                        child: Text(goal.canConfirm ? l.editAnswers : l.adjustTarget),
+                      ),
                     ),
-                  ),
-                  if (!goal.canConfirm && !goal.safety.stop)
-                    if (goal.evaluation.suggestedTargetWeightKg case final kg?) ...[
+                    if (!goal.canConfirm && !goal.safety.stop)
+                      if (goal.evaluation.suggestedTargetWeightKg case final kg?) ...[
+                        const SizedBox(width: 12),
+                        Expanded(
+                          flex: 2,
+                          child: FilledButton(
+                            onPressed: busy ? null : () => _resubmit(kg),
+                            child: busy
+                                ? const SizedBox.square(
+                                    dimension: 22,
+                                    child: CircularProgressIndicator(strokeWidth: 2.5),
+                                  )
+                                : Text(l.useSuggestion(Fmt.one(kg))),
+                          ),
+                        ),
+                      ],
+                    if (goal.canConfirm) ...[
                       const SizedBox(width: 12),
                       Expanded(
                         flex: 2,
                         child: FilledButton(
-                          onPressed: busy ? null : () => _resubmit(kg),
+                          onPressed: canSubmit ? () => _confirm(goal) : null,
                           child: busy
                               ? const SizedBox.square(
                                   dimension: 22,
                                   child: CircularProgressIndicator(strokeWidth: 2.5),
                                 )
-                              : Text(l.useSuggestion(Fmt.one(kg))),
+                              : Text(l.confirmGoal),
                         ),
                       ),
                     ],
-                  if (goal.canConfirm) ...[
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 2,
-                      child: FilledButton(
-                        onPressed: canSubmit ? () => _confirm(goal) : null,
-                        child: busy
-                            ? const SizedBox.square(
-                                dimension: 22,
-                                child: CircularProgressIndicator(strokeWidth: 2.5),
-                              )
-                            : Text(l.confirmGoal),
-                      ),
-                    ),
                   ],
-                ],
+                ),
               ),
             ),
           ),
@@ -214,6 +235,7 @@ class _GoalReviewScreenState extends ConsumerState<GoalReviewScreen> {
   }
 }
 
+/// Panel status bertint (vonis target, peringatan, stop keselamatan).
 class _StatusCard extends StatelessWidget {
   const _StatusCard({
     required this.icon,
@@ -221,6 +243,7 @@ class _StatusCard extends StatelessWidget {
     required this.children,
     required this.background,
     required this.foreground,
+    this.titleColor,
   });
 
   final IconData icon;
@@ -229,34 +252,38 @@ class _StatusCard extends StatelessWidget {
   final Color background;
   final Color foreground;
 
+  /// Warna ikon & judul (default: [foreground]).
+  final Color? titleColor;
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      color: background,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: DefaultTextStyle.merge(
-          style: TextStyle(color: foreground),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(icon, color: foreground),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: theme.textTheme.titleMedium?.copyWith(color: foreground),
-                    ),
+    final accent = titleColor ?? foreground;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+      ),
+      child: DefaultTextStyle.merge(
+        style: TextStyle(color: foreground, fontSize: 14, height: 20 / 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: accent, size: 24),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: accent),
                   ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              ...children,
-            ],
-          ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            ...children,
+          ],
         ),
       ),
     );
@@ -287,21 +314,24 @@ class _VerdictCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final scheme = Theme.of(context).colorScheme;
+    final palette = context.palette;
     final e = goal.evaluation;
     if (e.verdict == GoalVerdict.realistic) {
       return _StatusCard(
-        icon: Icons.check_circle_outline,
+        icon: Icons.check_circle_rounded,
         title: l.verdictRealistic,
-        background: scheme.primaryContainer,
-        foreground: scheme.onPrimaryContainer,
+        background: palette.accentSoft,
+        foreground: scheme.onSurface,
+        titleColor: scheme.primary,
         children: [Text(l.verdictRealisticMessage)],
       );
     }
     return _StatusCard(
-      icon: Icons.tune,
+      icon: Icons.tune_rounded,
       title: l.verdictNeedsAdjustment,
-      background: scheme.tertiaryContainer,
-      foreground: scheme.onTertiaryContainer,
+      background: palette.warning.withValues(alpha: 0.14),
+      foreground: scheme.onSurface,
+      titleColor: palette.warning,
       children: [
         for (final r in e.reasons) ...[Text(l.goalReason(r, goal)), const SizedBox(height: 6)],
         if (e.reasons.contains(GoalReason.rateTooFast))
@@ -326,16 +356,43 @@ class _WeightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final e = goal.evaluation;
     final target = goal.targetWeightKg;
-    final rows = <(String, String)>[
-      (l.labelGoal, l.primaryGoal(goal.primaryGoal)),
-      (l.labelStartWeight, l.kgValue(Fmt.one(goal.startWeightKg))),
-      (l.labelTargetWeight, target == null ? l.noTargetWeight : l.kgValue(Fmt.one(target))),
+    const big = TextStyle(
+      fontSize: 34,
+      height: 38 / 34,
+      fontWeight: FontWeight.w800,
+      fontFeatures: tabular,
+      letterSpacing: -0.5,
+    );
+    final muted = TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: palette.muted);
+    Widget weight(String label, String? kg) => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: muted),
+        const SizedBox(height: 2),
+        if (kg == null)
+          Text(l.noTargetWeight, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600))
+        else
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: kg, style: big),
+                TextSpan(text: ' ${l.unitKg}', style: muted),
+              ],
+            ),
+          ),
+      ],
+    );
+    final tiles = <(String, String)>[
       if (e.deltaKg case final d?) (l.labelDelta, l.kgValue(Fmt.signed(d))),
       (l.labelPeriod, l.weeksValue(goal.targetWeeks)),
-      (l.labelTargetDate, Fmt.isoDate(goal.targetDate)),
       if (e.weeklyChangeKg case final w?) (l.labelWeeklyRate, l.kgPerWeekValue(Fmt.two(w))),
+    ];
+    final rows = <(String, String)>[
+      (l.labelGoal, l.primaryGoal(goal.primaryGoal)),
+      (l.labelTargetDate, Fmt.isoDate(goal.targetDate)),
     ];
     return Card(
       child: Padding(
@@ -344,14 +401,70 @@ class _WeightCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(l.sectionWeightGoal, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
+            const SizedBox(height: 14),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(child: weight(l.labelStartWeight, Fmt.one(goal.startWeightKg))),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8, right: 12),
+                  child: Icon(Icons.arrow_forward_rounded, color: theme.colorScheme.primary),
+                ),
+                Expanded(
+                  child: weight(l.labelTargetWeight, target == null ? null : Fmt.one(target)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final (i, (label, value)) in tiles.indexed) ...[
+                  if (i > 0) const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: palette.surface2,
+                        borderRadius: BorderRadius.circular(AppTheme.radius),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(label, style: muted.copyWith(fontSize: 12)),
+                          const SizedBox(height: 2),
+                          Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              fontFeatures: tabular,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 12),
             for (final (label, value) in rows)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
                   children: [
-                    Expanded(child: Text(label, style: theme.textTheme.bodyMedium)),
-                    Text(value, style: theme.textTheme.titleSmall),
+                    Expanded(
+                      child: Text(label, style: TextStyle(fontSize: 14, color: palette.muted)),
+                    ),
+                    Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: tabular,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -363,7 +476,7 @@ class _WeightCard extends StatelessWidget {
                       Fmt.two(e.expectedWeeklyGainKg.min),
                       Fmt.two(e.expectedWeeklyGainKg.max),
                     ),
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: TextStyle(fontSize: 12, height: 17 / 12, color: palette.muted),
             ),
           ],
         ),
@@ -397,22 +510,42 @@ class _AssumptionsCard extends StatelessWidget {
       l.assumptionReview,
       l.assumptionVersion(goal.configVersion),
     ];
+    final theme = Theme.of(context);
+    final palette = context.palette;
     return Card(
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
-        leading: const Icon(Icons.functions),
-        title: Text(l.sectionAssumptions),
+        shape: const Border(),
+        collapsedShape: const Border(),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(color: palette.surface2, shape: BoxShape.circle),
+          child: Icon(Icons.functions_rounded, size: 20, color: theme.colorScheme.primary),
+        ),
+        title: Text(l.sectionAssumptions, style: theme.textTheme.titleMedium),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
           for (final t in items)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('•  '),
-                  Expanded(child: Text(t)),
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: const EdgeInsets.only(top: 7, right: 10),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(t, style: const TextStyle(fontSize: 14, height: 20 / 14)),
+                  ),
                 ],
               ),
             ),
@@ -431,11 +564,13 @@ class _WarningsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final scheme = Theme.of(context).colorScheme;
+    final palette = context.palette;
     return _StatusCard(
       icon: Icons.warning_amber_rounded,
       title: l.sectionWarnings,
-      background: scheme.secondaryContainer,
-      foreground: scheme.onSecondaryContainer,
+      background: palette.warning.withValues(alpha: 0.14),
+      foreground: scheme.onSurface,
+      titleColor: palette.warning,
       children: [
         for (final w in goal.safety.warnings)
           if (w != SafetyWarning.redFlagSymptoms)

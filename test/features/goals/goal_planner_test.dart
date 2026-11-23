@@ -4,6 +4,7 @@ import 'package:musclecoach/features/goals/domain/entities/goal.dart';
 import 'package:musclecoach/features/goals/domain/goal_planner.dart';
 import 'package:musclecoach/features/goals/domain/nutrition_config.dart';
 
+import '../../fixtures/assessment_fixtures.dart' show completeAssessment, testNow;
 import '../../fixtures/sample_assessment.dart';
 
 typedef G = GoalPlanner;
@@ -145,6 +146,17 @@ void main() {
       expect(eval(target: 72.8, weeks: 8).verdict, GoalVerdict.realistic);
     });
 
+    test('saran waktu di atas batas wizard (104 minggu) tidak diberikan', () {
+      final e = eval(target: 100, weeks: 8, conservative: true);
+      expect(e.verdict, GoalVerdict.needsAdjustment);
+      expect(e.suggestedWeeks, isNull);
+      expect(e.suggestedTargetWeightKg, isNotNull);
+      expect(
+        eval(target: e.suggestedTargetWeightKg, weeks: 8, conservative: true).verdict,
+        GoalVerdict.realistic,
+      );
+    });
+
     test('tepat di batas masih realistis; konservatif menurunkan batas', () {
       expect(eval(target: 77, weeks: 20).verdict, GoalVerdict.realistic);
       expect(eval(target: 77, weeks: 20, conservative: true).verdict, GoalVerdict.needsAdjustment);
@@ -226,6 +238,41 @@ void main() {
     test('round-trip JSON goal (disimpan sebagai JSON di database)', () {
       final g = G.buildProposal(sample, now);
       expect(Goal.fromJson(g.toJson()), g);
+    });
+  });
+
+  group('previewTarget', () {
+    test('data belum lengkap → null', () {
+      final a = completeAssessment.copyWith(experience: const ExperienceSection());
+      expect(G.previewTarget(a, testNow), isNull);
+    });
+
+    test('target realistis → tidak ditolak', () {
+      final p = G.previewTarget(completeAssessment, testNow)!;
+      expect(p.rejected, isFalse);
+      expect(p.weeks, 24);
+    });
+
+    test('target terlalu cepat → ditolak, sama dengan evaluasi final', () {
+      final a = completeAssessment.copyWith(
+        goal: completeAssessment.goal.copyWith(targetWeightKg: 82),
+      );
+      final p = G.previewTarget(a, testNow)!;
+      expect(p.rejected, isTrue);
+      expect(p.evaluation, G.buildProposal(a, testNow).evaluation);
+    });
+
+    test('kondisi medis yang sudah diisi memperketat batas', () {
+      final a = completeAssessment.copyWith(
+        goal: completeAssessment.goal.copyWith(targetWeightKg: 76),
+      );
+      expect(G.previewTarget(a, testNow)!.rejected, isFalse);
+      final medical = a.copyWith(
+        safety: const SafetySection(medicalFlags: [MedicalFlag.chronicCondition]),
+      );
+      final p = G.previewTarget(medical, testNow)!;
+      expect(p.safety.conservative, isTrue);
+      expect(p.rejected, isTrue);
     });
   });
 }

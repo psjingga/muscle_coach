@@ -3,9 +3,10 @@ import '../../../../l10n/gen/app_localizations.dart';
 import '../../domain/entities/goal.dart';
 
 extension GoalLabels on AppLocalizations {
-  String goalReason(GoalReason r, Goal g) {
-    final e = g.evaluation;
-    final maxKg = g.startWeightKg * e.maxWeeklyGainPct / 100;
+  String goalReason(GoalReason r, Goal g) => goalReasonFor(r, g.evaluation, g.startWeightKg);
+
+  String goalReasonFor(GoalReason r, GoalEvaluation e, double startKg) {
+    final maxKg = startKg * e.maxWeeklyGainPct / 100;
     return switch (r) {
       GoalReason.targetBelowCurrent => reasonTargetBelowCurrent,
       GoalReason.rateTooFast => reasonRateTooFast(
@@ -15,6 +16,24 @@ extension GoalLabels on AppLocalizations {
       ),
       GoalReason.recompositionWeightChange => reasonRecomposition(Fmt.signed(e.deltaKg ?? 0)),
     };
+  }
+
+  /// Penjelasan mengapa batas laju diperketat; `null` bila tidak konservatif.
+  String? conservativeNote(SafetyAssessment s) {
+    if (!s.conservative) return null;
+    const medical = {
+      SafetyWarning.pregnant,
+      SafetyWarning.chronicCondition,
+      SafetyWarning.eatingDisorderHistory,
+      SafetyWarning.injuryRecovery,
+      SafetyWarning.medication,
+    };
+    final reasons = [
+      if (s.warnings.contains(SafetyWarning.lowBmi)) conservativeReasonLowBmi,
+      if (s.warnings.contains(SafetyWarning.minorAge)) conservativeReasonMinor,
+      if (s.warnings.any(medical.contains)) conservativeReasonMedical,
+    ];
+    return reasons.isEmpty ? null : conservativeLimitNote(reasons.join(', '));
   }
 
   String safetyWarning(SafetyWarning w, Goal g) => switch (w) {

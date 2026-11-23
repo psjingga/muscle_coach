@@ -572,7 +572,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String reasonRateTooFast(Object rate, Object max, Object maxPct) {
-    return 'Target ini menuntut kenaikan $rate kg/minggu, melebihi batas $max kg/minggu ($maxPct% berat badan) untuk level Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.';
+    return 'Target ini menuntut kenaikan $rate kg/minggu, melebihi batas $max kg/minggu ($maxPct% berat badan) untuk Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.';
   }
 
   @override
@@ -589,6 +589,43 @@ class AppLocalizationsId extends AppLocalizations {
   String suggestionTarget(Object kg, Object weeks) {
     return 'Saran target: $kg kg dalam $weeks minggu.';
   }
+
+  @override
+  String conservativeLimitNote(Object reasons) {
+    return 'Batas ini lebih ketat dari biasanya karena $reasons. Ini demi keamanan; sebaiknya diskusikan target kenaikan berat dengan dokter atau ahli gizi.';
+  }
+
+  @override
+  String get conservativeReasonLowBmi => 'BMI Anda di bawah normal';
+
+  @override
+  String get conservativeReasonMinor => 'usia Anda di bawah 18 tahun';
+
+  @override
+  String get conservativeReasonMedical => 'ada kondisi kesehatan yang Anda laporkan';
+
+  @override
+  String get targetRejectedHint => 'Sesuaikan target dulu agar bisa melanjutkan.';
+
+  @override
+  String useSuggestion(Object kg) {
+    return 'Pakai saran ($kg kg)';
+  }
+
+  @override
+  String get useNoTargetWeight => 'Tanpa berat target';
+
+  @override
+  String get editMyself => 'Ubah sendiri';
+
+  @override
+  String suggestionApplied(Object kg) {
+    return 'Berat target diubah ke $kg kg.';
+  }
+
+  @override
+  String get noTargetWeightApplied =>
+      'Berat target dikosongkan; kemajuan dinilai dari tren berat & performa latihan.';
 
   @override
   String get adjustTarget => 'Sesuaikan target';

@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/errors/failure_mapper.dart';
 import '../../../../core/database/database_providers.dart';
+import '../../../assessment/application/assessment_wizard_controller.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../../data/local_goal_repository.dart';
 import '../../domain/entities/goal.dart';
@@ -52,5 +53,27 @@ class GoalConfirmController extends _$GoalConfirmController {
     });
     if (ref.mounted) state = result;
     return !result.hasError;
+  }
+
+  /// Kirim ulang assessment terakhir dengan berat target [targetKg] (saran
+  /// evaluasi; `null` = tanpa berat target). Mengembalikan ID goal usulan baru.
+  Future<String?> resubmitWithTarget(double? targetKg) async {
+    state = const AsyncLoading();
+    String? goalId;
+    final result = await AsyncValue.guard(() async {
+      try {
+        final id = (await ref.read(userProfileProvider.future))?.latestAssessmentId;
+        final repo = ref.read(assessmentRepositoryProvider);
+        final data = id == null ? null : await repo.loadAssessment(id);
+        if (data == null) throw StateError('assessment_not_found');
+        goalId = await repo.submit(
+          data.copyWith(goal: data.goal.copyWith(targetWeightKg: targetKg)),
+        );
+      } catch (e) {
+        throw FailureMapper.from(e);
+      }
+    });
+    if (ref.mounted) state = result;
+    return result.hasError ? null : goalId;
   }
 }

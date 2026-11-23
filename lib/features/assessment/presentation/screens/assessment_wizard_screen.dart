@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/router/routes.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
+import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../application/assessment_wizard_controller.dart';
 import '../../domain/validators/assessment_validator.dart';
 import '../widgets/assessment_labels.dart';
 import '../widgets/assessment_steps.dart';
+import '../widgets/target_rejection_dialog.dart';
 
 /// Wizard assessment 7 langkah dengan progres, draft, dan tombol kembali.
 class AssessmentWizardScreen extends ConsumerStatefulWidget {
@@ -55,7 +57,41 @@ class _AssessmentWizardScreenState extends ConsumerState<AssessmentWizardScreen>
     }
   }
 
+  /// Bila target perlu disesuaikan, tampilkan penyebabnya. `true` bila
+  /// pengguna harus mengubah target dulu (tidak boleh lanjut).
+  Future<bool> _blockedByTarget() async {
+    final c = ref.read(assessmentWizardProvider.notifier);
+    final rejection = c.targetRejection();
+    if (rejection == null) return false;
+    final fix = await showTargetRejectionDialog(context, rejection);
+    if (!mounted) return true;
+    final l = context.l10n;
+    switch (fix) {
+      case TargetFix.useSuggestion:
+        final kg = rejection.evaluation.suggestedTargetWeightKg!;
+        c.applySuggestedTarget(kg);
+        context.showSnack(l.suggestionApplied(Fmt.one(kg)));
+        return c.targetRejection() != null;
+      case TargetFix.noTargetWeight:
+        c.edit((d) => d.copyWith(goal: d.goal.copyWith(targetWeightKg: null)));
+        context.showSnack(l.noTargetWeightApplied);
+        return c.targetRejection() != null;
+      case TargetFix.editMyself:
+        c.goTo(AssessmentValidator.goalStep);
+        _toTop();
+        return true;
+    }
+  }
+
+  Future<void> _next() async {
+    FocusScope.of(context).unfocus();
+    if (await _blockedByTarget() || !mounted) return;
+    if (ref.read(assessmentWizardProvider.notifier).next()) _toTop();
+  }
+
   Future<void> _submit() async {
+    FocusScope.of(context).unfocus();
+    if (await _blockedByTarget() || !mounted) return;
     final goalId = await ref.read(assessmentWizardProvider.notifier).submit();
     if (!mounted) return;
     if (goalId == null) {
@@ -164,10 +200,7 @@ class _AssessmentWizardScreenState extends ConsumerState<AssessmentWizardScreen>
                         ? null
                         : s.isLastStep
                         ? _submit
-                        : () {
-                            FocusScope.of(context).unfocus();
-                            if (c.next()) _toTop();
-                          },
+                        : _next,
                     child: s.submitting
                         ? const SizedBox.square(
                             dimension: 22,

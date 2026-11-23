@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/errors/failure_mapper.dart';
 import '../../../core/database/database_providers.dart';
 import '../../../core/logging/app_logger.dart';
+import '../../goals/domain/goal_planner.dart';
 import '../../profile/presentation/providers/profile_providers.dart';
 import '../data/local_assessment_repository.dart';
 import '../domain/entities/assessment_data.dart';
@@ -102,7 +103,22 @@ class AssessmentWizard extends _$AssessmentWizard {
     _set(s.copyWith(step: step.clamp(0, AssessmentValidator.stepCount - 1), showErrors: false));
   }
 
-  /// Validasi langkah aktif; bila lolos simpan draft & maju. `false` bila ada error.
+  /// Evaluasi target yang perlu disesuaikan, bila langkah aktif sudah
+  /// melewati langkah "Tujuan", jawabannya valid, dan data cukup untuk
+  /// menilai. `null` bila target realistis atau belum bisa dinilai.
+  TargetPreview? targetRejection() {
+    final s = _current;
+    if (s == null || s.step < AssessmentValidator.goalStep || issuesFor(s).isNotEmpty) return null;
+    final preview = GoalPlanner.previewTarget(s.data, ref.read(clockProvider)());
+    return preview != null && preview.rejected ? preview : null;
+  }
+
+  /// Terapkan saran berat target dari [targetRejection].
+  void applySuggestedTarget(double kg) =>
+      edit((d) => d.copyWith(goal: d.goal.copyWith(targetWeightKg: kg)));
+
+  /// Validasi langkah aktif; bila lolos simpan draft & maju. `false` bila ada
+  /// error atau target perlu disesuaikan (lihat [targetRejection]).
   bool next() {
     final s = _current;
     if (s == null || s.isLastStep) return false;
@@ -110,6 +126,7 @@ class AssessmentWizard extends _$AssessmentWizard {
       _set(s.copyWith(showErrors: true));
       return false;
     }
+    if (targetRejection() != null) return false;
     final next = s.copyWith(step: s.step + 1, showErrors: false);
     _set(next);
     _saveDraft(next);
@@ -146,6 +163,7 @@ class AssessmentWizard extends _$AssessmentWizard {
       _set(s.copyWith(step: invalid, showErrors: true));
       return null;
     }
+    if (targetRejection() != null) return null;
     _set(s.copyWith(submitting: true, submitError: null));
     try {
       final goalId = await _repo.submit(normalizeAssessment(s.data));

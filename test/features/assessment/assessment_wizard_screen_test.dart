@@ -116,4 +116,31 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Pengalaman latihan'), findsOneWidget);
   });
+
+  testWidgets('target terlalu cepat: pop-up penyebab, tidak bisa lanjut, lalu pakai saran', (
+    tester,
+  ) async {
+    final tooFast = completeAssessment.copyWith(
+      goal: completeAssessment.goal.copyWith(targetWeightKg: 82),
+    );
+    await pump(tester, draft: (data: tooFast, step: 1));
+    await tester.tap(find.widgetWithText(FilledButton, 'Lanjut'));
+    await tester.pumpAndSettle();
+    expect(find.text('Target perlu disesuaikan'), findsOneWidget);
+    expect(find.textContaining('melebihi batas'), findsOneWidget);
+
+    // Ubah sendiri → tetap di langkah Tujuan.
+    await tester.tap(find.text('Ubah sendiri'));
+    await tester.pumpAndSettle();
+    expect(find.text('Langkah 2 dari 7'), findsOneWidget);
+    verifyNever(() => repo.saveDraft(any(), any()));
+
+    await tester.tap(find.widgetWithText(FilledButton, 'Lanjut'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.textContaining('Pakai saran'));
+    await tester.pumpAndSettle();
+    expect(find.text('Langkah 3 dari 7'), findsOneWidget);
+    final saved = verify(() => repo.saveDraft(captureAny(), 2)).captured.single as AssessmentData;
+    expect(saved.goal.targetWeightKg, lessThan(82));
+  });
 }

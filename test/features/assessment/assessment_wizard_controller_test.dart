@@ -72,6 +72,44 @@ void main() {
     expect(stateOf(c).step, 0);
   });
 
+  group('target yang perlu disesuaikan', () {
+    final tooFast = completeAssessment.copyWith(
+      goal: completeAssessment.goal.copyWith(targetWeightKg: 82),
+    );
+
+    test('langkah profil belum menilai target', () async {
+      final (c, w) = await load();
+      w.edit((_) => tooFast);
+      expect(w.targetRejection(), isNull);
+      expect(w.next(), isTrue);
+      expect(stateOf(c).step, 1);
+    });
+
+    test('langkah tujuan: tidak bisa lanjut sampai target disesuaikan', () async {
+      when(() => repo.loadDraft()).thenAnswer((_) async => (data: tooFast, step: 1));
+      final (c, w) = await load();
+      final rejection = w.targetRejection();
+      expect(rejection, isNotNull);
+      expect(w.next(), isFalse);
+      expect(stateOf(c).step, 1);
+      verifyNever(() => repo.saveDraft(any(), any()));
+
+      w.applySuggestedTarget(rejection!.evaluation.suggestedTargetWeightKg!);
+      expect(w.targetRejection(), isNull);
+      expect(w.next(), isTrue);
+      expect(stateOf(c).step, 2);
+    });
+
+    test('submit dengan target ditolak tidak mengirim', () async {
+      when(() => repo.loadDraft()).thenAnswer((_) async => (data: tooFast, step: 6));
+      final (_, w) = await load();
+      w.setConsent(disclaimer: true, healthData: true);
+      expect(w.targetRejection(), isNotNull);
+      expect(await w.submit(), isNull);
+      verifyNever(() => repo.submit(any()));
+    });
+  });
+
   test('submit tanpa persetujuan → pindah ke langkah keselamatan', () async {
     final (c, w) = await load();
     w.edit((_) => completeAssessment);

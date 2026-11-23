@@ -45,6 +45,21 @@ class _GoalReviewScreenState extends ConsumerState<GoalReviewScreen> {
     }
   }
 
+  Future<void> _resubmit(double? targetKg) async {
+    final id = await ref.read(goalConfirmControllerProvider.notifier).resubmitWithTarget(targetKg);
+    if (!mounted) return;
+    if (id != null) {
+      context.showSnack(
+        targetKg == null
+            ? context.l10n.noTargetWeightApplied
+            : context.l10n.suggestionApplied(Fmt.one(targetKg)),
+      );
+      context.pushReplacement(Routes.goalPath(id));
+    } else if (ref.read(goalConfirmControllerProvider).error case final e?) {
+      context.showSnack(failureMessage(context.l10n, e));
+    }
+  }
+
   Future<void> _confirm(Goal goal) async {
     final ok = await ref
         .read(goalConfirmControllerProvider.notifier)
@@ -159,6 +174,22 @@ class _GoalReviewScreenState extends ConsumerState<GoalReviewScreen> {
                       child: Text(goal.canConfirm ? l.editAnswers : l.adjustTarget),
                     ),
                   ),
+                  if (!goal.canConfirm && !goal.safety.stop)
+                    if (goal.evaluation.suggestedTargetWeightKg case final kg?) ...[
+                      const SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: FilledButton(
+                          onPressed: busy ? null : () => _resubmit(kg),
+                          child: busy
+                              ? const SizedBox.square(
+                                  dimension: 22,
+                                  child: CircularProgressIndicator(strokeWidth: 2.5),
+                                )
+                              : Text(l.useSuggestion(Fmt.one(kg))),
+                        ),
+                      ),
+                    ],
                   if (goal.canConfirm) ...[
                     const SizedBox(width: 12),
                     Expanded(
@@ -273,6 +304,11 @@ class _VerdictCard extends StatelessWidget {
       foreground: scheme.onTertiaryContainer,
       children: [
         for (final r in e.reasons) ...[Text(l.goalReason(r, goal)), const SizedBox(height: 6)],
+        if (e.reasons.contains(GoalReason.rateTooFast))
+          if (l.conservativeNote(goal.safety) case final note?) ...[
+            Text(note),
+            const SizedBox(height: 6),
+          ],
         if (e.suggestedWeeks case final w?) Text(l.suggestionWeeks(w)),
         if (e.suggestedTargetWeightKg case final kg?)
           Text(l.suggestionTarget(Fmt.one(kg), goal.targetWeeks)),

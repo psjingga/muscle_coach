@@ -207,12 +207,54 @@ abstract final class GoalPlanner {
       return result.copyWith(
         verdict: GoalVerdict.needsAdjustment,
         reasons: [GoalReason.rateTooFast],
-        suggestedWeeks: (deltaKg / maxKgPerWeek - _eps).ceil(),
+        // Saran waktu hanya bila masih dalam rentang yang bisa diisi di wizard.
+        suggestedWeeks: switch ((deltaKg / maxKgPerWeek - _eps).ceil()) {
+          final w when w <= AssessmentValidator.targetWeeksRange.max => w,
+          _ => null,
+        },
         // Dibulatkan ke bawah agar saran pasti di dalam batas.
         suggestedTargetWeightKg: ((startKg + maxKgPerWeek * weeks) * 10).floor() / 10,
       );
     }
     return result;
+  }
+
+  /// Evaluasi target dari jawaban wizard sebelum dikirim, agar pengguna
+  /// tahu lebih awal bila target perlu disesuaikan. `null` bila data yang
+  /// dibutuhkan (profil, tujuan, level) belum lengkap. Batas konservatif
+  /// memakai data keselamatan yang sudah diisi; evaluasi final tetap di
+  /// [buildProposal].
+  static TargetPreview? previewTarget(AssessmentData a, DateTime now) {
+    final p = a.profile;
+    final birth = p.birthDate;
+    final weight = p.weightKg;
+    final height = p.heightCm;
+    final primary = a.goal.primary;
+    final weeks = a.goal.targetWeeks;
+    final level = a.experience.level;
+    if (birth == null || weight == null || height == null) return null;
+    if (primary == null || weeks == null || weeks <= 0 || level == null) return null;
+    final age = AssessmentValidator.ageOn(birth, now);
+    if (age == null) return null;
+    final safety = assessSafety(
+      age: age,
+      bmi: bmi(weight, height),
+      medicalFlags: a.safety.medicalFlags,
+      redFlags: a.safety.redFlags,
+    );
+    return TargetPreview(
+      startKg: weight,
+      weeks: weeks,
+      safety: safety,
+      evaluation: evaluateGoal(
+        primary: primary,
+        level: level,
+        startKg: weight,
+        targetKg: a.goal.targetWeightKg,
+        weeks: weeks,
+        conservative: safety.conservative,
+      ),
+    );
   }
 
   /// Gabungkan keselamatan, evaluasi target, dan kalkulasi nutrisi dari
@@ -261,4 +303,21 @@ abstract final class GoalPlanner {
       configVersion: NutritionConfig.version,
     );
   }
+}
+
+/// Hasil [GoalPlanner.previewTarget].
+class TargetPreview {
+  const TargetPreview({
+    required this.startKg,
+    required this.weeks,
+    required this.safety,
+    required this.evaluation,
+  });
+
+  final double startKg;
+  final int weeks;
+  final SafetyAssessment safety;
+  final GoalEvaluation evaluation;
+
+  bool get rejected => evaluation.verdict == GoalVerdict.needsAdjustment;
 }

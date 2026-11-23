@@ -39,6 +39,9 @@ enum AssessmentIssue {
 abstract final class AssessmentValidator {
   static const stepCount = 7;
 
+  /// Indeks langkah "Tujuan" (target berat & waktu).
+  static const goalStep = 1;
+
   static const minAge = 16;
   static const maxAge = 90;
   static const heightRange = (min: 120.0, max: 230.0);

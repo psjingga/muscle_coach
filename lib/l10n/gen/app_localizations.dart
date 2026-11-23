@@ -1163,7 +1163,7 @@ abstract class AppLocalizations {
   /// No description provided for @reasonRateTooFast.
   ///
   /// In id, this message translates to:
-  /// **'Target ini menuntut kenaikan {rate} kg/minggu, melebihi batas {max} kg/minggu ({maxPct}% berat badan) untuk level Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.'**
+  /// **'Target ini menuntut kenaikan {rate} kg/minggu, melebihi batas {max} kg/minggu ({maxPct}% berat badan) untuk Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.'**
   String reasonRateTooFast(Object rate, Object max, Object maxPct);
 
   /// No description provided for @reasonRecomposition.
@@ -1183,6 +1183,66 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Saran target: {kg} kg dalam {weeks} minggu.'**
   String suggestionTarget(Object kg, Object weeks);
+
+  /// No description provided for @conservativeLimitNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas ini lebih ketat dari biasanya karena {reasons}. Ini demi keamanan; sebaiknya diskusikan target kenaikan berat dengan dokter atau ahli gizi.'**
+  String conservativeLimitNote(Object reasons);
+
+  /// No description provided for @conservativeReasonLowBmi.
+  ///
+  /// In id, this message translates to:
+  /// **'BMI Anda di bawah normal'**
+  String get conservativeReasonLowBmi;
+
+  /// No description provided for @conservativeReasonMinor.
+  ///
+  /// In id, this message translates to:
+  /// **'usia Anda di bawah 18 tahun'**
+  String get conservativeReasonMinor;
+
+  /// No description provided for @conservativeReasonMedical.
+  ///
+  /// In id, this message translates to:
+  /// **'ada kondisi kesehatan yang Anda laporkan'**
+  String get conservativeReasonMedical;
+
+  /// No description provided for @targetRejectedHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesuaikan target dulu agar bisa melanjutkan.'**
+  String get targetRejectedHint;
+
+  /// No description provided for @useSuggestion.
+  ///
+  /// In id, this message translates to:
+  /// **'Pakai saran ({kg} kg)'**
+  String useSuggestion(Object kg);
+
+  /// No description provided for @useNoTargetWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa berat target'**
+  String get useNoTargetWeight;
+
+  /// No description provided for @editMyself.
+  ///
+  /// In id, this message translates to:
+  /// **'Ubah sendiri'**
+  String get editMyself;
+
+  /// No description provided for @suggestionApplied.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat target diubah ke {kg} kg.'**
+  String suggestionApplied(Object kg);
+
+  /// No description provided for @noTargetWeightApplied.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat target dikosongkan; kemajuan dinilai dari tren berat & performa latihan.'**
+  String get noTargetWeightApplied;
 
   /// No description provided for @adjustTarget.
   ///

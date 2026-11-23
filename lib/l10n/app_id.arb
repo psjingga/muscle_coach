@@ -211,7 +211,7 @@
   "verdictRealisticMessage": "Target dan waktunya berada dalam batas laju kenaikan yang aman untuk level Anda.",
   "verdictNeedsAdjustment": "Target perlu disesuaikan",
   "reasonTargetBelowCurrent": "Tujuan Anda menambah otot/kekuatan, tetapi berat target lebih rendah dari berat sekarang. Pilih body recomposition atau naikkan berat target.",
-  "reasonRateTooFast": "Target ini menuntut kenaikan {rate} kg/minggu, melebihi batas {max} kg/minggu ({maxPct}% berat badan) untuk level Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.",
+  "reasonRateTooFast": "Target ini menuntut kenaikan {rate} kg/minggu, melebihi batas {max} kg/minggu ({maxPct}% berat badan) untuk Anda. Kenaikan terlalu cepat cenderung menambah lebih banyak lemak.",
   "@reasonRateTooFast": {
     "placeholders": {
       "rate": {},
@@ -238,6 +238,31 @@
       "weeks": {}
     }
   },
+  "conservativeLimitNote": "Batas ini lebih ketat dari biasanya karena {reasons}. Ini demi keamanan; sebaiknya diskusikan target kenaikan berat dengan dokter atau ahli gizi.",
+  "@conservativeLimitNote": {
+    "placeholders": {
+      "reasons": {}
+    }
+  },
+  "conservativeReasonLowBmi": "BMI Anda di bawah normal",
+  "conservativeReasonMinor": "usia Anda di bawah 18 tahun",
+  "conservativeReasonMedical": "ada kondisi kesehatan yang Anda laporkan",
+  "targetRejectedHint": "Sesuaikan target dulu agar bisa melanjutkan.",
+  "useSuggestion": "Pakai saran ({kg} kg)",
+  "@useSuggestion": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "useNoTargetWeight": "Tanpa berat target",
+  "editMyself": "Ubah sendiri",
+  "suggestionApplied": "Berat target diubah ke {kg} kg.",
+  "@suggestionApplied": {
+    "placeholders": {
+      "kg": {}
+    }
+  },
+  "noTargetWeightApplied": "Berat target dikosongkan; kemajuan dinilai dari tren berat & performa latihan.",
   "adjustTarget": "Sesuaikan target",
   "editAnswers": "Ubah jawaban",
   "safetyStopTitle": "Tunda dulu rencana latihan",

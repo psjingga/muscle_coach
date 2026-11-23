@@ -42,14 +42,38 @@ class HomeScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
           children: [
-            Text(
-              DateFormat('EEEE, d MMM', 'id').format(now),
-              style: theme.textTheme.labelLarge?.copyWith(color: context.palette.muted),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              name == null || name.isEmpty ? l.homeGreetingNoName : l.homeGreeting(name),
-              style: theme.textTheme.headlineSmall,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        DateFormat('EEEE, d MMM', 'id').format(now),
+                        style: theme.textTheme.labelLarge?.copyWith(color: context.palette.muted),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        name == null || name.isEmpty ? l.homeGreetingNoName : l.homeGreeting(name),
+                        style: theme.textTheme.headlineSmall,
+                      ),
+                    ],
+                  ),
+                ),
+                // Profil tidak di bottom bar (opsi B): dibuka dari sini.
+                IconButton(
+                  key: const Key('home-profile'),
+                  tooltip: l.openProfile,
+                  style: IconButton.styleFrom(
+                    backgroundColor: theme.colorScheme.surfaceContainerLow,
+                    side: BorderSide(color: theme.colorScheme.outlineVariant),
+                    fixedSize: const Size.square(48),
+                  ),
+                  icon: Icon(Icons.person_rounded, color: theme.colorScheme.onSurface),
+                  onPressed: () => context.go(Routes.profile),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             const _WeekStrip(),

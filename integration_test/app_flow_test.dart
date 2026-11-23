@@ -67,10 +67,15 @@ void main() {
       await hideKeyboard();
     }
 
+    final appNav = find.byKey(const Key('app-nav'));
+
     Future<void> next() => tapOn(find.widgetWithText(FilledButton, 'Lanjut'));
 
-    Future<void> openProfileTab() =>
-        tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Profil')));
+    // Profil tidak di bottom bar: Beranda → ikon profil di header.
+    Future<void> openProfileTab() async {
+      await tapOn(find.descendant(of: appNav, matching: find.text('Beranda')));
+      await tapOn(find.byKey(const Key('home-profile')));
+    }
 
     // bootstrap() memasang FlutterError.onError sendiri; kembalikan milik
     // test binding agar kegagalan dilaporkan dengan benar.
@@ -96,7 +101,7 @@ void main() {
     for (var i = 0; i < 40; i++) {
       await tester.pump(const Duration(milliseconds: 250));
       if (find.text('Mari kenali Anda dulu').evaluate().isNotEmpty) break;
-      if (find.byType(NavigationBar).evaluate().isNotEmpty) {
+      if (appNav.evaluate().isNotEmpty) {
         await openProfileAndWipe();
         break;
       }
@@ -170,7 +175,7 @@ void main() {
     debugPrint('E2E: target aktif & beranda tampil');
 
     // Program latihan awal (Cloud Function createStarterPlan → activateWorkoutPlan)
-    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Latihan')));
+    await tapOn(find.descendant(of: appNav, matching: find.text('Latihan')));
     await waitFor(find.text('Buat program awal'));
     await tapText('Buat program awal');
     await waitFor(find.text('Aktifkan program'));
@@ -231,12 +236,12 @@ void main() {
     await waitFor(find.text('Set 1 · 16 kg × 10'));
     debugPrint('E2E: sesi tercatat di riwayat');
     // Kembali ke shell utama.
-    for (var i = 0; i < 4 && find.byType(NavigationBar).evaluate().isEmpty; i++) {
+    for (var i = 0; i < 4 && appNav.evaluate().isEmpty; i++) {
       await tapOn(find.byType(BackButton));
     }
 
     // Nutrisi: catat 150 g nasi (TKPI AP001 = 180 kcal/100 g) → 270 kcal.
-    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Nutrisi')));
+    await tapOn(find.descendant(of: appNav, matching: find.text('Nutrisi')));
     await waitFor(find.byKey(const ValueKey('add-lunch')));
     await shot('nutrisi-kosong');
     await tapOn(find.byKey(const ValueKey('add-lunch')));
@@ -255,13 +260,13 @@ void main() {
     await waitFor(find.text('Makan siang · 270 kcal'));
     await shot('nutrisi-tercatat');
     debugPrint('E2E: makanan tercatat (270 kcal)');
-    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Beranda')));
+    await tapOn(find.descendant(of: appNav, matching: find.text('Beranda')));
     await waitFor(find.byKey(const ValueKey('home-log-food')));
     expect(find.text('270 kcal'), findsWidgets);
     await shot('beranda-nutrisi');
 
     // Progres: catat berat, check-in harian, ringkasan mingguan.
-    await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Progres')));
+    await tapOn(find.descendant(of: appNav, matching: find.text('Progres')));
     await waitFor(find.byKey(const ValueKey('weight-log')));
     await tapOn(find.byKey(const ValueKey('weight-log')));
     await waitFor(find.byKey(const ValueKey('weight-kg')));
@@ -309,7 +314,7 @@ void main() {
       await tapOn(find.byType(BackButton));
       debugPrint('E2E: API key Gemini tersimpan');
 
-      await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Latihan')));
+      await tapOn(find.descendant(of: appNav, matching: find.text('Latihan')));
       await tapOn(find.widgetWithText(OutlinedButton, 'Program aktif'));
       await tapOn(find.byTooltip('Buat ulang program'));
       await tapText('Susun dengan AI');
@@ -318,10 +323,10 @@ void main() {
       debugPrint('E2E: draft program AI tampil');
       await tapText('Aktifkan program');
       await tapOn(find.widgetWithText(FilledButton, 'Ganti'));
-      await waitFor(find.byType(NavigationBar));
+      await waitFor(appNav);
       debugPrint('E2E: program AI aktif');
 
-      await tapOn(find.descendant(of: find.byType(NavigationBar), matching: find.text('Nutrisi')));
+      await tapOn(find.descendant(of: appNav, matching: find.text('Nutrisi')));
       await tapOn(find.byKey(const ValueKey('meal-plan-generate')));
       await waitFor(find.byKey(const ValueKey('meal-plan-use')), seconds: 150);
       await shot('menu-ai');

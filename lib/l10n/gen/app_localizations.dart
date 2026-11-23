@@ -176,6 +176,48 @@ abstract class AppLocalizations {
   /// **'Timbang & check-in'**
   String get pfRemindersTrackingSection;
 
+  /// No description provided for @quickActions.
+  ///
+  /// In id, this message translates to:
+  /// **'Aksi cepat'**
+  String get quickActions;
+
+  /// No description provided for @qaLogFoodSub.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari dari katalog TKPI atau catat manual'**
+  String get qaLogFoodSub;
+
+  /// No description provided for @qaLogWeightSub.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebaiknya pagi hari, sebelum makan'**
+  String get qaLogWeightSub;
+
+  /// No description provided for @qaStartSessionSub.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai atau lanjutkan latihan hari ini'**
+  String get qaStartSessionSub;
+
+  /// No description provided for @qaNoWorkoutToday.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ada latihan terjadwal hari ini. Pilih hari di tab Latihan.'**
+  String get qaNoWorkoutToday;
+
+  /// No description provided for @qaNoPlan.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada program latihan. Buat dulu di tab Latihan.'**
+  String get qaNoPlan;
+
+  /// No description provided for @openProfile.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka profil'**
+  String get openProfile;
+
   /// No description provided for @tabProfile.
   ///
   /// In id, this message translates to:

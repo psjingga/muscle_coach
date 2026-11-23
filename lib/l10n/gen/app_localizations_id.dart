@@ -52,6 +52,27 @@ class AppLocalizationsId extends AppLocalizations {
   String get pfRemindersTrackingSection => 'Timbang & check-in';
 
   @override
+  String get quickActions => 'Aksi cepat';
+
+  @override
+  String get qaLogFoodSub => 'Cari dari katalog TKPI atau catat manual';
+
+  @override
+  String get qaLogWeightSub => 'Sebaiknya pagi hari, sebelum makan';
+
+  @override
+  String get qaStartSessionSub => 'Mulai atau lanjutkan latihan hari ini';
+
+  @override
+  String get qaNoWorkoutToday => 'Tidak ada latihan terjadwal hari ini. Pilih hari di tab Latihan.';
+
+  @override
+  String get qaNoPlan => 'Belum ada program latihan. Buat dulu di tab Latihan.';
+
+  @override
+  String get openProfile => 'Buka profil';
+
+  @override
   String get tabProfile => 'Profil';
 
   @override

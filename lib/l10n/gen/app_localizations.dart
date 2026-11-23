@@ -1712,6 +1712,48 @@ abstract class AppLocalizations {
   /// **'+{count}'**
   String workoutMore(Object count);
 
+  /// No description provided for @wk2WarmupTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemanasan {minutes} mnt'**
+  String wk2WarmupTitle(int minutes);
+
+  /// No description provided for @wk2WarmupBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Kardio ringan + 1–2 set ringan'**
+  String get wk2WarmupBody;
+
+  /// No description provided for @wk2CooldownTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pendinginan'**
+  String get wk2CooldownTitle;
+
+  /// No description provided for @wk2CooldownBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Peregangan 3–5 menit'**
+  String get wk2CooldownBody;
+
+  /// No description provided for @wk2PlanDays.
+  ///
+  /// In id, this message translates to:
+  /// **'Jadwal mingguan'**
+  String get wk2PlanDays;
+
+  /// No description provided for @wk2PlanNotes.
+  ///
+  /// In id, this message translates to:
+  /// **'Catatan program'**
+  String get wk2PlanNotes;
+
+  /// No description provided for @wk2ExerciseCount.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} latihan'**
+  String wk2ExerciseCount(int count);
+
   /// No description provided for @planActiveTitle.
   ///
   /// In id, this message translates to:

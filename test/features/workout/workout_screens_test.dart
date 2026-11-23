@@ -100,8 +100,10 @@ void main() {
       expect(find.text('Draft program'), findsOneWidget);
       expect(find.text('Aktifkan program'), findsOneWidget);
       expect(find.textContaining('Periksa setiap gerakan'), findsOneWidget);
-      expect(find.text('3 set × 8–12 repetisi\nIstirahat 2 mnt · RIR 2–3'), findsNWidgets(3));
-      expect(find.text('2 set × 20–40 detik\nIstirahat 1 mnt · RIR 2–3'), findsOneWidget);
+      expect(find.text('3 set × 8–12 repetisi'), findsNWidgets(3));
+      expect(find.text('Istirahat 2 mnt · RIR 2–3'), findsNWidgets(3));
+      expect(find.text('2 set × 20–40 detik'), findsOneWidget);
+      expect(find.text('Istirahat 1 mnt · RIR 2–3'), findsOneWidget);
       expect(find.text('Prioritas'), findsOneWidget);
     });
 

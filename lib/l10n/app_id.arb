@@ -469,6 +469,27 @@
       "count": {}
     }
   },
+  "wk2WarmupTitle": "Pemanasan {minutes} mnt",
+  "@wk2WarmupTitle": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "wk2WarmupBody": "Kardio ringan + 1–2 set ringan",
+  "wk2CooldownTitle": "Pendinginan",
+  "wk2CooldownBody": "Peregangan 3–5 menit",
+  "wk2PlanDays": "Jadwal mingguan",
+  "wk2PlanNotes": "Catatan program",
+  "wk2ExerciseCount": "{count} latihan",
+  "@wk2ExerciseCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "planActiveTitle": "Program aktif",
   "planSummary": "{days} hari/minggu · ± {minutes} menit/sesi",
   "@planSummary": {

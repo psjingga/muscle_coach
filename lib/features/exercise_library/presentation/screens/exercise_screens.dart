@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../workout/presentation/widgets/workout_labels.dart';
+import '../../../workout/presentation/widgets/workout_widgets.dart';
 import '../../domain/exercise.dart';
 import '../providers/exercise_providers.dart';
 import '../widgets/exercise_media.dart';
@@ -39,41 +42,62 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final async = ref.watch(exerciseCatalogProvider);
+    final theme = Theme.of(context);
+    final palette = context.palette;
     return Scaffold(
-      appBar: AppBar(title: Text(l.exerciseLibrary)),
+      appBar: SubtitleAppBar(title: l.exerciseLibrary),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: TextField(
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search_rounded),
                 labelText: l.searchExercise,
+                filled: true,
+                fillColor: palette.surface2,
               ),
               onChanged: (v) => setState(() => _query = v),
             ),
           ),
           Expanded(
             child: switch (async) {
-              AsyncValue(:final value?) => ListView(
-                children: [
-                  for (final e in value.values.where(_matches))
-                    ListTile(
-                      leading: ExerciseThumbnail(exercise: e, size: 48),
-                      title: Text(e.name),
-                      subtitle: Text(
-                        [
-                          e.primaryMuscles.map(l.muscleCode).join(', '),
-                          if (e.equipment.isEmpty)
-                            l.noEquipment
-                          else
-                            e.equipment.map(l.equipmentCode).join(' + '),
-                        ].join(' · '),
+              AsyncValue(:final value?) => Builder(
+                builder: (context) {
+                  final items = value.values.where(_matches).toList();
+                  return ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4, bottom: 8),
+                        child: Text(
+                          l.wk2ExerciseCount(items.length),
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            fontFeatures: tabular,
+                            color: palette.muted,
+                          ),
+                        ),
                       ),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => context.push(Routes.exercisePath(e.id)),
-                    ),
-                ],
+                      if (items.isNotEmpty)
+                        Card(
+                          margin: EdgeInsets.zero,
+                          clipBehavior: Clip.antiAlias,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              for (final (i, e) in items.indexed) ...[
+                                if (i > 0)
+                                  Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                                _CatalogRow(exercise: e),
+                              ],
+                            ],
+                          ),
+                        ),
+                    ],
+                  );
+                },
               ),
               AsyncValue(:final error?) => EmptyState(
                 icon: Icons.cloud_off_outlined,
@@ -92,6 +116,65 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
   }
 }
 
+/// Baris katalog: thumbnail, nama, otot utama, pill alat.
+class _CatalogRow extends StatelessWidget {
+  const _CatalogRow({required this.exercise});
+
+  final Exercise exercise;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final palette = context.palette;
+    final e = exercise;
+    return InkWell(
+      onTap: () => context.push(Routes.exercisePath(e.id)),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            ExerciseThumbnail(exercise: e),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    e.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    e.primaryMuscles.map(l.muscleCode).join(', '),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: palette.muted),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    children: [
+                      if (e.equipment.isEmpty)
+                        SoftPill(l.noEquipment)
+                      else
+                        for (final eq in e.equipment) SoftPill(l.equipmentCode(eq)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(Icons.chevron_right_rounded, size: 22, color: palette.muted),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Detail teknik, kesalahan umum, keselamatan, dan alternatif.
 class ExerciseDetailScreen extends ConsumerWidget {
   const ExerciseDetailScreen({super.key, required this.exerciseId});
@@ -104,7 +187,7 @@ class ExerciseDetailScreen extends ConsumerWidget {
     final async = ref.watch(exerciseCatalogProvider);
     final exercise = async.value?[exerciseId];
     return Scaffold(
-      appBar: AppBar(title: Text(exercise?.name ?? l.exerciseLibrary)),
+      appBar: SubtitleAppBar(title: exercise?.name ?? l.exerciseLibrary),
       body: switch (async) {
         AsyncValue(:final value?) when exercise != null => _Detail(
           exercise: exercise,
@@ -135,81 +218,160 @@ class _Detail extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final e = exercise;
+    const titleStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.w700);
+    final labelStyle = TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: palette.muted);
 
-    Widget section(String title, List<String> items, {bool numbered = false}) => Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: theme.textTheme.titleMedium),
-          const SizedBox(height: 6),
-          for (final (i, t) in items.indexed)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(width: 24, child: Text(numbered ? '${i + 1}.' : '•')),
-                  Expanded(child: Text(t)),
-                ],
-              ),
-            ),
-        ],
+    Widget card(List<Widget> children) => Card(
+      margin: const EdgeInsets.only(top: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: children),
       ),
     );
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        ExerciseVisuals(exercise: e),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            Chip(label: Text(l.levelCode(e.level))),
-            if (e.equipment.isEmpty)
-              Chip(label: Text(l.noEquipment))
-            else
-              for (final eq in e.equipment) Chip(label: Text(l.equipmentCode(eq))),
-          ],
-        ),
-        if (e.needsSpotter)
-          Card(
-            color: theme.colorScheme.errorContainer,
-            child: ListTile(
-              leading: Icon(Icons.warning_amber_rounded, color: theme.colorScheme.onErrorContainer),
-              title: Text(
-                l.spotterNeeded,
-                style: TextStyle(color: theme.colorScheme.onErrorContainer),
+    Widget section(String title, List<String> items, {bool numbered = false}) => card([
+      Text(title, style: titleStyle),
+      const SizedBox(height: 10),
+      for (final (i, t) in items.indexed)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (numbered)
+                Container(
+                  width: 24,
+                  height: 24,
+                  margin: const EdgeInsets.only(right: 10),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: palette.surface2, shape: BoxShape.circle),
+                  child: Text(
+                    '${i + 1}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      fontFeatures: tabular,
+                    ),
+                  ),
+                )
+              else
+                SizedBox(
+                  width: 20,
+                  child: Text('•', style: TextStyle(color: palette.muted)),
+                ),
+              Expanded(
+                child: Text(t, style: const TextStyle(fontSize: 14, height: 20 / 14)),
               ),
+            ],
+          ),
+        ),
+    ]);
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      children: [
+        Card(
+          margin: EdgeInsets.zero,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: ExerciseVisuals(exercise: e),
+          ),
+        ),
+        card([
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              SoftPill(l.levelCode(e.level), accent: true),
+              if (e.equipment.isEmpty)
+                SoftPill(l.noEquipment)
+              else
+                for (final eq in e.equipment) SoftPill(l.equipmentCode(eq)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(l.exercisePrimaryMuscles, style: labelStyle),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [for (final m in e.primaryMuscles) SoftPill(l.muscleCode(m), accent: true)],
+          ),
+          if (e.secondaryMuscles.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(l.exerciseSecondaryMuscles, style: labelStyle),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: [for (final m in e.secondaryMuscles) SoftPill(l.muscleCode(m))],
+            ),
+          ],
+        ]),
+        if (e.needsSpotter)
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.error.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(AppTheme.radius),
+              border: Border.all(color: theme.colorScheme.error.withValues(alpha: 0.4)),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.warning_amber_rounded, color: theme.colorScheme.error),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    l.spotterNeeded,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
             ),
           ),
-        const SizedBox(height: 8),
-        Text(
-          '${l.exercisePrimaryMuscles}: ${e.primaryMuscles.map(l.muscleCode).join(', ')}',
-          style: theme.textTheme.bodyLarge,
-        ),
-        if (e.secondaryMuscles.isNotEmpty)
-          Text('${l.exerciseSecondaryMuscles}: ${e.secondaryMuscles.map(l.muscleCode).join(', ')}'),
         section(l.exerciseInstructions, e.instructions, numbered: true),
         if (e.mistakes.isNotEmpty) section(l.exerciseMistakes, e.mistakes),
         if (e.safety.isNotEmpty) section(l.exerciseSafety, e.safety),
-        if (e.alternatives.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          Text(l.exerciseAlternatives, style: theme.textTheme.titleMedium),
-          for (final id in e.alternatives)
-            if (catalog[id] case final alt?)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(alt.name),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.push(Routes.exercisePath(alt.id)),
-              ),
-        ],
+        if (e.alternatives.isNotEmpty)
+          Card(
+            margin: const EdgeInsets.only(top: 12),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Text(l.exerciseAlternatives, style: titleStyle),
+                ),
+                for (final id in e.alternatives)
+                  if (catalog[id] case final alt?) ...[
+                    Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                    InkWell(
+                      onTap: () => context.push(Routes.exercisePath(alt.id)),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 14, 8, 14),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                alt.name,
+                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Icon(Icons.chevron_right_rounded, color: palette.muted),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+              ],
+            ),
+          ),
         const SizedBox(height: 16),
-        Text(l.disclaimerShort, style: theme.textTheme.bodySmall),
+        Text(l.disclaimerShort, style: TextStyle(fontSize: 12, color: palette.muted)),
       ],
     );
   }

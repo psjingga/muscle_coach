@@ -928,6 +928,31 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String wk2WarmupTitle(int minutes) {
+    return 'Pemanasan $minutes mnt';
+  }
+
+  @override
+  String get wk2WarmupBody => 'Kardio ringan + 1–2 set ringan';
+
+  @override
+  String get wk2CooldownTitle => 'Pendinginan';
+
+  @override
+  String get wk2CooldownBody => 'Peregangan 3–5 menit';
+
+  @override
+  String get wk2PlanDays => 'Jadwal mingguan';
+
+  @override
+  String get wk2PlanNotes => 'Catatan program';
+
+  @override
+  String wk2ExerciseCount(int count) {
+    return '$count latihan';
+  }
+
+  @override
   String get planActiveTitle => 'Program aktif';
 
   @override

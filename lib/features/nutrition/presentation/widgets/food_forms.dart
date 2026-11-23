@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../domain/food.dart';
@@ -99,6 +101,7 @@ class _PortionSheetState extends State<_PortionSheet> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final food = widget.food;
     final g = _value;
     final n = g == null ? null : food.per100g.forGrams(g);
@@ -109,7 +112,7 @@ class _PortionSheetState extends State<_PortionSheet> {
       const SizedBox(height: 4),
       Text(
         '${l.foodPer100(Fmt.integer(food.per100g.kcal))} · ${l.macros(food.per100g)}',
-        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        style: TextStyle(fontSize: 13, fontFeatures: tabular, color: palette.muted),
       ),
       const SizedBox(height: 16),
       TextField(
@@ -117,9 +120,11 @@ class _PortionSheetState extends State<_PortionSheet> {
         controller: _grams,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, fontFeatures: tabular),
         decoration: InputDecoration(
           labelText: l.portionGrams,
           suffixText: 'g',
+          suffixStyle: TextStyle(fontSize: 13, color: palette.muted),
           errorText: g == null ? l.portionGramsError : null,
         ),
         onChanged: (_) => setState(() {}),
@@ -142,30 +147,43 @@ class _PortionSheetState extends State<_PortionSheet> {
       _mealField(context, _meal, (v) => setState(() => _meal = v)),
       const SizedBox(height: 16),
       if (n != null)
-        Card(
-          margin: EdgeInsets.zero,
-          color: theme.colorScheme.secondaryContainer,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Text(l.kcal(n.kcal), style: theme.textTheme.titleLarge),
-                const SizedBox(width: 12),
-                Expanded(child: Text(l.macros(n), textAlign: TextAlign.end)),
-              ],
-            ),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: palette.accentSoft,
+            borderRadius: BorderRadius.circular(AppTheme.radius),
+          ),
+          child: Row(
+            children: [
+              Text(
+                l.kcal(n.kcal),
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  fontFeatures: tabular,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l.macros(n),
+                  textAlign: TextAlign.end,
+                  style: TextStyle(fontSize: 13, fontFeatures: tabular, color: palette.muted),
+                ),
+              ),
+            ],
           ),
         ),
       if (edible != null && edible < 100) ...[
         const SizedBox(height: 8),
-        Text(l.portionEdible(Fmt.integer(edible)), style: theme.textTheme.bodySmall),
+        Text(
+          l.portionEdible(Fmt.integer(edible)),
+          style: TextStyle(fontSize: 12, color: palette.muted),
+        ),
       ],
       if (food.quality == NutritionQuality.inconsistent) ...[
         const SizedBox(height: 8),
-        Text(
-          l.portionInconsistent,
-          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error),
-        ),
+        _WarningCallout(text: l.portionInconsistent),
       ],
       const SizedBox(height: 16),
       Row(
@@ -180,7 +198,7 @@ class _PortionSheetState extends State<_PortionSheet> {
           const Spacer(),
           FilledButton(
             key: const Key('portion-save'),
-            style: FilledButton.styleFrom(minimumSize: const Size(120, 48)),
+            style: FilledButton.styleFrom(minimumSize: const Size(140, 52)),
             onPressed: g == null
                 ? null
                 : () => Navigator.pop(context, (grams: g, meal: _meal, delete: false)),
@@ -213,20 +231,29 @@ class _NutrientFields extends StatelessWidget {
     final l = context.l10n;
     final labels = [l.customFoodKcal, l.customFoodProtein, l.customFoodCarbs, l.customFoodFat];
     const keys = ['kcal', 'protein', 'carbs', 'fat'];
+    Widget field(int i) => TextFormField(
+      key: Key('nutrient-${keys[i]}'),
+      controller: controllers[i],
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, fontFeatures: tabular),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+      decoration: InputDecoration(labelText: labels[i], errorMaxLines: 2),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (v) => _numberError(context, v ?? '', required: i == 0),
+      onChanged: (_) => onChanged(),
+    );
     return Column(
       children: [
-        for (var i = 0; i < 4; i++)
+        for (var row = 0; row < 2; row++)
           Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: TextFormField(
-              key: Key('nutrient-${keys[i]}'),
-              controller: controllers[i],
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-              decoration: InputDecoration(labelText: labels[i]),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (v) => _numberError(context, v ?? '', required: i == 0),
-              onChanged: (_) => onChanged(),
+            padding: const EdgeInsets.only(top: 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: field(row * 2)),
+                const SizedBox(width: 12),
+                Expanded(child: field(row * 2 + 1)),
+              ],
             ),
           ),
       ],
@@ -325,7 +352,7 @@ class _ManualSheetState extends State<_ManualSheet> {
           validator: (v) => (v ?? '').trim().isEmpty ? l.customFoodRequired : null,
         ),
         _NutrientFields(controllers: _fields, onChanged: () => setState(() {})),
-        if (mismatch != null) ...[const SizedBox(height: 8), Text(mismatch)],
+        if (mismatch != null) ...[const SizedBox(height: 12), _WarningCallout(text: mismatch)],
         const SizedBox(height: 12),
         _mealField(context, _meal, (v) => setState(() => _meal = v)),
         const SizedBox(height: 16),
@@ -345,7 +372,7 @@ class _ManualSheetState extends State<_ManualSheet> {
             const Spacer(),
             FilledButton(
               key: const Key('manual-save'),
-              style: FilledButton.styleFrom(minimumSize: const Size(120, 48)),
+              style: FilledButton.styleFrom(minimumSize: const Size(140, 52)),
               onPressed: _save,
               child: Text(l.save),
             ),
@@ -403,45 +430,114 @@ class _CustomFoodScreenState extends State<CustomFoodScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final mismatch = _mismatchNote(context, _fields);
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l.customFoodTitle)),
+      appBar: AppBar(
+        title: Text(l.customFoodTitle),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(height: 1, color: theme.colorScheme.outlineVariant),
+        ),
+      ),
       body: Form(
         key: _form,
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
           children: [
-            TextFormField(
-              key: const Key('custom-name'),
-              controller: _name,
-              maxLength: 80,
-              decoration: InputDecoration(labelText: l.customFoodName),
-              validator: (v) => (v ?? '').trim().isEmpty ? l.customFoodRequired : null,
-            ),
-            TextFormField(
-              key: const Key('custom-basis'),
-              controller: _basis,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
-                labelText: l.customFoodBasis,
-                helperText: l.customFoodBasisHelp,
-                suffixText: 'g',
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      key: const Key('custom-name'),
+                      controller: _name,
+                      maxLength: 80,
+                      decoration: InputDecoration(labelText: l.customFoodName),
+                      validator: (v) => (v ?? '').trim().isEmpty ? l.customFoodRequired : null,
+                    ),
+                    const SizedBox(height: 4),
+                    TextFormField(
+                      key: const Key('custom-basis'),
+                      controller: _basis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        fontFeatures: tabular,
+                      ),
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                        labelText: l.customFoodBasis,
+                        helperText: l.customFoodBasisHelp,
+                        helperMaxLines: 2,
+                        suffixText: 'g',
+                        suffixStyle: TextStyle(fontSize: 13, color: context.palette.muted),
+                      ),
+                      validator: (v) {
+                        final x = Fmt.parseDecimal(v ?? '');
+                        return x == null || x <= 0 || x > _maxGrams ? l.portionGramsError : null;
+                      },
+                    ),
+                  ],
+                ),
               ),
-              validator: (v) {
-                final x = Fmt.parseDecimal(v ?? '');
-                return x == null || x <= 0 || x > _maxGrams ? l.portionGramsError : null;
-              },
             ),
-            _NutrientFields(controllers: _fields, onChanged: () => setState(() {})),
-            if (mismatch != null) ...[const SizedBox(height: 8), Text(mismatch)],
-            const SizedBox(height: 24),
-            FilledButton(
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                child: _NutrientFields(controllers: _fields, onChanged: () => setState(() {})),
+              ),
+            ),
+            if (mismatch != null) ...[const SizedBox(height: 12), _WarningCallout(text: mismatch)],
+          ],
+        ),
+      ),
+      bottomNavigationBar: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerLow,
+          border: Border(top: BorderSide(color: theme.colorScheme.outlineVariant)),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+            child: FilledButton(
               key: const Key('custom-save'),
-              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
               onPressed: _save,
               child: Text(l.save),
             ),
-          ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+/// Kotak peringatan bertint warning dengan ikon (tidak memblokir simpan).
+class _WarningCallout extends StatelessWidget {
+  const _WarningCallout({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: palette.warning.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(AppTheme.radius),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.warning_amber_rounded, size: 18, color: palette.warning),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontSize: 13, height: 18 / 13)),
+          ),
+        ],
       ),
     );
   }

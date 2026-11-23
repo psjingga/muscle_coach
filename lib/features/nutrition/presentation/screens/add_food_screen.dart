@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_palette.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../domain/food.dart';
@@ -91,27 +92,36 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final results = ref.watch(foodSearchProvider(_q));
     final info = ref.watch(foodSourceInfoProvider).value;
+    final hint = TextStyle(fontSize: 14, color: palette.muted);
     return Scaffold(
-      appBar: AppBar(title: Text(l.nutritionAddTo(l.meal(widget.meal)))),
+      appBar: AppBar(
+        title: Text(l.nutritionAddTo(l.meal(widget.meal))),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(height: 1, color: theme.colorScheme.outlineVariant),
+        ),
+      ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: TextField(
               key: const Key('food-search'),
               controller: _query,
               autofocus: true,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: Icon(Icons.search_rounded, color: palette.muted),
                 hintText: l.foodSearchHint,
+                hintStyle: hint,
                 suffixIcon: _query.text.isEmpty
                     ? null
                     : IconButton(
                         tooltip: l.close,
-                        icon: const Icon(Icons.clear),
+                        icon: const Icon(Icons.close_rounded),
                         onPressed: () {
                           _query.clear();
                           setState(() => _q = '');
@@ -126,46 +136,67 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (_, _) => Center(child: Text(l.errorUnknown)),
               data: (foods) => ListView(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   if (_q.isEmpty && foods.isNotEmpty)
                     _Header(l.foodRecent)
                   else if (_q.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(l.foodRecentEmpty, style: theme.textTheme.bodyMedium),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text(l.foodRecentEmpty, style: hint),
                     )
                   else if (foods.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(l.foodNoResult, style: theme.textTheme.bodyMedium),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text(l.foodNoResult, style: hint),
                     ),
-                  for (final f in foods) _FoodTile(food: f, onTap: () => _pick(f)),
-                  const Divider(),
-                  ListTile(
-                    key: const Key('food-add-custom'),
-                    leading: const Icon(Icons.qr_code_2),
-                    title: Text(l.foodAddCustom),
-                    onTap: _custom,
-                  ),
-                  ListTile(
-                    key: const Key('food-add-manual'),
-                    leading: const Icon(Icons.edit_note),
-                    title: Text(l.foodAddManual),
-                    onTap: _manual,
+                  if (foods.isNotEmpty)
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            for (var i = 0; i < foods.length; i++) ...[
+                              if (i > 0) const Divider(height: 1),
+                              _FoodTile(food: foods[i], onTap: () => _pick(foods[i])),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 12),
+                  _Header(l.fmOtherWays),
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      children: [
+                        _ActionRow(
+                          key: const Key('food-add-custom'),
+                          icon: Icons.qr_code_2_rounded,
+                          label: l.foodAddCustom,
+                          onTap: _custom,
+                        ),
+                        const Divider(height: 1, indent: 16, endIndent: 16),
+                        _ActionRow(
+                          key: const Key('food-add-manual'),
+                          icon: Icons.edit_note_rounded,
+                          label: l.foodAddManual,
+                          onTap: _manual,
+                        ),
+                      ],
+                    ),
                   ),
                   if (info != null)
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.only(top: 16),
                       child: Text(
                         l.foodSourceAttribution(
                           info.name,
                           info.publisher,
                           Fmt.isoDate(info.retrieved),
                         ),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
+                        style: TextStyle(fontSize: 12, color: palette.muted),
                       ),
                     ),
                 ],
@@ -185,11 +216,56 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-    child: Text(text, style: Theme.of(context).textTheme.titleSmall),
+    padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+    child: Text(
+      text.toUpperCase(),
+      style: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.6,
+        color: context.palette.muted,
+      ),
+    ),
   );
 }
 
+/// Aksi alternatif (makanan dari label / catat manual).
+class _ActionRow extends StatelessWidget {
+  const _ActionRow({super.key, required this.icon, required this.label, required this.onTap});
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    final primary = Theme.of(context).colorScheme.primary;
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(color: palette.accentSoft, shape: BoxShape.circle),
+              child: Icon(icon, size: 20, color: primary),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            ),
+            Icon(Icons.chevron_right_rounded, color: palette.muted),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Baris hasil: nama + label sumber, kategori, kcal per 100 g.
 class _FoodTile extends StatelessWidget {
   const _FoodTile({required this.food, required this.onTap});
 
@@ -200,23 +276,82 @@ class _FoodTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
-    final badge = switch (food) {
-      Food(origin: FoodOrigin.custom) => l.foodCustomBadge,
-      Food(quality: NutritionQuality.inconsistent) => l.foodInconsistentBadge,
-      _ => null,
+    final palette = context.palette;
+    final (badge, fg, bg) = switch (food) {
+      Food(origin: FoodOrigin.custom) => (
+        l.foodCustomBadge,
+        theme.colorScheme.primary,
+        palette.accentSoft,
+      ),
+      Food(quality: NutritionQuality.inconsistent) => (
+        l.foodInconsistentBadge,
+        palette.warning,
+        palette.warning.withValues(alpha: 0.15),
+      ),
+      _ => (l.fmSourceTkpi, palette.muted, palette.surface2),
     };
-    return ListTile(
+    return InkWell(
       key: Key('food-${food.id}'),
-      title: Text(food.name),
-      subtitle: Text([?food.category, l.foodPer100(Fmt.integer(food.per100g.kcal))].join(' · ')),
-      trailing: badge == null
-          ? const Icon(Icons.add_circle_outline)
-          : Chip(
-              label: Text(badge),
-              visualDensity: VisualDensity.compact,
-              labelStyle: theme.textTheme.labelSmall,
-            ),
       onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          food.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: bg,
+                          borderRadius: BorderRadius.circular(99),
+                        ),
+                        child: Text(
+                          badge,
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: fg),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (food.category != null) ...[
+                    const SizedBox(height: 2),
+                    Text(food.category!, style: TextStyle(fontSize: 12, color: palette.muted)),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  Fmt.integer(food.per100g.kcal),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    fontFeatures: tabular,
+                  ),
+                ),
+                Text(l.fmKcalPer100, style: TextStyle(fontSize: 11, color: palette.muted)),
+              ],
+            ),
+            const SizedBox(width: 8),
+            Icon(Icons.add_circle_outline_rounded, color: theme.colorScheme.primary),
+          ],
+        ),
+      ),
     );
   }
 }

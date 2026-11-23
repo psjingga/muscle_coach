@@ -3944,6 +3944,72 @@ abstract class AppLocalizations {
   /// **'Berat {change} kg sejak awal (rata-rata mingguan)'**
   String milestoneWeight(Object change);
 
+  /// No description provided for @fmCheckInWorkoutLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan'**
+  String get fmCheckInWorkoutLabel;
+
+  /// No description provided for @fmCheckInIntakeLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Asupan'**
+  String get fmCheckInIntakeLabel;
+
+  /// No description provided for @fmCheckInWorkoutDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai ✓'**
+  String get fmCheckInWorkoutDone;
+
+  /// No description provided for @fmCheckInWorkoutNone.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada sesi selesai'**
+  String get fmCheckInWorkoutNone;
+
+  /// No description provided for @fmCheckInIntakeValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{kcal} / {target}'**
+  String fmCheckInIntakeValue(Object kcal, Object target);
+
+  /// No description provided for @fmCheckInWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat badan (opsional)'**
+  String get fmCheckInWeight;
+
+  /// No description provided for @fmCheckInSleep.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidur semalam'**
+  String get fmCheckInSleep;
+
+  /// No description provided for @fmCheckInHours.
+  ///
+  /// In id, this message translates to:
+  /// **'jam'**
+  String get fmCheckInHours;
+
+  /// No description provided for @fmKcalPer100.
+  ///
+  /// In id, this message translates to:
+  /// **'kcal / 100 g'**
+  String get fmKcalPer100;
+
+  /// No description provided for @fmSourceTkpi.
+  ///
+  /// In id, this message translates to:
+  /// **'TKPI'**
+  String get fmSourceTkpi;
+
+  /// No description provided for @fmOtherWays.
+  ///
+  /// In id, this message translates to:
+  /// **'Cara lain'**
+  String get fmOtherWays;
+
   /// No description provided for @checkInTitle.
   ///
   /// In id, this message translates to:

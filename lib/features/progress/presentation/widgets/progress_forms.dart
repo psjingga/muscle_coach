@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../data/progress_repository.dart';
@@ -127,27 +129,57 @@ class ScalePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final theme = Theme.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final palette = context.palette;
+    final caption = TextStyle(fontSize: 11, color: palette.muted);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(label, style: theme.textTheme.titleSmall),
-        const SizedBox(height: 6),
-        Wrap(
-          spacing: 8,
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        Row(
           children: [
-            for (var i = 1; i <= 5; i++)
-              ChoiceChip(
-                key: Key('$keyPrefix-$i'),
-                label: Text('$i'),
-                selected: value == i,
-                onSelected: (s) => onChanged(s ? i : null),
+            for (var i = 1; i <= 5; i++) ...[
+              if (i > 1) const SizedBox(width: 8),
+              Expanded(
+                child: Semantics(
+                  button: true,
+                  selected: value == i,
+                  child: Material(
+                    color: value == i ? scheme.primary : palette.surface2,
+                    borderRadius: BorderRadius.circular(AppTheme.radius),
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      key: Key('$keyPrefix-$i'),
+                      onTap: () => onChanged(value == i ? null : i),
+                      child: SizedBox(
+                        height: 48,
+                        child: Center(
+                          child: Text(
+                            '$i',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              fontFeatures: tabular,
+                              color: value == i ? scheme.onPrimary : scheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
+            ],
           ],
         ),
-        Text(
-          '1 = ${l.checkInScaleLow} · 5 = ${l.checkInScaleHigh}',
-          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('1 = ${l.checkInScaleLow}', style: caption),
+            Text('5 = ${l.checkInScaleHigh}', style: caption),
+          ],
         ),
       ],
     );

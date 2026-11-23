@@ -1186,6 +1186,23 @@
       "change": {}
     }
   },
+  "fmCheckInWorkoutLabel": "Latihan",
+  "fmCheckInIntakeLabel": "Asupan",
+  "fmCheckInWorkoutDone": "Selesai ✓",
+  "fmCheckInWorkoutNone": "Belum ada sesi selesai",
+  "fmCheckInIntakeValue": "{kcal} / {target}",
+  "@fmCheckInIntakeValue": {
+    "placeholders": {
+      "kcal": {},
+      "target": {}
+    }
+  },
+  "fmCheckInWeight": "Berat badan (opsional)",
+  "fmCheckInSleep": "Tidur semalam",
+  "fmCheckInHours": "jam",
+  "fmKcalPer100": "kcal / 100 g",
+  "fmSourceTkpi": "TKPI",
+  "fmOtherWays": "Cara lain",
   "checkInTitle": "Check-in harian",
   "checkInToday": "Check-in hari ini",
   "checkInMarkedDone": "Ditandai selesai dari notifikasi. Tambahkan detail bila sempat.",

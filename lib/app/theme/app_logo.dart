@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 /// Lapisan logo yang bisa digambar. Ikon Android adaptif butuh latar dan
@@ -7,7 +5,9 @@ import 'package:flutter/material.dart';
 /// ikon notifikasi.
 enum AppLogoLayer { full, background, foreground, monochrome }
 
-/// Logo Muscle Coach: dumbbell di atas grafik batang yang naik.
+/// Logo Muscle Coach (konsep A, desain volt): pelat beban volt dengan garis
+/// progres putih yang menembus ke kanan atas — "angkat beban, lihat
+/// kemajuan".
 ///
 /// Sumber tunggal logo (vektor). Ikon aplikasi dibuat dari sini oleh
 /// `tool/app_icon/generate.sh`. Geometri dalam kanvas 1024 × 1024.
@@ -19,15 +19,15 @@ class AppLogoPainter extends CustomPainter {
   /// Skala gambar terhadap kanvas; bawaan 1 (penuh) atau zona aman adaptif.
   final double? markScale;
 
-  static const green1 = Color(0xFF2A9670);
-  static const green2 = Color(0xFF0E4A37);
-  static const lime = Color(0xFFC8F55A);
+  static const background = Color(0xFF0B0D0C);
+  static const volt = Color(0xFFB6F23E);
+  static const white = Color(0xFFF2F5F3);
 
-  /// Pusat gambar (dumbbell + grafik) dalam koordinat kanvas 1024.
-  static const _markCenter = Offset(552, 470);
+  /// Pusat gambar (pelat + panah) dalam koordinat kanvas 1024.
+  static const _markCenter = Offset(515, 540);
 
   /// Gambar depan ikon adaptif harus muat di zona aman (lingkaran ±66%).
-  static const _adaptiveScale = 0.66;
+  static const _adaptiveScale = 0.62;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -37,15 +37,17 @@ class AppLogoPainter extends CustomPainter {
     final full = Offset.zero & const Size(1024, 1024);
 
     if (layer == AppLogoLayer.full || layer == AppLogoLayer.background) {
-      canvas.drawRect(
-        full,
-        Paint()
-          ..shader = const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [green1, green2],
-          ).createShader(full),
-      );
+      canvas
+        ..drawRect(full, Paint()..color = background)
+        // Pendar volt halus di tengah.
+        ..drawCircle(
+          const Offset(512, 512),
+          430,
+          Paint()
+            ..shader = RadialGradient(
+              colors: [volt.withValues(alpha: 0.16), volt.withValues(alpha: 0)],
+            ).createShader(Rect.fromCircle(center: const Offset(512, 512), radius: 430)),
+        );
     }
     if (layer != AppLogoLayer.background) {
       final scale = markScale ?? (layer == AppLogoLayer.full ? 1.0 : _adaptiveScale);
@@ -61,38 +63,71 @@ class AppLogoPainter extends CustomPainter {
   }
 
   void _mark(Canvas canvas, {required bool monochrome}) {
-    // Grafik batang naik; batang tertinggi = aksen.
-    const xs = [300.0, 450.0, 600.0, 750.0];
-    const hs = [170.0, 270.0, 380.0, 500.0];
-    final faint = Paint()..color = Colors.white.withValues(alpha: monochrome ? 0.5 : 0.24);
-    final accent = Paint()..color = monochrome ? Colors.white : lime;
-    for (var i = 0; i < xs.length; i++) {
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTWH(xs[i] - 55, 800 - hs[i], 110, hs[i]),
-          const Radius.circular(28),
-        ),
-        i == xs.length - 1 ? accent : faint,
-      );
+    final plate = monochrome ? Colors.white : volt;
+    final line = monochrome ? Colors.white : white;
+    Path polyline(List<Offset> pts) {
+      final p = Path()..moveTo(pts.first.dx, pts.first.dy);
+      for (final o in pts.skip(1)) {
+        p.lineTo(o.dx, o.dy);
+      }
+      return p;
     }
-    // Dumbbell sedikit miring ke atas.
+
+    // Lapisan terpisah agar "potongan" di sekitar panah benar-benar transparan.
+    canvas.saveLayer(const Offset(0, 0) & const Size(1024, 1024), Paint());
     canvas
-      ..save()
-      ..translate(481, 348)
-      ..rotate(-math.pi / 9)
-      ..scale(0.62);
-    final white = Paint()..color = Colors.white;
-    RRect rr(double cx, double w, double h, double r) => RRect.fromRectAndRadius(
-      Rect.fromCenter(center: Offset(cx, 0), width: w, height: h),
-      Radius.circular(r),
-    );
-    canvas.drawRRect(rr(0, 600, 62, 31), white);
-    for (final side in [-1.0, 1.0]) {
-      canvas
-        ..drawRRect(rr(side * 180, 92, 320, 36), white)
-        ..drawRRect(rr(side * 270, 74, 228, 30), white);
-    }
+      ..drawCircle(
+        const Offset(500, 540),
+        250,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 112
+          ..color = plate,
+      )
+      ..drawPath(
+        polyline(const [Offset(250, 760), Offset(450, 560), Offset(560, 660), Offset(790, 400)]),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 150
+          ..strokeCap = StrokeCap.round
+          ..strokeJoin = StrokeJoin.round
+          ..blendMode = BlendMode.clear,
+      );
     canvas.restore();
+
+    // Garis progres + kepala panah.
+    canvas
+      ..drawPath(
+        polyline(const [Offset(250, 760), Offset(450, 560), Offset(560, 660), Offset(760, 434)]),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 78
+          ..strokeCap = StrokeCap.round
+          ..strokeJoin = StrokeJoin.round
+          ..color = line,
+      )
+      ..drawPath(
+        Path()
+          ..moveTo(836, 346)
+          ..lineTo(812, 520)
+          ..lineTo(668, 412)
+          ..close(),
+        Paint()
+          ..color = line
+          ..style = PaintingStyle.fill,
+      )
+      ..drawPath(
+        Path()
+          ..moveTo(836, 346)
+          ..lineTo(812, 520)
+          ..lineTo(668, 412)
+          ..close(),
+        Paint()
+          ..color = line
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 20
+          ..strokeJoin = StrokeJoin.round,
+      );
   }
 
   @override

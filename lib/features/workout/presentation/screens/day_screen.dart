@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_palette.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../../core/widgets/empty_state.dart';
@@ -21,7 +22,6 @@ class DayScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    final theme = Theme.of(context);
     final daysAsync = ref.watch(planDaysProvider(planId));
     final busy = ref.watch(workoutActionsProvider).isLoading;
     final day = daysAsync.value?.where((d) => d.id == dayId).firstOrNull;
@@ -36,8 +36,14 @@ class DayScreen extends ConsumerWidget {
       }
     }
 
+    final palette = context.palette;
     return Scaffold(
-      appBar: AppBar(title: Text(day == null ? '' : l.focus(day.focus))),
+      appBar: SubtitleAppBar(
+        title: day == null ? '' : l.focus(day.focus),
+        subtitle: day == null
+            ? null
+            : '${l.weekdayLong(day.weekday)} · ${l.dayMeta(day.exercises.length, day.estimatedMinutes)}',
+      ),
       body: switch (daysAsync) {
         AsyncData() when day == null => EmptyState(icon: Icons.search_off, title: l.errorNotFound),
         AsyncValue(:final error?) => EmptyState(
@@ -46,29 +52,46 @@ class DayScreen extends ConsumerWidget {
         ),
         _ when day == null => const Center(child: CircularProgressIndicator()),
         _ => ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
           children: [
-            Text(l.weekdayLong(day.weekday), style: theme.textTheme.titleLarge),
-            Text(l.dayMeta(day.exercises.length, day.estimatedMinutes)),
-            const SizedBox(height: 8),
-            MutedNote(l.warmupNote(day.warmupMinutes)),
-            for (final (i, p) in day.exercises.indexed) PlannedExerciseTile(exercise: p, index: i),
-            MutedNote(l.cooldownNote),
-            MutedNote(l.rirExplain),
-            const SizedBox(height: 80),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: InfoTile(
+                      icon: Icons.local_fire_department_outlined,
+                      iconColor: palette.carbs,
+                      title: l.wk2WarmupTitle(day.warmupMinutes),
+                      body: l.wk2WarmupBody,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: InfoTile(
+                      icon: Icons.self_improvement_rounded,
+                      iconColor: palette.protein,
+                      title: l.wk2CooldownTitle,
+                      body: l.wk2CooldownBody,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            PlannedExerciseList(exercises: day.exercises),
+            const SizedBox(height: 12),
+            InfoBox([l.rirExplain]),
           ],
         ),
       },
       bottomNavigationBar: day == null
           ? null
-          : SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                child: FilledButton.icon(
-                  onPressed: busy ? null : () => start(day),
-                  icon: const Icon(Icons.play_arrow),
-                  label: Text(l.startSession),
-                ),
+          : StickyBottomBar(
+              child: FilledButton.icon(
+                onPressed: busy ? null : () => start(day),
+                icon: const Icon(Icons.play_arrow_rounded),
+                label: Text(l.startSession),
               ),
             ),
     );

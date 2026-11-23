@@ -3,15 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/routes.dart';
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/errors/failure_message.dart';
 import '../../../../core/utils/context_x.dart';
+import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/tab_app_bar.dart';
 import '../../../ai_coach/presentation/providers/ai_providers.dart';
+import '../../../assessment/presentation/widgets/assessment_labels.dart';
+import '../../../goals/domain/entities/goal.dart';
+import '../../../goals/presentation/providers/goal_providers.dart';
 import '../../../progress/presentation/providers/progress_providers.dart';
 import '../../../reminders/presentation/providers/reminder_providers.dart';
 import '../providers/profile_providers.dart';
+import '../widgets/settings_group.dart';
 
-/// Tab Profil: assessment & target, serta data & privasi.
-/// Peralatan, notifikasi, dan backup menyusul.
+/// Tab Profil: ringkasan target, assessment & target, pengaturan, data & privasi.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
@@ -56,97 +63,152 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final palette = context.palette;
     final activeGoalId = ref.watch(userProfileProvider).value?.activeGoalId;
+    final goal = activeGoalId == null ? null : ref.watch(activeGoalProvider).value;
     final aiReady = ref.watch(aiSettingsControllerProvider).value?.ready ?? false;
     final remindersOn = ref.watch(notificationSettingsProvider).value?.enabled ?? false;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l.tabProfile)),
+      appBar: TabAppBar(title: l.tabProfile),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
-          Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-                  child: Text(l.profileAssessmentSection, style: theme.textTheme.titleMedium),
+          if (goal != null) _GoalSummary(goal: goal),
+          SettingsSectionLabel(l.profileAssessmentSection),
+          SettingsGroup(
+            children: [
+              if (activeGoalId != null)
+                SettingsRow(
+                  icon: Icons.flag_outlined,
+                  title: l.viewActiveGoal,
+                  onTap: () => context.push(Routes.goalPath(activeGoalId)),
                 ),
-                if (activeGoalId != null)
-                  ListTile(
-                    leading: const Icon(Icons.flag_outlined),
-                    title: Text(l.viewActiveGoal),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => context.push(Routes.goalPath(activeGoalId)),
-                  ),
-                ListTile(
-                  leading: const Icon(Icons.assignment_outlined),
-                  title: Text(l.redoAssessment),
-                  subtitle: Text(l.redoAssessmentHelp),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () => context.push(Routes.assessment),
+              SettingsRow(
+                icon: Icons.assignment_outlined,
+                title: l.redoAssessment,
+                subtitle: l.redoAssessmentHelp,
+                onTap: () => context.push(Routes.assessment),
+              ),
+            ],
+          ),
+          SettingsSectionLabel(l.pfSettingsSection),
+          SettingsGroup(
+            children: [
+              SettingsRow(
+                icon: Icons.auto_awesome,
+                accentIcon: true,
+                title: l.aiSettingsTitle,
+                subtitle: aiReady ? l.aiStatusReady : l.aiStatusNotReady,
+                pill: StatusPill(text: aiReady ? l.pfStatusOn : l.pfStatusOff, on: aiReady),
+                onTap: () => context.push(Routes.aiSettings),
+              ),
+              SettingsRow(
+                icon: Icons.notifications_outlined,
+                title: l.profileRemindersTile,
+                subtitle: l.pfRemindersSubtitle,
+                pill: StatusPill(
+                  text: remindersOn ? l.remindersOn : l.remindersOff,
+                  on: remindersOn,
                 ),
-              ],
-            ),
+                onTap: () => context.push(Routes.reminders),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Card(
-            clipBehavior: Clip.antiAlias,
-            child: ListTile(
-              leading: const Icon(Icons.auto_awesome),
-              title: Text(l.aiSettingsTitle),
-              subtitle: Text(aiReady ? l.aiStatusReady : l.aiStatusNotReady),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(Routes.aiSettings),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Card(
-            clipBehavior: Clip.antiAlias,
-            child: ListTile(
-              leading: const Icon(Icons.notifications_outlined),
-              title: Text(l.profileRemindersTile),
-              subtitle: Text(remindersOn ? l.remindersOn : l.remindersOff),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(Routes.reminders),
-            ),
-          ),
-          const SizedBox(height: 16),
+          SettingsSectionLabel(l.dataPrivacySection),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l.dataPrivacySection, style: theme.textTheme.titleMedium),
-                  const SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.phone_android, color: theme.colorScheme.primary),
-                      const SizedBox(width: 12),
-                      Expanded(child: Text(l.dataLocalOnly)),
-                    ],
+                  Icon(Icons.phone_android, size: 22, color: theme.colorScheme.primary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      l.dataLocalOnly,
+                      style: TextStyle(fontSize: 13, height: 1.45, color: palette.muted),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
-          Text(l.dangerZone, style: theme.textTheme.titleSmall),
-          const SizedBox(height: 8),
-          TextButton.icon(
-            style: TextButton.styleFrom(
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
               foregroundColor: theme.colorScheme.error,
-              alignment: Alignment.centerLeft,
+              side: BorderSide(color: theme.colorScheme.error.withValues(alpha: 0.4)),
+              textStyle: const TextStyle(
+                fontFamily: AppTheme.fontFamily,
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             onPressed: () => _wipe(context, ref),
             icon: const Icon(Icons.delete_forever_outlined),
             label: Text(l.wipeData),
           ),
+          const SizedBox(height: 12),
+          Text(
+            l.pfFooter,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12, color: palette.muted),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+/// Ringkasan target aktif: tujuan utama, berat awal → target, minggu, level.
+class _GoalSummary extends StatelessWidget {
+  const _GoalSummary({required this.goal});
+
+  final Goal goal;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final palette = context.palette;
+    final target = goal.targetWeightKg;
+    final weight = target == null
+        ? l.kgValue(Fmt.one(goal.startWeightKg))
+        : '${Fmt.one(goal.startWeightKg)} → ${l.kgValue(Fmt.one(target))}';
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(color: palette.accentSoft, shape: BoxShape.circle),
+              child: Icon(
+                Icons.person_rounded,
+                size: 30,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l.primaryGoal(goal.primaryGoal),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    [weight, l.weeksValue(goal.targetWeeks), l.level(goal.level)].join(' · '),
+                    style: TextStyle(fontSize: 13, color: palette.muted, fontFeatures: tabular),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

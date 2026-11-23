@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/notifications/notification_service.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../assessment/presentation/widgets/assessment_labels.dart';
+import '../../../profile/presentation/widgets/settings_group.dart';
 import '../../../workout/domain/entities/workout.dart';
 import '../../../workout/presentation/providers/workout_providers.dart';
 import '../../application/reminder_scheduler.dart';
@@ -106,6 +109,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final muted = context.palette.muted;
+    const rowTitle = TextStyle(fontSize: 15, fontWeight: FontWeight.w600);
+    final rowSubtitle = TextStyle(fontSize: 12, color: muted);
     final s = ref.watch(notificationSettingsProvider).value;
     final planId = ref.watch(activePlanIdProvider);
     final days = planId == null
@@ -128,9 +134,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
       Key? key,
     }) => SwitchListTile(
       key: key,
-      contentPadding: EdgeInsets.zero,
-      title: Text(title),
-      subtitle: subtitle == null ? null : Text(subtitle),
+      contentPadding: const EdgeInsets.only(left: 8, right: 16),
+      title: Text(title, style: rowTitle),
+      subtitle: subtitle == null ? null : Text(subtitle, style: rowSubtitle),
       value: value.enabled,
       onChanged: s.enabled ? (v) => _save(update(value.copyWith(enabled: v))) : null,
       secondary: TextButton(
@@ -140,156 +146,223 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
                 if (t != null) await _save(update(value.copyWith(time: t)));
               }
             : null,
-        child: Text(value.time, style: theme.textTheme.titleMedium),
+        child: Text(
+          value.time,
+          style: const TextStyle(
+            fontFamily: AppTheme.fontFamily,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            fontFeatures: tabular,
+          ),
+        ),
+      ),
+    );
+
+    Widget timeButton(String time, NotificationSettings Function(String) update) => TextButton(
+      onPressed: () async {
+        final t = await _pickTime(time);
+        if (t != null) await _save(update(t));
+      },
+      child: Text(
+        time,
+        style: const TextStyle(
+          fontFamily: AppTheme.fontFamily,
+          fontWeight: FontWeight.w700,
+          fontFeatures: tabular,
+        ),
       ),
     );
 
     final denied = _permission == NotificationPermission.denied && (s.enabled || _requested);
+    final masterOn = s.enabled && !denied;
+    final showScheduled = s.enabled && !denied && status != null;
     return Scaffold(
       appBar: AppBar(title: Text(l.notificationSettingsTitle)),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
-          Text(l.notificationIntro),
-          const SizedBox(height: 12),
-          SwitchListTile(
-            key: const ValueKey('reminders-master'),
-            contentPadding: EdgeInsets.zero,
-            title: Text(l.notificationEnable, style: theme.textTheme.titleMedium),
-            value: s.enabled && !denied,
-            onChanged: (v) => v ? _enable(s, days) : _save(s.copyWith(enabled: false)),
-          ),
-          if (denied)
-            Card(
-              color: theme.colorScheme.errorContainer,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l.notificationDenied,
-                      style: TextStyle(color: theme.colorScheme.onErrorContainer),
-                    ),
-                    TextButton(
-                      onPressed: () => ref.read(notificationServiceProvider).openSystemSettings(),
-                      child: Text(l.openSystemSettings),
-                    ),
-                  ],
+          Text(l.notificationIntro, style: TextStyle(fontSize: 14, height: 1.45, color: muted)),
+          const SizedBox(height: 16),
+          SettingsGroup(
+            children: [
+              SwitchListTile(
+                key: const ValueKey('reminders-master'),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                secondary: SettingsIcon(Icons.notifications_outlined, accent: masterOn),
+                title: Text(
+                  l.notificationEnable,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
+                value: masterOn,
+                onChanged: (v) => v ? _enable(s, days) : _save(s.copyWith(enabled: false)),
               ),
-            ),
-          if (s.enabled && !denied && status != null)
-            Text(
-              l.notificationScheduled(status.scheduled),
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.primary),
-            ),
-          if (s.timezone case final zone?)
-            Text(l.notificationTimezone(zone), style: theme.textTheme.bodySmall),
-          const Divider(height: 32),
-          timeTile(
-            key: const ValueKey('reminder-workout'),
-            title: l.reminderWorkoutLabel,
-            subtitle: days.isEmpty
-                ? l.reminderWorkoutNoPlan
-                : l.reminderWorkoutHelp(days.map((d) => l.weekday(d.weekday)).join(', ')),
-            value: s.workout,
-            update: (v) => s.copyWith(workout: v),
-          ),
-          const SizedBox(height: 8),
-          Text(l.reminderMealsLabel, style: theme.textTheme.titleSmall),
-          timeTile(
-            title: l.breakfastLabel,
-            value: s.meals.breakfast,
-            update: (v) => s.copyWith(meals: s.meals.copyWith(breakfast: v)),
-          ),
-          timeTile(
-            title: l.lunchLabel,
-            value: s.meals.lunch,
-            update: (v) => s.copyWith(meals: s.meals.copyWith(lunch: v)),
-          ),
-          timeTile(
-            title: l.dinnerLabel,
-            value: s.meals.dinner,
-            update: (v) => s.copyWith(meals: s.meals.copyWith(dinner: v)),
-          ),
-          timeTile(
-            title: l.snackLabel,
-            value: s.meals.snack,
-            update: (v) => s.copyWith(meals: s.meals.copyWith(snack: v)),
-          ),
-          const SizedBox(height: 8),
-          timeTile(
-            title: l.reminderWeighInLabel,
-            value: TimedReminder(enabled: s.weighIn.enabled, time: s.weighIn.time),
-            update: (v) => s.copyWith(
-              weighIn: s.weighIn.copyWith(enabled: v.enabled, time: v.time),
-            ),
-          ),
-          if (s.weighIn.enabled)
-            Wrap(
-              spacing: 6,
-              children: [
-                for (var d = 1; d <= 7; d++)
-                  FilterChip(
-                    label: Text(l.weekday(d)),
-                    selected: s.weighIn.daysOfWeek.contains(d),
-                    onSelected: !s.enabled
-                        ? null
-                        : (on) {
-                            final next = {...s.weighIn.daysOfWeek};
-                            on ? next.add(d) : next.remove(d);
-                            if (next.isEmpty) return; // minimal satu hari
-                            _save(
-                              s.copyWith(
-                                weighIn: s.weighIn.copyWith(daysOfWeek: next.toList()..sort()),
-                              ),
-                            );
-                          },
+              if (denied)
+                Container(
+                  color: theme.colorScheme.errorContainer,
+                  padding: const EdgeInsets.fromLTRB(16, 12, 8, 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.notificationDenied,
+                        style: TextStyle(color: theme.colorScheme.onErrorContainer),
+                      ),
+                      TextButton(
+                        onPressed: () => ref.read(notificationServiceProvider).openSystemSettings(),
+                        child: Text(l.openSystemSettings),
+                      ),
+                    ],
                   ),
-              ],
-            ),
-          timeTile(
-            title: l.reminderCheckInLabel,
-            value: s.dailyCheckIn,
-            update: (v) => s.copyWith(dailyCheckIn: v),
-          ),
-          const Divider(height: 32),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(l.quietHoursLabel),
-            subtitle: Text(l.quietHoursHelp),
-            value: s.quietHours.enabled,
-            onChanged: s.enabled
-                ? (v) => _save(s.copyWith(quietHours: s.quietHours.copyWith(enabled: v)))
-                : null,
-          ),
-          if (s.quietHours.enabled)
-            Row(
-              children: [
-                Text('${l.quietStart}: '),
-                TextButton(
-                  onPressed: () async {
-                    final t = await _pickTime(s.quietHours.start);
-                    if (t != null) {
-                      await _save(s.copyWith(quietHours: s.quietHours.copyWith(start: t)));
-                    }
-                  },
-                  child: Text(s.quietHours.start),
                 ),
-                const SizedBox(width: 16),
-                Text('${l.quietEnd}: '),
-                TextButton(
-                  onPressed: () async {
-                    final t = await _pickTime(s.quietHours.end);
-                    if (t != null) {
-                      await _save(s.copyWith(quietHours: s.quietHours.copyWith(end: t)));
-                    }
-                  },
-                  child: Text(s.quietHours.end),
+              if (showScheduled || s.timezone != null)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (showScheduled)
+                        Text(
+                          l.notificationScheduled(status.scheduled),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      if (s.timezone case final zone?)
+                        Text(
+                          l.notificationTimezone(zone),
+                          style: TextStyle(fontSize: 12, color: muted),
+                        ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+            ],
+          ),
+          SettingsSectionLabel(l.pfRemindersCategorySection),
+          SettingsGroup(
+            children: [
+              timeTile(
+                key: const ValueKey('reminder-workout'),
+                title: l.reminderWorkoutLabel,
+                subtitle: days.isEmpty
+                    ? l.reminderWorkoutNoPlan
+                    : l.reminderWorkoutHelp(days.map((d) => l.weekday(d.weekday)).join(', ')),
+                value: s.workout,
+                update: (v) => s.copyWith(workout: v),
+              ),
+            ],
+          ),
+          SettingsSectionLabel(l.reminderMealsLabel),
+          SettingsGroup(
+            children: [
+              timeTile(
+                title: l.breakfastLabel,
+                value: s.meals.breakfast,
+                update: (v) => s.copyWith(meals: s.meals.copyWith(breakfast: v)),
+              ),
+              timeTile(
+                title: l.lunchLabel,
+                value: s.meals.lunch,
+                update: (v) => s.copyWith(meals: s.meals.copyWith(lunch: v)),
+              ),
+              timeTile(
+                title: l.dinnerLabel,
+                value: s.meals.dinner,
+                update: (v) => s.copyWith(meals: s.meals.copyWith(dinner: v)),
+              ),
+              timeTile(
+                title: l.snackLabel,
+                value: s.meals.snack,
+                update: (v) => s.copyWith(meals: s.meals.copyWith(snack: v)),
+              ),
+            ],
+          ),
+          SettingsSectionLabel(l.pfRemindersTrackingSection),
+          SettingsGroup(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  timeTile(
+                    title: l.reminderWeighInLabel,
+                    value: TimedReminder(enabled: s.weighIn.enabled, time: s.weighIn.time),
+                    update: (v) => s.copyWith(
+                      weighIn: s.weighIn.copyWith(enabled: v.enabled, time: v.time),
+                    ),
+                  ),
+                  if (s.weighIn.enabled)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                      child: Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          for (var d = 1; d <= 7; d++)
+                            FilterChip(
+                              label: Text(l.weekday(d)),
+                              selected: s.weighIn.daysOfWeek.contains(d),
+                              onSelected: !s.enabled
+                                  ? null
+                                  : (on) {
+                                      final next = {...s.weighIn.daysOfWeek};
+                                      on ? next.add(d) : next.remove(d);
+                                      if (next.isEmpty) return; // minimal satu hari
+                                      _save(
+                                        s.copyWith(
+                                          weighIn: s.weighIn.copyWith(
+                                            daysOfWeek: next.toList()..sort(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                            ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+              timeTile(
+                title: l.reminderCheckInLabel,
+                value: s.dailyCheckIn,
+                update: (v) => s.copyWith(dailyCheckIn: v),
+              ),
+            ],
+          ),
+          SettingsSectionLabel(l.quietHoursLabel),
+          SettingsGroup(
+            children: [
+              SwitchListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                secondary: const SettingsIcon(Icons.bedtime_outlined),
+                title: Text(l.quietHoursLabel, style: rowTitle),
+                subtitle: Text(l.quietHoursHelp, style: rowSubtitle),
+                value: s.quietHours.enabled,
+                onChanged: s.enabled
+                    ? (v) => _save(s.copyWith(quietHours: s.quietHours.copyWith(enabled: v)))
+                    : null,
+              ),
+              if (s.quietHours.enabled)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: Row(
+                    children: [
+                      Text('${l.quietStart}: ', style: TextStyle(color: muted)),
+                      timeButton(
+                        s.quietHours.start,
+                        (t) => s.copyWith(quietHours: s.quietHours.copyWith(start: t)),
+                      ),
+                      const SizedBox(width: 16),
+                      Text('${l.quietEnd}: ', style: TextStyle(color: muted)),
+                      timeButton(
+                        s.quietHours.end,
+                        (t) => s.copyWith(quietHours: s.quietHours.copyWith(end: t)),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
           const SizedBox(height: 16),
           OutlinedButton.icon(
             onPressed: s.enabled && !denied
@@ -303,9 +376,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
           // Optimasi baterai OEM hanya relevan di Android.
           if (theme.platform == TargetPlatform.android) ...[
             const SizedBox(height: 12),
-            Text(
-              l.notificationBatteryHint,
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(l.notificationBatteryHint, style: TextStyle(fontSize: 12, color: muted)),
             ),
           ],
         ],

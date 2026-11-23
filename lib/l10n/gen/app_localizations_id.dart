@@ -22,6 +22,36 @@ class AppLocalizationsId extends AppLocalizations {
   String get tabProgress => 'Progres';
 
   @override
+  String get pfSettingsSection => 'Pengaturan';
+
+  @override
+  String get pfStatusOn => 'Aktif';
+
+  @override
+  String get pfStatusOff => 'Nonaktif';
+
+  @override
+  String get pfRemindersSubtitle => 'Latihan, makan, timbang, check-in';
+
+  @override
+  String get pfFooter => 'Muscle Coach · rekomendasi bersifat edukatif';
+
+  @override
+  String get pfAiStatusSection => 'Status';
+
+  @override
+  String get pfAiKeySection => 'API key & model';
+
+  @override
+  String get pfAiConsentSection => 'Persetujuan data';
+
+  @override
+  String get pfRemindersCategorySection => 'Jenis pengingat';
+
+  @override
+  String get pfRemindersTrackingSection => 'Timbang & check-in';
+
+  @override
   String get tabProfile => 'Profil';
 
   @override

@@ -116,6 +116,66 @@ abstract class AppLocalizations {
   /// **'Progres'**
   String get tabProgress;
 
+  /// No description provided for @pfSettingsSection.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengaturan'**
+  String get pfSettingsSection;
+
+  /// No description provided for @pfStatusOn.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktif'**
+  String get pfStatusOn;
+
+  /// No description provided for @pfStatusOff.
+  ///
+  /// In id, this message translates to:
+  /// **'Nonaktif'**
+  String get pfStatusOff;
+
+  /// No description provided for @pfRemindersSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Latihan, makan, timbang, check-in'**
+  String get pfRemindersSubtitle;
+
+  /// No description provided for @pfFooter.
+  ///
+  /// In id, this message translates to:
+  /// **'Muscle Coach · rekomendasi bersifat edukatif'**
+  String get pfFooter;
+
+  /// No description provided for @pfAiStatusSection.
+  ///
+  /// In id, this message translates to:
+  /// **'Status'**
+  String get pfAiStatusSection;
+
+  /// No description provided for @pfAiKeySection.
+  ///
+  /// In id, this message translates to:
+  /// **'API key & model'**
+  String get pfAiKeySection;
+
+  /// No description provided for @pfAiConsentSection.
+  ///
+  /// In id, this message translates to:
+  /// **'Persetujuan data'**
+  String get pfAiConsentSection;
+
+  /// No description provided for @pfRemindersCategorySection.
+  ///
+  /// In id, this message translates to:
+  /// **'Jenis pengingat'**
+  String get pfRemindersCategorySection;
+
+  /// No description provided for @pfRemindersTrackingSection.
+  ///
+  /// In id, this message translates to:
+  /// **'Timbang & check-in'**
+  String get pfRemindersTrackingSection;
+
   /// No description provided for @tabProfile.
   ///
   /// In id, this message translates to:

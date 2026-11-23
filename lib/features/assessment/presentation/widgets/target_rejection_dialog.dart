@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_palette.dart';
+import '../../../../app/theme/app_theme.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/utils/context_x.dart';
 import '../../../goals/domain/entities/goal.dart';
@@ -14,6 +16,7 @@ enum TargetFix { useSuggestion, noTargetWeight, editMyself }
 Future<TargetFix> showTargetRejectionDialog(BuildContext context, TargetPreview p) async {
   final l = context.l10n;
   final theme = Theme.of(context);
+  final palette = context.palette;
   final e = p.evaluation;
   final suggestedKg = e.suggestedTargetWeightKg;
   final note = e.reasons.contains(GoalReason.rateTooFast) ? l.conservativeNote(p.safety) : null;
@@ -21,8 +24,20 @@ Future<TargetFix> showTargetRejectionDialog(BuildContext context, TargetPreview 
   final result = await showDialog<TargetFix>(
     context: context,
     builder: (context) => AlertDialog(
-      icon: const Icon(Icons.tune),
-      title: Text(l.verdictNeedsAdjustment),
+      icon: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          color: palette.warning.withValues(alpha: 0.16),
+          borderRadius: BorderRadius.circular(AppTheme.radius),
+        ),
+        child: Icon(Icons.tune_rounded, color: palette.warning, size: 28),
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.cardRadius)),
+      title: Text(
+        l.verdictNeedsAdjustment,
+        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+      ),
       scrollable: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -33,15 +48,31 @@ Future<TargetFix> showTargetRejectionDialog(BuildContext context, TargetPreview 
             const SizedBox(height: 8),
           ],
           if (note != null) ...[
-            Text(note, style: theme.textTheme.bodySmall),
+            Text(note, style: theme.textTheme.bodySmall?.copyWith(color: palette.muted)),
             const SizedBox(height: 8),
           ],
-          if (e.suggestedWeeks case final w?) Text(l.suggestionWeeks(w)),
-          if (suggestedKg != null) Text(l.suggestionTarget(Fmt.one(suggestedKg), p.weeks)),
+          if (e.suggestedWeeks != null || suggestedKg != null) ...[
+            const SizedBox(height: 4),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: palette.accentSoft,
+                borderRadius: BorderRadius.circular(AppTheme.radius),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (e.suggestedWeeks case final w?) Text(l.suggestionWeeks(w)),
+                  if (suggestedKg != null) Text(l.suggestionTarget(Fmt.one(suggestedKg), p.weeks)),
+                ],
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
           Text(
             l.targetRejectedHint,
-            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodySmall?.copyWith(color: palette.muted),
           ),
         ],
       ),
@@ -54,6 +85,11 @@ Future<TargetFix> showTargetRejectionDialog(BuildContext context, TargetPreview 
             child: Text(l.useSuggestion(Fmt.one(suggestedKg))),
           ),
         OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            backgroundColor: palette.surface2,
+            foregroundColor: theme.colorScheme.onSurface,
+            side: BorderSide.none,
+          ),
           onPressed: () => Navigator.pop(context, TargetFix.noTargetWeight),
           child: Text(l.useNoTargetWeight),
         ),

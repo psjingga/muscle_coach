@@ -332,6 +332,24 @@ abstract class AppLocalizations {
   /// **'Rp'**
   String get unitIdr;
 
+  /// No description provided for @obUnitKcal.
+  ///
+  /// In id, this message translates to:
+  /// **'kcal'**
+  String get obUnitKcal;
+
+  /// No description provided for @obUnitSessions.
+  ///
+  /// In id, this message translates to:
+  /// **'sesi'**
+  String get obUnitSessions;
+
+  /// No description provided for @obAiDraftPill.
+  ///
+  /// In id, this message translates to:
+  /// **'Draft AI · estimasi'**
+  String get obAiDraftPill;
+
   /// No description provided for @onboardingTitle.
   ///
   /// In id, this message translates to:

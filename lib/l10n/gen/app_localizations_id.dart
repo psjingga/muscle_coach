@@ -133,6 +133,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get unitIdr => 'Rp';
 
   @override
+  String get obUnitKcal => 'kcal';
+
+  @override
+  String get obUnitSessions => 'sesi';
+
+  @override
+  String get obAiDraftPill => 'Draft AI · estimasi';
+
+  @override
   String get onboardingTitle => 'Mari kenali Anda dulu';
 
   @override

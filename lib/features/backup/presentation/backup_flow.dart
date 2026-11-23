@@ -158,15 +158,14 @@ Future<void> restoreBackup(BuildContext context, WidgetRef ref) async {
   );
   if (!(sure ?? false) || !context.mounted) return;
 
-  _progress(context, l.backupRestoring);
-  try {
-    await ref.read(appDatabaseProvider).close();
-    await service.applyRestore(plan);
-  } catch (e) {
-    appLogger.w('Pemulihan gagal: ${e.runtimeType}');
-    // Tetap muat ulang agar basis data dibuka kembali.
-  }
-  if (context.mounted) AppRestartScope.restart(context);
+  // Lepas seluruh aplikasi dulu agar tidak ada pendengar data yang aktif,
+  // baru tutup basis data, ganti berkasnya, lalu bangun ulang aplikasi.
+  final db = ref.read(appDatabaseProvider);
+  final ready = plan;
+  await AppRestartScope.restartWith(context, () async {
+    await db.close().timeout(const Duration(seconds: 10));
+    await service.applyRestore(ready);
+  });
 }
 
 /// Lembar kata sandi cadangan. [confirm] = minta ulangi (saat ekspor).

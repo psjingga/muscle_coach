@@ -2852,4 +2852,79 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get mealPlanWarnPortions =>
       'Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI.';
+
+  @override
+  String get measureGuideOpen => 'Cara mengukur';
+
+  @override
+  String get measureGuideTitle => 'Cara mengukur lingkar badan';
+
+  @override
+  String get measureGuideIntro => 'Pakai pita ukur kain. Garis volt menunjukkan letak pita.';
+
+  @override
+  String get measureStepsChest =>
+      'Berdiri tegak, lengan rileks di samping badan.\nLingkarkan pita di bagian dada paling lebar (sejajar puting), lewat bawah ketiak dan tulang belikat.\nBaca angkanya setelah membuang napas normal.';
+
+  @override
+  String get measureStepsWaist =>
+      'Berdiri tegak, perut rileks — jangan dikempiskan.\nLingkarkan pita sejajar pusar, di atas tulang pinggul.\nBaca angkanya di akhir hembusan napas normal.';
+
+  @override
+  String get measureStepsArm =>
+      'Biarkan lengan menggantung rileks di samping badan.\nCari titik tengah antara ujung bahu dan siku.\nLingkarkan pita di titik itu; pakai lengan yang sama setiap kali.';
+
+  @override
+  String get measureStepsThigh =>
+      'Berdiri dengan kaki selebar pinggul, berat badan seimbang.\nLingkarkan pita di bagian paha paling besar, ±2–3 jari di bawah selangkangan.\nPakai paha yang sama setiap kali (mis. kanan).';
+
+  @override
+  String get measureStepsHip =>
+      'Berdiri tegak dengan kaki rapat.\nLingkarkan pita di bagian bokong paling menonjol.\nPastikan pita datar sejajar lantai — cek di cermin.';
+
+  @override
+  String get measureTipsTitle => 'Agar hasilnya konsisten';
+
+  @override
+  String get measureTips =>
+      'Ukur di waktu yang sama, idealnya pagi hari setelah ke toilet dan sebelum makan.\nPita menempel di kulit tanpa menekan, dan sejajar lantai.\nUkur dua kali lalu catat rata-ratanya.\nCukup ulangi setiap 1–2 minggu; perubahan harian wajar naik-turun.';
+
+  @override
+  String get photoGuideOpen => 'Contoh foto & tips';
+
+  @override
+  String get photoGuideTitle => 'Contoh foto progres';
+
+  @override
+  String get photoGuideIntro =>
+      'Ambil tiga pose yang sama setiap kali agar perubahannya mudah dibandingkan.';
+
+  @override
+  String get photoPoseHintFront =>
+      'Menghadap kamera, kaki selebar pinggul, lengan sedikit menjauh dari badan.';
+
+  @override
+  String get photoPoseHintSide =>
+      'Putar 90°, berdiri tegak, lengan di samping atau sedikit ke depan agar pinggang terlihat.';
+
+  @override
+  String get photoPoseHintBack =>
+      'Membelakangi kamera dengan posisi kaki dan lengan sama seperti foto depan.';
+
+  @override
+  String get photoTipsTitle => 'Tips agar foto bisa dibandingkan';
+
+  @override
+  String get photoTips =>
+      'Cahaya sama setiap kali, dari depan atau atas; hindari cahaya dari belakang.\nLatar polos, jarak (±2–3 m) dan tinggi kamera sama — setinggi pusar.\nSeluruh badan dari kepala sampai kaki masuk bingkai; pakai timer atau minta bantuan.\nPakaian sama yang memperlihatkan bentuk badan.\nAmbil di waktu yang sama, mis. pagi hari sebelum makan.';
+
+  @override
+  String photoExampleLabel(Object pose) {
+    return 'Contoh pose $pose';
+  }
+
+  @override
+  String bodyGuideFigureLabel(Object site) {
+    return 'Ilustrasi letak pita ukur di $site';
+  }
 }

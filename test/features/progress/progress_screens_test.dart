@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:musclecoach/features/progress/domain/progress_models.dart';
+import 'package:musclecoach/features/progress/presentation/widgets/body_guides.dart';
 import 'package:musclecoach/app/router/routes.dart';
 import 'package:musclecoach/app/theme/app_theme.dart';
 import 'package:musclecoach/core/database/app_database.dart';
@@ -238,5 +240,57 @@ void main() {
     await pump(tester, initial: Routes.weeklyReviewPath('2026-11-09'));
     expect(find.textContaining('makan belum tercatat konsisten'), findsOneWidget);
     expect(find.byKey(const Key('adjust-accept')), findsNothing);
+  });
+
+  widgetTest('panduan lingkar badan & contoh foto progres', (tester) async {
+    await seedGoal(tester);
+    await pump(tester);
+    final scrollable = find.byType(Scrollable).first;
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('measure-guide-open')),
+      200,
+      scrollable: scrollable,
+    );
+    await tester.ensureVisible(find.byKey(const Key('measure-guide-open')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const Key('measure-guide-open')),
+        matching: find.byType(TextButton),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Cara mengukur lingkar badan'), findsOneWidget);
+    expect(find.textContaining('sejajar puting'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('measure-guide-waist')));
+    await tester.pump();
+    expect(find.textContaining('sejajar pusar'), findsOneWidget);
+    final figure = tester.widget<BodyFigure>(find.byType(BodyFigure));
+    expect(figure.tape, BodySite.waist);
+    expect(figure.semanticLabel, 'Ilustrasi letak pita ukur di pinggang');
+    Navigator.of(tester.element(find.byKey(const Key('measure-guide')))).pop();
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('photo-guide-open')),
+      200,
+      scrollable: scrollable,
+    );
+    await tester.ensureVisible(find.byKey(const Key('photo-guide-open')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const Key('photo-guide-open')),
+        matching: find.byType(TextButton),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Contoh foto progres'), findsOneWidget);
+    expect(
+      tester.widgetList<PoseExample>(find.byType(PoseExample)).map((e) => e.pose),
+      PhotoPose.values,
+    );
+    expect(find.textContaining('Putar 90°'), findsOneWidget);
   });
 }

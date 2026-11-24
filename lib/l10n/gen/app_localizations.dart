@@ -5101,6 +5101,126 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI.'**
   String get mealPlanWarnPortions;
+
+  /// No description provided for @measureGuideOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Cara mengukur'**
+  String get measureGuideOpen;
+
+  /// No description provided for @measureGuideTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Cara mengukur lingkar badan'**
+  String get measureGuideTitle;
+
+  /// No description provided for @measureGuideIntro.
+  ///
+  /// In id, this message translates to:
+  /// **'Pakai pita ukur kain. Garis volt menunjukkan letak pita.'**
+  String get measureGuideIntro;
+
+  /// No description provided for @measureStepsChest.
+  ///
+  /// In id, this message translates to:
+  /// **'Berdiri tegak, lengan rileks di samping badan.\nLingkarkan pita di bagian dada paling lebar (sejajar puting), lewat bawah ketiak dan tulang belikat.\nBaca angkanya setelah membuang napas normal.'**
+  String get measureStepsChest;
+
+  /// No description provided for @measureStepsWaist.
+  ///
+  /// In id, this message translates to:
+  /// **'Berdiri tegak, perut rileks — jangan dikempiskan.\nLingkarkan pita sejajar pusar, di atas tulang pinggul.\nBaca angkanya di akhir hembusan napas normal.'**
+  String get measureStepsWaist;
+
+  /// No description provided for @measureStepsArm.
+  ///
+  /// In id, this message translates to:
+  /// **'Biarkan lengan menggantung rileks di samping badan.\nCari titik tengah antara ujung bahu dan siku.\nLingkarkan pita di titik itu; pakai lengan yang sama setiap kali.'**
+  String get measureStepsArm;
+
+  /// No description provided for @measureStepsThigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Berdiri dengan kaki selebar pinggul, berat badan seimbang.\nLingkarkan pita di bagian paha paling besar, ±2–3 jari di bawah selangkangan.\nPakai paha yang sama setiap kali (mis. kanan).'**
+  String get measureStepsThigh;
+
+  /// No description provided for @measureStepsHip.
+  ///
+  /// In id, this message translates to:
+  /// **'Berdiri tegak dengan kaki rapat.\nLingkarkan pita di bagian bokong paling menonjol.\nPastikan pita datar sejajar lantai — cek di cermin.'**
+  String get measureStepsHip;
+
+  /// No description provided for @measureTipsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Agar hasilnya konsisten'**
+  String get measureTipsTitle;
+
+  /// No description provided for @measureTips.
+  ///
+  /// In id, this message translates to:
+  /// **'Ukur di waktu yang sama, idealnya pagi hari setelah ke toilet dan sebelum makan.\nPita menempel di kulit tanpa menekan, dan sejajar lantai.\nUkur dua kali lalu catat rata-ratanya.\nCukup ulangi setiap 1–2 minggu; perubahan harian wajar naik-turun.'**
+  String get measureTips;
+
+  /// No description provided for @photoGuideOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Contoh foto & tips'**
+  String get photoGuideOpen;
+
+  /// No description provided for @photoGuideTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Contoh foto progres'**
+  String get photoGuideTitle;
+
+  /// No description provided for @photoGuideIntro.
+  ///
+  /// In id, this message translates to:
+  /// **'Ambil tiga pose yang sama setiap kali agar perubahannya mudah dibandingkan.'**
+  String get photoGuideIntro;
+
+  /// No description provided for @photoPoseHintFront.
+  ///
+  /// In id, this message translates to:
+  /// **'Menghadap kamera, kaki selebar pinggul, lengan sedikit menjauh dari badan.'**
+  String get photoPoseHintFront;
+
+  /// No description provided for @photoPoseHintSide.
+  ///
+  /// In id, this message translates to:
+  /// **'Putar 90°, berdiri tegak, lengan di samping atau sedikit ke depan agar pinggang terlihat.'**
+  String get photoPoseHintSide;
+
+  /// No description provided for @photoPoseHintBack.
+  ///
+  /// In id, this message translates to:
+  /// **'Membelakangi kamera dengan posisi kaki dan lengan sama seperti foto depan.'**
+  String get photoPoseHintBack;
+
+  /// No description provided for @photoTipsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tips agar foto bisa dibandingkan'**
+  String get photoTipsTitle;
+
+  /// No description provided for @photoTips.
+  ///
+  /// In id, this message translates to:
+  /// **'Cahaya sama setiap kali, dari depan atau atas; hindari cahaya dari belakang.\nLatar polos, jarak (±2–3 m) dan tinggi kamera sama — setinggi pusar.\nSeluruh badan dari kepala sampai kaki masuk bingkai; pakai timer atau minta bantuan.\nPakaian sama yang memperlihatkan bentuk badan.\nAmbil di waktu yang sama, mis. pagi hari sebelum makan.'**
+  String get photoTips;
+
+  /// No description provided for @photoExampleLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Contoh pose {pose}'**
+  String photoExampleLabel(Object pose);
+
+  /// No description provided for @bodyGuideFigureLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Ilustrasi letak pita ukur di {site}'**
+  String bodyGuideFigureLabel(Object site);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

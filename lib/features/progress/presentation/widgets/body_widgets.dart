@@ -15,6 +15,7 @@ import '../../data/body_repository.dart';
 import '../../data/photo_picker.dart';
 import '../../domain/progress_models.dart';
 import '../providers/progress_providers.dart';
+import 'body_guides.dart';
 import 'progress_charts.dart';
 import 'progress_section.dart';
 
@@ -147,6 +148,12 @@ class _MeasurementsCardState extends ConsumerState<MeasurementsCard> {
         ],
         const SizedBox(height: 8),
         mutedText(context, l.measurementsNote),
+        _GuideLink(
+          key: const Key('measure-guide-open'),
+          icon: Icons.straighten_rounded,
+          label: l.measureGuideOpen,
+          onPressed: () => showMeasurementGuide(context, initial: site ?? BodySite.chest),
+        ),
       ],
     );
   }
@@ -232,6 +239,12 @@ class _MeasurementSheetState extends State<_MeasurementSheet> {
               Text(l.measurementSheetTitle, style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 4),
               Text(l.measurementSheetHint, style: Theme.of(context).textTheme.bodySmall),
+              _GuideLink(
+                key: const Key('measure-sheet-guide'),
+                icon: Icons.straighten_rounded,
+                label: l.measureGuideOpen,
+                onPressed: () => showMeasurementGuide(context),
+              ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.event),
@@ -368,6 +381,12 @@ class PhotosCard extends ConsumerWidget {
         ],
         const SizedBox(height: 8),
         mutedText(context, l.photosPrivacy),
+        _GuideLink(
+          key: const Key('photo-guide-open'),
+          icon: Icons.accessibility_new_rounded,
+          label: l.photoGuideOpen,
+          onPressed: () => showPhotoGuide(context),
+        ),
       ],
     );
   }
@@ -551,6 +570,31 @@ class _AddPhotoSheetState extends State<_AddPhotoSheet> {
               selected: {_pose},
               onSelectionChanged: (s) => setState(() => _pose = s.first),
             ),
+            const SizedBox(height: 12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  key: const Key('photo-pose-example'),
+                  width: 72,
+                  child: PoseExample(pose: _pose, showLabel: false),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l.poseHint(_pose), style: Theme.of(context).textTheme.bodyMedium),
+                      _GuideLink(
+                        icon: Icons.tips_and_updates_outlined,
+                        label: l.photoGuideOpen,
+                        onPressed: () => showPhotoGuide(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.event),
@@ -596,4 +640,27 @@ class _AddPhotoSheetState extends State<_AddPhotoSheet> {
       ),
     );
   }
+}
+
+/// Tautan kecil ke panduan (Cara mengukur / Contoh foto).
+class _GuideLink extends StatelessWidget {
+  const _GuideLink({super.key, required this.icon, required this.label, required this.onPressed});
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Align(
+    alignment: AlignmentDirectional.centerStart,
+    child: TextButton.icon(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        minimumSize: const Size(0, 40),
+      ),
+      onPressed: onPressed,
+      icon: Icon(icon, size: 18),
+      label: Text(label),
+    ),
+  );
 }

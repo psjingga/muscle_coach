@@ -1529,5 +1529,35 @@
   "weeklyAiNote": "Ditulis AI dari statistik di atas (tanpa nama, umur, atau catatan pribadi). Tidak mengubah target.",
   "weeklyAiError": "Ringkasan AI belum bisa dibuat.",
   "weeklyHistory": "Ringkasan tersimpan",
-  "mealPlanWarnPortions": "Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI."
+  "mealPlanWarnPortions": "Porsi (gram) dari AI disesuaikan aplikasi agar total mendekati targetmu. Pilihan bahan tetap dari AI.",
+  "measureGuideOpen": "Cara mengukur",
+  "measureGuideTitle": "Cara mengukur lingkar badan",
+  "measureGuideIntro": "Pakai pita ukur kain. Garis volt menunjukkan letak pita.",
+  "measureStepsChest": "Berdiri tegak, lengan rileks di samping badan.\nLingkarkan pita di bagian dada paling lebar (sejajar puting), lewat bawah ketiak dan tulang belikat.\nBaca angkanya setelah membuang napas normal.",
+  "measureStepsWaist": "Berdiri tegak, perut rileks — jangan dikempiskan.\nLingkarkan pita sejajar pusar, di atas tulang pinggul.\nBaca angkanya di akhir hembusan napas normal.",
+  "measureStepsArm": "Biarkan lengan menggantung rileks di samping badan.\nCari titik tengah antara ujung bahu dan siku.\nLingkarkan pita di titik itu; pakai lengan yang sama setiap kali.",
+  "measureStepsThigh": "Berdiri dengan kaki selebar pinggul, berat badan seimbang.\nLingkarkan pita di bagian paha paling besar, ±2–3 jari di bawah selangkangan.\nPakai paha yang sama setiap kali (mis. kanan).",
+  "measureStepsHip": "Berdiri tegak dengan kaki rapat.\nLingkarkan pita di bagian bokong paling menonjol.\nPastikan pita datar sejajar lantai — cek di cermin.",
+  "measureTipsTitle": "Agar hasilnya konsisten",
+  "measureTips": "Ukur di waktu yang sama, idealnya pagi hari setelah ke toilet dan sebelum makan.\nPita menempel di kulit tanpa menekan, dan sejajar lantai.\nUkur dua kali lalu catat rata-ratanya.\nCukup ulangi setiap 1–2 minggu; perubahan harian wajar naik-turun.",
+  "photoGuideOpen": "Contoh foto & tips",
+  "photoGuideTitle": "Contoh foto progres",
+  "photoGuideIntro": "Ambil tiga pose yang sama setiap kali agar perubahannya mudah dibandingkan.",
+  "photoPoseHintFront": "Menghadap kamera, kaki selebar pinggul, lengan sedikit menjauh dari badan.",
+  "photoPoseHintSide": "Putar 90°, berdiri tegak, lengan di samping atau sedikit ke depan agar pinggang terlihat.",
+  "photoPoseHintBack": "Membelakangi kamera dengan posisi kaki dan lengan sama seperti foto depan.",
+  "photoTipsTitle": "Tips agar foto bisa dibandingkan",
+  "photoTips": "Cahaya sama setiap kali, dari depan atau atas; hindari cahaya dari belakang.\nLatar polos, jarak (±2–3 m) dan tinggi kamera sama — setinggi pusar.\nSeluruh badan dari kepala sampai kaki masuk bingkai; pakai timer atau minta bantuan.\nPakaian sama yang memperlihatkan bentuk badan.\nAmbil di waktu yang sama, mis. pagi hari sebelum makan.",
+  "photoExampleLabel": "Contoh pose {pose}",
+  "@photoExampleLabel": {
+    "placeholders": {
+      "pose": {}
+    }
+  },
+  "bodyGuideFigureLabel": "Ilustrasi letak pita ukur di {site}",
+  "@bodyGuideFigureLabel": {
+    "placeholders": {
+      "site": {}
+    }
+  }
 }

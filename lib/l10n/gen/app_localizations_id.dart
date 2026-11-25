@@ -2927,4 +2927,74 @@ class AppLocalizationsId extends AppLocalizations {
   String bodyGuideFigureLabel(Object site) {
     return 'Ilustrasi letak pita ukur di $site';
   }
+
+  @override
+  String get homeResumeWorkout => 'Lanjutkan latihan';
+
+  @override
+  String get homeRestBadge => 'Hari istirahat';
+
+  @override
+  String get homeRestTitle => 'Waktunya pulih';
+
+  @override
+  String get homeRestBody =>
+      'Tidak ada sesi terjadwal hari ini. Otot berkembang saat beristirahat, bukan hanya saat latihan.';
+
+  @override
+  String get homeRestProtein => 'Protein';
+
+  @override
+  String get homeRestSleep => 'Tidur';
+
+  @override
+  String get homeRestSleepValue => '7–9';
+
+  @override
+  String get homeRestMove => 'Gerak ringan';
+
+  @override
+  String get homeRestMoveValue => '20–30';
+
+  @override
+  String get homeRestNote => 'Tidur & gerak ringan adalah anjuran umum, bukan target medis.';
+
+  @override
+  String homeNextShort(Object day) {
+    return 'Berikutnya · $day';
+  }
+
+  @override
+  String homeNextLine(int count, int minutes) {
+    return '$count latihan · ± $minutes mnt';
+  }
+
+  @override
+  String get homeStartEarlyPrompt => 'Ingin latihan sekarang?';
+
+  @override
+  String homeStartEarly(Object day) {
+    return 'Mulai sesi $day lebih awal';
+  }
+
+  @override
+  String get homeDoneBadge => 'Selesai hari ini';
+
+  @override
+  String get homeDoneBody => 'Kerja bagus! Sekarang fokus makan & tidur untuk pemulihan.';
+
+  @override
+  String get homeDoneDuration => 'Durasi';
+
+  @override
+  String get homeDoneSets => 'Set';
+
+  @override
+  String get homeDoneVolume => 'Volume';
+
+  @override
+  String get homeDoneSummary => 'Lihat ringkasan sesi';
+
+  @override
+  String get unitMinutesShort => 'mnt';
 }

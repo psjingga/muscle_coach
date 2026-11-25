@@ -57,6 +57,9 @@ abstract interface class WorkoutRepository {
   /// Riwayat sesi selesai, terbaru dulu.
   Stream<List<WorkoutSession>> watchHistory({int limit = 30});
 
+  /// Semua sesi (berjalan/selesai) pada tanggal lokal [date], terbaru dulu.
+  Stream<List<WorkoutSession>> watchSessionsOn(String date);
+
   /// Set dari sesi selesai terakhir untuk hari program yang sama.
   Future<({WorkoutSession session, List<SetLog> sets})?> lastCompleted({
     required String planId,
@@ -115,6 +118,7 @@ class LocalWorkoutRepository implements WorkoutRepository {
     energy: r.energy,
     discomfort: r.discomfort,
     startedAt: r.startedAt,
+    completedAt: r.completedAt,
   );
 
   static SetLog _set(SetLogRow r) => SetLog(
@@ -355,6 +359,14 @@ class LocalWorkoutRepository implements WorkoutRepository {
     // Set ikut terhapus (foreign key cascade).
     await (_db.delete(_db.workoutSessions)..where((t) => t.id.equals(sessionId))).go();
   }
+
+  @override
+  Stream<List<WorkoutSession>> watchSessionsOn(String date) =>
+      (_db.select(_db.workoutSessions)
+            ..where((t) => t.date.equals(date))
+            ..orderBy([(t) => OrderingTerm.desc(t.startedAt)]))
+          .watch()
+          .map((rows) => rows.map(_session).toList());
 
   @override
   Stream<List<WorkoutSession>> watchHistory({int limit = 30}) =>

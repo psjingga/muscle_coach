@@ -100,6 +100,9 @@ abstract class WorkoutSession with _$WorkoutSession {
 
     /// Waktu mulai (untuk durasi sesi berjalan).
     @JsonKey(includeFromJson: false, includeToJson: false) DateTime? startedAt,
+
+    /// Waktu sesi ditandai selesai (untuk durasi).
+    @JsonKey(includeFromJson: false, includeToJson: false) DateTime? completedAt,
   }) = _WorkoutSession;
 
   factory WorkoutSession.fromJson(Map<String, dynamic> json) => _$WorkoutSessionFromJson(json);

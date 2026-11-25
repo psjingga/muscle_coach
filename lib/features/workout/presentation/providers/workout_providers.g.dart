@@ -405,6 +405,49 @@ final class WorkoutHistoryProvider
 
 String _$workoutHistoryHash() => r'8fbd96197ba3a60fdc91045a8bd14cc5e5cc7d65';
 
+/// Sesi hari ini (berjalan/selesai) untuk kartu latihan di Beranda.
+
+@ProviderFor(todaySessions)
+final todaySessionsProvider = TodaySessionsProvider._();
+
+/// Sesi hari ini (berjalan/selesai) untuk kartu latihan di Beranda.
+
+final class TodaySessionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<WorkoutSession>>,
+          List<WorkoutSession>,
+          Stream<List<WorkoutSession>>
+        >
+    with $FutureModifier<List<WorkoutSession>>, $StreamProvider<List<WorkoutSession>> {
+  /// Sesi hari ini (berjalan/selesai) untuk kartu latihan di Beranda.
+  TodaySessionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'todaySessionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$todaySessionsHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<WorkoutSession>> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<WorkoutSession>> create(Ref ref) {
+    return todaySessions(ref);
+  }
+}
+
+String _$todaySessionsHash() => r'89132085375707747b055da5a19359b2d2611972';
+
 /// Hasil sesi selesai terakhir untuk hari program yang sama ("Terakhir: …").
 
 @ProviderFor(lastPerformance)

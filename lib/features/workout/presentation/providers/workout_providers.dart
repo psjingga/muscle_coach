@@ -49,6 +49,11 @@ Stream<List<SetLog>> sessionSets(Ref ref, String sessionId) =>
 Stream<List<WorkoutSession>> workoutHistory(Ref ref) =>
     ref.watch(workoutRepositoryProvider).watchHistory();
 
+/// Sesi hari ini (berjalan/selesai) untuk kartu latihan di Beranda.
+@riverpod
+Stream<List<WorkoutSession>> todaySessions(Ref ref) =>
+    ref.watch(workoutRepositoryProvider).watchSessionsOn(Fmt.toIsoDate(ref.watch(clockProvider)()));
+
 /// Hasil sesi selesai terakhir untuk hari program yang sama ("Terakhir: …").
 @riverpod
 Future<({WorkoutSession session, List<SetLog> sets})?> lastPerformance(

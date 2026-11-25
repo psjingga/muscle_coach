@@ -153,6 +153,7 @@ class _WeekStrip extends ConsumerWidget {
               final completed = done.contains(iso);
               final training = trainingWeekdays.contains(day.weekday);
               final strong = training || completed || isToday;
+              final restToday = isToday && !training && !completed;
               return Semantics(
                 label: '${l.weekdayLong(day.weekday)} ${day.day}',
                 selected: isToday,
@@ -162,8 +163,10 @@ class _WeekStrip extends ConsumerWidget {
                       l.weekday(day.weekday),
                       style: TextStyle(
                         fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: strong ? scheme.onSurface : palette.muted,
+                        fontWeight: isToday ? FontWeight.w700 : FontWeight.w500,
+                        color: isToday
+                            ? scheme.primary
+                            : (strong ? scheme.onSurface : palette.muted),
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -179,8 +182,25 @@ class _WeekStrip extends ConsumerWidget {
                         border: isToday && !completed
                             ? Border.all(color: scheme.primary, width: 2)
                             : null,
+                        // Hari ini selesai: cincin volt berjarak.
+                        boxShadow: isToday && completed
+                            ? [
+                                BoxShadow(color: scheme.primary, spreadRadius: 4),
+                                BoxShadow(
+                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  spreadRadius: 2,
+                                ),
+                              ]
+                            : null,
                       ),
-                      child: completed
+                      child: restToday
+                          ? Icon(
+                              Icons.bedtime_outlined,
+                              key: const Key('week-rest-today'),
+                              size: 17,
+                              color: scheme.primary,
+                            )
+                          : completed
                           ? Icon(Icons.check_rounded, size: 18, color: scheme.onPrimary)
                           : Text(
                               '${day.day}',
@@ -202,7 +222,9 @@ class _WeekStrip extends ConsumerWidget {
   }
 }
 
-/// Latihan hari ini / berikutnya dengan 3 gerakan pertama + "Mulai latihan".
+/// Kartu latihan Beranda: hari latihan (mulai/lanjutkan), latihan hari ini
+/// selesai (ringkasan), atau hari istirahat (anjuran pemulihan) — keduanya
+/// dengan baris latihan berikutnya.
 class _WorkoutHero extends ConsumerWidget {
   const _WorkoutHero();
 
@@ -210,7 +232,6 @@ class _WorkoutHero extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final theme = Theme.of(context);
-    final palette = context.palette;
     final planId = ref.watch(activePlanIdProvider);
     if (planId == null) {
       return _Panel(
@@ -226,19 +247,51 @@ class _WorkoutHero extends ConsumerWidget {
       );
     }
     final days = ref.watch(planDaysProvider(planId)).value;
-    final todayWeekday = ref.watch(clockProvider)().weekday;
-    final next = days == null ? null : WorkoutMath.nextDay(days, todayWeekday);
-    if (next == null) return const SizedBox.shrink();
-    final isToday = next.weekday == todayWeekday;
+    final sessions = ref.watch(todaySessionsProvider).value;
+    if (days == null || sessions == null) return const SizedBox.shrink();
+    final state = WorkoutMath.todayWorkout(
+      days: days,
+      weekday: ref.watch(clockProvider)().weekday,
+      sessions: sessions,
+    );
+    return switch (state) {
+      null => const SizedBox.shrink(),
+      TodayTraining(:final day, :final inProgress) => _TrainingCard(
+        planId: planId,
+        day: day,
+        resuming: inProgress != null,
+      ),
+      TodayDone(:final session, :final next) => _DoneCard(
+        planId: planId,
+        session: session,
+        next: next,
+      ),
+      TodayRest(:final next) => _RestCard(planId: planId, next: next),
+    };
+  }
+}
+
+/// Mulai (atau lanjutkan) sesi [day] lalu buka layar sesi.
+Future<void> _startSession(BuildContext context, WidgetRef ref, String planId, PlanDay day) async {
+  final id = await ref.read(workoutActionsProvider.notifier).startOrResume(planId, day);
+  if (id != null && context.mounted) await context.push(Routes.sessionPath(id));
+}
+
+class _TrainingCard extends ConsumerWidget {
+  const _TrainingCard({required this.planId, required this.day, required this.resuming});
+
+  final String planId;
+  final PlanDay day;
+  final bool resuming;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final palette = context.palette;
     final busy = ref.watch(workoutActionsProvider).isLoading;
-    final shown = next.exercises.take(3).toList();
-    final more = next.exercises.length - shown.length;
-
-    Future<void> start() async {
-      final id = await ref.read(workoutActionsProvider.notifier).startOrResume(planId, next);
-      if (id != null && context.mounted) await context.push(Routes.sessionPath(id));
-    }
-
+    final shown = day.exercises.take(3).toList();
+    final more = day.exercises.length - shown.length;
     return _Panel(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,17 +300,14 @@ class _WorkoutHero extends ConsumerWidget {
             children: [
               Icon(Icons.fitness_center_rounded, size: 20, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
-              Text(
-                isToday ? l.homeTodayWorkout : l.homeNextWorkout(l.weekdayLong(next.weekday)),
-                style: theme.textTheme.titleMedium,
-              ),
+              Text(l.homeTodayWorkout, style: theme.textTheme.titleMedium),
             ],
           ),
           const SizedBox(height: 8),
-          Text(l.focus(next.focus), style: _num(context, 28)),
+          Text(l.focus(day.focus), style: _num(context, 28)),
           const SizedBox(height: 4),
           Text(
-            l.dayMeta(next.exercises.length, next.estimatedMinutes),
+            l.dayMeta(day.exercises.length, day.estimatedMinutes),
             style: theme.textTheme.bodyLarge?.copyWith(color: palette.muted),
           ),
           const SizedBox(height: 16),
@@ -295,22 +345,12 @@ class _WorkoutHero extends ConsumerWidget {
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
-            child: isToday
-                ? FilledButton.icon(
-                    key: const Key('home-start-workout'),
-                    onPressed: busy ? null : start,
-                    icon: const Icon(Icons.play_arrow_rounded, size: 24),
-                    label: Text(l.homeStartWorkout),
-                  )
-                : FilledButton.tonal(
-                    key: const Key('home-view-workout'),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: palette.surface2,
-                      foregroundColor: theme.colorScheme.onSurface,
-                    ),
-                    onPressed: () => context.push(Routes.dayPath(planId, next.id)),
-                    child: Text(l.homeViewWorkout),
-                  ),
+            child: FilledButton.icon(
+              key: const Key('home-start-workout'),
+              onPressed: busy ? null : () => _startSession(context, ref, planId, day),
+              icon: const Icon(Icons.play_arrow_rounded, size: 24),
+              label: Text(resuming ? l.homeResumeWorkout : l.homeStartWorkout),
+            ),
           ),
         ],
       ),
@@ -318,7 +358,360 @@ class _WorkoutHero extends ConsumerWidget {
   }
 }
 
-/// Cincin sisa kalori + protein & karbohidrat + "Catat makanan".
+class _RestCard extends ConsumerWidget {
+  const _RestCard({required this.planId, required this.next});
+
+  final String planId;
+  final PlanDay next;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final palette = context.palette;
+    final busy = ref.watch(workoutActionsProvider).isLoading;
+    final nutrition = ref.watch(dayNutritionProvider(ref.watch(todayDateProvider))).value;
+    final proteinTarget = nutrition?.target?.protein ?? 0;
+    final proteinGot = nutrition?.consumed.protein ?? 0;
+    final nextLabel = _nextDayLabel(context, ref, next);
+    return _Panel(
+      child: Column(
+        key: const Key('home-rest'),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Badge(icon: Icons.bedtime_outlined, label: l.homeRestBadge, filled: false),
+          const SizedBox(height: 12),
+          Text(l.homeRestTitle, style: _num(context, 28)),
+          const SizedBox(height: 6),
+          Text(l.homeRestBody, style: theme.textTheme.bodyLarge?.copyWith(color: palette.muted)),
+          const SizedBox(height: 16),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: _MiniTile(
+                    icon: Icons.egg_alt_outlined,
+                    iconColor: palette.protein,
+                    label: l.homeRestProtein,
+                    value: proteinTarget > 0 ? Fmt.integer(proteinGot) : '–',
+                    unit: proteinTarget > 0 ? '/${Fmt.integer(proteinTarget)} g' : null,
+                    progress: proteinTarget > 0 ? proteinGot / proteinTarget : null,
+                    progressColor: palette.protein,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _MiniTile(
+                    icon: Icons.bedtime_outlined,
+                    iconColor: theme.colorScheme.primary,
+                    label: l.homeRestSleep,
+                    value: l.homeRestSleepValue,
+                    unit: ' ${l.unitHours}',
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _MiniTile(
+                    icon: Icons.directions_walk_rounded,
+                    iconColor: palette.carbs,
+                    label: l.homeRestMove,
+                    value: l.homeRestMoveValue,
+                    unit: ' ${l.unitMinutesShort}',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(l.homeRestNote, style: TextStyle(fontSize: 12, color: palette.muted)),
+          const Divider(height: 32),
+          _NextRow(planId: planId, next: next),
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(l.homeStartEarlyPrompt, style: TextStyle(fontSize: 13, color: palette.muted)),
+              TextButton(
+                key: const Key('home-start-early'),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  minimumSize: const Size(0, 40),
+                ),
+                onPressed: busy ? null : () => _startSession(context, ref, planId, next),
+                child: Text(l.homeStartEarly(nextLabel.weekday)),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DoneCard extends ConsumerWidget {
+  const _DoneCard({required this.planId, required this.session, required this.next});
+
+  final String planId;
+  final WorkoutSession session;
+  final PlanDay next;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final palette = context.palette;
+    final sets = ref.watch(sessionSetsProvider(session.id)).value ?? const <SetLog>[];
+    final minutes = WorkoutMath.durationMinutes(session);
+    final volume = WorkoutMath.volumeKg(sets, session.planned);
+    return _Panel(
+      child: Column(
+        key: const Key('home-done'),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Badge(icon: Icons.check_circle_rounded, label: l.homeDoneBadge, filled: true),
+          const SizedBox(height: 12),
+          Text(l.focus(session.focus), style: _num(context, 28)),
+          const SizedBox(height: 6),
+          Text(l.homeDoneBody, style: theme.textTheme.bodyLarge?.copyWith(color: palette.muted)),
+          const SizedBox(height: 16),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: _MiniTile(
+                    label: l.homeDoneDuration,
+                    value: minutes == null ? '–' : '$minutes',
+                    unit: minutes == null ? null : ' ${l.unitMinutesShort}',
+                    large: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _MiniTile(
+                    label: l.homeDoneSets,
+                    value: '${WorkoutMath.doneSets(sets)}',
+                    unit: '/${WorkoutMath.plannedSets(session.planned)}',
+                    large: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _MiniTile(
+                    label: l.homeDoneVolume,
+                    value: Fmt.integer(volume),
+                    unit: ' ${l.unitKg}',
+                    large: true,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.tonal(
+              key: const Key('home-session-summary'),
+              style: FilledButton.styleFrom(
+                backgroundColor: palette.surface2,
+                foregroundColor: theme.colorScheme.onSurface,
+              ),
+              onPressed: () => context.push(Routes.sessionPath(session.id)),
+              child: Text(l.homeDoneSummary),
+            ),
+          ),
+          const Divider(height: 32),
+          _NextRow(planId: planId, next: next),
+        ],
+      ),
+    );
+  }
+}
+
+/// "Jumat" & "Jumat, 27 Nov" untuk hari latihan berikutnya (setelah hari ini).
+({String weekday, String full}) _nextDayLabel(BuildContext context, WidgetRef ref, PlanDay next) {
+  final now = ref.watch(clockProvider)();
+  final ahead = (next.weekday - now.weekday + 6) % 7 + 1;
+  final date = DateTime(now.year, now.month, now.day + ahead);
+  final weekday = context.l10n.weekdayLong(next.weekday);
+  return (weekday: weekday, full: '$weekday, ${DateFormat('d MMM', 'id').format(date)}');
+}
+
+/// Baris ringkas latihan berikutnya → detail hari program.
+class _NextRow extends ConsumerWidget {
+  const _NextRow({required this.planId, required this.next});
+
+  final String planId;
+  final PlanDay next;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final palette = context.palette;
+    return InkWell(
+      key: const Key('home-next-workout'),
+      borderRadius: BorderRadius.circular(AppTheme.radius),
+      onTap: () => context.push(Routes.dayPath(planId, next.id)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: palette.surface2,
+                borderRadius: BorderRadius.circular(AppTheme.radius),
+              ),
+              child: Icon(Icons.fitness_center_rounded, size: 20, color: theme.colorScheme.primary),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l.homeNextShort(_nextDayLabel(context, ref, next).full),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: palette.muted,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    l.focus(next.focus),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    l.homeNextLine(next.exercises.length, next.estimatedMinutes),
+                    style: TextStyle(fontSize: 13, color: palette.muted),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right_rounded, color: palette.muted),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Label pil kecil di atas kartu (istirahat = lembut, selesai = volt).
+class _Badge extends StatelessWidget {
+  const _Badge({required this.icon, required this.label, required this.filled});
+
+  final IconData icon;
+  final String label;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final fg = filled ? scheme.onPrimary : scheme.primary;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: filled ? scheme.primary : context.palette.accentSoft,
+        borderRadius: BorderRadius.circular(99),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: fg),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: fg),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Kotak kecil: ikon (opsional), label, angka + satuan, bar progres (opsional).
+class _MiniTile extends StatelessWidget {
+  const _MiniTile({
+    required this.label,
+    required this.value,
+    this.unit,
+    this.icon,
+    this.iconColor,
+    this.progress,
+    this.progressColor,
+    this.large = false,
+  });
+
+  final String label;
+  final String value;
+  final String? unit;
+  final IconData? icon;
+  final Color? iconColor;
+  final double? progress;
+  final Color? progressColor;
+  final bool large;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: palette.surface2,
+        borderRadius: BorderRadius.circular(AppTheme.radius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (icon != null) ...[Icon(icon, size: 20, color: iconColor), const SizedBox(height: 6)],
+          Text(label, style: TextStyle(fontSize: 12, color: palette.muted)),
+          const SizedBox(height: 2),
+          Text.rich(
+            TextSpan(
+              text: value,
+              children: [
+                if (unit != null)
+                  TextSpan(
+                    text: unit,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: palette.muted,
+                    ),
+                  ),
+              ],
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: large ? 20 : 15,
+              fontWeight: FontWeight.w800,
+              fontFeatures: tabular,
+            ),
+          ),
+          if (progress != null) ...[
+            const Spacer(),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(99),
+              child: LinearProgressIndicator(
+                value: progress!.clamp(0, 1).toDouble(),
+                minHeight: 6,
+                backgroundColor: Theme.of(context).colorScheme.outlineVariant,
+                color: progressColor,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 class _NutritionRingCard extends ConsumerWidget {
   const _NutritionRingCard();
 

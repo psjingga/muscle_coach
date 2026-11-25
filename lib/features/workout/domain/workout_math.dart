@@ -69,6 +69,63 @@ abstract final class WorkoutMath {
     }
     return best;
   }
+
+  /// Status latihan hari ini untuk Beranda. [sessions] = sesi pada tanggal
+  /// hari ini (terbaru dulu). `null` bila program tidak punya hari latihan.
+  static TodayWorkout? todayWorkout({
+    required List<PlanDay> days,
+    required int weekday,
+    required List<WorkoutSession> sessions,
+  }) {
+    if (days.isEmpty) return null;
+    PlanDay? dayOf(String id) => days.where((d) => d.id == id).firstOrNull;
+    // Sesi berjalan (juga sesi hari lain yang dimulai lebih awal).
+    for (final s in sessions.where((s) => s.status == SessionStatus.inProgress)) {
+      if (dayOf(s.dayId) case final day?) return TodayTraining(day, inProgress: s);
+    }
+    final next = nextDay(days, weekday % 7 + 1)!;
+    final done = sessions.where((s) => s.status == SessionStatus.completed).firstOrNull;
+    if (done != null) return TodayDone(done, next: next);
+    final today = days.where((d) => d.weekday == weekday).firstOrNull;
+    return today != null ? TodayTraining(today) : TodayRest(next);
+  }
+
+  /// Durasi sesi selesai (menit), `null` bila waktu tidak lengkap/tidak wajar.
+  static int? durationMinutes(WorkoutSession s) {
+    final start = s.startedAt;
+    final end = s.completedAt;
+    if (start == null || end == null || !end.isAfter(start)) return null;
+    final minutes = end.difference(start).inMinutes;
+    return minutes > 0 && minutes <= 24 * 60 ? minutes : null;
+  }
+}
+
+/// Status kartu latihan di Beranda.
+sealed class TodayWorkout {
+  const TodayWorkout();
+}
+
+/// Hari latihan (belum selesai); [inProgress] = sesi yang bisa dilanjutkan.
+final class TodayTraining extends TodayWorkout {
+  const TodayTraining(this.day, {this.inProgress});
+
+  final PlanDay day;
+  final WorkoutSession? inProgress;
+}
+
+/// Latihan hari ini sudah selesai.
+final class TodayDone extends TodayWorkout {
+  const TodayDone(this.session, {required this.next});
+
+  final WorkoutSession session;
+  final PlanDay next;
+}
+
+/// Tidak ada sesi terjadwal hari ini.
+final class TodayRest extends TodayWorkout {
+  const TodayRest(this.next);
+
+  final PlanDay next;
 }
 
 enum SetInputError { repsRequired, repsOutOfRange, weightOutOfRange }

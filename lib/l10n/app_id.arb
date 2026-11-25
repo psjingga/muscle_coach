@@ -1559,5 +1559,46 @@
     "placeholders": {
       "site": {}
     }
-  }
+  },
+  "homeResumeWorkout": "Lanjutkan latihan",
+  "homeRestBadge": "Hari istirahat",
+  "homeRestTitle": "Waktunya pulih",
+  "homeRestBody": "Tidak ada sesi terjadwal hari ini. Otot berkembang saat beristirahat, bukan hanya saat latihan.",
+  "homeRestProtein": "Protein",
+  "homeRestSleep": "Tidur",
+  "homeRestSleepValue": "7–9",
+  "homeRestMove": "Gerak ringan",
+  "homeRestMoveValue": "20–30",
+  "homeRestNote": "Tidur & gerak ringan adalah anjuran umum, bukan target medis.",
+  "homeNextShort": "Berikutnya · {day}",
+  "@homeNextShort": {
+    "placeholders": {
+      "day": {}
+    }
+  },
+  "homeNextLine": "{count} latihan · ± {minutes} mnt",
+  "@homeNextLine": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "homeStartEarlyPrompt": "Ingin latihan sekarang?",
+  "homeStartEarly": "Mulai sesi {day} lebih awal",
+  "@homeStartEarly": {
+    "placeholders": {
+      "day": {}
+    }
+  },
+  "homeDoneBadge": "Selesai hari ini",
+  "homeDoneBody": "Kerja bagus! Sekarang fokus makan & tidur untuk pemulihan.",
+  "homeDoneDuration": "Durasi",
+  "homeDoneSets": "Set",
+  "homeDoneVolume": "Volume",
+  "homeDoneSummary": "Lihat ringkasan sesi",
+  "unitMinutesShort": "mnt"
 }

@@ -5221,6 +5221,132 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Ilustrasi letak pita ukur di {site}'**
   String bodyGuideFigureLabel(Object site);
+
+  /// No description provided for @homeResumeWorkout.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjutkan latihan'**
+  String get homeResumeWorkout;
+
+  /// No description provided for @homeRestBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari istirahat'**
+  String get homeRestBadge;
+
+  /// No description provided for @homeRestTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktunya pulih'**
+  String get homeRestTitle;
+
+  /// No description provided for @homeRestBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ada sesi terjadwal hari ini. Otot berkembang saat beristirahat, bukan hanya saat latihan.'**
+  String get homeRestBody;
+
+  /// No description provided for @homeRestProtein.
+  ///
+  /// In id, this message translates to:
+  /// **'Protein'**
+  String get homeRestProtein;
+
+  /// No description provided for @homeRestSleep.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidur'**
+  String get homeRestSleep;
+
+  /// No description provided for @homeRestSleepValue.
+  ///
+  /// In id, this message translates to:
+  /// **'7–9'**
+  String get homeRestSleepValue;
+
+  /// No description provided for @homeRestMove.
+  ///
+  /// In id, this message translates to:
+  /// **'Gerak ringan'**
+  String get homeRestMove;
+
+  /// No description provided for @homeRestMoveValue.
+  ///
+  /// In id, this message translates to:
+  /// **'20–30'**
+  String get homeRestMoveValue;
+
+  /// No description provided for @homeRestNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidur & gerak ringan adalah anjuran umum, bukan target medis.'**
+  String get homeRestNote;
+
+  /// No description provided for @homeNextShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Berikutnya · {day}'**
+  String homeNextShort(Object day);
+
+  /// No description provided for @homeNextLine.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} latihan · ± {minutes} mnt'**
+  String homeNextLine(int count, int minutes);
+
+  /// No description provided for @homeStartEarlyPrompt.
+  ///
+  /// In id, this message translates to:
+  /// **'Ingin latihan sekarang?'**
+  String get homeStartEarlyPrompt;
+
+  /// No description provided for @homeStartEarly.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai sesi {day} lebih awal'**
+  String homeStartEarly(Object day);
+
+  /// No description provided for @homeDoneBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai hari ini'**
+  String get homeDoneBadge;
+
+  /// No description provided for @homeDoneBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Kerja bagus! Sekarang fokus makan & tidur untuk pemulihan.'**
+  String get homeDoneBody;
+
+  /// No description provided for @homeDoneDuration.
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi'**
+  String get homeDoneDuration;
+
+  /// No description provided for @homeDoneSets.
+  ///
+  /// In id, this message translates to:
+  /// **'Set'**
+  String get homeDoneSets;
+
+  /// No description provided for @homeDoneVolume.
+  ///
+  /// In id, this message translates to:
+  /// **'Volume'**
+  String get homeDoneVolume;
+
+  /// No description provided for @homeDoneSummary.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat ringkasan sesi'**
+  String get homeDoneSummary;
+
+  /// No description provided for @unitMinutesShort.
+  ///
+  /// In id, this message translates to:
+  /// **'mnt'**
+  String get unitMinutesShort;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -60,6 +60,75 @@ void main() {
     });
   });
 
+  group('status latihan hari ini (Beranda)', () {
+    WorkoutSession session(String dayId, SessionStatus status, {DateTime? end}) => WorkoutSession(
+      id: 's-$dayId-${status.name}',
+      planId: 'p1',
+      dayId: dayId,
+      date: '2026-11-19',
+      weekday: 4,
+      focus: 'upper',
+      status: status,
+      planned: const [],
+      startedAt: DateTime(2026, 11, 19, 7),
+      completedAt: end,
+    );
+
+    TodayWorkout? at(int weekday, [List<WorkoutSession> sessions = const []]) =>
+        WorkoutMath.todayWorkout(days: [dayA, dayB], weekday: weekday, sessions: sessions);
+
+    test('hari latihan belum dimulai / sedang berjalan', () {
+      final t = at(4) as TodayTraining;
+      expect(t.day.id, 'd1');
+      expect(t.inProgress, isNull);
+      final running = at(4, [session('d1', SessionStatus.inProgress)]) as TodayTraining;
+      expect(running.inProgress, isNotNull);
+    });
+
+    test('hari istirahat → latihan berikutnya', () {
+      expect((at(5) as TodayRest).next.id, 'd2');
+      expect((at(7) as TodayRest).next.id, 'd1');
+    });
+
+    test('sesi lebih awal di hari istirahat tetap bisa dilanjutkan', () {
+      final t = at(5, [session('d2', SessionStatus.inProgress)]) as TodayTraining;
+      expect(t.day.id, 'd2');
+    });
+
+    test('selesai hari ini → ringkasan + berikutnya setelah hari ini', () {
+      final done = at(4, [session('d1', SessionStatus.completed)]) as TodayDone;
+      expect(done.session.dayId, 'd1');
+      expect(done.next.id, 'd2');
+      // Hanya satu hari latihan: berikutnya = minggu depan, bukan hari ini lagi.
+      final single = WorkoutMath.todayWorkout(
+        days: [dayA],
+        weekday: 4,
+        sessions: [session('d1', SessionStatus.completed)],
+      ) as TodayDone;
+      expect(single.next.id, 'd1');
+    });
+
+    test('tanpa hari latihan → null', () {
+      expect(WorkoutMath.todayWorkout(days: const [], weekday: 4, sessions: const []), isNull);
+    });
+
+    test('durasi sesi', () {
+      expect(
+        WorkoutMath.durationMinutes(
+          session('d1', SessionStatus.completed, end: DateTime(2026, 11, 19, 7, 52)),
+        ),
+        52,
+      );
+      expect(WorkoutMath.durationMinutes(session('d1', SessionStatus.inProgress)), isNull);
+      expect(
+        WorkoutMath.durationMinutes(
+          session('d1', SessionStatus.completed, end: DateTime(2026, 11, 19, 6)),
+        ),
+        isNull,
+      );
+    });
+  });
+
   group('RestTimer', () {
     final t0 = DateTime(2026, 11, 19, 10);
 

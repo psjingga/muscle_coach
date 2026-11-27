@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -18,6 +21,44 @@ const notificationChannels = {
   'test': 'Uji notifikasi',
 };
 
+/// Bunyi khusus per kategori (nama file tanpa ekstensi). File ada di
+/// `android/app/src/main/res/raw/` dan `assets/sounds/` (disalin ke
+/// `Library/Sounds` di iOS saat init).
+const _channelSounds = {'workout': 'workout_reminder'};
+
+/// Bunyi kanal Android tidak bisa diubah setelah kanal dibuat, jadi kanal
+/// berbunyi khusus memakai ID baru; kanal lama dihapus saat init.
+const _androidChannelIds = {'workout': 'workout_bell'};
+
+String _androidChannelId(String channel) => _androidChannelIds[channel] ?? channel;
+
+AndroidNotificationSound? _androidSound(String channel) => switch (_channelSounds[channel]) {
+  final name? => RawResourceAndroidNotificationSound(name),
+  null => null,
+};
+
+String? _iosSound(String channel) => switch (_channelSounds[channel]) {
+  final name? => '$name.wav',
+  null => null,
+};
+
+/// iOS hanya memutar bunyi notifikasi dari bundel aplikasi atau
+/// `Library/Sounds`; aset Flutter disalin ke sana.
+Future<void> _installIosSounds() async {
+  try {
+    final dir = Directory('${(await getLibraryDirectory()).path}/Sounds');
+    await dir.create(recursive: true);
+    for (final name in _channelSounds.values) {
+      final file = File('${dir.path}/$name.wav');
+      final data = await rootBundle.load('assets/sounds/$name.wav');
+      if (await file.exists() && await file.length() == data.lengthInBytes) continue;
+      await file.writeAsBytes(data.buffer.asUint8List(), flush: true);
+    }
+  } catch (e) {
+    appLogger.w('Bunyi notifikasi iOS gagal dipasang: ${e.runtimeType}');
+  }
+}
+
 const _snoozeAction = 'snooze';
 const _doneAction = 'done';
 const _snoozeMinutes = 10;
@@ -32,8 +73,9 @@ AndroidNotificationDetails _android(String channel, {bool snooze = true}) {
       const AndroidNotificationAction(_doneAction, 'Tandai selesai'),
   ];
   return AndroidNotificationDetails(
-    channel,
+    _androidChannelId(channel),
     notificationChannels[channel] ?? channel,
+    sound: _androidSound(channel),
     importance: Importance.high,
     priority: Priority.high,
     category: AndroidNotificationCategory.reminder,
@@ -43,7 +85,7 @@ AndroidNotificationDetails _android(String channel, {bool snooze = true}) {
 
 NotificationDetails _details(String channel, {bool snooze = true}) => NotificationDetails(
   android: _android(channel, snooze: snooze),
-  iOS: const DarwinNotificationDetails(),
+  iOS: DarwinNotificationDetails(sound: _iosSound(channel)),
 );
 
 /// Payload notifikasi: rute + teks (agar "Tunda" bisa menjadwalkan ulang).
@@ -176,11 +218,25 @@ class LocalNotificationService implements NotificationService {
       },
       onDidReceiveBackgroundNotificationResponse: backgroundHandler,
     );
-    for (final entry in notificationChannels.entries) {
-      await _androidImpl?.createNotificationChannel(
-        AndroidNotificationChannel(entry.key, entry.value, importance: Importance.high),
-      );
+    final android = _androidImpl;
+    if (android != null) {
+      for (final entry in notificationChannels.entries) {
+        await android.createNotificationChannel(
+          AndroidNotificationChannel(
+            _androidChannelId(entry.key),
+            entry.value,
+            importance: Importance.high,
+            sound: _androidSound(entry.key),
+            playSound: true,
+          ),
+        );
+      }
+      // Kanal lama tanpa bunyi khusus.
+      for (final old in _androidChannelIds.keys) {
+        await android.deleteNotificationChannel(channelId: old);
+      }
     }
+    if (defaultTargetPlatform == TargetPlatform.iOS) await _installIosSounds();
     _initialized = true;
   }
 

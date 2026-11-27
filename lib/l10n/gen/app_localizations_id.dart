@@ -3007,8 +3007,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String guidedTargetReps(Object min, Object max) {
-    return 'Target $min–$max rep';
+  String guidedTargetReps(Object count) {
+    return 'Target $count rep';
   }
 
   @override
@@ -3026,7 +3026,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String guidedHowReps(Object phases) {
-    return 'Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: $phases. Ketuk Lanjut untuk repetisi berikutnya.';
+    return 'Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: $phases. Repetisi berikutnya menyambung otomatis sampai target tercapai.';
   }
 
   @override
@@ -3059,24 +3059,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get guidedEnd => 'Akhiri set';
-
-  @override
-  String guidedRepDone(Object number) {
-    return 'Rep $number selesai';
-  }
-
-  @override
-  String get guidedRepDoneHint => 'Atur napas, siap untuk rep berikutnya';
-
-  @override
-  String guidedNext(Object number) {
-    return 'Lanjut ke rep $number';
-  }
-
-  @override
-  String guidedFinishNow(Object count) {
-    return 'Selesai set ($count rep)';
-  }
 
   @override
   String guidedSetDone(Object number) {

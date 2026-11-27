@@ -50,10 +50,10 @@ void main() {
   });
 
   group('GuidedSet', () {
-    test('alur lengkap: aba-aba → rep → tunggu Lanjut → selesai otomatis', () {
+    test('alur lengkap: aba-aba → rep menyambung otomatis → selesai di target minimal', () {
       var g = GuidedSet.forPlanned(_squat, pattern: 'squat');
       expect(g.stage, GuidedStage.ready);
-      expect(g.targetReps, 3);
+      expect(g.targetReps, 2); // batas bawah rentang 2–3
 
       g = g.start(t0);
       expect(g.stage, GuidedStage.countdown);
@@ -67,30 +67,24 @@ void main() {
 
       g = g.tick(at(5.5)); // 2 dtk turun lewat → TAHAN
       expect(g.phase!.label, 'TAHAN');
-      g = g.tick(at(7)); // tahan 1 dtk lewat → NAIK 1 dtk, lalu selesai
-      g = g.tick(at(7.1));
-      expect(g.stage, GuidedStage.repDone);
+      g = g.tick(at(7.1)); // naik 1 dtk selesai → rep 2 langsung mulai
+      expect(g.stage, GuidedStage.rep);
       expect(g.completedReps, 1);
       expect(g.currentRep, 2);
+      expect(g.phase!.label, 'TURUN');
+      expect(g.remainingSeconds(at(7.1)), 2); // rep 2 mulai tepat dtk 7
 
-      // Menunggu ketukan; waktu berlalu tidak mengubah apa pun.
-      expect(g.tick(at(60)).stage, GuidedStage.repDone);
-
-      g = g.next(at(60));
-      g = g.tick(at(64));
-      expect(g.stage, GuidedStage.repDone);
-      expect(g.completedReps, 2);
-
-      g = g.next(at(70)).tick(at(74));
+      g = g.tick(at(11));
       expect(g.stage, GuidedStage.finished);
-      expect(g.result, 3);
-      expect(g.elapsed, const Duration(seconds: 74));
+      expect(g.result, 2);
+      expect(g.elapsed, const Duration(seconds: 11));
     });
 
     test('tick terlambat memproses beberapa segmen sekaligus', () {
       final g = GuidedSet.forPlanned(_squat, pattern: 'squat').start(t0).tick(at(30));
-      expect(g.stage, GuidedStage.repDone);
-      expect(g.completedReps, 1);
+      expect(g.stage, GuidedStage.finished);
+      expect(g.completedReps, 2);
+      expect(g.finishedAt, at(11));
     });
 
     test('jeda menahan waktu, lanjut meneruskan sisa', () {
@@ -108,7 +102,7 @@ void main() {
     test('akhiri lebih awal: rep yang belum tuntas tidak dihitung', () {
       var g = GuidedSet.forPlanned(_squat, pattern: 'squat').start(t0).tick(at(8));
       expect(g.completedReps, 1);
-      g = g.next(at(10)).tick(at(11)).finishEarly(at(11));
+      g = g.tick(at(9)).finishEarly(at(9)); // rep 2 baru separuh
       expect(g.stage, GuidedStage.finished);
       expect(g.result, 1);
     });
@@ -116,12 +110,12 @@ void main() {
     test('latihan waktu: satu fase TAHAN; diakhiri awal mencatat detik', () {
       var g = GuidedSet.forPlanned(_plank, pattern: 'core');
       expect(g.timed, isTrue);
-      expect(g.phases.single.seconds, 30);
+      expect(g.phases.single.seconds, 20); // batas bawah 20–30 dtk
       g = g.start(t0).tick(at(3));
       expect(g.phase!.label, 'TAHAN');
       expect(g.finishEarly(at(15)).result, 12);
       expect(g.tick(at(40)).stage, GuidedStage.finished);
-      expect(g.tick(at(40)).result, 30);
+      expect(g.tick(at(40)).result, 20);
     });
 
     test('posisi visual: 0→1 di fase pertama, 1 saat tahan, 1→0 di akhir', () {
@@ -145,9 +139,9 @@ void main() {
       expect(GuidedSet.cueBetween(rep, at(4.9), hold, at(5)), GuidedCue.phaseChange);
       final done = hold.tick(at(7));
       expect(GuidedSet.cueBetween(hold, at(6.9), done, at(7)), GuidedCue.repComplete);
-      final fin = done.next(at(8)).tick(at(12)).next(at(13)).tick(at(17));
-      final before = done.next(at(8)).tick(at(12)).next(at(13));
-      expect(GuidedSet.cueBetween(before, at(16.9), fin, at(17)), GuidedCue.setComplete);
+      expect(done.stage, GuidedStage.rep); // rep 2 sudah berjalan
+      final fin = done.tick(at(11));
+      expect(GuidedSet.cueBetween(done, at(10.9), fin, at(11)), GuidedCue.setComplete);
     });
   });
 

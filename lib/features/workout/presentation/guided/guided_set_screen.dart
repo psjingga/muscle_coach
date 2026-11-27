@@ -124,7 +124,7 @@ class _GuidedSetScreenState extends ConsumerState<GuidedSetScreen>
     if (cues != null) {
       unawaited(
         cues.keepAwake(switch (next.stage) {
-          GuidedStage.countdown || GuidedStage.rep || GuidedStage.repDone => true,
+          GuidedStage.countdown || GuidedStage.rep => true,
           GuidedStage.ready || GuidedStage.finished => false,
         }),
       );
@@ -221,7 +221,6 @@ class _GuidedSetScreenState extends ConsumerState<GuidedSetScreen>
       GuidedStage.ready => _ready(context),
       GuidedStage.countdown => _countdown(context, now),
       GuidedStage.rep => _running(context, now),
-      GuidedStage.repDone => _repDone(context),
       GuidedStage.finished => _finished(context),
     };
 
@@ -497,9 +496,7 @@ class _GuidedSetScreenState extends ConsumerState<GuidedSetScreen>
                 children: [
                   _chip(
                     context,
-                    p.isTimed
-                        ? l.guidedTargetSeconds(p.repMax)
-                        : l.guidedTargetReps(p.repMin, p.repMax),
+                    p.isTimed ? l.guidedTargetSeconds(p.repMin) : l.guidedTargetReps(p.repMin),
                   ),
                   if (_weight.text.isNotEmpty) _chip(context, '${_weight.text} kg'),
                   _chip(context, 'RIR ${p.rirMin}–${p.rirMax}'),
@@ -681,70 +678,6 @@ class _GuidedSetScreenState extends ConsumerState<GuidedSetScreen>
             style: style.copyWith(foregroundColor: WidgetStatePropertyAll(scheme.error)),
             onPressed: () => _apply(_set.finishEarly(_now)),
             child: Text(l.guidedEnd),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _repDone(BuildContext context) {
-    final l = context.l10n;
-    final palette = context.palette;
-    final scheme = Theme.of(context).colorScheme;
-    final done = _set.completedReps;
-    return Column(
-      children: [
-        _photo(context),
-        _repCounter(context, current: done, done: done),
-        Expanded(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 92,
-                  height: 92,
-                  decoration: BoxDecoration(color: palette.accentSoft, shape: BoxShape.circle),
-                  child: Icon(Icons.check_rounded, size: 56, color: scheme.primary),
-                ),
-                const SizedBox(height: 14),
-                Text(
-                  l.guidedRepDone(done),
-                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(height: 4),
-                Text(l.guidedRepDoneHint, style: TextStyle(color: palette.muted)),
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-          child: Column(
-            children: [
-              _bigButton(
-                context,
-                key: const Key('guided-next'),
-                label: l.guidedNext(done + 1),
-                icon: Icons.arrow_forward_rounded,
-                trailingIcon: true,
-                onPressed: () => _apply(_set.next(_now)),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  key: const Key('guided-finish-now'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: palette.surface2,
-                    foregroundColor: scheme.onSurface,
-                    minimumSize: const Size.fromHeight(52),
-                  ),
-                  onPressed: () => _apply(_set.finishEarly(_now)),
-                  child: Text(l.guidedFinishNow(done)),
-                ),
-              ),
-            ],
           ),
         ),
       ],

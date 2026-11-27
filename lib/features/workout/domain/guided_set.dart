@@ -134,10 +134,8 @@ enum GuidedStage {
   countdown,
 
   /// Repetisi sedang berjalan (atau tahan untuk latihan berbasis waktu).
+  /// Repetisi berikutnya langsung menyambung sampai target tercapai.
   rep,
-
-  /// Satu repetisi selesai; menunggu ketukan "Lanjut".
-  repDone,
 
   /// Set selesai (semua target tercapai atau diakhiri lebih awal).
   finished,
@@ -165,7 +163,7 @@ enum GuidedCue {
 /// [RestTimer]) sehingga tetap akurat walau layar sempat tidak diperbarui.
 ///
 /// Alur: [GuidedStage.ready] → `start` → aba-aba → rep 1 (fase demi fase)
-/// → [GuidedStage.repDone] → `next` → rep 2 … → rep terakhir otomatis
+/// → rep 2 … otomatis tanpa ketukan → rep ke-[targetReps] selesai →
 /// [GuidedStage.finished]. Latihan berbasis waktu (plank) hanya satu fase
 /// tahan sepanjang target detik.
 class GuidedSet {
@@ -185,8 +183,9 @@ class GuidedSet {
     required this.heldSeconds,
   });
 
-  /// Set baru untuk [planned]. Target = batas atas rentang (bisa diakhiri
-  /// lebih awal kapan saja).
+  /// Set baru untuk [planned]. Target = batas bawah rentang yang
+  /// direkomendasikan (bisa diakhiri lebih awal kapan saja; repetisi
+  /// tambahan bisa diisi di layar simpan).
   factory GuidedSet.forPlanned(
     PlannedExercise planned, {
     String? pattern,
@@ -197,9 +196,9 @@ class GuidedSet {
     return GuidedSet._(
       stage: GuidedStage.ready,
       phases: timed
-          ? [RepPhase(PhaseKind.hold, planned.repMax, 'TAHAN')]
+          ? [RepPhase(PhaseKind.hold, planned.repMin, 'TAHAN')]
           : MovementCue.forPattern(pattern).phases(tempo),
-      targetReps: timed ? 1 : planned.repMax,
+      targetReps: timed ? 1 : planned.repMin,
       timed: timed,
       countdownSeconds: countdownSeconds,
       completedReps: 0,
@@ -302,12 +301,6 @@ class GuidedSet {
         : s._segment(now, phases.first.seconds, stage: GuidedStage.rep, phaseIndex: 0);
   }
 
-  /// Tombol Lanjut setelah repetisi selesai.
-  GuidedSet next(DateTime now) {
-    if (stage != GuidedStage.repDone) return this;
-    return _segment(now, phases.first.seconds, stage: GuidedStage.rep, phaseIndex: 0);
-  }
-
   /// Majukan keadaan sampai [now]. Segmen yang lewat diproses berurutan
   /// (aman bila tick terlambat, mis. aplikasi sempat di latar belakang).
   GuidedSet tick(DateTime now) {
@@ -330,8 +323,8 @@ class GuidedSet {
                   finishedAt: end,
                   heldSeconds: s.timed ? s.phases.first.seconds : null,
                 )
-              : s._copy(stage: GuidedStage.repDone, completedReps: done, clearSegment: true);
-        case GuidedStage.ready || GuidedStage.repDone || GuidedStage.finished:
+              : s._copy(completedReps: done)._segment(end, s.phases.first.seconds, phaseIndex: 0);
+        case GuidedStage.ready || GuidedStage.finished:
           return s;
       }
     }
@@ -404,9 +397,7 @@ class GuidedSet {
     if (after.stage == GuidedStage.finished && before.stage != GuidedStage.finished) {
       return GuidedCue.setComplete;
     }
-    if (after.stage == GuidedStage.repDone && before.stage != GuidedStage.repDone) {
-      return GuidedCue.repComplete;
-    }
+    if (after.completedReps > before.completedReps) return GuidedCue.repComplete;
     if (before.stage == GuidedStage.countdown && after.stage == GuidedStage.rep) {
       return GuidedCue.go;
     }

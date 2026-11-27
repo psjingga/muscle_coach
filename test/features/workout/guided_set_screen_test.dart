@@ -40,7 +40,9 @@ void main() {
   setUp(() => db = AppDatabase(NativeDatabase.memory()));
   tearDown(() => db.close());
 
-  testWidgets('set terpandu: aba-aba → rep → Lanjut → akhiri → simpan set', (tester) async {
+  testWidgets('set terpandu: aba-aba → rep otomatis sampai target minimal → simpan set', (
+    tester,
+  ) async {
     late LocalWorkoutRepository workouts;
     late String sessionId;
     const planned = PlannedExercise(
@@ -97,7 +99,7 @@ void main() {
       ),
     );
     await tester.pump();
-    expect(find.text('Target 2–3 rep'), findsOneWidget);
+    expect(find.text('Target 2 rep'), findsOneWidget);
     expect(find.text('Tempo 2-1-1'), findsOneWidget);
 
     Future<void> advance(double seconds) async {
@@ -114,22 +116,11 @@ void main() {
     expect(find.text('TURUN'), findsWidgets);
     expect(find.text('2'), findsWidgets);
 
-    await advance(4); // turun 2 + tahan 1 + naik 1 → rep 1 selesai
-    await advance(.1);
-    expect(find.text('Rep 1 selesai'), findsOneWidget);
-    expect(find.byKey(const Key('guided-next')), findsOneWidget);
+    await advance(4.1); // turun 2 + tahan 1 + naik 1 → rep 2 langsung mulai
+    expect(find.text('TURUN'), findsWidgets);
+    expect(cues.played, contains(GuidedCue.repComplete));
 
-    // Tidak lanjut sendiri: tetap menunggu ketukan.
-    await advance(30);
-    expect(find.text('Rep 1 selesai'), findsOneWidget);
-
-    await tester.tap(find.byKey(const Key('guided-next')));
-    await tester.pump();
-    await advance(4.1);
-    expect(find.text('Rep 2 selesai'), findsOneWidget);
-
-    await tester.tap(find.byKey(const Key('guided-finish-now')));
-    await tester.pump();
+    await advance(4); // rep 2 (= target minimal) selesai → set selesai otomatis
     expect(find.text('Set 1 selesai'), findsOneWidget);
     expect(find.text('2'), findsWidgets); // repetisi terisi otomatis
 

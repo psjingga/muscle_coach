@@ -1609,11 +1609,10 @@
       "total": {}
     }
   },
-  "guidedTargetReps": "Target {min}–{max} rep",
+  "guidedTargetReps": "Target {count} rep",
   "@guidedTargetReps": {
     "placeholders": {
-      "min": {},
-      "max": {}
+      "count": {}
     }
   },
   "guidedTargetSeconds": "Target {seconds} dtk",
@@ -1629,7 +1628,7 @@
     }
   },
   "guidedHowTitle": "Cara kerja",
-  "guidedHowReps": "Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: {phases}. Ketuk Lanjut untuk repetisi berikutnya.",
+  "guidedHowReps": "Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: {phases}. Repetisi berikutnya menyambung otomatis sampai target tercapai.",
   "@guidedHowReps": {
     "placeholders": {
       "phases": {}
@@ -1645,25 +1644,6 @@
   "guidedPause": "Jeda",
   "guidedResume": "Lanjutkan",
   "guidedEnd": "Akhiri set",
-  "guidedRepDone": "Rep {number} selesai",
-  "@guidedRepDone": {
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "guidedRepDoneHint": "Atur napas, siap untuk rep berikutnya",
-  "guidedNext": "Lanjut ke rep {number}",
-  "@guidedNext": {
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "guidedFinishNow": "Selesai set ({count} rep)",
-  "@guidedFinishNow": {
-    "placeholders": {
-      "count": {}
-    }
-  },
   "guidedSetDone": "Set {number} selesai",
   "@guidedSetDone": {
     "placeholders": {

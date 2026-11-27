@@ -5363,8 +5363,8 @@ abstract class AppLocalizations {
   /// No description provided for @guidedTargetReps.
   ///
   /// In id, this message translates to:
-  /// **'Target {min}–{max} rep'**
-  String guidedTargetReps(Object min, Object max);
+  /// **'Target {count} rep'**
+  String guidedTargetReps(Object count);
 
   /// No description provided for @guidedTargetSeconds.
   ///
@@ -5387,7 +5387,7 @@ abstract class AppLocalizations {
   /// No description provided for @guidedHowReps.
   ///
   /// In id, this message translates to:
-  /// **'Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: {phases}. Ketuk Lanjut untuk repetisi berikutnya.'**
+  /// **'Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: {phases}. Repetisi berikutnya menyambung otomatis sampai target tercapai.'**
   String guidedHowReps(Object phases);
 
   /// No description provided for @guidedHowTimed.
@@ -5449,30 +5449,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Akhiri set'**
   String get guidedEnd;
-
-  /// No description provided for @guidedRepDone.
-  ///
-  /// In id, this message translates to:
-  /// **'Rep {number} selesai'**
-  String guidedRepDone(Object number);
-
-  /// No description provided for @guidedRepDoneHint.
-  ///
-  /// In id, this message translates to:
-  /// **'Atur napas, siap untuk rep berikutnya'**
-  String get guidedRepDoneHint;
-
-  /// No description provided for @guidedNext.
-  ///
-  /// In id, this message translates to:
-  /// **'Lanjut ke rep {number}'**
-  String guidedNext(Object number);
-
-  /// No description provided for @guidedFinishNow.
-  ///
-  /// In id, this message translates to:
-  /// **'Selesai set ({count} rep)'**
-  String guidedFinishNow(Object count);
 
   /// No description provided for @guidedSetDone.
   ///

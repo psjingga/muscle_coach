@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../workout/domain/guided_settings.dart';
+import '../../../workout/presentation/guided/guided_settings_sheet.dart';
 import '../../../backup/presentation/backup_flow.dart';
 import '../../../backup/presentation/backup_providers.dart';
 import '../../../../app/router/routes.dart';
@@ -70,6 +72,7 @@ class ProfileScreen extends ConsumerWidget {
     final goal = activeGoalId == null ? null : ref.watch(activeGoalProvider).value;
     final aiReady = ref.watch(aiSettingsControllerProvider).value?.ready ?? false;
     final remindersOn = ref.watch(notificationSettingsProvider).value?.enabled ?? false;
+    final guided = ref.watch(guidedSettingsProvider).value ?? const GuidedSettings();
 
     return Scaffold(
       appBar: TabAppBar(title: l.tabProfile),
@@ -114,6 +117,18 @@ class ProfileScreen extends ConsumerWidget {
                   on: remindersOn,
                 ),
                 onTap: () => context.push(Routes.reminders),
+              ),
+              SettingsRow(
+                key: const Key('profile-guided'),
+                icon: Icons.timer_outlined,
+                title: l.pfGuidedTitle,
+                subtitle: [
+                  l.guidedTempo(guided.tempo.label),
+                  if (guided.countdownSeconds > 0)
+                    '${l.guidedSettingsCountdown.toLowerCase()} ${guided.countdownSeconds} ${l.guidedSecShort}',
+                  if (guided.sound) l.guidedSettingsSound.toLowerCase(),
+                ].join(' · '),
+                onTap: () => showGuidedSettingsSheet(context),
               ),
             ],
           ),

@@ -1600,5 +1600,115 @@
   "homeDoneSets": "Set",
   "homeDoneVolume": "Volume",
   "homeDoneSummary": "Lihat ringkasan sesi",
-  "unitMinutesShort": "mnt"
+  "unitMinutesShort": "mnt",
+  "guidedOpen": "Mode panduan",
+  "guidedSetOf": "Set {number} dari {total}",
+  "@guidedSetOf": {
+    "placeholders": {
+      "number": {},
+      "total": {}
+    }
+  },
+  "guidedTargetReps": "Target {min}–{max} rep",
+  "@guidedTargetReps": {
+    "placeholders": {
+      "min": {},
+      "max": {}
+    }
+  },
+  "guidedTargetSeconds": "Target {seconds} dtk",
+  "@guidedTargetSeconds": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "guidedTempo": "Tempo {tempo}",
+  "@guidedTempo": {
+    "placeholders": {
+      "tempo": {}
+    }
+  },
+  "guidedHowTitle": "Cara kerja",
+  "guidedHowReps": "Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: {phases}. Ketuk Lanjut untuk repetisi berikutnya.",
+  "@guidedHowReps": {
+    "placeholders": {
+      "phases": {}
+    }
+  },
+  "guidedHowTimed": "Aba-aba 3-2-1, lalu tahan posisi sampai timer habis. Boleh diakhiri lebih awal.",
+  "guidedStart": "Mulai",
+  "guidedGetReady": "BERSIAP",
+  "guidedGetReadyHint": "ambil posisi awal",
+  "guidedSecondsLeft": "detik tersisa",
+  "guidedPaused": "DIJEDA",
+  "guidedRepLabel": "REPETISI",
+  "guidedPause": "Jeda",
+  "guidedResume": "Lanjutkan",
+  "guidedEnd": "Akhiri set",
+  "guidedRepDone": "Rep {number} selesai",
+  "@guidedRepDone": {
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "guidedRepDoneHint": "Atur napas, siap untuk rep berikutnya",
+  "guidedNext": "Lanjut ke rep {number}",
+  "@guidedNext": {
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "guidedFinishNow": "Selesai set ({count} rep)",
+  "@guidedFinishNow": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "guidedSetDone": "Set {number} selesai",
+  "@guidedSetDone": {
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "guidedSummaryReps": "{count} repetisi · {duration}",
+  "@guidedSummaryReps": {
+    "placeholders": {
+      "count": {},
+      "duration": {}
+    }
+  },
+  "guidedSummaryTimed": "{seconds} detik ditahan",
+  "@guidedSummaryTimed": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "guidedWeight": "BEBAN",
+  "guidedReps": "REPETISI",
+  "guidedSeconds": "DETIK",
+  "guidedRir": "Sisa tenaga (RIR)",
+  "guidedSave": "Simpan & istirahat",
+  "guidedExitTitle": "Keluar dari mode panduan?",
+  "guidedExitBody": "Set ini belum dicatat.",
+  "guidedExit": "Keluar",
+  "guidedStartPosition": "Posisi awal",
+  "guidedSecShort": "dtk",
+  "guidedSettingsTitle": "Pengaturan mode panduan",
+  "guidedSettingsTempoHint": "Tempo {tempo} · ± {seconds} dtk per repetisi. Tempo 2-1-1 cocok untuk hipertrofi; perlambat bila teknik belum stabil.",
+  "@guidedSettingsTempoHint": {
+    "placeholders": {
+      "tempo": {},
+      "seconds": {}
+    }
+  },
+  "guidedSettingsEccentric": "Turun / melepas (eksentrik)",
+  "guidedSettingsPause": "Tahan",
+  "guidedSettingsConcentric": "Naik / mengangkat (konsentrik)",
+  "guidedSettingsCountdown": "Aba-aba sebelum mulai",
+  "guidedSettingsNoCountdown": "Tanpa",
+  "guidedSettingsSound": "Bunyi bip",
+  "guidedSettingsSoundHint": "Getar tetap aktif. Bunyi tidak menghentikan musik.",
+  "guidedSettingsReset": "Kembalikan ke bawaan (2-1-1)",
+  "guidedSettingsOpen": "Atur tempo",
+  "pfGuidedTitle": "Mode panduan latihan"
 }

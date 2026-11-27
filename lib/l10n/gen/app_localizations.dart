@@ -5347,6 +5347,282 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'mnt'**
   String get unitMinutesShort;
+
+  /// No description provided for @guidedOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Mode panduan'**
+  String get guidedOpen;
+
+  /// No description provided for @guidedSetOf.
+  ///
+  /// In id, this message translates to:
+  /// **'Set {number} dari {total}'**
+  String guidedSetOf(Object number, Object total);
+
+  /// No description provided for @guidedTargetReps.
+  ///
+  /// In id, this message translates to:
+  /// **'Target {min}–{max} rep'**
+  String guidedTargetReps(Object min, Object max);
+
+  /// No description provided for @guidedTargetSeconds.
+  ///
+  /// In id, this message translates to:
+  /// **'Target {seconds} dtk'**
+  String guidedTargetSeconds(Object seconds);
+
+  /// No description provided for @guidedTempo.
+  ///
+  /// In id, this message translates to:
+  /// **'Tempo {tempo}'**
+  String guidedTempo(Object tempo);
+
+  /// No description provided for @guidedHowTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Cara kerja'**
+  String get guidedHowTitle;
+
+  /// No description provided for @guidedHowReps.
+  ///
+  /// In id, this message translates to:
+  /// **'Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: {phases}. Ketuk Lanjut untuk repetisi berikutnya.'**
+  String guidedHowReps(Object phases);
+
+  /// No description provided for @guidedHowTimed.
+  ///
+  /// In id, this message translates to:
+  /// **'Aba-aba 3-2-1, lalu tahan posisi sampai timer habis. Boleh diakhiri lebih awal.'**
+  String get guidedHowTimed;
+
+  /// No description provided for @guidedStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai'**
+  String get guidedStart;
+
+  /// No description provided for @guidedGetReady.
+  ///
+  /// In id, this message translates to:
+  /// **'BERSIAP'**
+  String get guidedGetReady;
+
+  /// No description provided for @guidedGetReadyHint.
+  ///
+  /// In id, this message translates to:
+  /// **'ambil posisi awal'**
+  String get guidedGetReadyHint;
+
+  /// No description provided for @guidedSecondsLeft.
+  ///
+  /// In id, this message translates to:
+  /// **'detik tersisa'**
+  String get guidedSecondsLeft;
+
+  /// No description provided for @guidedPaused.
+  ///
+  /// In id, this message translates to:
+  /// **'DIJEDA'**
+  String get guidedPaused;
+
+  /// No description provided for @guidedRepLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'REPETISI'**
+  String get guidedRepLabel;
+
+  /// No description provided for @guidedPause.
+  ///
+  /// In id, this message translates to:
+  /// **'Jeda'**
+  String get guidedPause;
+
+  /// No description provided for @guidedResume.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjutkan'**
+  String get guidedResume;
+
+  /// No description provided for @guidedEnd.
+  ///
+  /// In id, this message translates to:
+  /// **'Akhiri set'**
+  String get guidedEnd;
+
+  /// No description provided for @guidedRepDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Rep {number} selesai'**
+  String guidedRepDone(Object number);
+
+  /// No description provided for @guidedRepDoneHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Atur napas, siap untuk rep berikutnya'**
+  String get guidedRepDoneHint;
+
+  /// No description provided for @guidedNext.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjut ke rep {number}'**
+  String guidedNext(Object number);
+
+  /// No description provided for @guidedFinishNow.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai set ({count} rep)'**
+  String guidedFinishNow(Object count);
+
+  /// No description provided for @guidedSetDone.
+  ///
+  /// In id, this message translates to:
+  /// **'Set {number} selesai'**
+  String guidedSetDone(Object number);
+
+  /// No description provided for @guidedSummaryReps.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} repetisi · {duration}'**
+  String guidedSummaryReps(Object count, Object duration);
+
+  /// No description provided for @guidedSummaryTimed.
+  ///
+  /// In id, this message translates to:
+  /// **'{seconds} detik ditahan'**
+  String guidedSummaryTimed(Object seconds);
+
+  /// No description provided for @guidedWeight.
+  ///
+  /// In id, this message translates to:
+  /// **'BEBAN'**
+  String get guidedWeight;
+
+  /// No description provided for @guidedReps.
+  ///
+  /// In id, this message translates to:
+  /// **'REPETISI'**
+  String get guidedReps;
+
+  /// No description provided for @guidedSeconds.
+  ///
+  /// In id, this message translates to:
+  /// **'DETIK'**
+  String get guidedSeconds;
+
+  /// No description provided for @guidedRir.
+  ///
+  /// In id, this message translates to:
+  /// **'Sisa tenaga (RIR)'**
+  String get guidedRir;
+
+  /// No description provided for @guidedSave.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan & istirahat'**
+  String get guidedSave;
+
+  /// No description provided for @guidedExitTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Keluar dari mode panduan?'**
+  String get guidedExitTitle;
+
+  /// No description provided for @guidedExitBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Set ini belum dicatat.'**
+  String get guidedExitBody;
+
+  /// No description provided for @guidedExit.
+  ///
+  /// In id, this message translates to:
+  /// **'Keluar'**
+  String get guidedExit;
+
+  /// No description provided for @guidedStartPosition.
+  ///
+  /// In id, this message translates to:
+  /// **'Posisi awal'**
+  String get guidedStartPosition;
+
+  /// No description provided for @guidedSecShort.
+  ///
+  /// In id, this message translates to:
+  /// **'dtk'**
+  String get guidedSecShort;
+
+  /// No description provided for @guidedSettingsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengaturan mode panduan'**
+  String get guidedSettingsTitle;
+
+  /// No description provided for @guidedSettingsTempoHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Tempo {tempo} · ± {seconds} dtk per repetisi. Tempo 2-1-1 cocok untuk hipertrofi; perlambat bila teknik belum stabil.'**
+  String guidedSettingsTempoHint(Object tempo, Object seconds);
+
+  /// No description provided for @guidedSettingsEccentric.
+  ///
+  /// In id, this message translates to:
+  /// **'Turun / melepas (eksentrik)'**
+  String get guidedSettingsEccentric;
+
+  /// No description provided for @guidedSettingsPause.
+  ///
+  /// In id, this message translates to:
+  /// **'Tahan'**
+  String get guidedSettingsPause;
+
+  /// No description provided for @guidedSettingsConcentric.
+  ///
+  /// In id, this message translates to:
+  /// **'Naik / mengangkat (konsentrik)'**
+  String get guidedSettingsConcentric;
+
+  /// No description provided for @guidedSettingsCountdown.
+  ///
+  /// In id, this message translates to:
+  /// **'Aba-aba sebelum mulai'**
+  String get guidedSettingsCountdown;
+
+  /// No description provided for @guidedSettingsNoCountdown.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa'**
+  String get guidedSettingsNoCountdown;
+
+  /// No description provided for @guidedSettingsSound.
+  ///
+  /// In id, this message translates to:
+  /// **'Bunyi bip'**
+  String get guidedSettingsSound;
+
+  /// No description provided for @guidedSettingsSoundHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Getar tetap aktif. Bunyi tidak menghentikan musik.'**
+  String get guidedSettingsSoundHint;
+
+  /// No description provided for @guidedSettingsReset.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembalikan ke bawaan (2-1-1)'**
+  String get guidedSettingsReset;
+
+  /// No description provided for @guidedSettingsOpen.
+  ///
+  /// In id, this message translates to:
+  /// **'Atur tempo'**
+  String get guidedSettingsOpen;
+
+  /// No description provided for @pfGuidedTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Mode panduan latihan'**
+  String get pfGuidedTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

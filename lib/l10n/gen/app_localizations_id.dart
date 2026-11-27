@@ -2997,4 +2997,167 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get unitMinutesShort => 'mnt';
+
+  @override
+  String get guidedOpen => 'Mode panduan';
+
+  @override
+  String guidedSetOf(Object number, Object total) {
+    return 'Set $number dari $total';
+  }
+
+  @override
+  String guidedTargetReps(Object min, Object max) {
+    return 'Target $min–$max rep';
+  }
+
+  @override
+  String guidedTargetSeconds(Object seconds) {
+    return 'Target $seconds dtk';
+  }
+
+  @override
+  String guidedTempo(Object tempo) {
+    return 'Tempo $tempo';
+  }
+
+  @override
+  String get guidedHowTitle => 'Cara kerja';
+
+  @override
+  String guidedHowReps(Object phases) {
+    return 'Aba-aba 3-2-1, lalu ikuti timer tiap repetisi: $phases. Ketuk Lanjut untuk repetisi berikutnya.';
+  }
+
+  @override
+  String get guidedHowTimed =>
+      'Aba-aba 3-2-1, lalu tahan posisi sampai timer habis. Boleh diakhiri lebih awal.';
+
+  @override
+  String get guidedStart => 'Mulai';
+
+  @override
+  String get guidedGetReady => 'BERSIAP';
+
+  @override
+  String get guidedGetReadyHint => 'ambil posisi awal';
+
+  @override
+  String get guidedSecondsLeft => 'detik tersisa';
+
+  @override
+  String get guidedPaused => 'DIJEDA';
+
+  @override
+  String get guidedRepLabel => 'REPETISI';
+
+  @override
+  String get guidedPause => 'Jeda';
+
+  @override
+  String get guidedResume => 'Lanjutkan';
+
+  @override
+  String get guidedEnd => 'Akhiri set';
+
+  @override
+  String guidedRepDone(Object number) {
+    return 'Rep $number selesai';
+  }
+
+  @override
+  String get guidedRepDoneHint => 'Atur napas, siap untuk rep berikutnya';
+
+  @override
+  String guidedNext(Object number) {
+    return 'Lanjut ke rep $number';
+  }
+
+  @override
+  String guidedFinishNow(Object count) {
+    return 'Selesai set ($count rep)';
+  }
+
+  @override
+  String guidedSetDone(Object number) {
+    return 'Set $number selesai';
+  }
+
+  @override
+  String guidedSummaryReps(Object count, Object duration) {
+    return '$count repetisi · $duration';
+  }
+
+  @override
+  String guidedSummaryTimed(Object seconds) {
+    return '$seconds detik ditahan';
+  }
+
+  @override
+  String get guidedWeight => 'BEBAN';
+
+  @override
+  String get guidedReps => 'REPETISI';
+
+  @override
+  String get guidedSeconds => 'DETIK';
+
+  @override
+  String get guidedRir => 'Sisa tenaga (RIR)';
+
+  @override
+  String get guidedSave => 'Simpan & istirahat';
+
+  @override
+  String get guidedExitTitle => 'Keluar dari mode panduan?';
+
+  @override
+  String get guidedExitBody => 'Set ini belum dicatat.';
+
+  @override
+  String get guidedExit => 'Keluar';
+
+  @override
+  String get guidedStartPosition => 'Posisi awal';
+
+  @override
+  String get guidedSecShort => 'dtk';
+
+  @override
+  String get guidedSettingsTitle => 'Pengaturan mode panduan';
+
+  @override
+  String guidedSettingsTempoHint(Object tempo, Object seconds) {
+    return 'Tempo $tempo · ± $seconds dtk per repetisi. Tempo 2-1-1 cocok untuk hipertrofi; perlambat bila teknik belum stabil.';
+  }
+
+  @override
+  String get guidedSettingsEccentric => 'Turun / melepas (eksentrik)';
+
+  @override
+  String get guidedSettingsPause => 'Tahan';
+
+  @override
+  String get guidedSettingsConcentric => 'Naik / mengangkat (konsentrik)';
+
+  @override
+  String get guidedSettingsCountdown => 'Aba-aba sebelum mulai';
+
+  @override
+  String get guidedSettingsNoCountdown => 'Tanpa';
+
+  @override
+  String get guidedSettingsSound => 'Bunyi bip';
+
+  @override
+  String get guidedSettingsSoundHint => 'Getar tetap aktif. Bunyi tidak menghentikan musik.';
+
+  @override
+  String get guidedSettingsReset => 'Kembalikan ke bawaan (2-1-1)';
+
+  @override
+  String get guidedSettingsOpen => 'Atur tempo';
+
+  @override
+  String get pfGuidedTitle => 'Mode panduan latihan';
 }

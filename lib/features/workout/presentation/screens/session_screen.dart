@@ -18,6 +18,7 @@ import '../../../exercise_library/presentation/providers/exercise_providers.dart
 import '../../../exercise_library/presentation/widgets/exercise_media.dart';
 import '../../domain/entities/workout.dart';
 import '../../domain/workout_math.dart';
+import '../guided/guided_set_screen.dart';
 import '../providers/workout_providers.dart';
 import '../widgets/workout_labels.dart';
 import '../widgets/workout_widgets.dart';
@@ -853,6 +854,32 @@ class _ExerciseLogCardState extends ConsumerState<_ExerciseLogCard> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
                     child: Text(e, style: TextStyle(color: theme.colorScheme.error)),
+                  ),
+                if (showInput)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 2, 0, 6),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.tonalIcon(
+                        key: ValueKey('guided-open-${widget.index}'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: palette.accentSoft,
+                          foregroundColor: theme.colorScheme.primary,
+                          minimumSize: const Size.fromHeight(44),
+                        ),
+                        onPressed: () => openGuidedSet(
+                          context,
+                          sessionId: widget.sessionId,
+                          exerciseIndex: widget.index,
+                          planned: p,
+                          setNumber: _nextSet,
+                          exercise: exercise,
+                          initialWeight: Fmt.parseDecimal(_weight.text),
+                        ),
+                        icon: const Icon(Icons.play_circle_rounded),
+                        label: Text('${l.guidedOpen} · ${l.setLabel(_nextSet)}'),
+                      ),
+                    ),
                   ),
                 if (!widget.readOnly)
                   Row(

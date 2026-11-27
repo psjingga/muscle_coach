@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   archive: ^4.7.1
+  audioplayers: ^6.8.1
   cryptography: ^2.9.0
   cryptography_flutter: ^2.3.4
   dio: ^5.11.1
@@ -33,6 +34,7 @@ dependencies:
   riverpod_annotation: ^4.0.8
   share_plus: ^13.3.1
   timezone: ^0.11.2
+  wakelock_plus: ^1.8.2
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +56,8 @@ flutter:
     - assets/catalog/exercises.json
     - assets/catalog/foods_tkpi.json
     - assets/exercises/
+    # Bunyi bip Mode Panduan (dibuat sendiri, sinus pendek).
+    - assets/sounds/
   fonts:
     # Inter (SIL Open Font License 1.1, lihat assets/fonts/Inter-OFL.txt).
     - family: Inter
